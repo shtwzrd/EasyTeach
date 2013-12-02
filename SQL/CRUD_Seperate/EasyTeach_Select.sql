@@ -13,181 +13,146 @@
 
 
 /* Student Select Procedure */
-DROP PROCEDURE IF EXISTS selectExercise;
-DROP PROCEDURE IF EXISTS selectExerciseWithExerciseNo;
-DROP PROCEDURE IF EXISTS selectExerciseWithExerciseName;
-DROP PROCEDURE IF EXISTS selectQuestionWithExerciseNo;
-DROP PROCEDURE IF EXISTS selectUserTestResult;
-DROP PROCEDURE IF EXISTS selectUserTestResultWithExerciseNo;
-
-/* Teacher Select Procedure */
-DROP PROCEDURE IF EXISTS selectQuestionWithTagNo;
-DROP PROCEDURE IF EXISTS selectQuestionWithTag;
-DROP PROCEDURE IF EXISTS selectTags;
-DROP PROCEDURE IF EXISTS selectTagWithTagNo;
-DROP PROCEDURE IF EXISTS selectTagWithTag;
-
-/* Admin Select Procedure */
-DROP PROCEDURE IF EXISTS selectUserToCourseWithClassNo;
+DROP PROCEDURE IF EXISTS selectClassRows;
+DROP PROCEDURE IF EXISTS selectCourseRows;
+DROP PROCEDURE IF EXISTS selectUserRows;
+DROP PROCEDURE IF EXISTS selectQuestionRows;
+DROP PROCEDURE IF EXISTS selectTagRows;
+DROP PROCEDURE IF EXISTS selectAnswerRows;
+DROP PROCEDURE IF EXISTS selectExerciseParameterRows;
+DROP PROCEDURE IF EXISTS selectExerciseRows;
+DROP PROCEDURE IF EXISTS selectClassCourseRelationRows;
+DROP PROCEDURE IF EXISTS selectUserTestResultRows;
+DROP PROCEDURE IF EXISTS selectClassUserRelationRows;
+DROP PROCEDURE IF EXISTS selectUserQuestionStateRows;
+DROP PROCEDURE IF EXISTS selectQuestionTagRelationRows;
+DROP PROCEDURE IF EXISTS selectExerciseQuestionRelationRows;
 
 
+
+/* Returns every class */
+DELIMITER //
+CREATE PROCEDURE selectClassRows ()
+BEGIN
+	SELECT c.*
+		FROM Class c;
+END //
+DELIMITER ;
+
+/* Returns every course */
+DELIMITER //
+CREATE PROCEDURE selectCourseRows ()
+BEGIN
+	SELECT c.*
+		FROM Course c;
+END //
+DELIMITER ;
+
+/* Returns every user */
+DELIMITER //
+CREATE PROCEDURE selectUserRows ()
+BEGIN
+	SELECT u.*
+		FROM User u;
+END //
+DELIMITER ;
+
+/* Returns every question */
+DELIMITER //
+CREATE PROCEDURE selectQuestionRows ()
+BEGIN
+	SELECT q.*
+		FROM Question q;
+END //
+DELIMITER ;
+
+/* Returns every tag */
+DELIMITER //
+CREATE PROCEDURE selectTagRows ()
+BEGIN
+	SELECT t.*
+		FROM Tag t;
+END //
+DELIMITER ;
+
+/* Returns every answer */
+DELIMITER //
+CREATE PROCEDURE selectAnswerRows ()
+BEGIN
+	SELECT a.*
+		FROM Answer a;
+END //
+DELIMITER ;
+
+/* Returns every exericse parameter */
+DELIMITER //
+CREATE PROCEDURE selectExerciseParameterRows ()
+BEGIN
+	SELECT ep.*
+		FROM ExerciseParameter ep;
+END //
+DELIMITER ;
 
 /* Returns every exercise */
 DELIMITER //
-CREATE PROCEDURE selectExercise ()
+CREATE PROCEDURE selectExerciseRows ()
 BEGIN
-	SELECT vse.*
-		FROM v_StudentExercise vse;
+	SELECT e.*
+		FROM Exercise e;
 END //
 DELIMITER ;
 
-
-/* Returns the exercise with the specific exerciseNo */
+/* Returns every class course relation */
 DELIMITER //
-CREATE PROCEDURE selectExerciseWithExerciseNo (
-	IN pExerciseNo			INTEGER(10))
+CREATE PROCEDURE selectClassCourseRelationRows ()
 BEGIN
-	SELECT vse.*
-		FROM v_StudentExercise vse
-		WHERE vse.exerciseNo = pExerciseNo;
+	SELECT ccr.*
+		FROM ClassCourseRelation ccr;
 END //
 DELIMITER ;
 
-
-/* Returns the exercise with the specific exerciseName */
+/* Returns every user test result */
 DELIMITER //
-CREATE PROCEDURE selectExerciseWithExerciseName (
-	IN pExerciseName		VARCHAR(100))
+CREATE PROCEDURE selectUserTestResultRows ()
 BEGIN
-	SELECT vse.*
-		FROM v_StudentExercise vse
-		WHERE vse.exerciseName = pExerciseName;
+	SELECT utr.*
+		FROM UserTestResult utr;
 END //
 DELIMITER ;
 
-
-/* Returns questions that's related with a specific exercise (eg. exerciseNo) */
+/* Returns every class user relation */
 DELIMITER //
-CREATE PROCEDURE selectQuestionWithExerciseNo (
-	IN pExerciseNo			INTEGER(10))
+CREATE PROCEDURE selectClassUserRelationRows ()
 BEGIN
-	SELECT q.*
-		FROM v_StudentExercise vse
-		INNER JOIN ExerciseQuestionRelation eqr
-			ON eqr.exerciseNo = pExerciseNo
-		INNER JOIN Question q
-			ON q.questionNo = eqr.questionNo;
+	SELECT cur.*
+		FROM ClassUserRelation cur;
 END //
 DELIMITER ;
 
-
-/* Returns test result for a specific user */
+/* Returns every user question state */
 DELIMITER //
-CREATE PROCEDURE selectUserTestResult ()
+CREATE PROCEDURE selectUserQuestionStateRows ()
 BEGIN
-	SELECT vse.*, utr.*
-		FROM v_StudentExercise vse
-		INNER JOIN UserTestResult utr
-			ON utr.exerciseNo = vse.exerciseNo
-		INNER JOIN User u
-			ON u.userNo = utr.userNo
-		WHERE vse.isTest = TRUE;
+	SELECT uqs.*
+		FROM UserQuestionState uqs;
 END //
 DELIMITER ;
 
-
-/* Returns test result for a specific user that has the exerciseNo */
+/* Returns every question tag relation */
 DELIMITER //
-CREATE PROCEDURE selectUserTestResultWithExerciseNo (
-	IN pExerciseNo			INTEGER(10))
+CREATE PROCEDURE selectQuestionTagRelationRows ()
 BEGIN
-	SELECT vse.*, utr.* 
-		FROM v_StudentExercise vse
-		INNER JOIN UserTestResult utr
-			ON utr.exerciseNo = pExerciseNo
-		INNER JOIN User u
-			ON u.userNo = utr.userNo
-		WHERE vse.isTest = TRUE;
+	SELECT qtr.*
+		FROM QuestionTagRelation qtr;
 END //
 DELIMITER ;
 
-
-/* Returns questions that's related with a specific tag (eg. tagNo) */
+/* Returns every exercise question relation */
 DELIMITER //
-CREATE PROCEDURE selectQuestionWithTagNo (
-	IN pTagNo				INTEGER(6))
+CREATE PROCEDURE selectExerciseQuestionRelationRows ()
 BEGIN
-	SELECT vtq.*
-		FROM v_TeacherQuestion vtq
-		INNER JOIN QuestionTagRelation qtr
-			ON qtr.pTagNo = pTagNo;
+	SELECT eqr.*
+		FROM ExerciseQuestionRelation eqr;
 END //
 DELIMITER ;
-
-
-/* Returns questions that's related with a specific tag (eg. tag) */
-DELIMITER //
-CREATE PROCEDURE selectQuestionWithTag (
-	IN pTag					VARCHAR(50))
-BEGIN
-	SELECT q.*, vtt.*
-		FROM v_TeacherTag vtt
-		INNER JOIN QuestionTagRelation qtr
-			ON qtr.pTag = pTag
-		INNER JOIN Question q
-			ON q.questionNo = qtr.questionNo;
-END //
-DELIMITER ;
-
-
-/* Returns all tags */
-DELIMITER //
-CREATE PROCEDURE selectTags ()
-BEGIN
-	SELECT vtt.*
-		FROM v_TeacherTag vtt;
-END //
-DELIMITER ;
-
-
-/* Returns tags with a specific tagNo */
-DELIMITER //
-CREATE PROCEDURE selectTagWithTagNo (
-	IN pTagNo				INTEGER(6))
-BEGIN
-	SELECT vtt.*
-		FROM v_TeacherTag vtt
-		WHERE vvt.tagNo = pTagNo;
-END //
-DELIMITER ;
-
-
-/* Returns tag with a specific tag */
-DELIMITER //
-CREATE PROCEDURE selectTagWithTag (
-	IN pTag					VARCHAR(50))
-BEGIN
-	SELECT vtt.*
-		FROM v_TeacherTag vtt
-		WHERE vvt.tag = pTag;
-END //
-DELIMITER ;
-
-
-/* Returns users to be added into a new course from their class */
-DELIMITER //
-CREATE PROCEDURE selectUserToCourseWithClassNo (
-	IN pClassNo				INTEGER(6))
-BEGIN
-	SELECT u.email, u.firstName, u.lastName, u.dateAdded
-		FROM v_AdminClass vac
-		INNER JOIN ClassUserRelation cur
-			ON cur.classNo = vac.classNo
-		INNER JOIN User u
-			ON u.userNo = cur.userNo
-		WHERE vac.classNo = pClassNo;
-END //
-DELIMITER ;
-
-
 
