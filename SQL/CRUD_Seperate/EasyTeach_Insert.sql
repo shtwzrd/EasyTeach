@@ -1,9 +1,6 @@
 /* Author: 	Tonni Hyldgaard
  * Date: 	29. November, 2013
  * Version:	1.03
- * 
- * Update:
- * 1.03:	Corrected mistakes
 
  * Following is the SQL code (DML) for manipulating the tables for the 
  * "MBO EasyTeach" application.

@@ -1,9 +1,6 @@
 /* Author: 	Tonni Hyldgaard
  * Date: 	29. November, 2013
  * Version:	1.01
- * 
- * Update:
- * 1.01:	Corrected mistakes
 
  * Following is the SQL code (DML) for deleting the tables for the 
  * "MBO EasyTeach" application.
