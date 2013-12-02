@@ -2,10 +2,13 @@ package com.easyTeach.server.databaseWrapper;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.TreeSet;
 
+import com.easyTeach.common.entity.Exercise;
 import com.easyTeach.server.databaseConnector.ConnectionManager;
-import com.easyTeach.server.entity.Exercise;
 
 /**
  * The ExerciseWrapper is the class responsible for handling 
@@ -123,6 +126,44 @@ public class ExerciseWrapper {
         catch(SQLException e) {
             System.err.println(e);
             return false;
+        }
+    }
+    
+    /**
+     * Returns all the rows from the database's Exercise table in the form of a
+     * TreeSet containing Exercise entities.   
+     * 
+     * @return a TreeSet with all the rows in the Exercise table from the
+     * easyTeach database. The rows are converted into Exercise entities.
+     * @see Exercise
+     */
+    public static TreeSet<Exercise> getExerciseRows() {
+        String sql = "{call selectExerciseRows()}";
+
+        try (
+                PreparedStatement stmt = conn.prepareStatement(sql);
+                ResultSet rs = stmt.executeQuery();
+                ){
+
+            TreeSet<Exercise> treeSet = new TreeSet<Exercise>();
+            
+            if (rs.next()) {
+                Exercise exerciseEntity = new Exercise();
+                exerciseEntity.setExerciseNo(rs.getString("exerciseNo"));
+                exerciseEntity.setCourseNo(rs.getString("courseNo"));
+                exerciseEntity.setAuthor(rs.getString("author"));
+                exerciseEntity.setExerciseParameterNo(rs.getString("exerciseParameterNo"));
+                exerciseEntity.setExerciseName(rs.getString("exerciseName"));
+                exerciseEntity.setDateAdded(rs.getDate("dateAdded"));
+                exerciseEntity.setPassword(rs.getString("password"));
+                
+                treeSet.add(exerciseEntity);
+            }
+            return treeSet;
+            
+        } catch (SQLException e) {
+            System.err.println(e);
+            return null;
         }
     }
     

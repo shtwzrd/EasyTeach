@@ -5,10 +5,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashSet;
+import java.util.TreeSet;
 
+import com.easyTeach.common.entity.Class;
 import com.easyTeach.server.databaseConnector.ConnectionManager;
-import com.easyTeach.server.entity.Class;
 
 /**
  * The ClassWrapper is the class responsible for handling all the
@@ -120,21 +120,21 @@ public class ClassWrapper {
     
     /**
      * Returns all the rows from the database's Class table in the form of a 
-     * HashSet containing Class entities.   
+     * TreeSet containing Class entities.   
      * 
-     * @return a HashSet with all the rows in the Class table from the
+     * @return a TreeSet with all the rows in the Class table from the
      * easyTeach database. The rows are converted into Class entities.
      * @see Class
      */
-    public static HashSet<Class> getClassRows() {
-        String sql = "{call getClassRows()}";
+    public static TreeSet<Class> getClassRows() {
+        String sql = "{call selectClassRows()}";
 
         try (
                 PreparedStatement stmt = conn.prepareStatement(sql);
                 ResultSet rs = stmt.executeQuery();
                 ){
 
-            HashSet<Class> hashSet = new HashSet<Class>();
+            TreeSet<Class> treeSet = new TreeSet<Class>();
             
             if (rs.next()) {
                 Class classEntity = new Class();
@@ -142,9 +142,9 @@ public class ClassWrapper {
                 classEntity.setYear(rs.getInt("year"));
                 classEntity.setClassName(rs.getString("className"));
                 
-                hashSet.add(classEntity);
+                treeSet.add(classEntity);
             }
-            return hashSet;
+            return treeSet;
             
         } catch (SQLException e) {
             System.err.println(e);

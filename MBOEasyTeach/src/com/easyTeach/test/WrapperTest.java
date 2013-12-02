@@ -1,7 +1,7 @@
 package com.easyTeach.test;
 
+import com.easyTeach.common.entity.Class;
 import com.easyTeach.server.databaseWrapper.ClassWrapper;
-import com.easyTeach.server.entity.Class;
 
 public class WrapperTest {
 

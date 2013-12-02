@@ -2,10 +2,14 @@ package com.easyTeach.server.databaseWrapper;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.TreeSet;
 
+import com.easyTeach.common.entity.Class;
+import com.easyTeach.common.entity.Course;
 import com.easyTeach.server.databaseConnector.ConnectionManager;
-import com.easyTeach.server.entity.Course;
 
 /**
  * The CourseWrapper is the class responsible for handling all the prepared 
@@ -112,6 +116,39 @@ public class CourseWrapper {
         catch(SQLException e) {
             System.err.println(e);
             return false;
+        }
+    }
+    
+    /**
+     * Returns all the rows from the database's Course table in the form of a 
+     * TreeSet containing Course entities.   
+     * 
+     * @return a TreeSet with all the rows in the Course table from the
+     * easyTeach database. The rows are converted into Course entities.
+     * @see Course
+     */
+    public static TreeSet<Course> getCourseRows() {
+        String sql = "{call selectCourseRows()}";
+
+        try (
+                PreparedStatement stmt = conn.prepareStatement(sql);
+                ResultSet rs = stmt.executeQuery();
+                ){
+
+            TreeSet<Course> treeSet = new TreeSet<Course>();
+            
+            if (rs.next()) {
+                Course courseEntity = new Course();
+                courseEntity.setCourseNo(rs.getString("courseNo"));
+                courseEntity.setCourseName(rs.getString("courseName"));
+                
+                treeSet.add(courseEntity);
+            }
+            return treeSet;
+            
+        } catch (SQLException e) {
+            System.err.println(e);
+            return null;
         }
     }
     

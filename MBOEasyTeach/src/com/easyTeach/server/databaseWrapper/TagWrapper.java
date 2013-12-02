@@ -2,10 +2,13 @@ package com.easyTeach.server.databaseWrapper;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.TreeSet;
 
+import com.easyTeach.common.entity.Tag;
 import com.easyTeach.server.databaseConnector.ConnectionManager;
-import com.easyTeach.server.entity.Tag;
 
 /**
  * The TagWrapper is the class responsible for handling all the prepared 
@@ -113,6 +116,39 @@ public class TagWrapper {
         catch(SQLException e) {
             System.err.println(e);
             return false;
+        }
+    }
+    
+    /**
+     * Returns all the rows from the database's Tag table in the form of a 
+     * TreeSet containing Tag entities.   
+     * 
+     * @return a TreeSet with all the rows in the Tag table from the
+     * easyTeach database. The rows are converted into Tag entities.
+     * @see Tag
+     */
+    public static TreeSet<Tag> getTagRows() {
+        String sql = "{call selectTagRows()}";
+
+        try (
+                PreparedStatement stmt = conn.prepareStatement(sql);
+                ResultSet rs = stmt.executeQuery();
+                ){
+
+            TreeSet<Tag> treeSet = new TreeSet<Tag>();
+            
+            if (rs.next()) {
+                Tag tagEntity = new Tag();
+                tagEntity.setTagNo(rs.getString("tagNo"));
+                tagEntity.setTag(rs.getString("tag"));
+                
+                treeSet.add(tagEntity);
+            }
+            return treeSet;
+            
+        } catch (SQLException e) {
+            System.err.println(e);
+            return null;
         }
     }
     

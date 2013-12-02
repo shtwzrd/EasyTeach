@@ -2,10 +2,13 @@ package com.easyTeach.server.databaseWrapper;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.TreeSet;
 
+import com.easyTeach.common.entity.UserQuestionState;
 import com.easyTeach.server.databaseConnector.ConnectionManager;
-import com.easyTeach.server.entity.UserQuestionState;
 
 /**
  * The UserUserQuestionStateStateWrapper is the class responsible for handling 
@@ -120,6 +123,40 @@ public class UserQuestionStateWrapper {
         catch(SQLException e) {
             System.err.println(e);
             return false;
+        }
+    }
+    
+    /**
+     * Returns all the rows from the database's UserQuestionState table in the 
+     * form of a TreeSet containing UserQuestionState entities.   
+     * 
+     * @return a TreeSet with all the rows in the UserQuestionState table from the
+     * easyTeach database. The rows are converted into UserQuestionState entities.
+     * @see UserQuestionState
+     */
+    public static TreeSet<UserQuestionState> getUserQuestionStateRows() {
+        String sql = "{call selectUserQuestionStateRows()}";
+
+        try (
+                PreparedStatement stmt = conn.prepareStatement(sql);
+                ResultSet rs = stmt.executeQuery();
+                ){
+
+            TreeSet<UserQuestionState> treeSet = new TreeSet<UserQuestionState>();
+            
+            if (rs.next()) {
+                UserQuestionState userQuestionStateEntity = new UserQuestionState();
+                userQuestionStateEntity.setUserNo(rs.getString("userNo"));
+                userQuestionStateEntity.setQuestionNo(rs.getString("questionNo"));
+                userQuestionStateEntity.setHasCompleted(rs.getBoolean("hasCompleted"));
+                
+                treeSet.add(userQuestionStateEntity);
+            }
+            return treeSet;
+            
+        } catch (SQLException e) {
+            System.err.println(e);
+            return null;
         }
     }
     

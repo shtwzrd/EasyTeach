@@ -1,4 +1,4 @@
-package com.easyTeach.server.entity;
+package com.easyTeach.common.entity;
 
 /** 
  * <p>
@@ -53,7 +53,7 @@ public class ExerciseParameter {
         return isLocked;
     }
     
-    public void setisLocked(boolean isLocked) {
+    public void setIsLocked(boolean isLocked) {
         this.isLocked = isLocked;
     }
     

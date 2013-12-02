@@ -2,10 +2,13 @@ package com.easyTeach.server.databaseWrapper;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.TreeSet;
 
+import com.easyTeach.common.entity.ExerciseQuestionRelation;
 import com.easyTeach.server.databaseConnector.ConnectionManager;
-import com.easyTeach.server.entity.ExerciseQuestionRelation;
 
 /**
  * The ExerciseQuestionRelationWrapper is the class responsible for handling 
@@ -90,6 +93,39 @@ public class ExerciseQuestionRelationWrapper {
         catch(SQLException e) {
             System.err.println(e);
             return false;
+        }
+    }
+    
+    /**
+     * Returns all the rows from the database's ExerciseQuestionRelation table in the 
+     * form of a TreeSet containing ExerciseQuestionRelation entities.   
+     * 
+     * @return a TreeSet with all the rows in the ExerciseQuestionRelation table from the
+     * easyTeach database. The rows are converted into ExerciseQuestionRelation entities.
+     * @see ExerciseQuestionRelation
+     */
+    public static TreeSet<ExerciseQuestionRelation> getExerciseQuestionRelationRows() {
+        String sql = "{call selectExerciseQuestionRelationRows()}";
+
+        try (
+                PreparedStatement stmt = conn.prepareStatement(sql);
+                ResultSet rs = stmt.executeQuery();
+                ){
+
+            TreeSet<ExerciseQuestionRelation> treeSet = new TreeSet<ExerciseQuestionRelation>();
+            
+            if (rs.next()) {
+                ExerciseQuestionRelation exerciseQuestionRelationEntity = new ExerciseQuestionRelation();
+                exerciseQuestionRelationEntity.setExerciseNo(rs.getString("exerciseNo"));
+                exerciseQuestionRelationEntity.setQuestionNo(rs.getString("questionNo"));
+                
+                treeSet.add(exerciseQuestionRelationEntity);
+            }
+            return treeSet;
+            
+        } catch (SQLException e) {
+            System.err.println(e);
+            return null;
         }
     }
     

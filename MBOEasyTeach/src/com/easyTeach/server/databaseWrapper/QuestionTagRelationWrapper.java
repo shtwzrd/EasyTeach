@@ -2,10 +2,13 @@ package com.easyTeach.server.databaseWrapper;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.TreeSet;
 
+import com.easyTeach.common.entity.QuestionTagRelation;
 import com.easyTeach.server.databaseConnector.ConnectionManager;
-import com.easyTeach.server.entity.QuestionTagRelation;
 
 /**
  * The QuestionTagRelationWrapper is the class responsible for handling 
@@ -88,6 +91,40 @@ public class QuestionTagRelationWrapper {
         catch(SQLException e) {
             System.err.println(e);
             return false;
+        }
+    }
+    
+    /**
+     * Returns all the rows from the database's QuestionTagRelation table in 
+     * the form of a TreeSet containing QuestionTagRelation entities.   
+     * 
+     * @return a TreeSet with all the rows in the QuestionTagRelation table 
+     * from the easyTeach database. The rows are converted into 
+     * QuestionTagRelation entities.
+     * @see QuestionTagRelation
+     */
+    public static TreeSet<QuestionTagRelation> getQuestionTagRelationRows() {
+        String sql = "{call selectQuestionTagRelationRows()}";
+
+        try (
+                PreparedStatement stmt = conn.prepareStatement(sql);
+                ResultSet rs = stmt.executeQuery();
+                ){
+
+            TreeSet<QuestionTagRelation> treeSet = new TreeSet<QuestionTagRelation>();
+            
+            if (rs.next()) {
+                QuestionTagRelation questionTagRelationEntity = new QuestionTagRelation();
+                questionTagRelationEntity.setQuestionNo(rs.getString("questionNo"));
+                questionTagRelationEntity.setTagNo(rs.getString("tagNo"));
+                
+                treeSet.add(questionTagRelationEntity);
+            }
+            return treeSet;
+            
+        } catch (SQLException e) {
+            System.err.println(e);
+            return null;
         }
     }
     

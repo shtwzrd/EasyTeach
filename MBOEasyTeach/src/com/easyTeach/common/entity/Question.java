@@ -1,4 +1,4 @@
-package com.easyTeach.server.entity;
+package com.easyTeach.common.entity;
 
 /** 
  * <p>

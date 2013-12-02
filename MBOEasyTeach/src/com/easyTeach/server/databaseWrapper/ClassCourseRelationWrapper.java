@@ -2,10 +2,13 @@ package com.easyTeach.server.databaseWrapper;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.TreeSet;
 
+import com.easyTeach.common.entity.ClassCourseRelation;
 import com.easyTeach.server.databaseConnector.ConnectionManager;
-import com.easyTeach.server.entity.ClassCourseRelation;
 
 /**
  * The ClassCourseRelationWrapper is the class responsible for handling 
@@ -88,6 +91,40 @@ public class ClassCourseRelationWrapper {
         catch(SQLException e) {
             System.err.println(e);
             return false;
+        }
+    }
+    
+    /**
+     * Returns all the rows from the database's ClassCourseRelation table in 
+     * the form of a TreeSet containing ClassCourseRelation entities.   
+     * 
+     * @return a TreeSet with all the rows in the ClassCourseRelation table 
+     * from the easyTeach database. The rows are converted into 
+     * ClassCourseRelation entities.
+     * @see ClassCourseRelation
+     */
+    public static TreeSet<ClassCourseRelation> getClassCourseRelationRows() {
+        String sql = "{call selectClassCourseRelationRows()}";
+
+        try (
+                PreparedStatement stmt = conn.prepareStatement(sql);
+                ResultSet rs = stmt.executeQuery();
+                ){
+
+            TreeSet<ClassCourseRelation> treeSet = new TreeSet<ClassCourseRelation>();
+            
+            if (rs.next()) {
+                ClassCourseRelation classCourseRelationEntity = new ClassCourseRelation();
+                classCourseRelationEntity.setClassNo(rs.getString("classNo"));
+                classCourseRelationEntity.setCourseNo(rs.getString("courseNo"));
+                
+                treeSet.add(classCourseRelationEntity);
+            }
+            return treeSet;
+            
+        } catch (SQLException e) {
+            System.err.println(e);
+            return null;
         }
     }
     

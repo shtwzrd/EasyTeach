@@ -2,10 +2,14 @@ package com.easyTeach.server.databaseWrapper;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.TreeSet;
 
+import com.easyTeach.common.entity.Course;
+import com.easyTeach.common.entity.User;
 import com.easyTeach.server.databaseConnector.ConnectionManager;
-import com.easyTeach.server.entity.User;
 
 /**
  * The UserWrapper is the class responsible for handling all the prepared 
@@ -155,6 +159,44 @@ public class UserWrapper {
         catch(SQLException e) {
             System.err.println(e);
             return false;
+        }
+    }
+
+    /**
+     * Returns all the rows from the database's User table in the form of a 
+     * TreeSet containing User entities.   
+     * 
+     * @return a TreeSet with all the rows in the User table from the
+     * easyTeach database. The rows are converted into User entities.
+     * @see User
+     */
+    public static TreeSet<User> getUserRows() {
+        String sql = "{call selectUserRows()}";
+
+        try (
+                PreparedStatement stmt = conn.prepareStatement(sql);
+                ResultSet rs = stmt.executeQuery();
+                ){
+
+            TreeSet<User> treeSet = new TreeSet<User>();
+            
+            if (rs.next()) {
+                User userEntity = new User();
+                userEntity.setUserNo(rs.getString("userNo"));
+                userEntity.setEmail(rs.getString("email"));
+                userEntity.setUserType(rs.getString("userType"));
+                userEntity.setFirstName(rs.getString("firstName"));
+                userEntity.setLastName(rs.getString("lastName"));
+                userEntity.setPassword(rs.getString("password"));
+                userEntity.setDateAdded(rs.getDate("dateAdded"));
+                
+                treeSet.add(userEntity);
+            }
+            return treeSet;
+            
+        } catch (SQLException e) {
+            System.err.println(e);
+            return null;
         }
     }
     
