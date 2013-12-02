@@ -5,4 +5,5 @@
 	<classpathentry kind="lib" path="libs/mysql-connector-java-5.1.26-bin.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="output" path="bin"/>
+	<classpathentry kind="lib" path="libs/org.restlet.jar"/>
 </classpath>
