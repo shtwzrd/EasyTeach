@@ -2,11 +2,14 @@ package com.easyTeach.server.databaseWrapper;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.TreeSet;
 
+import com.easyTeach.common.entity.ClassCourseRelation;
+import com.easyTeach.common.entity.Question;
 import com.easyTeach.server.databaseConnector.ConnectionManager;
-import com.easyTeach.server.entity.ClassCourseRelation;
-import com.easyTeach.server.entity.Question;
 
 /**
  * The ClassCourseRelationWrapper is the class responsible for handling 
@@ -92,33 +95,37 @@ public class QuestionWrapper {
     }
     
     /**
-     * Deletes an existing Question row in the Question table within the 
-     * easyTeach database. The prepared statement needs the Question's 
-     * questionNo.
+     * Returns all the rows from the database's Question table in the form of a 
+     * TreeSet containing Question entities.   
      * 
-     * @param questionNo is the primary key of the Question table.
-     * @return true if the Question row is successfully deleted in the
-     * easyTeach database, otherwise false.
+     * @return a TreeSet with all the rows in the Question table from the
+     * easyTeach database. The rows are converted into Question entities.
      * @see Question
      */
-    public static boolean deleteQuestionRow(String questionNo) {
-        String sql = "{call deleteQuestionRow(?)}";
-        
+    public static TreeSet<Question> getQuestionRows() {
+        String sql = "{call selectQuestionRows()}";
+
         try (
-                CallableStatement stmt = conn.prepareCall(sql);
-                ) {
-            stmt.setString(1, questionNo);
+                PreparedStatement stmt = conn.prepareStatement(sql);
+                ResultSet rs = stmt.executeQuery();
+                ){
+
+            TreeSet<Question> treeSet = new TreeSet<Question>();
             
-            int affected = stmt.executeUpdate();
-            if (affected == 1) {
-                return true;
-            } else {
-                return false;
+            if (rs.next()) {
+                Question questionEntity = new Question();
+                questionEntity.setQuestionNo(rs.getString("questionNo"));
+                questionEntity.setQuestionType(rs.getString("questionType"));
+                questionEntity.setQuestion(rs.getString("question"));
+                questionEntity.setPoints(rs.getInt("points"));
+                
+                treeSet.add(questionEntity);
             }
-        }
-        catch(SQLException e) {
+            return treeSet;
+            
+        } catch (SQLException e) {
             System.err.println(e);
-            return false;
+            return null;
         }
     }
     

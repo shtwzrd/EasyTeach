@@ -2,10 +2,13 @@ package com.easyTeach.server.databaseWrapper;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.TreeSet;
 
+import com.easyTeach.common.entity.ClassUserRelation;
 import com.easyTeach.server.databaseConnector.ConnectionManager;
-import com.easyTeach.server.entity.ClassUserRelation;
 
 /**
  * The ClassUserRelationWrapper is the class responsible for handling 
@@ -88,6 +91,40 @@ public class ClassUserRelationWrapper {
         catch(SQLException e) {
             System.err.println(e);
             return false;
+        }
+    }
+    
+    /**
+     * Returns all the rows from the database's ClassUserRelation table in 
+     * the form of a TreeSet containing ClassUserRelation entities.   
+     * 
+     * @return a TreeSet with all the rows in the ClassUserRelation table 
+     * from the easyTeach database. The rows are converted into 
+     * ClassUserRelation entities.
+     * @see ClassUserRelation
+     */
+    public static TreeSet<ClassUserRelation> getClassUserRelationRows() {
+        String sql = "{call selectClassUserRelationRows()}";
+
+        try (
+                PreparedStatement stmt = conn.prepareStatement(sql);
+                ResultSet rs = stmt.executeQuery();
+                ){
+
+            TreeSet<ClassUserRelation> treeSet = new TreeSet<ClassUserRelation>();
+            
+            if (rs.next()) {
+                ClassUserRelation classUserRelationEntity = new ClassUserRelation();
+                classUserRelationEntity.setClassNo(rs.getString("classNo"));
+                classUserRelationEntity.setUserNo(rs.getString("userNo"));
+                
+                treeSet.add(classUserRelationEntity);
+            }
+            return treeSet;
+            
+        } catch (SQLException e) {
+            System.err.println(e);
+            return null;
         }
     }
     

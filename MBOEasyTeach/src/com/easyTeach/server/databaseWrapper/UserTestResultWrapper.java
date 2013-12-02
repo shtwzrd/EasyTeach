@@ -2,10 +2,13 @@ package com.easyTeach.server.databaseWrapper;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.TreeSet;
 
+import com.easyTeach.common.entity.UserTestResult;
 import com.easyTeach.server.databaseConnector.ConnectionManager;
-import com.easyTeach.server.entity.UserTestResult;
 
 /**
  * The UserTestResultWrapper is the class responsible for handling 
@@ -89,6 +92,40 @@ public class UserTestResultWrapper {
         catch(SQLException e) {
             System.err.println(e);
             return false;
+        }
+    }
+    
+    /**
+     * Returns all the rows from the database's UserTestResult table in the 
+     * form of a TreeSet containing UserTestResult entities.   
+     * 
+     * @return a TreeSet with all the rows in the UserTestResult table from the
+     * easyTeach database. The rows are converted into UserTestResult entities.
+     * @see UserTestResult
+     */
+    public static TreeSet<UserTestResult> getUserTestResultRows() {
+        String sql = "{call selectUserTestResultRows()}";
+
+        try (
+                PreparedStatement stmt = conn.prepareStatement(sql);
+                ResultSet rs = stmt.executeQuery();
+                ){
+
+            TreeSet<UserTestResult> treeSet = new TreeSet<UserTestResult>();
+            
+            if (rs.next()) {
+                UserTestResult userTestResultEntity = new UserTestResult();
+                userTestResultEntity.setUserNo(rs.getString("userNo"));
+                userTestResultEntity.setExerciseNo(rs.getString("exerciseNo"));
+                userTestResultEntity.setScore(rs.getInt("score"));
+                
+                treeSet.add(userTestResultEntity);
+            }
+            return treeSet;
+            
+        } catch (SQLException e) {
+            System.err.println(e);
+            return null;
         }
     }
     
