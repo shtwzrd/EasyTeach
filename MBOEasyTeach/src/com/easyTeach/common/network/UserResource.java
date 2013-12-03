@@ -1,7 +1,7 @@
 package com.easyTeach.common.network;
 
 import org.restlet.resource.*;
-import com.easyTeach.server.entity.User;
+import com.easyTeach.common.dl.User;
 
 /**
  * <p>
@@ -14,13 +14,13 @@ import com.easyTeach.server.entity.User;
  */
 public interface UserResource {
 
-  @Get
-  public User representation();
+    @Get
+    public User representation();
 
-  @Put
-  public void store(User user);
+    @Put
+    public void store(User user);
 
-  @Delete
-  public void remove();
+    @Delete
+    public void remove();
 
 }
