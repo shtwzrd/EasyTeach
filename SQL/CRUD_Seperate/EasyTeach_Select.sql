@@ -70,12 +70,34 @@ BEGIN
 END //
 DELIMITER ;
 
+/* Returns the class with the specific classNo */
+DELIMITER //
+CREATE PROCEDURE selectClassRowsWithClassNo (
+	IN pClassNo			INTEGER(6))
+BEGIN
+	SELECT c.*
+		FROM Class c
+		WHERE c.classNo = pClassNo;
+END //
+DELIMITER ;
+
 /* Returns every course */
 DELIMITER //
 CREATE PROCEDURE selectCourseRows ()
 BEGIN
 	SELECT c.*
 		FROM Course c;
+END //
+DELIMITER ;
+
+/* Returns the course with the specific courseNo */
+DELIMITER //
+CREATE PROCEDURE selectCourseRows (
+	IN pCourseNo		INTEGER(6))
+BEGIN
+	SELECT c.*
+		FROM Course c
+		WHERE c.courseNo = pCourseNo;
 END //
 DELIMITER ;
 
@@ -88,9 +110,30 @@ BEGIN
 END //
 DELIMITER ;
 
+/* Returns the user with the specific userNo */
+DELIMITER //
+CREATE PROCEDURE selectUserRows (
+	IN pUserNo		INTEGER(6))
+BEGIN
+	SELECT u.*
+		FROM User u
+		WHERE u.userNo = pUserNo;
+END //
+DELIMITER ;
+
 /* Returns every question */
 DELIMITER //
 CREATE PROCEDURE selectQuestionRows ()
+BEGIN
+	SELECT q.*
+		FROM Question q;
+END //
+DELIMITER ;
+
+/* Returns the question with the specific questionNo */
+DELIMITER //
+CREATE PROCEDURE selectQuestionRows (
+	IN pQuestionNo		INTEGER(6))
 BEGIN
 	SELECT q.*
 		FROM Question q;

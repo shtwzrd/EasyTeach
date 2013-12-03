@@ -62,7 +62,7 @@ CREATE PROCEDURE insertIntoUser(
 BEGIN
 	START TRANSACTION;
 		INSERT INTO User (email, userType, firstName, lastName, password, dateAdded) 
-			VALUES (email, userType, firstName, lastName, password, YEAR(CURDATE()));
+			VALUES (email, userType, firstName, lastName, password, CURDATE());
 	COMMIT;
 END //
 DELIMITER ;
