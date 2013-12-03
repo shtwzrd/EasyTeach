@@ -58,12 +58,11 @@ CREATE PROCEDURE insertIntoUser(
 	IN userType 			VARCHAR(30),
 	IN firstName 			VARCHAR(50),
 	IN lastName 			VARCHAR(50),
-	IN password 			VARCHAR(256),
-	IN dateAdded 			DATE)
+	IN password 			VARCHAR(256))
 BEGIN
 	START TRANSACTION;
 		INSERT INTO User (email, userType, firstName, lastName, password, dateAdded) 
-			VALUES (email, userType, firstName, lastName, password, dateAdded);
+			VALUES (email, userType, firstName, lastName, password, YEAR(CURDATE()));
 	COMMIT;
 END //
 DELIMITER ;

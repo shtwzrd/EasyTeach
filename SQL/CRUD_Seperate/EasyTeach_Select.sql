@@ -14,19 +14,50 @@
 
 /* Student Select Procedure */
 DROP PROCEDURE IF EXISTS selectClassRows;
+DROP PROCEDURE IF EXISTS selectClassRowWithClassNo;
+
 DROP PROCEDURE IF EXISTS selectCourseRows;
+DROP PROCEDURE IF EXISTS selectCourseRowWithCourseNo;
+
 DROP PROCEDURE IF EXISTS selectUserRows;
+DROP PROCEDURE IF EXISTS selectUserRowWithUserNo;
+
 DROP PROCEDURE IF EXISTS selectQuestionRows;
+DROP PROCEDURE IF EXISTS selectQuestionRowWithQuestionNo;
+
 DROP PROCEDURE IF EXISTS selectTagRows;
-DROP PROCEDURE IF EXISTS selectAnswerRows;
-DROP PROCEDURE IF EXISTS selectExerciseParameterRows;
-DROP PROCEDURE IF EXISTS selectExerciseRows;
+DROP PROCEDURE IF EXISTS selectTagRowWithTagNo;
+
+DROP PROCEDURE IF EXISTS selectAnswerRowWithQuestionNo;
+
+DROP PROCEDURE IF EXISTS selectExerciseParameterRowWithExerciseParameterNo;
+
+DROP PROCEDURE IF EXISTS selectExerciseRowWithExerciseNo;
+DROP PROCEDURE IF EXISTS selectExerciseRowWithCourseNo;
+
 DROP PROCEDURE IF EXISTS selectClassCourseRelationRows;
+DROP PROCEDURE IF EXISTS selectClassCourseRelationRowsWithClassNo;
+DROP PROCEDURE IF EXISTS selectClassCourseRelationRowsWithCourseNo;
+
 DROP PROCEDURE IF EXISTS selectUserTestResultRows;
+DROP PROCEDURE IF EXISTS selectUserTestResultRowsWithUserNo;
+DROP PROCEDURE IF EXISTS selectUserTestResultRowsWithExerciseNo;
+
 DROP PROCEDURE IF EXISTS selectClassUserRelationRows;
+DROP PROCEDURE IF EXISTS selectClassUserRelationRowsWithClassNo;
+DROP PROCEDURE IF EXISTS selectClassUserRelationRowsWithUserNo;
+
 DROP PROCEDURE IF EXISTS selectUserQuestionStateRows;
+DROP PROCEDURE IF EXISTS selectUserQuestionStateRowsWithUserNo;
+DROP PROCEDURE IF EXISTS selectUserQuestionStateRowsWithQuestionNo;
+
 DROP PROCEDURE IF EXISTS selectQuestionTagRelationRows;
+DROP PROCEDURE IF EXISTS selectQuestionTagRelationRowsWithQuestionNo;
+DROP PROCEDURE IF EXISTS selectQuestionTagRelationRowsWithTagNo;
+
 DROP PROCEDURE IF EXISTS selectExerciseQuestionRelationRows;
+DROP PROCEDURE IF EXISTS selectExerciseQuestionRelationRowsWithExerciseNo;
+DROP PROCEDURE IF EXISTS selectExerciseQuestionRelationRowsWithQuestionNo;
 
 
 
