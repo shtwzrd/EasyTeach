@@ -5,7 +5,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.TreeSet;
+import java.util.HashSet;
 
 import com.easyTeach.common.entity.Class;
 import com.easyTeach.server.databaseConnector.ConnectionManager;
@@ -59,7 +59,8 @@ public class ClassWrapper {
     
     /**
      * Updates an existing Class row in the Class table within the easyTeach 
-     * database. The prepared statement needs the class' year and name.  
+     * database. The prepared statement needs the class' classNo, year and 
+     * name.  
      * 
      * @param classEntity is an instance of the class Class
      * @return true if the Class row is successfully updated in the
@@ -67,13 +68,14 @@ public class ClassWrapper {
      * @see Class
      */
     public static boolean updateClassRow(Class classEntity) {
-        String sql = "{call updateClassRow(?,?)}";
+        String sql = "{call updateClassRow(?,?,?)}";
         
         try (
                 CallableStatement stmt = conn.prepareCall(sql);
                 ) {
-            stmt.setInt(1, classEntity.getYear());
-            stmt.setString(2, classEntity.getClassName());
+            stmt.setString(1, classEntity.getClassNo());
+            stmt.setInt(2, classEntity.getYear());
+            stmt.setString(3, classEntity.getClassName());
             
             int affected = stmt.executeUpdate();
             if (affected == 1) {
@@ -120,13 +122,13 @@ public class ClassWrapper {
     
     /**
      * Returns all the rows from the database's Class table in the form of a 
-     * TreeSet containing Class entities.   
+     * HashSet containing Class entities.   
      * 
-     * @return a TreeSet with all the rows in the Class table from the
+     * @return a HashSet with all the rows in the Class table from the
      * easyTeach database. The rows are converted into Class entities.
      * @see Class
      */
-    public static TreeSet<Class> getClassRows() {
+    public static HashSet<Class> getClassRows() {
         String sql = "{call selectClassRows()}";
 
         try (
@@ -134,21 +136,61 @@ public class ClassWrapper {
                 ResultSet rs = stmt.executeQuery();
                 ){
 
-            TreeSet<Class> treeSet = new TreeSet<Class>();
+            HashSet<Class> hashSet = new HashSet<Class>();
             
-            if (rs.next()) {
+            while (rs.next()) {
                 Class classEntity = new Class();
                 classEntity.setClassNo(rs.getString("classNo"));
                 classEntity.setYear(rs.getInt("year"));
                 classEntity.setClassName(rs.getString("className"));
                 
-                treeSet.add(classEntity);
+                hashSet.add(classEntity);
             }
-            return treeSet;
+            return hashSet;
             
         } catch (SQLException e) {
             System.err.println(e);
             return null;
+        }
+    }
+
+    /**
+     * Returns a row from the database's Class table with a specific classNo.
+     * 
+     * @param classNo is the primary key of the Class table.
+     * @return An instance of Class
+     * @see Class
+     */
+    public static Class getClassRowByClassNo(String classNo) {
+        String sql = "{call selectClassRowWithClassNo(?)}";
+        ResultSet rs = null;
+        
+        try (
+                PreparedStatement stmt = conn.prepareStatement(sql);
+                ) {
+            stmt.setString(1, classNo);
+            rs = stmt.executeQuery();
+            rs.next();
+            
+            Class classEntity = new Class();
+            classEntity.setClassNo(rs.getString("classNo"));
+            classEntity.setYear(rs.getInt("year"));
+            classEntity.setClassName(rs.getString("className"));
+            
+            return classEntity;
+            
+        } catch (SQLException e) {
+            System.err.println(e);
+            return null;
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+            }
+            catch (SQLException e) {
+                System.err.println(e);
+            }
         }
     }
     

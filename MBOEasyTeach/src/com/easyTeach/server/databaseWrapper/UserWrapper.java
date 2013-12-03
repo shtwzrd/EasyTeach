@@ -5,9 +5,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.TreeSet;
+import java.util.HashSet;
 
-import com.easyTeach.common.entity.Course;
 import com.easyTeach.common.entity.User;
 import com.easyTeach.server.databaseConnector.ConnectionManager;
 
@@ -38,7 +37,7 @@ public class UserWrapper {
      * @see User
      */
     public static boolean insertIntoUser(User userEntity) {
-        String sql = "{call insertIntoUser(?,?,?,?,?,?)}";
+        String sql = "{call insertIntoUser(?,?,?,?,?)}";
 
         try (
                 CallableStatement stmt = conn.prepareCall(sql);
@@ -48,7 +47,6 @@ public class UserWrapper {
             stmt.setString(3, userEntity.getFirstName());
             stmt.setString(4, userEntity.getLastName());
             stmt.setString(5, userEntity.getPassword());
-            stmt.setDate(6, userEntity.getDateAdded());
             
             int affected = stmt.executeUpdate();
             if (affected == 1) {
@@ -164,13 +162,13 @@ public class UserWrapper {
 
     /**
      * Returns all the rows from the database's User table in the form of a 
-     * TreeSet containing User entities.   
+     * HashSet containing User entities.   
      * 
-     * @return a TreeSet with all the rows in the User table from the
+     * @return a HashSet with all the rows in the User table from the
      * easyTeach database. The rows are converted into User entities.
      * @see User
      */
-    public static TreeSet<User> getUserRows() {
+    public static HashSet<User> getUserRows() {
         String sql = "{call selectUserRows()}";
 
         try (
@@ -178,9 +176,9 @@ public class UserWrapper {
                 ResultSet rs = stmt.executeQuery();
                 ){
 
-            TreeSet<User> treeSet = new TreeSet<User>();
+            HashSet<User> hashSet = new HashSet<User>();
             
-            if (rs.next()) {
+            while (rs.next()) {
                 User userEntity = new User();
                 userEntity.setUserNo(rs.getString("userNo"));
                 userEntity.setEmail(rs.getString("email"));
@@ -190,13 +188,57 @@ public class UserWrapper {
                 userEntity.setPassword(rs.getString("password"));
                 userEntity.setDateAdded(rs.getDate("dateAdded"));
                 
-                treeSet.add(userEntity);
+                hashSet.add(userEntity);
             }
-            return treeSet;
+            return hashSet;
             
         } catch (SQLException e) {
             System.err.println(e);
             return null;
+        }
+    }
+    
+    /**
+     * Returns a row from the database's User table with a specific userNo.
+     * 
+     * @param userNo is the primary key of the User table.
+     * @return An instance of User
+     * @see User
+     */
+    public static User getUserRowWithUserNo(String userNo) {
+        String sql = "{call selectUserRowWithUserNo(?)}";
+        ResultSet rs = null;
+        
+        try (
+                PreparedStatement stmt = conn.prepareStatement(sql);
+                ) {
+            stmt.setString(1, userNo);
+            rs = stmt.executeQuery();
+            rs.next();
+            
+            User userEntity = new User();
+            userEntity.setUserNo(rs.getString("userNo"));
+            userEntity.setEmail(rs.getString("email"));
+            userEntity.setUserType(rs.getString("userType"));
+            userEntity.setFirstName(rs.getString("firstName"));
+            userEntity.setLastName(rs.getString("lastName"));
+            userEntity.setPassword(rs.getString("password"));
+            userEntity.setDateAdded(rs.getDate("dateAdded"));
+            
+            return userEntity;
+            
+        } catch (SQLException e) {
+            System.err.println(e);
+            return null;
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+            }
+            catch (SQLException e) {
+                System.err.println(e);                
+            }
         }
     }
     

@@ -5,9 +5,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.TreeSet;
+import java.util.HashSet;
 
-import com.easyTeach.common.entity.Class;
 import com.easyTeach.common.entity.Course;
 import com.easyTeach.server.databaseConnector.ConnectionManager;
 
@@ -121,13 +120,13 @@ public class CourseWrapper {
     
     /**
      * Returns all the rows from the database's Course table in the form of a 
-     * TreeSet containing Course entities.   
+     * HashSet containing Course entities.   
      * 
-     * @return a TreeSet with all the rows in the Course table from the
+     * @return a HashSet with all the rows in the Course table from the
      * easyTeach database. The rows are converted into Course entities.
      * @see Course
      */
-    public static TreeSet<Course> getCourseRows() {
+    public static HashSet<Course> getCourseRows() {
         String sql = "{call selectCourseRows()}";
 
         try (
@@ -135,20 +134,52 @@ public class CourseWrapper {
                 ResultSet rs = stmt.executeQuery();
                 ){
 
-            TreeSet<Course> treeSet = new TreeSet<Course>();
+            HashSet<Course> hashSet = new HashSet<Course>();
             
-            if (rs.next()) {
+            while (rs.next()) {
                 Course courseEntity = new Course();
                 courseEntity.setCourseNo(rs.getString("courseNo"));
                 courseEntity.setCourseName(rs.getString("courseName"));
                 
-                treeSet.add(courseEntity);
+                hashSet.add(courseEntity);
             }
-            return treeSet;
+            return hashSet;
             
         } catch (SQLException e) {
             System.err.println(e);
             return null;
+        }
+    }
+    
+    /**
+     * Returns a row from the database's Course table with a specific courseNo.
+     * 
+     * @param courseNo is the primary key of the Course table.
+     * @return An instance of Course
+     * @see Course
+     */
+    public static Course getCourseRowWithCourseNo(String courseNo) throws SQLException {
+        String sql = "{call selectCourseRowWithCourseNo(?)}";
+        ResultSet rs = null;
+        
+        try (
+                PreparedStatement stmt = conn.prepareStatement(sql);
+                ) {
+            stmt.setString(1, courseNo);
+            rs = stmt.executeQuery();
+            rs.next();
+            
+            Course courseEntity = new Course();
+            courseEntity.setCourseNo(rs.getString("courseNo"));
+            courseEntity.setCourseName(rs.getString("courseName"));
+            
+            return courseEntity;
+            
+        } catch (SQLException e) {
+            System.err.println(e);
+            return null;
+        } finally {
+            rs.close();
         }
     }
     

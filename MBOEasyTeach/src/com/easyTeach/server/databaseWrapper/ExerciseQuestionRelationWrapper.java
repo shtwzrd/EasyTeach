@@ -5,7 +5,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.TreeSet;
+import java.util.HashSet;
 
 import com.easyTeach.common.entity.ExerciseQuestionRelation;
 import com.easyTeach.server.databaseConnector.ConnectionManager;
@@ -98,13 +98,13 @@ public class ExerciseQuestionRelationWrapper {
     
     /**
      * Returns all the rows from the database's ExerciseQuestionRelation table in the 
-     * form of a TreeSet containing ExerciseQuestionRelation entities.   
+     * form of a HashSet containing ExerciseQuestionRelation entities.   
      * 
-     * @return a TreeSet with all the rows in the ExerciseQuestionRelation table from the
+     * @return a HashSet with all the rows in the ExerciseQuestionRelation table from the
      * easyTeach database. The rows are converted into ExerciseQuestionRelation entities.
      * @see ExerciseQuestionRelation
      */
-    public static TreeSet<ExerciseQuestionRelation> getExerciseQuestionRelationRows() {
+    public static HashSet<ExerciseQuestionRelation> getExerciseQuestionRelationRows() {
         String sql = "{call selectExerciseQuestionRelationRows()}";
 
         try (
@@ -112,20 +112,116 @@ public class ExerciseQuestionRelationWrapper {
                 ResultSet rs = stmt.executeQuery();
                 ){
 
-            TreeSet<ExerciseQuestionRelation> treeSet = new TreeSet<ExerciseQuestionRelation>();
+            HashSet<ExerciseQuestionRelation> hashSet = new HashSet<ExerciseQuestionRelation>();
             
-            if (rs.next()) {
+            while (rs.next()) {
                 ExerciseQuestionRelation exerciseQuestionRelationEntity = new ExerciseQuestionRelation();
                 exerciseQuestionRelationEntity.setExerciseNo(rs.getString("exerciseNo"));
                 exerciseQuestionRelationEntity.setQuestionNo(rs.getString("questionNo"));
                 
-                treeSet.add(exerciseQuestionRelationEntity);
+                hashSet.add(exerciseQuestionRelationEntity);
             }
-            return treeSet;
+            return hashSet;
             
         } catch (SQLException e) {
             System.err.println(e);
             return null;
+        }
+    }
+    
+    /**
+     * Returns all the rows from the database's ExerciseQuestionRelation table 
+     * with a specific exerciseNo in the form of a HashSet containing 
+     * ExerciseQuestionRelation entities.   
+     * 
+     * @param exerciseNo is part of the primary key of the ExerciseQuestionRelation table
+     * @return a HashSet with all the matching rows in the ExerciseQuestionRelation 
+     * table from the easyTeach database. The rows are converted into 
+     * ExerciseQuestionRelation entities.
+     * @see ExerciseQuestionRelation
+     */
+    public static HashSet<ExerciseQuestionRelation> getExerciseQuestionRelationRowsWithExerciseNo(String exerciseNo) {
+        String sql = "{call selectExerciseQuestionRelationRowsWithExerciseNo(?)}";
+        ResultSet rs = null;
+        
+        try (
+                PreparedStatement stmt = conn.prepareStatement(sql);
+                ) {
+            stmt.setString(1, exerciseNo);
+            rs = stmt.executeQuery();
+            
+            HashSet<ExerciseQuestionRelation> hashSet = new HashSet<ExerciseQuestionRelation>();
+            
+            while (rs.next()) {
+                ExerciseQuestionRelation exerciseQuestionRelationEntity = new ExerciseQuestionRelation();
+                exerciseQuestionRelationEntity.setExerciseNo(rs.getString("exerciseNo"));
+                exerciseQuestionRelationEntity.setQuestionNo(rs.getString("questionNo"));
+                
+                hashSet.add(exerciseQuestionRelationEntity);
+            }
+                
+            return hashSet;
+            
+        } catch (SQLException e) {
+            System.err.println(e);
+            return null;
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+            }
+            catch (SQLException e) {
+                System.err.println(e);                
+            }
+        }
+    }
+    
+    /**
+     * Returns all the rows from the database's ExerciseQuestionRelation table 
+     * with a specific questionNo in the form of a HashSet containing 
+     * ExerciseQuestionRelation entities.   
+     * 
+     * @param questionNo is part of the primary key of the ExerciseQuestionRelation table
+     * @return a HashSet with all the matching rows in the ExerciseQuestionRelation 
+     * table from the easyTeach database. The rows are converted into 
+     * ExerciseQuestionRelation entities.
+     * @see ExerciseQuestionRelation
+     */
+    public static HashSet<ExerciseQuestionRelation> getExerciseQuestionRelationRowsWithQuestionNo(String questionNo) {
+        String sql = "{call selectExerciseQuestionRelationRowsWithQuestionNo(?)}";
+        ResultSet rs = null;
+        
+        try (
+                PreparedStatement stmt = conn.prepareStatement(sql);
+                ) {
+            stmt.setString(1, questionNo);
+            rs = stmt.executeQuery();
+            
+            HashSet<ExerciseQuestionRelation> hashSet = new HashSet<ExerciseQuestionRelation>();
+            
+            while (rs.next()) {
+                ExerciseQuestionRelation exerciseQuestionRelationEntity = new ExerciseQuestionRelation();
+                exerciseQuestionRelationEntity.setExerciseNo(rs.getString("exerciseNo"));
+                exerciseQuestionRelationEntity.setQuestionNo(rs.getString("questionNo"));
+                
+                hashSet.add(exerciseQuestionRelationEntity);
+            }
+                
+            return hashSet;
+            
+        } catch (SQLException e) {
+            System.err.println(e);
+            return null;
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+            }
+            catch (SQLException e) {
+                System.err.println(e);                
+            }
         }
     }
     

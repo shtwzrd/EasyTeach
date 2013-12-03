@@ -5,7 +5,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.TreeSet;
+import java.util.HashSet;
 
 import com.easyTeach.common.entity.UserTestResult;
 import com.easyTeach.server.databaseConnector.ConnectionManager;
@@ -97,13 +97,13 @@ public class UserTestResultWrapper {
     
     /**
      * Returns all the rows from the database's UserTestResult table in the 
-     * form of a TreeSet containing UserTestResult entities.   
+     * form of a HashSet containing UserTestResult entities.   
      * 
-     * @return a TreeSet with all the rows in the UserTestResult table from the
+     * @return a HashSet with all the rows in the UserTestResult table from the
      * easyTeach database. The rows are converted into UserTestResult entities.
      * @see UserTestResult
      */
-    public static TreeSet<UserTestResult> getUserTestResultRows() {
+    public static HashSet<UserTestResult> getUserTestResultRows() {
         String sql = "{call selectUserTestResultRows()}";
 
         try (
@@ -111,21 +111,119 @@ public class UserTestResultWrapper {
                 ResultSet rs = stmt.executeQuery();
                 ){
 
-            TreeSet<UserTestResult> treeSet = new TreeSet<UserTestResult>();
+            HashSet<UserTestResult> hashSet = new HashSet<UserTestResult>();
             
-            if (rs.next()) {
+            while (rs.next()) {
                 UserTestResult userTestResultEntity = new UserTestResult();
                 userTestResultEntity.setUserNo(rs.getString("userNo"));
                 userTestResultEntity.setExerciseNo(rs.getString("exerciseNo"));
                 userTestResultEntity.setScore(rs.getInt("score"));
                 
-                treeSet.add(userTestResultEntity);
+                hashSet.add(userTestResultEntity);
             }
-            return treeSet;
+            return hashSet;
             
         } catch (SQLException e) {
             System.err.println(e);
             return null;
+        }
+    }
+
+    /**
+     * Returns all the rows from the database's UserTestResult table 
+     * with a specific userNo in the form of a HashSet containing 
+     * UserTestResult entities.   
+     * 
+     * @param userNo is part of the primary key of the UserTestResult table
+     * @return a HashSet with all the matching rows in the UserTestResult 
+     * table from the easyTeach database. The rows are converted into 
+     * UserTestResult entities.
+     * @see UserTestResult
+     */
+    public static HashSet<UserTestResult> getUserTestResultRowsWithUserNo(String userNo) {
+        String sql = "{call selectUserTestResultRowsWithUserNo(?)}";
+        ResultSet rs = null;
+        
+        try (
+                PreparedStatement stmt = conn.prepareStatement(sql);
+                ) {
+            stmt.setString(1, userNo);
+            rs = stmt.executeQuery();
+            
+            HashSet<UserTestResult> hashSet = new HashSet<UserTestResult>();
+            
+            while (rs.next()) {
+                UserTestResult userTestResultEntity = new UserTestResult();
+                userTestResultEntity.setUserNo(rs.getString("userNo"));
+                userTestResultEntity.setExerciseNo(rs.getString("exerciseNo"));
+                userTestResultEntity.setScore(rs.getInt("score"));
+                
+                hashSet.add(userTestResultEntity);
+            }
+                
+            return hashSet;
+            
+        } catch (SQLException e) {
+            System.err.println(e);
+            return null;
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+            }
+            catch (SQLException e) {
+                System.err.println(e);                
+            }
+        }
+    }
+    
+    /**
+     * Returns all the rows from the database's UserTestResult table 
+     * with a specific exerciseNo in the form of a HashSet containing 
+     * UserTestResult entities.   
+     * 
+     * @param exerciseNo is part of the primary key of the UserTestResult table
+     * @return a HashSet with all the matching rows in the UserTestResult 
+     * table from the easyTeach database. The rows are converted into 
+     * UserTestResult entities.
+     * @see UserTestResult
+     */
+    public static HashSet<UserTestResult> getUserTestResultRowsWithExerciseNo(String exerciseNo) {
+        String sql = "{call selectUserTestResultRowsWithExerciseNo(?)}";
+        ResultSet rs = null;
+        
+        try (
+                PreparedStatement stmt = conn.prepareStatement(sql);
+                ) {
+            stmt.setString(1, exerciseNo);
+            rs = stmt.executeQuery();
+            
+            HashSet<UserTestResult> hashSet = new HashSet<UserTestResult>();
+            
+            while (rs.next()) {
+                UserTestResult userTestResultEntity = new UserTestResult();
+                userTestResultEntity.setUserNo(rs.getString("userNo"));
+                userTestResultEntity.setExerciseNo(rs.getString("exerciseNo"));
+                userTestResultEntity.setScore(rs.getInt("score"));
+                
+                hashSet.add(userTestResultEntity);
+            }
+                
+            return hashSet;
+            
+        } catch (SQLException e) {
+            System.err.println(e);
+            return null;
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+            }
+            catch (SQLException e) {
+                System.err.println(e);                
+            }
         }
     }
     

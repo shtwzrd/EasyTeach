@@ -5,19 +5,19 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.TreeSet;
+import java.util.HashSet;
 
 import com.easyTeach.common.entity.UserQuestionState;
 import com.easyTeach.server.databaseConnector.ConnectionManager;
 
 /**
- * The UserUserQuestionStateStateWrapper is the class responsible for handling 
+ * The UserQuestionStateWrapper is the class responsible for handling 
  * all the prepared CRUD SQL statements for manipulating with the
- * UserUserQuestionStateState table residing in the MBO EasyTeach's database.
+ * UserQuestionState table residing in the MBO EasyTeach's database.
  * 
  * @author Morten Faarkrog
  * @version 1.0
- * @see UserUserQuestionStateState
+ * @see UserQuestionState
  * @date 1. December, 2013
  */
 
@@ -128,13 +128,13 @@ public class UserQuestionStateWrapper {
     
     /**
      * Returns all the rows from the database's UserQuestionState table in the 
-     * form of a TreeSet containing UserQuestionState entities.   
+     * form of a HashSet containing UserQuestionState entities.   
      * 
-     * @return a TreeSet with all the rows in the UserQuestionState table from the
+     * @return a HashSet with all the rows in the UserQuestionState table from the
      * easyTeach database. The rows are converted into UserQuestionState entities.
      * @see UserQuestionState
      */
-    public static TreeSet<UserQuestionState> getUserQuestionStateRows() {
+    public static HashSet<UserQuestionState> getUserQuestionStateRows() {
         String sql = "{call selectUserQuestionStateRows()}";
 
         try (
@@ -142,21 +142,119 @@ public class UserQuestionStateWrapper {
                 ResultSet rs = stmt.executeQuery();
                 ){
 
-            TreeSet<UserQuestionState> treeSet = new TreeSet<UserQuestionState>();
+            HashSet<UserQuestionState> hashSet = new HashSet<UserQuestionState>();
             
-            if (rs.next()) {
+            while (rs.next()) {
                 UserQuestionState userQuestionStateEntity = new UserQuestionState();
                 userQuestionStateEntity.setUserNo(rs.getString("userNo"));
                 userQuestionStateEntity.setQuestionNo(rs.getString("questionNo"));
                 userQuestionStateEntity.setHasCompleted(rs.getBoolean("hasCompleted"));
                 
-                treeSet.add(userQuestionStateEntity);
+                hashSet.add(userQuestionStateEntity);
             }
-            return treeSet;
+            return hashSet;
             
         } catch (SQLException e) {
             System.err.println(e);
             return null;
+        }
+    }
+    
+    /**
+     * Returns all the rows from the database's UserQuestionState table 
+     * with a specific userNo in the form of a HashSet containing 
+     * UserQuestionState entities.   
+     * 
+     * @param userNo is part of the primary key of the UserQuestionState table
+     * @return a HashSet with all the matching rows in the UserQuestionState 
+     * table from the easyTeach database. The rows are converted into 
+     * UserQuestionState entities.
+     * @see UserQuestionState
+     */
+    public static HashSet<UserQuestionState> getUserQuestionStateRowsWithUserNo(String userNo) {
+        String sql = "{call selectUserQuestionStateRowsWithUserNo(?)}";
+        ResultSet rs = null;
+        
+        try (
+                PreparedStatement stmt = conn.prepareStatement(sql);
+                ) {
+            stmt.setString(1, userNo);
+            rs = stmt.executeQuery();
+            
+            HashSet<UserQuestionState> hashSet = new HashSet<UserQuestionState>();
+            
+            while (rs.next()) {
+                UserQuestionState userQuestionStateEntity = new UserQuestionState();
+                userQuestionStateEntity.setUserNo(rs.getString("userNo"));
+                userQuestionStateEntity.setQuestionNo(rs.getString("questionNo"));
+                userQuestionStateEntity.setHasCompleted(rs.getBoolean("hasCompleted"));
+                
+                hashSet.add(userQuestionStateEntity);
+            }
+                
+            return hashSet;
+            
+        } catch (SQLException e) {
+            System.err.println(e);
+            return null;
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+            }
+            catch (SQLException e) {
+                System.err.println(e);                
+            }
+        }
+    }
+    
+    /**
+     * Returns all the rows from the database's UserQuestionState table 
+     * with a specific questionNo in the form of a HashSet containing 
+     * UserQuestionState entities.   
+     * 
+     * @param questionNo is part of the primary key of the UserQuestionState table
+     * @return a HashSet with all the matching rows in the UserQuestionState 
+     * table from the easyTeach database. The rows are converted into 
+     * UserQuestionState entities.
+     * @see UserQuestionState
+     */
+    public static HashSet<UserQuestionState> getUserQuestionStateRowsWithQuestionNo(String questionNo) {
+        String sql = "{call selectUserQuestionStateRowsWithQuestionNo(?)}";
+        ResultSet rs = null;
+        
+        try (
+                PreparedStatement stmt = conn.prepareStatement(sql);
+                ) {
+            stmt.setString(1, questionNo);
+            rs = stmt.executeQuery();
+            
+            HashSet<UserQuestionState> hashSet = new HashSet<UserQuestionState>();
+            
+            while (rs.next()) {
+                UserQuestionState userQuestionStateEntity = new UserQuestionState();
+                userQuestionStateEntity.setUserNo(rs.getString("userNo"));
+                userQuestionStateEntity.setQuestionNo(rs.getString("questionNo"));
+                userQuestionStateEntity.setHasCompleted(rs.getBoolean("hasCompleted"));
+                
+                hashSet.add(userQuestionStateEntity);
+            }
+                
+            return hashSet;
+            
+        } catch (SQLException e) {
+            System.err.println(e);
+            return null;
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+            }
+            catch (SQLException e) {
+                System.err.println(e);                
+            }
         }
     }
     

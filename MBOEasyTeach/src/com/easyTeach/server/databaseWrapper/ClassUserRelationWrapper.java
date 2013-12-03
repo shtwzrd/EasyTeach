@@ -5,7 +5,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.TreeSet;
+import java.util.HashSet;
 
 import com.easyTeach.common.entity.ClassUserRelation;
 import com.easyTeach.server.databaseConnector.ConnectionManager;
@@ -96,14 +96,14 @@ public class ClassUserRelationWrapper {
     
     /**
      * Returns all the rows from the database's ClassUserRelation table in 
-     * the form of a TreeSet containing ClassUserRelation entities.   
+     * the form of a HashSet containing ClassUserRelation entities.   
      * 
-     * @return a TreeSet with all the rows in the ClassUserRelation table 
+     * @return a HashSet with all the rows in the ClassUserRelation table 
      * from the easyTeach database. The rows are converted into 
      * ClassUserRelation entities.
      * @see ClassUserRelation
      */
-    public static TreeSet<ClassUserRelation> getClassUserRelationRows() {
+    public static HashSet<ClassUserRelation> getClassUserRelationRows() {
         String sql = "{call selectClassUserRelationRows()}";
 
         try (
@@ -111,20 +111,116 @@ public class ClassUserRelationWrapper {
                 ResultSet rs = stmt.executeQuery();
                 ){
 
-            TreeSet<ClassUserRelation> treeSet = new TreeSet<ClassUserRelation>();
+            HashSet<ClassUserRelation> hashSet = new HashSet<ClassUserRelation>();
             
-            if (rs.next()) {
+            while (rs.next()) {
                 ClassUserRelation classUserRelationEntity = new ClassUserRelation();
                 classUserRelationEntity.setClassNo(rs.getString("classNo"));
                 classUserRelationEntity.setUserNo(rs.getString("userNo"));
                 
-                treeSet.add(classUserRelationEntity);
+                hashSet.add(classUserRelationEntity);
             }
-            return treeSet;
+            return hashSet;
             
         } catch (SQLException e) {
             System.err.println(e);
             return null;
+        }
+    }
+    
+    /**
+     * Returns all the rows from the database's ClassUserRelation table 
+     * with a specific classNo in the form of a HashSet containing 
+     * ClassUserRelation entities.   
+     * 
+     * @param classNo is part of the primary key of the ClassUserRelation table
+     * @return a HashSet with all the matching rows in the ClassUserRelation 
+     * table from the easyTeach database. The rows are converted into 
+     * ClassUserRelation entities.
+     * @see ClassUserRelation
+     */
+    public static HashSet<ClassUserRelation> getClassUserRelationRowsWithClassNo(String classNo) {
+        String sql = "{call selectClassUserRelationRowsWithClassNo(?)}";
+        ResultSet rs = null;
+        
+        try (
+                PreparedStatement stmt = conn.prepareStatement(sql);
+                ) {
+            stmt.setString(1, classNo);
+            rs = stmt.executeQuery();
+            
+            HashSet<ClassUserRelation> hashSet = new HashSet<ClassUserRelation>();
+            
+            while (rs.next()) {
+                ClassUserRelation classUserRelationEntity = new ClassUserRelation();
+                classUserRelationEntity.setClassNo(rs.getString("classNo"));
+                classUserRelationEntity.setUserNo(rs.getString("userNo"));
+                
+                hashSet.add(classUserRelationEntity);
+            }
+                
+            return hashSet;
+            
+        } catch (SQLException e) {
+            System.err.println(e);
+            return null;
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+            }
+            catch (SQLException e) {
+                System.err.println(e);                
+            }
+        }
+    }
+    
+    /**
+     * Returns all the rows from the database's ClassUserRelation table 
+     * with a specific userNo in the form of a HashSet containing 
+     * ClassUserRelation entities.   
+     * 
+     * @param userNo is part of the primary key of the ClassUserRelation table
+     * @return a HashSet with all the matching rows in the ClassUserRelation 
+     * table from the easyTeach database. The rows are converted into 
+     * ClassUserRelation entities.
+     * @see ClassUserRelation
+     */
+    public static HashSet<ClassUserRelation> getClassUserRelationRowsWithUserNo(String userNo) {
+        String sql = "{call selectClassUserRelationRowsWithUserNo(?)}";
+        ResultSet rs = null;
+        
+        try (
+                PreparedStatement stmt = conn.prepareStatement(sql);
+                ) {
+            stmt.setString(1, userNo);
+            rs = stmt.executeQuery();
+            
+            HashSet<ClassUserRelation> hashSet = new HashSet<ClassUserRelation>();
+            
+            while (rs.next()) {
+                ClassUserRelation classUserRelationEntity = new ClassUserRelation();
+                classUserRelationEntity.setClassNo(rs.getString("classNo"));
+                classUserRelationEntity.setUserNo(rs.getString("userNo"));
+                
+                hashSet.add(classUserRelationEntity);
+            }
+                
+            return hashSet;
+            
+        } catch (SQLException e) {
+            System.err.println(e);
+            return null;
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+            }
+            catch (SQLException e) {
+                System.err.println(e);                
+            }
         }
     }
     
