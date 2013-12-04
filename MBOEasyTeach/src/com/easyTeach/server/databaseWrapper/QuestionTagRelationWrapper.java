@@ -5,7 +5,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.TreeSet;
+import java.util.HashSet;
 
 import com.easyTeach.common.entity.QuestionTagRelation;
 import com.easyTeach.server.databaseConnector.ConnectionManager;
@@ -96,14 +96,14 @@ public class QuestionTagRelationWrapper {
     
     /**
      * Returns all the rows from the database's QuestionTagRelation table in 
-     * the form of a TreeSet containing QuestionTagRelation entities.   
+     * the form of a HashSet containing QuestionTagRelation entities.   
      * 
-     * @return a TreeSet with all the rows in the QuestionTagRelation table 
+     * @return a HashSet with all the rows in the QuestionTagRelation table 
      * from the easyTeach database. The rows are converted into 
      * QuestionTagRelation entities.
      * @see QuestionTagRelation
      */
-    public static TreeSet<QuestionTagRelation> getQuestionTagRelationRows() {
+    public static HashSet<QuestionTagRelation> getQuestionTagRelationRows() {
         String sql = "{call selectQuestionTagRelationRows()}";
 
         try (
@@ -111,20 +111,116 @@ public class QuestionTagRelationWrapper {
                 ResultSet rs = stmt.executeQuery();
                 ){
 
-            TreeSet<QuestionTagRelation> treeSet = new TreeSet<QuestionTagRelation>();
+            HashSet<QuestionTagRelation> hashSet = new HashSet<QuestionTagRelation>();
             
-            if (rs.next()) {
+            while (rs.next()) {
                 QuestionTagRelation questionTagRelationEntity = new QuestionTagRelation();
                 questionTagRelationEntity.setQuestionNo(rs.getString("questionNo"));
                 questionTagRelationEntity.setTagNo(rs.getString("tagNo"));
                 
-                treeSet.add(questionTagRelationEntity);
+                hashSet.add(questionTagRelationEntity);
             }
-            return treeSet;
+            return hashSet;
             
         } catch (SQLException e) {
             System.err.println(e);
             return null;
+        }
+    }
+    
+    /**
+     * Returns all the rows from the database's QuestionTagRelation table 
+     * with a specific questionNo in the form of a HashSet containing 
+     * QuestionTagRelation entities.   
+     * 
+     * @param questionNo is part of the primary key of the QuestionTagRelation table
+     * @return a HashSet with all the matching rows in the QuestionTagRelation 
+     * table from the easyTeach database. The rows are converted into 
+     * QuestionTagRelation entities.
+     * @see QuestionTagRelation
+     */
+    public static HashSet<QuestionTagRelation> getQuestionTagRelationRowsWithQuestionNo(String questionNo) {
+        String sql = "{call selectQuestionTagRelationRowsWithQuestionNo(?)}";
+        ResultSet rs = null;
+        
+        try (
+                PreparedStatement stmt = conn.prepareStatement(sql);
+                ) {
+            stmt.setString(1, questionNo);
+            rs = stmt.executeQuery();
+            
+            HashSet<QuestionTagRelation> hashSet = new HashSet<QuestionTagRelation>();
+            
+            while (rs.next()) {
+                QuestionTagRelation questionTagRelationEntity = new QuestionTagRelation();
+                questionTagRelationEntity.setQuestionNo(rs.getString("questionNo"));
+                questionTagRelationEntity.setTagNo(rs.getString("tagNo"));
+                
+                hashSet.add(questionTagRelationEntity);
+            }
+                
+            return hashSet;
+            
+        } catch (SQLException e) {
+            System.err.println(e);
+            return null;
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+            }
+            catch (SQLException e) {
+                System.err.println(e);                
+            }
+        }
+    }
+    
+    /**
+     * Returns all the rows from the database's QuestionTagRelation table 
+     * with a specific tagNo in the form of a HashSet containing 
+     * QuestionTagRelation entities.   
+     * 
+     * @param tagNo is part of the primary key of the QuestionTagRelation table
+     * @return a HashSet with all the matching rows in the QuestionTagRelation 
+     * table from the easyTeach database. The rows are converted into 
+     * QuestionTagRelation entities.
+     * @see QuestionTagRelation
+     */
+    public static HashSet<QuestionTagRelation> getQuestionTagRelationRowsWithTagNo(String tagNo) {
+        String sql = "{call selectQuestionTagRelationRowsWithTagNo(?)}";
+        ResultSet rs = null;
+        
+        try (
+                PreparedStatement stmt = conn.prepareStatement(sql);
+                ) {
+            stmt.setString(1, tagNo);
+            rs = stmt.executeQuery();
+            
+            HashSet<QuestionTagRelation> hashSet = new HashSet<QuestionTagRelation>();
+            
+            while (rs.next()) {
+                QuestionTagRelation questionTagRelationEntity = new QuestionTagRelation();
+                questionTagRelationEntity.setQuestionNo(rs.getString("questionNo"));
+                questionTagRelationEntity.setTagNo(rs.getString("tagNo"));
+                
+                hashSet.add(questionTagRelationEntity);
+            }
+                
+            return hashSet;
+            
+        } catch (SQLException e) {
+            System.err.println(e);
+            return null;
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+            }
+            catch (SQLException e) {
+                System.err.println(e);                
+            }
         }
     }
     

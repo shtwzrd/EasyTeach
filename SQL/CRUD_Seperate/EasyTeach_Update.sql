@@ -25,7 +25,7 @@ DROP PROCEDURE IF EXISTS updateUserRow;
 DROP PROCEDURE IF EXISTS updateQuestionRow;
 
 -- Tag Table Update Procedure
-DROP PROCEDURE IF EXISTS updateTag;
+DROP PROCEDURE IF EXISTS updateTagRow;
 
 -- Answer Table Update Procedures
 DROP PROCEDURE IF EXISTS updateAnswerRow;
@@ -37,7 +37,7 @@ DROP PROCEDURE IF EXISTS updateExerciseParameterRow;
 DROP PROCEDURE IF EXISTS updateExerciseRow;
 
 -- UserQuestionState Table Update Procedure
-DROP PROCEDURE IF EXISTS updateHasCompleted;
+DROP PROCEDURE IF EXISTS updateUserQuestionStateHasCompleted;
 
 
 /* A concatenated procedure for updating the whole row in the Class table */
@@ -120,7 +120,7 @@ DELIMITER ;
 
 /* Procedure for updating the tag in a row in the Tag table */
 DELIMITER //
-CREATE PROCEDURE updateTag (
+CREATE PROCEDURE updateTagRow (
 	IN tagNo	INTEGER(6),
 	INOUT tag 	VARCHAR(50))
 BEGIN
@@ -185,7 +185,7 @@ DELIMITER ;
 
 /* Procedure for updating the hasCompleted in a row in the UserQuestionState table */
 DELIMITER //
-CREATE PROCEDURE updateHasCompleted (
+CREATE PROCEDURE updateUserQuestionStateHasCompleted (
 	IN userNo		INTEGER(6),
 	IN questionNo	INTEGER(6),
 	IN hasCompleted BOOLEAN)

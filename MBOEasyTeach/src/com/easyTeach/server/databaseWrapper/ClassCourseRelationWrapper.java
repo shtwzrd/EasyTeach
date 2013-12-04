@@ -5,7 +5,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.TreeSet;
+import java.util.HashSet;
 
 import com.easyTeach.common.entity.ClassCourseRelation;
 import com.easyTeach.server.databaseConnector.ConnectionManager;
@@ -96,14 +96,14 @@ public class ClassCourseRelationWrapper {
     
     /**
      * Returns all the rows from the database's ClassCourseRelation table in 
-     * the form of a TreeSet containing ClassCourseRelation entities.   
+     * the form of a HashSet containing ClassCourseRelation entities.   
      * 
-     * @return a TreeSet with all the rows in the ClassCourseRelation table 
+     * @return a HashSet with all the rows in the ClassCourseRelation table 
      * from the easyTeach database. The rows are converted into 
      * ClassCourseRelation entities.
      * @see ClassCourseRelation
      */
-    public static TreeSet<ClassCourseRelation> getClassCourseRelationRows() {
+    public static HashSet<ClassCourseRelation> getClassCourseRelationRows() {
         String sql = "{call selectClassCourseRelationRows()}";
 
         try (
@@ -111,20 +111,118 @@ public class ClassCourseRelationWrapper {
                 ResultSet rs = stmt.executeQuery();
                 ){
 
-            TreeSet<ClassCourseRelation> treeSet = new TreeSet<ClassCourseRelation>();
+            HashSet<ClassCourseRelation> hashSet = new HashSet<ClassCourseRelation>();
             
-            if (rs.next()) {
+            while (rs.next()) {
                 ClassCourseRelation classCourseRelationEntity = new ClassCourseRelation();
                 classCourseRelationEntity.setClassNo(rs.getString("classNo"));
                 classCourseRelationEntity.setCourseNo(rs.getString("courseNo"));
                 
-                treeSet.add(classCourseRelationEntity);
+                hashSet.add(classCourseRelationEntity);
             }
-            return treeSet;
+            return hashSet;
             
         } catch (SQLException e) {
             System.err.println(e);
             return null;
+        }
+    }
+    
+    /**
+     * Returns all the rows from the database's ClassCourseRelation table 
+     * with a specific classNo in the form of a HashSet containing 
+     * ClassCourseRelation entities.   
+     * 
+     * @param classNo is part of the primary key of the ClassCourseRelation 
+     * table
+     * @return a HashSet with all the matching rows in the ClassCourseRelation 
+     * table from the easyTeach database. The rows are converted into 
+     * ClassCourseRelation entities.
+     * @see ClassCourseRelation
+     */
+    public static HashSet<ClassCourseRelation> getClassCourseRelationRowsWithClassNo(String classNo) {
+        String sql = "{call selectClassCourseRelationRowsWithClassNo(?)}";
+        ResultSet rs = null;
+        
+        try (
+                PreparedStatement stmt = conn.prepareStatement(sql);
+                ) {
+            stmt.setString(1, classNo);
+            rs = stmt.executeQuery();
+            
+            HashSet<ClassCourseRelation> hashSet = new HashSet<ClassCourseRelation>();
+            
+            while (rs.next()) {
+                ClassCourseRelation classCourseRelationEntity = new ClassCourseRelation();
+                classCourseRelationEntity.setClassNo(rs.getString("classNo"));
+                classCourseRelationEntity.setCourseNo(rs.getString("courseNo"));
+                
+                hashSet.add(classCourseRelationEntity);
+            }
+                
+            return hashSet;
+            
+        } catch (SQLException e) {
+            System.err.println(e);
+            return null;
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+            }
+            catch (SQLException e) {
+                System.err.println(e);                
+            }
+        }
+    }
+    
+    /**
+     * Returns all the rows from the database's ClassCourseRelation table 
+     * with a specific courseNo in the form of a HashSet containing 
+     * ClassCourseRelation entities.   
+     * 
+     * @param courseNo is part of the primary key of the ClassCourseRelation 
+     * table
+     * @return a HashSet with all the matching rows in the ClassCourseRelation 
+     * table from the easyTeach database. The rows are converted into 
+     * ClassCourseRelation entities.
+     * @see ClassCourseRelation
+     */
+    public static HashSet<ClassCourseRelation> getClassCourseRelationRowsWithCourseNo(String courseNo) {
+        String sql = "{call selectClassCourseRelationRowsWithCourseNo(?)}";
+        ResultSet rs = null;
+        
+        try (
+                PreparedStatement stmt = conn.prepareStatement(sql);
+                ) {
+            stmt.setString(1, courseNo);
+            rs = stmt.executeQuery();
+            
+            HashSet<ClassCourseRelation> hashSet = new HashSet<ClassCourseRelation>();
+            
+            while (rs.next()) {
+                ClassCourseRelation classCourseRelationEntity = new ClassCourseRelation();
+                classCourseRelationEntity.setClassNo(rs.getString("classNo"));
+                classCourseRelationEntity.setCourseNo(rs.getString("courseNo"));
+                
+                hashSet.add(classCourseRelationEntity);
+            }
+                
+            return hashSet;
+            
+        } catch (SQLException e) {
+            System.err.println(e);
+            return null;
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+            }
+            catch (SQLException e) {
+                System.err.println(e);                
+            }
         }
     }
     

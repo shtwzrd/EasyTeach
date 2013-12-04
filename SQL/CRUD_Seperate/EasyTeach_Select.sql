@@ -28,12 +28,15 @@ DROP PROCEDURE IF EXISTS selectQuestionRowWithQuestionNo;
 DROP PROCEDURE IF EXISTS selectTagRows;
 DROP PROCEDURE IF EXISTS selectTagRowWithTagNo;
 
-DROP PROCEDURE IF EXISTS selectAnswerRowWithQuestionNo;
+DROP PROCEDURE IF EXISTS selectAnswerRows;
+DROP PROCEDURE IF EXISTS selectAnswerRowsWithQuestionNo;
 
+DROP PROCEDURE IF EXISTS selectExerciseParameterRows;
 DROP PROCEDURE IF EXISTS selectExerciseParameterRowWithExerciseParameterNo;
 
+DROP PROCEDURE IF EXISTS selectExerciseRows;
 DROP PROCEDURE IF EXISTS selectExerciseRowWithExerciseNo;
-DROP PROCEDURE IF EXISTS selectExerciseRowWithCourseNo;
+DROP PROCEDURE IF EXISTS selectExerciseRowsWithCourseNo;
 
 DROP PROCEDURE IF EXISTS selectClassCourseRelationRows;
 DROP PROCEDURE IF EXISTS selectClassCourseRelationRowsWithClassNo;
@@ -161,14 +164,32 @@ BEGIN
 END //
 DELIMITER ;
 
-/* Returns the answer for the specific questionNo */
+/* Returns all answers */
 DELIMITER //
-CREATE PROCEDURE selectAnswerRowWithQuestionNo (
+CREATE PROCEDURE selectAnswerRows()
+BEGIN
+	SELECT a.*
+		FROM Answer a;
+END //
+DELIMITER ;
+
+/* Returns the answers for the specific questionNo */
+DELIMITER //
+CREATE PROCEDURE selectAnswerRowsWithQuestionNo (
 	IN pQuestionNo			INTEGER(6))
 BEGIN
 	SELECT a.*
 		FROM Answer a
 		WHERE a.questionNo = pQuestionNo;
+END //
+DELIMITER ;
+
+/*  Returns all of the exercise parameters */
+DELIMITER //
+CREATE PROCEDURE selectExerciseParameterRows ()
+BEGIN
+	SELECT eP.*
+		FROM ExerciseParameter eP;
 END //
 DELIMITER ;
 
@@ -183,6 +204,15 @@ BEGIN
 END //
 DELIMITER ;
 
+/* Returns all the exercises */
+DELIMITER //
+CREATE PROCEDURE selectExerciseRows ()
+BEGIN
+	SELECT e.*
+		FROM Exercise e;
+END //
+DELIMITER ;
+
 /* Returns the exercise with the specific exerciseNo */
 DELIMITER //
 CREATE PROCEDURE selectExerciseRowWithExerciseNo (
@@ -194,9 +224,9 @@ BEGIN
 END //
 DELIMITER ;
 
-/* Returns the exercise for the specific courseNo */
+/* Returns the exercises for the specific courseNo */
 DELIMITER //
-CREATE PROCEDURE selectExerciseRowWithCourseNo (
+CREATE PROCEDURE selectExerciseRowsWithCourseNo (
 	IN pCourseNo			INTEGER(6))
 BEGIN
 	SELECT e.*

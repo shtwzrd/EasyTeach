@@ -19,7 +19,7 @@ DROP PROCEDURE IF EXISTS deleteAnswerRow;
 DROP PROCEDURE IF EXISTS deleteExerciseParameterRow;
 DROP PROCEDURE IF EXISTS deleteExerciseRow;
 DROP PROCEDURE IF EXISTS deleteClassCourseRelationRow;
-DROP PROCEDURE IF EXISTS deleteUserTestResultsRow;
+DROP PROCEDURE IF EXISTS deleteUserTestResultRow;
 DROP PROCEDURE IF EXISTS deleteClassUserRelationRow;
 DROP PROCEDURE IF EXISTS deleteUserQuestionStateRow;
 DROP PROCEDURE IF EXISTS deleteQuestionTagRelationRow;
@@ -136,12 +136,12 @@ DELIMITER ;
 
 /* Procedure for deleting a row from the UserTestResults table */
 DELIMITER //
-CREATE PROCEDURE deleteUserTestResultsRow (
+CREATE PROCEDURE deleteUserTestResultRow (
 	IN pUserNo 		INTEGER(6), 
 	IN pExerciseNo	INTEGER(6))
 BEGIN 
 	START TRANSACTION;
-	DELETE FROM UserTestResults
+	DELETE FROM UserTestResult
 		WHERE userNo = pUserNo AND exerciseNo = pExerciseNo;
 	COMMIT;
 END //

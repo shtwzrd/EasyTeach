@@ -103,7 +103,7 @@ CREATE PROCEDURE insertIntoAnswer (
 BEGIN
 	START TRANSACTION;
 		INSERT INTO Answer 
-			VALUES (quetionNo, answerNo, answer, isCorrect);
+			VALUES (questionNo, answerNo, answer, isCorrect);
 	COMMIT;
 END //
 DELIMITER ;	

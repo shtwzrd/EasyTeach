@@ -5,7 +5,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.TreeSet;
+import java.util.HashSet;
 
 import com.easyTeach.common.entity.Tag;
 import com.easyTeach.server.databaseConnector.ConnectionManager;
@@ -121,13 +121,13 @@ public class TagWrapper {
     
     /**
      * Returns all the rows from the database's Tag table in the form of a 
-     * TreeSet containing Tag entities.   
+     * HashSet containing Tag entities.   
      * 
-     * @return a TreeSet with all the rows in the Tag table from the
+     * @return a HashSet with all the rows in the Tag table from the
      * easyTeach database. The rows are converted into Tag entities.
      * @see Tag
      */
-    public static TreeSet<Tag> getTagRows() {
+    public static HashSet<Tag> getTagRows() {
         String sql = "{call selectTagRows()}";
 
         try (
@@ -135,20 +135,59 @@ public class TagWrapper {
                 ResultSet rs = stmt.executeQuery();
                 ){
 
-            TreeSet<Tag> treeSet = new TreeSet<Tag>();
+            HashSet<Tag> hashSet = new HashSet<Tag>();
             
-            if (rs.next()) {
+            while (rs.next()) {
                 Tag tagEntity = new Tag();
                 tagEntity.setTagNo(rs.getString("tagNo"));
                 tagEntity.setTag(rs.getString("tag"));
                 
-                treeSet.add(tagEntity);
+                hashSet.add(tagEntity);
             }
-            return treeSet;
+            return hashSet;
             
         } catch (SQLException e) {
             System.err.println(e);
             return null;
+        }
+    }
+    
+    /**
+     * Returns a row from the database's Tag table with a specific tagNo.
+     * 
+     * @param tagNo is the primary key of the Tag table.
+     * @return An instance of Tag
+     * @see Tag
+     */
+    public static Tag getTagRowWithTagNo(String tagNo) {
+        String sql = "{call selectTagRowWithTagNo(?)}";
+        ResultSet rs = null;
+        
+        try (
+                PreparedStatement stmt = conn.prepareStatement(sql);
+                ) {
+            stmt.setString(1, tagNo);
+            rs = stmt.executeQuery();
+            rs.next();
+            
+            Tag tagEntity = new Tag();
+            tagEntity.setTagNo(rs.getString("tagNo"));
+            tagEntity.setTag(rs.getString("tag"));
+            
+            return tagEntity;
+            
+        } catch (SQLException e) {
+            System.err.println(e);
+            return null;
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+            }
+            catch (SQLException e) {
+                System.err.println(e);                
+            }
         }
     }
     

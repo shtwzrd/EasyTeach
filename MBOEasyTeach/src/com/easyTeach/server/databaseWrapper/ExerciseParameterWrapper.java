@@ -5,7 +5,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.TreeSet;
+import java.util.HashSet;
 
 import com.easyTeach.common.entity.ExerciseParameter;
 import com.easyTeach.server.databaseConnector.ConnectionManager;
@@ -134,14 +134,14 @@ public class ExerciseParameterWrapper {
  
     /**
      * Returns all the rows from the database's ExerciseParameter table in 
-     * the form of a TreeSet containing ExerciseParameter entities.   
+     * the form of a HashSet containing ExerciseParameter entities.   
      * 
-     * @return a TreeSet with all the rows in the ExerciseParameter table from 
+     * @return a HashSet with all the rows in the ExerciseParameter table from 
      * the easyTeach database. The rows are converted into ExerciseParameter 
      * entities.
      * @see ExerciseParameter
      */
-    public static TreeSet<ExerciseParameter> getExerciseParameterRows() {
+    public static HashSet<ExerciseParameter> getExerciseParameterRows() {
         String sql = "{call selectExerciseParameterRows()}";
 
         try (
@@ -149,9 +149,9 @@ public class ExerciseParameterWrapper {
                 ResultSet rs = stmt.executeQuery();
                 ){
 
-            TreeSet<ExerciseParameter> treeSet = new TreeSet<ExerciseParameter>();
+            HashSet<ExerciseParameter> hashSet = new HashSet<ExerciseParameter>();
             
-            if (rs.next()) {
+            while (rs.next()) {
                 ExerciseParameter exerciseParameterEntity = new ExerciseParameter();
                 exerciseParameterEntity.setExerciseParameterNo(rs.getString("exerciseParameterNo"));
                 exerciseParameterEntity.setIsTest(rs.getBoolean("isTest"));
@@ -160,13 +160,57 @@ public class ExerciseParameterWrapper {
                 exerciseParameterEntity.setAccessEnd(rs.getDate("accessEnd"));
                 exerciseParameterEntity.setTimeLimit(rs.getInt("timeLimit"));
                 
-                treeSet.add(exerciseParameterEntity);
+                hashSet.add(exerciseParameterEntity);
             }
-            return treeSet;
+            return hashSet;
             
         } catch (SQLException e) {
             System.err.println(e);
             return null;
+        }
+    }
+    
+    /**
+     * Returns a row from the database's ExerciseParameter table with a specific exerciseParameterNo.
+     * 
+     * @param exerciseParameterNo is the primary key of the ExerciseParameter table.
+     * @return An instance of ExerciseParameter
+     * @see ExerciseParameter
+     */
+    public static ExerciseParameter getExerciseParameterRowWithExerciseParameterNo(
+            String exerciseParameterNo) {
+        String sql = "{call selectExerciseParameterRowWithExerciseParameterNo(?)}";
+        ResultSet rs = null;
+        
+        try (
+                PreparedStatement stmt = conn.prepareStatement(sql);
+                ) {
+            stmt.setString(1, exerciseParameterNo);
+            rs = stmt.executeQuery();
+            rs.next();
+            
+            ExerciseParameter exerciseParameterEntity = new ExerciseParameter();
+            exerciseParameterEntity.setExerciseParameterNo(rs.getString("exerciseParameterNo"));
+            exerciseParameterEntity.setIsTest(rs.getBoolean("isTest"));
+            exerciseParameterEntity.setIsLocked(rs.getBoolean("isLocked"));
+            exerciseParameterEntity.setAccessBegin(rs.getDate("accessBegin"));
+            exerciseParameterEntity.setAccessEnd(rs.getDate("accessEnd"));
+            exerciseParameterEntity.setTimeLimit(rs.getInt("timeLimit"));
+            
+            return exerciseParameterEntity;
+            
+        } catch (SQLException e) {
+            System.err.println(e);
+            return null;
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+            }
+            catch (SQLException e) {
+                System.err.println(e);                
+            }
         }
     }
     

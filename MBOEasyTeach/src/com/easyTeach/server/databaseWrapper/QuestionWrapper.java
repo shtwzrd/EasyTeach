@@ -5,10 +5,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.TreeSet;
+import java.util.HashSet;
 
 import com.easyTeach.common.entity.ClassCourseRelation;
 import com.easyTeach.common.entity.Question;
+import com.easyTeach.common.entity.Tag;
 import com.easyTeach.server.databaseConnector.ConnectionManager;
 
 /**
@@ -17,7 +18,7 @@ import com.easyTeach.server.databaseConnector.ConnectionManager;
  * ClassCourseRelation table residing in the MBO EasyTeach's database.
  * 
  * @author Morten Faarkrog
- * @version 1.0
+ * @version 1.1
  * @see ClassCourseRelation
  * @date 30. November, 2013
  */
@@ -95,14 +96,45 @@ public class QuestionWrapper {
     }
     
     /**
-     * Returns all the rows from the database's Question table in the form of a 
-     * TreeSet containing Question entities.   
+     * Deletes an existing Question row in the Question table within the 
+     * easyTeach database. The prepared statement needs the Question's 
+     * questionNo.
      * 
-     * @return a TreeSet with all the rows in the Question table from the
+     * @param questionNo is the primary key of the question table.
+     * @return true if the Question row is successfully deleted in the
+     * easyTeach database, otherwise false.
+     * @see Question
+     */
+    public static boolean deleteQuestionRow(String questionNo) {
+        String sql = "{call deleteQuestionRow(?)}";
+        
+        try (
+                CallableStatement stmt = conn.prepareCall(sql);
+                ) {
+            stmt.setString(1, questionNo);
+            
+            int affected = stmt.executeUpdate();
+            if (affected == 1) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        catch(SQLException e) {
+            System.err.println(e);
+            return false;
+        }
+    }
+    
+    /**
+     * Returns all the rows from the database's Question table in the form of a 
+     * HashSet containing Question entities.   
+     * 
+     * @return a HashSet with all the rows in the Question table from the
      * easyTeach database. The rows are converted into Question entities.
      * @see Question
      */
-    public static TreeSet<Question> getQuestionRows() {
+    public static HashSet<Question> getQuestionRows() {
         String sql = "{call selectQuestionRows()}";
 
         try (
@@ -110,22 +142,59 @@ public class QuestionWrapper {
                 ResultSet rs = stmt.executeQuery();
                 ){
 
-            TreeSet<Question> treeSet = new TreeSet<Question>();
+            // 
             
-            if (rs.next()) {
+            HashSet<Question> hashSet = new HashSet<Question>();
+            
+            while (rs.next()) {
                 Question questionEntity = new Question();
                 questionEntity.setQuestionNo(rs.getString("questionNo"));
                 questionEntity.setQuestionType(rs.getString("questionType"));
                 questionEntity.setQuestion(rs.getString("question"));
                 questionEntity.setPoints(rs.getInt("points"));
                 
-                treeSet.add(questionEntity);
+                hashSet.add(questionEntity);
             }
-            return treeSet;
+            return hashSet;
             
         } catch (SQLException e) {
             System.err.println(e);
             return null;
+        }
+    }
+    
+    /**
+     * Returns a row from the database's Question table with a specific 
+     * questionNo.
+     * 
+     * @param questionNo is the primary key of the Question table.
+     * @return An instance of Question
+     * @see Question
+     */
+    public static Question getQuestionRowWithQuestionNo(String questionNo) throws SQLException {
+        String sql = "{call selectQuestionRowWithQuestionNo(?)}";
+        ResultSet rs = null;
+        
+        try (
+                PreparedStatement stmt = conn.prepareStatement(sql);
+                ) {
+            stmt.setString(1, questionNo);
+            rs = stmt.executeQuery();
+            rs.next();
+            
+            Question questionEntity = new Question();
+            questionEntity.setQuestionNo(rs.getString("questionNo"));
+            questionEntity.setQuestionType(rs.getString("questionType"));
+            questionEntity.setQuestion(rs.getString("question"));
+            questionEntity.setPoints(rs.getInt("points"));
+            
+            return questionEntity;
+            
+        } catch (SQLException e) {
+            System.err.println(e);
+            return null;
+        } finally {
+            rs.close();
         }
     }
     

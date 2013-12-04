@@ -197,17 +197,3 @@ CREATE TABLE ExerciseQuestionRelation (
 ) 	ENGINE 		InnoDB;
 
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
-
-DELIMITER //
-CREATE PROCEDURE insertIntoClass(
-        IN year                 		INTEGER(4),
-        IN className                    VARCHAR(50))
-BEGIN
-        START TRANSACTION;
-        INSERT INTO Class (year, className)
-                VALUES (year, className);
-        COMMIT;
-END //
-DELIMITER ;
-
-SELECT * FROM Class;
