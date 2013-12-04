@@ -105,7 +105,7 @@ public class UserQuestionStateWrapper {
      * @see UserQuestionState
      */
     public static boolean deleteUserQuestionStateRow(String userNo, String questionNo) {
-        String sql = "{call deleteUserQuestionStateRow(?)}";
+        String sql = "{call deleteUserQuestionStateRow(?, ?)}";
         
         try (
                 CallableStatement stmt = conn.prepareCall(sql);

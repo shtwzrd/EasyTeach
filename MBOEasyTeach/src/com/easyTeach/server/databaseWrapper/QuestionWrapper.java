@@ -9,6 +9,7 @@ import java.util.HashSet;
 
 import com.easyTeach.common.entity.ClassCourseRelation;
 import com.easyTeach.common.entity.Question;
+import com.easyTeach.common.entity.Tag;
 import com.easyTeach.server.databaseConnector.ConnectionManager;
 
 /**
@@ -17,7 +18,7 @@ import com.easyTeach.server.databaseConnector.ConnectionManager;
  * ClassCourseRelation table residing in the MBO EasyTeach's database.
  * 
  * @author Morten Faarkrog
- * @version 1.0
+ * @version 1.1
  * @see ClassCourseRelation
  * @date 30. November, 2013
  */
@@ -92,6 +93,37 @@ public class QuestionWrapper {
             System.err.println(e);
             return false;
         } 
+    }
+    
+    /**
+     * Deletes an existing Question row in the Question table within the 
+     * easyTeach database. The prepared statement needs the Question's 
+     * questionNo.
+     * 
+     * @param questionNo is the primary key of the question table.
+     * @return true if the Question row is successfully deleted in the
+     * easyTeach database, otherwise false.
+     * @see Question
+     */
+    public static boolean deleteQuestionRow(String questionNo) {
+        String sql = "{call deleteQuestionRow(?)}";
+        
+        try (
+                CallableStatement stmt = conn.prepareCall(sql);
+                ) {
+            stmt.setString(1, questionNo);
+            
+            int affected = stmt.executeUpdate();
+            if (affected == 1) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        catch(SQLException e) {
+            System.err.println(e);
+            return false;
+        }
     }
     
     /**

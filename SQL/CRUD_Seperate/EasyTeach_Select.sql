@@ -28,10 +28,13 @@ DROP PROCEDURE IF EXISTS selectQuestionRowWithQuestionNo;
 DROP PROCEDURE IF EXISTS selectTagRows;
 DROP PROCEDURE IF EXISTS selectTagRowWithTagNo;
 
+DROP PROCEDURE IF EXISTS selectAnswerRows;
 DROP PROCEDURE IF EXISTS selectAnswerRowsWithQuestionNo;
 
+DROP PROCEDURE IF EXISTS selectExerciseParameterRows;
 DROP PROCEDURE IF EXISTS selectExerciseParameterRowWithExerciseParameterNo;
 
+DROP PROCEDURE IF EXISTS selectExerciseRows;
 DROP PROCEDURE IF EXISTS selectExerciseRowWithExerciseNo;
 DROP PROCEDURE IF EXISTS selectExerciseRowsWithCourseNo;
 
@@ -161,6 +164,15 @@ BEGIN
 END //
 DELIMITER ;
 
+/* Returns all answers */
+DELIMITER //
+CREATE PROCEDURE selectAnswerRows()
+BEGIN
+	SELECT a.*
+		FROM Answer a;
+END //
+DELIMITER ;
+
 /* Returns the answers for the specific questionNo */
 DELIMITER //
 CREATE PROCEDURE selectAnswerRowsWithQuestionNo (
@@ -172,6 +184,15 @@ BEGIN
 END //
 DELIMITER ;
 
+/*  Returns all of the exercise parameters */
+DELIMITER //
+CREATE PROCEDURE selectExerciseParameterRows ()
+BEGIN
+	SELECT eP.*
+		FROM ExerciseParameter eP;
+END //
+DELIMITER ;
+
 /* Returns the exercise parameter with the specific exerciseParameterNo */
 DELIMITER //
 CREATE PROCEDURE selectExerciseParameterRowWithExerciseParameterNo (
@@ -180,6 +201,15 @@ BEGIN
 	SELECT ep.*
 		FROM ExerciseParameter ep
 		WHERE ep.exerciseParameterNo = pExerciseParameterNo;
+END //
+DELIMITER ;
+
+/* Returns all the exercises */
+DELIMITER //
+CREATE PROCEDURE selectExerciseRows ()
+BEGIN
+	SELECT e.*
+		FROM Exercise e;
 END //
 DELIMITER ;
 

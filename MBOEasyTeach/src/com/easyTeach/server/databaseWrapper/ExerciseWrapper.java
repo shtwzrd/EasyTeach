@@ -74,7 +74,7 @@ public class ExerciseWrapper {
      * @see Exercise
      */
     public static boolean updateExerciseRow(Exercise exerciseEntity) {
-        String sql = "{call updateExerciseRow(?,?,?,?,?,?)}";
+        String sql = "{call updateExerciseRow(?,?,?,?,?)}";
         
         try (
                 CallableStatement stmt = conn.prepareCall(sql);
