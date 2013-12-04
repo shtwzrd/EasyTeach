@@ -49,13 +49,6 @@ public class LoginUI {
     private JButton btnHelp;    
 
     /**
-     * *** Launches the application. Move to another class.
-     */
-    public static void main(String[] args) { 
-        new LoginUI();
-    }
-
-    /**
      * Constructor for creating new instances of the Login UI.
      * The constructor calls the buildUI method which creates all the 
      * JComponents for the UI. 
@@ -80,6 +73,7 @@ public class LoginUI {
         
         // Center panel
         JPanel centerPanel = new JPanel();
+        centerPanel.setBackground(UIColors.lightBlue);
         centerPanel.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP));
         // GridBagLayout is used to position things more precisely. 
         GridBagLayout gbl_centerPanel = new GridBagLayout();
@@ -121,6 +115,7 @@ public class LoginUI {
         
         // Button panel - South border
         JPanel btnPanel = new JPanel();
+        btnPanel.setBackground(UIColors.darkBlue);
         btnPanel.setBorder(new EtchedBorder(EtchedBorder.LOWERED));
         contentPane.add(btnPanel, BorderLayout.SOUTH);
         
