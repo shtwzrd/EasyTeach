@@ -171,7 +171,7 @@ public class QuestionWrapper {
      * @return An instance of Question
      * @see Question
      */
-    public static Question getQuestionRowWithQuestionNo(String questionNo) throws SQLException {
+    public static Question getQuestionRowWithQuestionNo(String questionNo) {
         String sql = "{call selectQuestionRowWithQuestionNo(?)}";
         ResultSet rs = null;
         
@@ -194,7 +194,14 @@ public class QuestionWrapper {
             System.err.println(e);
             return null;
         } finally {
-            rs.close();
+        	 try {
+                 if (rs != null) {
+                     rs.close();
+                 }
+             }
+             catch (SQLException e) {
+                 System.err.println(e);                
+             }
         }
     }
     

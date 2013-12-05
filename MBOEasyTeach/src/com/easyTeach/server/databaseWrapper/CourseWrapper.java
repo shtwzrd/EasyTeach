@@ -158,7 +158,7 @@ public class CourseWrapper {
      * @return An instance of Course
      * @see Course
      */
-    public static Course getCourseRowWithCourseNo(String courseNo) throws SQLException {
+    public static Course getCourseRowWithCourseNo(String courseNo) {
         String sql = "{call selectCourseRowWithCourseNo(?)}";
         ResultSet rs = null;
         
@@ -179,7 +179,14 @@ public class CourseWrapper {
             System.err.println(e);
             return null;
         } finally {
-            rs.close();
+        	try {
+                if (rs != null) {
+                    rs.close();
+                }
+            }
+            catch (SQLException e) {
+                System.err.println(e);                
+            }
         }
     }
     
