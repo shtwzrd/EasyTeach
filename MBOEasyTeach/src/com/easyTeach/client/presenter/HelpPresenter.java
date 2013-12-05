@@ -20,18 +20,35 @@ import javax.swing.ImageIcon;
 public class HelpPresenter {
     
     // General Help
-    public Icon getHelpIcon() {
+    public static Icon getHelpIcon() {
         return new ImageIcon("images/helpIcon.png");
     }
     
-    // Login UI Help
-    public String getLoginTitle() {
+    // LoginUI Help
+    public static String getLoginTitle() {
         return "EasyTeach - Login Help";
     }
     
-    public String getLoginHelp() {
-        return "I will be a very descriptive help message when \n"
-                + "I grow up! I simply cannot wait!";
+    public static String getLoginHelp() {
+        return "Add info here!";
+    }
+    
+    // AddExerciseUI Help
+    public static String getAddExerciseTitle() {
+        return "EasyTeach - Add Exercise Help";
+    }
+    
+    public static String getAddExerciseHelp() {
+        return "Add info here!";
+    }
+    
+    // ManageUserUI Help
+    public static String getManageUserTitle() {
+        return "EasyTeach - Manage User Help";
+    }
+    
+    public static String getManageUserHelp() {
+        return "Add info here!";
     }
     
 }

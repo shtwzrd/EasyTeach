@@ -12,6 +12,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -21,6 +22,8 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
+
+import com.easyTeach.client.presenter.HelpPresenter;
 
 /**
  * The AddExerciseUI class constructs a JPanel with all the different 
@@ -39,7 +42,7 @@ public class AddExerciseUI {
     private JPanel infoPanel;
     private JTable table;
     private JLabel lblExerciseTitle;
-    private String[] questionTypes = {"Multiple Choice", "True/False", "Missing Word"};
+    private final String[] QUESTION_TYPES = {"Multiple Choice", "True/False", "Missing Word"};
     private JTextArea questionArea;
     private JComboBox questionTypeBox;
     private JComboBox comboBox;
@@ -85,14 +88,13 @@ public class AddExerciseUI {
      * The method responsible for building the addExercisePanel. The panel
      * consists of all the JComponenets needed to constructor new Exercises.
      */
-    public void buildPanel() {
+    private void buildPanel() {
         addExercisePanel = new JPanel();
         addExercisePanel.setLayout(new BorderLayout());
         
         buildNorthPanel();
         buildCenterPanel();
-        buildSouthPanel();
-        
+        buildSouthPanel();   
     }
     
     /**
@@ -145,7 +147,7 @@ public class AddExerciseUI {
         
         // JComboBox with the various question types one can pick
         questionTypeBox = new JComboBox();
-        questionTypeBox.setModel(new DefaultComboBoxModel(questionTypes));
+        questionTypeBox.setModel(new DefaultComboBoxModel(QUESTION_TYPES));
         questionTypePanel.add(questionTypeBox);
         
         infoPanel.add(questionTypePanel, BorderLayout.NORTH);
@@ -291,7 +293,7 @@ public class AddExerciseUI {
         questionTextPanel.setLayout(new BorderLayout());
         
         questionArea = new JTextArea();
-        questionTextPanel.add(questionArea);
+        questionTextPanel.add(new JScrollPane(questionArea));
         questionArea.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
         questionArea.setWrapStyleWord(true);
         questionArea.setLineWrap(true);
@@ -350,7 +352,7 @@ public class AddExerciseUI {
                 TitledBorder.CENTER, TitledBorder.TOP));
         questionButtonPanel.setBackground(UIColors.lightBrown);
         questionPanel.add(questionButtonPanel, BorderLayout.SOUTH);
-        questionButtonPanel.setLayout(new GridLayout(0, 3, 0, 0));
+        questionButtonPanel.setLayout(new GridLayout(1, 3));
         
         btnResetQuestion = new JButton("Reset Question");
         questionButtonPanel.add(btnResetQuestion);
@@ -385,6 +387,8 @@ public class AddExerciseUI {
         btnFindExistingTag.addActionListener(listener);
     }
     
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
+    
     /**
      * The AddExercuseUIListener class is the class in charge of listening
      * for events happening in the AddExerciseUI (e.g. an user clicking the 
@@ -394,6 +398,7 @@ public class AddExerciseUI {
      * 
      * @author Morten Faarkrog
      * @version 0.1
+     * @see ActionListener
      * @date 4. December, 2013
      */
     private class AddExerciseUIListener implements ActionListener {
@@ -401,10 +406,6 @@ public class AddExerciseUI {
         @Override
         public void actionPerformed(ActionEvent e) {
             if (e.getSource() == btnSubmit) {
-                
-            }
-            
-            else if (e.getSource() == btnHelp) {
                 
             }
             
@@ -458,6 +459,12 @@ public class AddExerciseUI {
 
             else if (e.getSource() == btnNextQuestion) {
                 
+            }
+            
+            else if (e.getSource() == btnHelp) {
+                JOptionPane.showMessageDialog(null, HelpPresenter.getAddExerciseHelp(), 
+                        HelpPresenter.getAddExerciseTitle(), JOptionPane.PLAIN_MESSAGE, 
+                        HelpPresenter.getHelpIcon());
             }
         }
         

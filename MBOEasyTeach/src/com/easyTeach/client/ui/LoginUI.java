@@ -34,14 +34,13 @@ import com.easyTeach.client.presenter.LoginPresenter;
  * </p>
  * 
  * @author Morten Faarkrog
- * @version 1.0
- * @date 28. November, 2013
+ * @version 1.1
+ * @date 4. December, 2013
  */
 
 public class LoginUI {
 
     private LoginPresenter loginPresenter;
-    private HelpPresenter helpPresenter;
     private JFrame frame;
     private JTextField txtUsername;
     private JPasswordField txtPassword;
@@ -55,7 +54,6 @@ public class LoginUI {
      */
     public LoginUI() {
         loginPresenter = new LoginPresenter();
-        helpPresenter = new HelpPresenter();
         buildUI();
     }
     
@@ -126,16 +124,24 @@ public class LoginUI {
         btnPanel.add(btnHelp);
         
         // Button listeners
-        LoginUIListener listener = new LoginUIListener();
-        btnLogin.addActionListener(listener);
-        btnHelp.addActionListener(listener);
-        txtUsername.addActionListener(listener);
-        txtPassword.addActionListener(listener);
+        addActionListeners();
         
         frame.setResizable(false);
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
+    }
+
+    /**
+     * Method in charge of adding an ActionListener to the various
+     * buttons and fields in the LoginUI.
+     */
+    private void addActionListeners() {
+        LoginUIListener listener = new LoginUIListener();
+        btnLogin.addActionListener(listener);
+        btnHelp.addActionListener(listener);
+        txtUsername.addActionListener(listener);
+        txtPassword.addActionListener(listener);
     }
     
     /**
@@ -189,9 +195,9 @@ public class LoginUI {
             }
             
             else if (e.getSource() == btnHelp) {
-                JOptionPane.showMessageDialog(null, helpPresenter.getLoginHelp(), 
-                        helpPresenter.getLoginTitle(), JOptionPane.PLAIN_MESSAGE, 
-                        helpPresenter.getHelpIcon());
+                JOptionPane.showMessageDialog(null, HelpPresenter.getLoginHelp(), 
+                        HelpPresenter.getLoginTitle(), JOptionPane.PLAIN_MESSAGE, 
+                        HelpPresenter.getHelpIcon());
             }
         }
         

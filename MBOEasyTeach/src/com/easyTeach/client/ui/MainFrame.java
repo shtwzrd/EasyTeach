@@ -1,13 +1,17 @@
 package com.easyTeach.client.ui;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+
+import com.easyTeach.client.presenter.HelpPresenter;
 
 /**
  * <p>
@@ -24,14 +28,17 @@ import javax.swing.JPanel;
  * </p>
  * 
  * @author Morten Faarkrog
- * @version 1.0
- * @date 30. November, 2013
+ * @version 1.2
+ * @date 4. December, 2013
  */
 
 public class MainFrame {
 
     private static JFrame frame;
     private static JPanel contentPanel;
+    private JMenuItem mntmLogOut;
+    private JMenuItem mntmQuit;
+    private JMenuItem mntmHome;
     
     /**
      * Constructor for creating a new instance of the MainFrame.
@@ -40,6 +47,7 @@ public class MainFrame {
      */
     public MainFrame() {
         buildFrame();
+        addActionListeners();
     }
     
     /**
@@ -47,14 +55,27 @@ public class MainFrame {
      * for the main frame of the MBO EasyTeach application. The frame also has
      * a menu bar that is common among all UIs.
      */
-    public void buildFrame() {
+    private void buildFrame() {
         frame = new JFrame("MBO EasyTeach");
         frame.setLayout(new BorderLayout());
         frame.setSize(800, 800);
         contentPanel = new JPanel();
         contentPanel.setLayout(new BorderLayout());
         
-        // Menu Bar
+        buildMenuBar();
+        
+        frame.add(contentPanel, BorderLayout.CENTER);
+        frame.setLocationRelativeTo(null);
+        frame.setResizable(false);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
+    }
+
+    /**
+     * Method for creating the Menu bar for the easyTeach application.
+     * The Menu bar will be used to log out, exit and navigate.
+     */
+    private void buildMenuBar() {
         JMenuBar menuBar = new JMenuBar();
         menuBar.setBackground(UIColors.darkBlue);
         frame.setJMenuBar(menuBar);
@@ -63,24 +84,30 @@ public class MainFrame {
         mnFile.setBackground(UIColors.darkBlue);
         menuBar.add(mnFile);
         
-        JMenuItem mntmLogOut = new JMenuItem("Log out");
+        mntmLogOut = new JMenuItem("Log out");
         mnFile.add(mntmLogOut);
         
-        JMenuItem mntmQuit = new JMenuItem("Quit");
+        mntmQuit = new JMenuItem("Quit");
         mnFile.add(mntmQuit);
         
         JMenu mnNavigation = new JMenu("Navigation");
         mnNavigation.setBackground(UIColors.darkBlue);
         menuBar.add(mnNavigation);
         
-        JMenuItem mntmHome = new JMenuItem("Home");
+        mntmHome = new JMenuItem("Home");
         mnNavigation.add(mntmHome);
-        
-        frame.add(contentPanel, BorderLayout.CENTER);
-        frame.setLocationRelativeTo(null);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setVisible(true);
-    }   
+    }
+    
+    /**
+     * Method for adding an ActionListener of type MainFrameListener
+     * to the various JMenuItems.
+     */
+    private void addActionListeners() {
+        MainFrameListener listener = new MainFrameListener();
+        mntmHome.addActionListener(listener);
+        mntmLogOut.addActionListener(listener);
+        mntmQuit.addActionListener(listener);
+    }
     
     /**
      * updateContentPanel is the method in charge of updating the contentPanel.
@@ -96,6 +123,43 @@ public class MainFrame {
         contentPanel.add(panel);
         frame.setTitle(title);
         frame.revalidate();
+    }
+    
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - // 
+    
+    /**
+     * <p>
+     * The inner private MainFrameListener class is in charge of listening
+     * for events happening in the MainFrame (e.g. an user clicking the quit
+     * MenuItem in the Menu). 
+     * </p>
+     * 
+     * @author Morten Faarkrog
+     * @version 1.0
+     * @see ActionListener
+     * @date 4. December, 2013
+     */
+    private class MainFrameListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (e.getSource() == mntmHome) {
+                // Go to home UI
+            }
+            
+            else if (e.getSource() == mntmLogOut) {
+                // Log out
+            }
+            
+            else if (e.getSource() == mntmQuit) {
+                int reply = JOptionPane.showConfirmDialog(null, 
+                        "Are you sure you want to exit the \"MBO EasyTeach\" application?", 
+                        "Exit Message", JOptionPane.YES_NO_OPTION);
+                if (reply == JOptionPane.YES_OPTION) {
+                    System.exit(1);
+                }
+            }
+        }   
     }
     
 }
