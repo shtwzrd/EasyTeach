@@ -2,12 +2,16 @@ package com.easyTeach.test;
 
 import java.util.HashSet;
 
+import javax.swing.UIManager;
+
 import com.easyTeach.common.entity.Class;
 import com.easyTeach.common.entity.Course;
 import com.easyTeach.common.entity.Exercise;
+import com.easyTeach.common.entity.ExerciseParameter;
 import com.easyTeach.common.entity.User;
 import com.easyTeach.server.databaseWrapper.ClassWrapper;
 import com.easyTeach.server.databaseWrapper.CourseWrapper;
+import com.easyTeach.server.databaseWrapper.ExerciseParameterWrapper;
 import com.easyTeach.server.databaseWrapper.ExerciseWrapper;
 import com.easyTeach.server.databaseWrapper.UserWrapper;
 
@@ -33,7 +37,8 @@ public class WrapperTest {
 		//testUserWrapper();
 		//testClassWrapper();
 		//testCourseWrapper();
-		testExerciseWrapper();
+		//testExerciseWrapper();
+		testExerciseParameterWrapper();
 	}
 	
 	/**
@@ -192,6 +197,41 @@ public class WrapperTest {
 		
 	}
 	
+	public void testExerciseParameterWrapper() {
+		// Testing the C in CRUD - The Create (Insert) Statements.
+		ExerciseParameter exParam1 = new ExerciseParameter();
+		exParam1.setIsTest(true);
+		exParam1.setIsLocked(true);
+		exParam1.setAccessBegin(getBeginDate());
+		exParam1.setAccessEnd(getEndDate());
+		exParam1.setTimeLimit(20);
+		
+		ExerciseParameter exParam2 = new ExerciseParameter();
+		exParam2.setIsTest(false);
+		exParam2.setIsLocked(false);
+		
+		new ExerciseParameterWrapper();
+		ExerciseParameterWrapper.insertIntoExerciseParameter(exParam1);
+		ExerciseParameterWrapper.insertIntoExerciseParameter(exParam2);
+	}
 	
+	private static java.sql.Timestamp getBeginDate() {
+<<<<<<< HEAD
+		java.util.Date test = new java.util.Date(2013 - 1900, 12 - 1, 20, 15, 20, 0);
+		return new java.sql.Timestamp(test.getTime());
+	}
+		
+	private static java.sql.Timestamp getEndDate() {
+		java.util.Date test = new java.util.Date(2013 - 1900, 12 - 1, 22, 15, 20, 0);
+		return new java.sql.Timestamp(test.getTime());
+	}
+=======
+		return new java.sql.Timestamp(System.currentTimeMillis());
+	}
+		
+	private static java.sql.Timestamp getEndDate() {
+		return new java.sql.Timestamp(2014-12-01);
+	}
 
+>>>>>>> 8da054d76d06ea25906044d2c1cf6aa4b11e415e
 }

@@ -29,8 +29,8 @@ public class ExerciseParameter {
     private String exerciseParameterNo; // INTEGER in DB
     private boolean isTest;
     private boolean isLocked;
-    private java.sql.Date accessBegin;
-    private java.sql.Date accessEnd;
+    private java.sql.Timestamp accessBegin;
+    private java.sql.Timestamp accessEnd;
     private int timeLimit;
     
     public String getExerciseParameterNo() {
@@ -57,19 +57,19 @@ public class ExerciseParameter {
         this.isLocked = isLocked;
     }
     
-    public java.sql.Date getAccessBegin() {
+    public java.sql.Timestamp getAccessBegin() {
         return accessBegin;
     }
     
-    public void setAccessBegin(java.sql.Date accessBegin) {
+    public void setAccessBegin(java.sql.Timestamp accessBegin) {
         this.accessBegin = accessBegin;
     }
     
-    public java.sql.Date getAccessEnd() {
+    public java.sql.Timestamp getAccessEnd() {
         return accessEnd;
     }
     
-    public void setAccessEnd(java.sql.Date accessEnd) {
+    public void setAccessEnd(java.sql.Timestamp accessEnd) {
         this.accessEnd = accessEnd;
     }
     
