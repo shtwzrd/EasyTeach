@@ -51,4 +51,13 @@ public class HelpPresenter {
         return "Add info here!";
     }
     
+    // UserManagerUI Help
+    public static String getUserManagerTitle() {
+        return "EasyTeach - User Manager Help";
+    }
+    
+    public static String getUserManagerHelp() {
+        return "Add info here!";
+    }
+    
 }

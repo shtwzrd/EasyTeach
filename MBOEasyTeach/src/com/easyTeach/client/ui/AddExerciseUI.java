@@ -229,7 +229,7 @@ public class AddExerciseUI {
         
         lblExerciseTitle = new JLabel("Exercise - Name Goes Here - Question #1");
         lblExerciseTitle.setForeground(UIColors.white);
-        lblExerciseTitle.setFont(new Font("Lucida Grande", Font.BOLD, 20));
+        lblExerciseTitle.setFont(new Font("Lucida Grande", Font.BOLD, 24));
         northPanel.add(lblExerciseTitle);
     }
     

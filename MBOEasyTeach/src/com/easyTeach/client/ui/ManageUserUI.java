@@ -89,7 +89,7 @@ public class ManageUserUI {
         
         JLabel lblManageUserTitle = new JLabel("Manage User");
         lblManageUserTitle.setForeground(UIColors.white);
-        lblManageUserTitle.setFont(new Font("Lucida Grande", Font.BOLD, 20));
+        lblManageUserTitle.setFont(new Font("Lucida Grande", Font.BOLD, 24));
         northPanel.add(lblManageUserTitle);
 
         manageUserPanel.add(northPanel, BorderLayout.NORTH);
@@ -287,8 +287,7 @@ public class ManageUserUI {
                         HelpPresenter.getManageUserTitle(), JOptionPane.PLAIN_MESSAGE, 
                         HelpPresenter.getHelpIcon());
             }
-        }
-        
+        } 
     }
     
 }

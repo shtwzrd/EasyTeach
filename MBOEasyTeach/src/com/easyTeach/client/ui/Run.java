@@ -18,7 +18,8 @@ public class Run {
         new LoginUI();
         new MainFrame();
 //        MainFrame.updateFrame(new AddExerciseUI().getAddExerciseUI(), "Title");
-        MainFrame.updateFrame(new ManageUserUI().getManagerUserUI(), "Title");
+//        MainFrame.updateFrame(new ManageUserUI().getManagerUserUI(), "Title");
+        MainFrame.updateFrame(new UserManagerUI().getUserManagerUI(), "Title");
     }
 
 }
