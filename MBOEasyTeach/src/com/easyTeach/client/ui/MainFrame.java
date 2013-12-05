@@ -1,6 +1,7 @@
 package com.easyTeach.client.ui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -10,8 +11,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-
-import com.easyTeach.client.presenter.HelpPresenter;
+import javax.swing.UIManager;
 
 /**
  * <p>
@@ -73,15 +73,22 @@ public class MainFrame {
 
     /**
      * Method for creating the Menu bar for the easyTeach application.
-     * The Menu bar will be used to log out, exit and navigate.
+     * The Menu bar will be used to log out, exit and navigate. Moreover,
+     * the color of the MenuBar changes depending on what operating system
+     * one is using.
      */
     private void buildMenuBar() {
+        Color color = UIColors.lightBlue;
+        if (UIManager.getSystemLookAndFeelClassName().equals(
+                "com.apple.laf.AquaLookAndFeel")) {
+            color = UIColors.darkBlue;
+        }
         JMenuBar menuBar = new JMenuBar();
-        menuBar.setBackground(UIColors.darkBlue);
+        menuBar.setBackground(color);
         frame.setJMenuBar(menuBar);
          
         JMenu mnFile = new JMenu("File");
-        mnFile.setBackground(UIColors.darkBlue);
+        mnFile.setBackground(color);
         menuBar.add(mnFile);
         
         mntmLogOut = new JMenuItem("Log out");
@@ -91,7 +98,7 @@ public class MainFrame {
         mnFile.add(mntmQuit);
         
         JMenu mnNavigation = new JMenu("Navigation");
-        mnNavigation.setBackground(UIColors.darkBlue);
+        mnNavigation.setBackground(color);
         menuBar.add(mnNavigation);
         
         mntmHome = new JMenuItem("Home");
@@ -160,6 +167,7 @@ public class MainFrame {
                 }
             }
         }   
+        
     }
     
 }

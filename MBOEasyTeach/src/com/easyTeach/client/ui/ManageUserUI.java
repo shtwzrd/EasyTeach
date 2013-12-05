@@ -21,7 +21,6 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
-import javax.swing.table.DefaultTableModel;
 
 import com.easyTeach.client.presenter.HelpPresenter;
 
@@ -134,14 +133,17 @@ public class ManageUserUI {
         
         // Table showing all enroled classes
         enrolledClassesTable = new JTable();
-        DefaultTableModel enrolledModel = new DefaultTableModel();
+        DefaultTableModel1 enrolledModel = new DefaultTableModel1();
         String[] enrolledHeads = {"Enrolled Class"};
         enrolledModel.setRowCount(2);
         enrolledModel.setColumnIdentifiers(enrolledHeads);
         enrolledModel.setValueAt("DAT13W", 0, 0);
         enrolledModel.setValueAt("DAT13V", 1, 0);
         enrolledClassesTable.setModel(enrolledModel);
-        enrolledClassesPanel.add(new JScrollPane(enrolledClassesTable), BorderLayout.CENTER);
+        
+        JScrollPane enrolledClassesScroll = new JScrollPane(enrolledClassesTable);
+        enrolledClassesScroll.getViewport().setBackground(UIColors.white);
+        enrolledClassesPanel.add(enrolledClassesScroll, BorderLayout.CENTER);
         
         // The panel showing all classes in the system
         JPanel allClassesPanel = new JPanel(new BorderLayout());
@@ -155,17 +157,21 @@ public class ManageUserUI {
         
         // Table showing all classes
         allClassesTable = new JTable();
-        DefaultTableModel model = new DefaultTableModel();
-        String[] classHeads = {"Class"};
-        model.setRowCount(4);
-        model.setColumnIdentifiers(classHeads);
-        model.setValueAt("DAT13W", 0, 0);
-        model.setValueAt("DAT13V", 1, 0);
-        model.setValueAt("DAT12A", 2, 0);
-        model.setValueAt("DAT12B", 3, 0);
-        allClassesTable.setModel(model);
-        allClassesPanel.add(new JScrollPane(allClassesTable), BorderLayout.CENTER);
+        DefaultTableModel1 classModel = new DefaultTableModel1();
         
+        String[] classHeads = {"Class"};
+        classModel.setRowCount(4);
+        classModel.setColumnIdentifiers(classHeads);
+        classModel.setValueAt("DAT13W", 0, 0);
+        classModel.setValueAt("DAT13V", 1, 0);
+        classModel.setValueAt("DAT12A", 2, 0);
+        classModel.setValueAt("DAT12B", 3, 0);
+        allClassesTable.setModel(classModel);
+        
+        JScrollPane allClassesScroll = new JScrollPane(allClassesTable);
+        allClassesScroll.getViewport().setBackground(UIColors.white);
+        allClassesPanel.add(allClassesScroll, BorderLayout.CENTER);
+                
         classPanel.add(enrolledClassesPanel);
     }
 

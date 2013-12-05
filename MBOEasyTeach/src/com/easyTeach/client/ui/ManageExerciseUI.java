@@ -20,24 +20,22 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
-import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
 import com.easyTeach.client.presenter.HelpPresenter;
 
 /**
- * The AddExerciseUI class constructs a JPanel with all the different 
- * JComponents needed to constructor a new Exercise with a set of questions.
- * Moreover, for all Questions Tags can be created.
+ * The ManageExerciseUI class constructs a JPanel with all the different 
+ * JComponents needed to constructor new Exercises and edit old ones.
  * 
  * @author Morten Faarkrog
- * @version 1.0
- * @date 4. December, 2013
+ * @version 1.1
+ * @date 5. December, 2013
  */
 
-public class AddExerciseUI {
+public class ManageExerciseUI {
 
-    private JPanel addExercisePanel;
+    private JPanel manageExercisePanel;
     private JPanel centerPanel;
     private JPanel infoPanel;
     private JTable table;
@@ -48,7 +46,7 @@ public class AddExerciseUI {
     private JComboBox comboBox;
     private JTextField txtNewTag;
     private JTextField txtExistingTag;
-    private JButton btnSubmit;
+    private JButton btnSave;
     private JButton btnHelp;
     private JButton btnDiscard;
     private JButton btnResetQuestion;
@@ -65,32 +63,31 @@ public class AddExerciseUI {
     private JButton btnFindExistingTag;
 
     /**
-     * Constructor for building the addExercisePanel. The panel is built by 
+     * Constructor for building the manageExercisePanel. The panel is built by 
      * calling the buildPanel method. The constructor also calls a method
      * adding actionListeners to all buttons.
      */
-    public AddExerciseUI() {
+    public ManageExerciseUI() {
         buildPanel();
         addActionListeners();
     }
     
     /**
-     * The getAddExerciseUI returns the JPanel containing all the components
-     * needed to constructor a new Exercise with Questions and Tags.
+     * The getManageExerciseUI returns the JPanel containing all the components
+     * needed to maintain exercises.
      * 
-     * @return the JPanel, addExercisePanel. Meant to be used in another frame.
+     * @return the JPanel, manageExercisePanel. Meant to be used in another frame.
      */
-    public JPanel getAddExerciseUI() {
-        return addExercisePanel;
+    public JPanel getManageExerciseUI() {
+        return manageExercisePanel;
     }
     
     /**
-     * The method responsible for building the addExercisePanel. The panel
-     * consists of all the JComponenets needed to constructor new Exercises.
+     * The method responsible for building the manageExercisePanel.
      */
     private void buildPanel() {
-        addExercisePanel = new JPanel();
-        addExercisePanel.setLayout(new BorderLayout());
+        manageExercisePanel = new JPanel();
+        manageExercisePanel.setLayout(new BorderLayout());
         
         buildNorthPanel();
         buildCenterPanel();
@@ -122,7 +119,7 @@ public class AddExerciseUI {
     
     /**
      * Method for building the infoPanel containing calls to create the panels 
-     * where the question's type and tags are created.
+     * where the question's type and tags are defined.
      */
     private void buildInfoPanel() {
         infoPanel = new JPanel();
@@ -134,7 +131,7 @@ public class AddExerciseUI {
     }
 
     /**
-     * Method for creating the questiobTypePanel where one selects the 
+     * Method for defining the questiobTypePanel where one selects the 
      * question type
      */
     private void buildQuestionTypePanel() {
@@ -225,7 +222,7 @@ public class AddExerciseUI {
         JPanel northPanel = new JPanel();
         northPanel.setBackground(UIColors.darkBlue);
         northPanel.setBorder(new EtchedBorder(EtchedBorder.LOWERED));
-        addExercisePanel.add(northPanel, BorderLayout.NORTH);
+        manageExercisePanel.add(northPanel, BorderLayout.NORTH);
         
         lblExerciseTitle = new JLabel("Exercise - Name Goes Here - Question #1");
         lblExerciseTitle.setForeground(UIColors.white);
@@ -241,16 +238,16 @@ public class AddExerciseUI {
         JPanel southPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         southPanel.setBackground(UIColors.darkBlue);
         southPanel.setBorder(new EtchedBorder(EtchedBorder.LOWERED));
-        addExercisePanel.add(southPanel, BorderLayout.SOUTH);
+        manageExercisePanel.add(southPanel, BorderLayout.SOUTH);
         
-        btnSubmit = new JButton("Submit");
+        btnSave = new JButton("Save");
         
         btnHelp = new JButton("Help");
         southPanel.add(btnHelp);
         
         btnDiscard = new JButton("Discard");
         southPanel.add(btnDiscard);
-        southPanel.add(btnSubmit);
+        southPanel.add(btnSave);
     }
 
     /**
@@ -262,7 +259,7 @@ public class AddExerciseUI {
     private void buildCenterPanel() {
         // Center panel with panels for Question Type, Tags and Question
         centerPanel = new JPanel();
-        addExercisePanel.add(centerPanel, BorderLayout.CENTER);
+        manageExercisePanel.add(centerPanel, BorderLayout.CENTER);
         centerPanel.setLayout(new BorderLayout());
         
         buildQuestionNavPanel();
@@ -310,7 +307,7 @@ public class AddExerciseUI {
         // JTable with all the answers
         // Random data. Will work differently at some point.. * * * * * * * * * * * * *
         table = new JTable();
-        DefaultTableModel model = new DefaultTableModel();
+        DefaultTableModel1 model = new DefaultTableModel1();
         String[] heads = {"Correct", "Choice"};
         model.setRowCount(4);
         model.setColumnIdentifiers(heads);
@@ -365,12 +362,12 @@ public class AddExerciseUI {
     }
 
     /**
-     * Adds an ActionListener of type AddExerciseUIListener to all the JButtons 
-     * from the addExercisePanel.
+     * Adds an ActionListener of type ManageExerciseUIListener to all the JButtons 
+     * from the manageExercisePanel.
      */
     private void addActionListeners() {
-        AddExerciseUIListener listener = new AddExerciseUIListener();
-        btnSubmit.addActionListener(listener);
+        ManageExerciseUIListener listener = new ManageExerciseUIListener();
+        btnSave.addActionListener(listener);
         btnHelp.addActionListener(listener);
         btnDiscard.addActionListener(listener);
         btnResetQuestion.addActionListener(listener);
@@ -390,10 +387,10 @@ public class AddExerciseUI {
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
     
     /**
-     * The AddExercuseUIListener class is the class in charge of listening
-     * for events happening in the AddExerciseUI (e.g. an user clicking the 
-     * help button). When an event occurs the AddExercuseUIListener will 
-     * send a signal to the AddExercisePresenter which will in return act 
+     * The ManageExerciseUIListener class is the class in charge of listening
+     * for events happening in the ManageExerciseUI (e.g. an user clicking the 
+     * help button). When an event occurs the ManageExerciseUIListener will 
+     * send a signal to the ManageExercisePresenter which will in return act 
      * upon the event.
      * 
      * @author Morten Faarkrog
@@ -401,11 +398,11 @@ public class AddExerciseUI {
      * @see ActionListener
      * @date 4. December, 2013
      */
-    private class AddExerciseUIListener implements ActionListener {
+    private class ManageExerciseUIListener implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            if (e.getSource() == btnSubmit) {
+            if (e.getSource() == btnSave) {
                 
             }
             

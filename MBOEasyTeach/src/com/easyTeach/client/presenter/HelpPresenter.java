@@ -60,4 +60,22 @@ public class HelpPresenter {
         return "Add info here!";
     }
     
+    // ExerciseManagerUI Help
+    public static String getExerciseManagerTitle() {
+        return "EasyTeach - Exercise Manager Help";
+    }
+    
+    public static String getExerciseManagerHelp() {
+        return "Add info here!";
+    }
+    
+    // QuestionManagerUI Help
+    public static String getQuestionManagerTitle() {
+        return "EasyTeach - Question Manager Help";
+    }
+    
+    public static String getQuestionManagerHelp() {
+        return "Add info here!";
+    }
+    
 }

@@ -17,9 +17,19 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
-import javax.swing.table.DefaultTableModel;
 
 import com.easyTeach.client.presenter.HelpPresenter;
+
+/**
+ * The UserManagerUI class constructs a JPanel with all the different 
+ * JComponents needed to maintain users. This includes JTables with
+ * students, teachers and admins along with buttons for deleting, adding
+ * and editing new users.
+ * 
+ * @author Morten Faarkrog
+ * @version 1.0
+ * @date 5. December, 2013
+ */
 
 public class UserManagerUI {
 
@@ -33,11 +43,8 @@ public class UserManagerUI {
     private JPanel studentPanel;
     private JPanel teacherPanel;
     private JPanel adminPanel;
-    private JPanel southButtonPanel;
     private JButton btnFilter;
-    private JLabel lblFilter;
     private JComboBox filterBox;
-    private JLabel lblBy;
     private JTextField txtFilter;
     private JTable studentTable;
     private JTable teacherTable;
@@ -99,9 +106,9 @@ public class UserManagerUI {
         adminPanel.setBackground(UIColors.lightBlue);
         
         adminTable = new JTable();
-        DefaultTableModel adminModel = new DefaultTableModel();
+        DefaultTableModel1 adminModel = new DefaultTableModel1();
         String[] adminHeads = {"Last name", "First name", "Email", "Date added"};
-        adminModel.setRowCount(4);
+        adminModel.setRowCount(1);
         adminModel.setColumnIdentifiers(adminHeads);
         adminModel.setValueAt("Doe", 0, 0);
         adminModel.setValueAt("Johanna", 0, 1);
@@ -109,7 +116,10 @@ public class UserManagerUI {
         adminModel.setValueAt("02-24-2000", 0, 3);
         adminPanel.setLayout(new BorderLayout());
         adminTable.setModel(adminModel);
-        adminPanel.add(new JScrollPane(adminTable));
+        
+        JScrollPane adminScroll = new JScrollPane(adminTable);
+        adminScroll.getViewport().setBackground(UIColors.white);
+        adminPanel.add(adminScroll, BorderLayout.CENTER);
         
         adminPanel.add(getFilterPanel(), BorderLayout.SOUTH);
         tabPanel.addTab("Admin", adminPanel);
@@ -124,9 +134,9 @@ public class UserManagerUI {
         teacherPanel.setBackground(UIColors.lightBlue);
 
         teacherTable = new JTable();
-        DefaultTableModel teacherModel = new DefaultTableModel();
+        DefaultTableModel1 teacherModel = new DefaultTableModel1();
         String[] teacherHeads = {"Last name", "First name", "Email", "Date added"};
-        teacherModel.setRowCount(4);
+        teacherModel.setRowCount(1);
         teacherModel.setColumnIdentifiers(teacherHeads);
         teacherModel.setValueAt("Doe", 0, 0);
         teacherModel.setValueAt("John", 0, 1);
@@ -134,7 +144,10 @@ public class UserManagerUI {
         teacherModel.setValueAt("05-23-2011", 0, 3);
         teacherPanel.setLayout(new BorderLayout());
         teacherTable.setModel(teacherModel);
-        teacherPanel.add(new JScrollPane(teacherTable));
+
+        JScrollPane teacherScroll = new JScrollPane(teacherTable);
+        teacherScroll.getViewport().setBackground(UIColors.white);
+        teacherPanel.add(teacherScroll, BorderLayout.CENTER);
         
         teacherPanel.add(getFilterPanel(), BorderLayout.SOUTH);
         tabPanel.addTab("Teacher", teacherPanel);
@@ -149,18 +162,22 @@ public class UserManagerUI {
         studentPanel.setBackground(UIColors.lightBlue);
         
         studentTable = new JTable();
-        DefaultTableModel studentModel = new DefaultTableModel();
+        DefaultTableModel1 studentModel = new DefaultTableModel1();
         String[] studentHeads = {"Last name", "First name", "Email", "Date added"};
-        studentModel.setRowCount(4);
+        studentModel.setRowCount(1);
         studentModel.setColumnIdentifiers(studentHeads);
         studentModel.setValueAt("Smith", 0, 0);
         studentModel.setValueAt("John", 0, 1);
         studentModel.setValueAt("john1234@stud.kea.dk", 0, 2);
         studentModel.setValueAt("01-20-2013", 0, 3);
         studentTable.setModel(studentModel);
-        studentPanel.add(new JScrollPane(studentTable), BorderLayout.CENTER);
+        
+        JScrollPane studentScroll = new JScrollPane(studentTable);
+        studentScroll.getViewport().setBackground(UIColors.white);
+        studentPanel.add(studentScroll, BorderLayout.CENTER);
         
         studentPanel.add(getFilterPanel(), BorderLayout.SOUTH);
+        tabPanel.setBackground(UIColors.lightBlue);
         tabPanel.addTab("Student", studentPanel);
     }
 
@@ -191,14 +208,14 @@ public class UserManagerUI {
                 TitledBorder.TOP));
         filterPanel.setBackground(UIColors.lightBlue);
         
-        lblFilter = new JLabel("Filter");
+        JLabel lblFilter = new JLabel("Filter");
         filterPanel.add(lblFilter);
         
         filterBox = new JComboBox();
         filterBox.setModel(new DefaultComboBoxModel(FILTER));
         filterPanel.add(filterBox);
         
-        lblBy = new JLabel("by");
+        JLabel lblBy = new JLabel("by");
         filterPanel.add(lblBy);
         
         txtFilter = new JTextField();
@@ -216,7 +233,7 @@ public class UserManagerUI {
      * editing/deleting/adding users.
      */
     private void buildSouthPanel() {
-        southButtonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        JPanel southButtonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         southButtonPanel.setBackground(UIColors.darkBlue);
         
         btnHelp = new JButton("Help");
@@ -233,7 +250,6 @@ public class UserManagerUI {
 
         userManagerPanel.add(southButtonPanel, BorderLayout.SOUTH);
     }
-
     
     /**
      * Adds an ActionListener of type UserManagerUIListener to all the JButtons 
