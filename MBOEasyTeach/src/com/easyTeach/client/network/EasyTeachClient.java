@@ -10,25 +10,19 @@ public class EasyTeachClient{
 	private Socket requestSocket;
 	private ObjectOutputStream out;
 	private ObjectInputStream in;
-	private String user;
-	private String password;
-	private Request readSomething;
 	private Request closeConnection;
 	private Response response;
+	private Request request;
 
-	public EasyTeachClient(){
-		this.user = "Brandy";
-		this.password = "<3";
+	public EasyTeachClient(Request request){
 		
-		Action read = new Action(ActionType.READ);
 		Action close = new Action(ActionType.CLOSE);
-		
-		QuestionResource whatever = new QuestionResource("Idon't", "care", 4);
-		readSomething = new Request(user, password, read, whatever);
-		closeConnection = new Request(user, password, close);
-		
+		this.request = request;
+		closeConnection = new Request(Session.getInstance().getUsername(),
+				Session.getInstance().getPassword(), close);
 	}
-	void run()
+
+	public void run()
 	{
 		try {
 			requestSocket = new Socket("localhost", 8111);
@@ -38,17 +32,15 @@ public class EasyTeachClient{
 			out.flush();
 			in = new ObjectInputStream(requestSocket.getInputStream());
 
-			do {
 				try {
 					response = (Response) in.readObject();
 					System.out.println("[Response]: " + response.getResponse());
-					sendMessage(readSomething);
+					sendMessage(request);
 					sendMessage(closeConnection);
 				}
 				catch(ClassNotFoundException classNot){
 					System.err.println("![Error]: Data received in an unknown format");
 				}
-			} while (!response.isClosing());
 		}
 		catch(UnknownHostException unknownHost){
 			System.err.println("! [Error]: Host unknown");
@@ -68,7 +60,7 @@ public class EasyTeachClient{
 		}
 	}
 
-	public void sendMessage(Request request) {
+	private void sendMessage(Request request) {
 		try{
 			out.writeObject(request);
 			out.flush();
@@ -79,9 +71,8 @@ public class EasyTeachClient{
 			ioException.printStackTrace();
 		}
 	}
-
-	public static void main(String args[]) {
-		EasyTeachClient client = new EasyTeachClient();
-		client.run();
+	
+	public Response getResponse() {
+		return this.response;
 	}
 }

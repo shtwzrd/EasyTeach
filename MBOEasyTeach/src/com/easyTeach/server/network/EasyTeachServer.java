@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import com.easyTeach.common.network.Action.ActionType;
 import com.easyTeach.common.network.Request;
 import com.easyTeach.common.network.Response;
+import com.easyTeach.common.network.Response.ResponseStatus;
 
 public class EasyTeachServer {
 	private ServerSocket providerSocket;
@@ -14,21 +15,14 @@ public class EasyTeachServer {
 	private ObjectOutputStream out;
 	private ObjectInputStream in;
 	private Response response;
-	private Response closingResponse;
 	private Request request;
 
 	public EasyTeachServer() {
-		closingResponse = new Response(true);	
-		String msg = "Connection successful";
-		ArrayList<String> payload = new ArrayList<String>();
-		payload.add(msg);
-		response = new Response(payload);
+		response = new Response(ResponseStatus.SUCCESS);
 	}
 
 	void run()
 	{
-
-
 		try {
 			providerSocket = new ServerSocket(8111, 10);
 
@@ -45,8 +39,6 @@ public class EasyTeachServer {
 				try {
 					request = (Request) in.readObject();
 					System.out.println("[Request]: " + request.getAction().getType().toString());
-					if (request.getAction().getType() == ActionType.CLOSE)
-						sendMessage(closingResponse);
 				}
 				catch(ClassNotFoundException classnot){
 					System.err.println("Data received in unknown format");

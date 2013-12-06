@@ -1,5 +1,14 @@
 package com.easyTeach.client.presenter;
 
+import org.jasypt.util.password.StrongPasswordEncryptor;
+
+import com.easyTeach.client.network.EasyTeachClient;
+import com.easyTeach.client.network.Session;
+import com.easyTeach.common.network.Action;
+import com.easyTeach.common.network.Action.ActionType;
+import com.easyTeach.common.network.Request;
+import com.easyTeach.common.network.Response;
+
 /**
  * <p>
  * The LoginPresenter class is in charge of handling the different events
@@ -32,7 +41,7 @@ public class LoginPresenter {
     
     /**
      * Checks if the password entered by a user is of a valid format. 
-     * This means that it cannot contains be empty.
+     * This means that it cannot be empty.
      * 
      * @param pwd is the password of the user trying to log in
      * @return true if the password is of a valid format, otherwise false
@@ -52,9 +61,11 @@ public class LoginPresenter {
      * @return
      */
     public boolean canLogin(String usr, char[] pwd) {
-        if (attemptLogin(usr, pwd)) {
-            return true;
-        }
+    	if(validatePassword(pwd)) {
+    		if (attemptLogin(usr, pwd)) {
+    			return true;
+    		}
+    	}
         
         return false;
     }
@@ -68,7 +79,17 @@ public class LoginPresenter {
      * and database are running.
      */
     private boolean attemptLogin(String usr, char[] pwd) {
-        // Encrypt password here?
+    	Session session = Session.getInstance(usr, pwd.toString());
+    	Action action = new Action(ActionType.READ);
+    	Request login = new Request(session.getUsername(),
+    			session.getPassword(), action);
+    	
+    	EasyTeachClient client = new EasyTeachClient(login);
+    	client.run();
+    	
+    	Response back = client.getResponse();
+    	System.out.println("[Response]: " + back.getStatus() + ": " + back.getResponse());
+    	
         return true;
     }
     
