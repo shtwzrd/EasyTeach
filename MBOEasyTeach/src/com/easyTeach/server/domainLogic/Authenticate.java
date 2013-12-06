@@ -1,4 +1,4 @@
-package com.easyTeach.common.dl;
+package com.easyTeach.server.domainLogic;
 
 import java.util.HashSet;
 
