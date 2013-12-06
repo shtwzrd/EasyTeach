@@ -260,18 +260,20 @@ public class UserWrapper {
                 ) {
             stmt.setString(1, email);
             rs = stmt.executeQuery();
-            rs.next();
+            if (rs.next()) {   
+	            User userEntity = new User();
+	            userEntity.setUserNo(rs.getString("userNo"));
+	            userEntity.setEmail(rs.getString("email"));
+	            userEntity.setUserType(rs.getString("userType"));
+	            userEntity.setFirstName(rs.getString("firstName"));
+	            userEntity.setLastName(rs.getString("lastName"));
+	            userEntity.setPassword(rs.getString("password"));
+	            userEntity.setDateAdded(rs.getDate("dateAdded"));
             
-            User userEntity = new User();
-            userEntity.setUserNo(rs.getString("userNo"));
-            userEntity.setEmail(rs.getString("email"));
-            userEntity.setUserType(rs.getString("userType"));
-            userEntity.setFirstName(rs.getString("firstName"));
-            userEntity.setLastName(rs.getString("lastName"));
-            userEntity.setPassword(rs.getString("password"));
-            userEntity.setDateAdded(rs.getDate("dateAdded"));
-            
-            return userEntity;
+	            return userEntity;
+            }
+           
+            return null;
             
         } catch (SQLException e) {
             System.err.println(e);

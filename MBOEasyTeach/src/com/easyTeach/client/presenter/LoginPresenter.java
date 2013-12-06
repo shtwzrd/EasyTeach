@@ -8,6 +8,7 @@ import com.easyTeach.common.network.Action;
 import com.easyTeach.common.network.Action.ActionType;
 import com.easyTeach.common.network.Request;
 import com.easyTeach.common.network.Response;
+import com.easyTeach.common.network.resource.RoleResource;
 
 /**
  * <p>
@@ -46,8 +47,8 @@ public class LoginPresenter {
      * @param pwd is the password of the user trying to log in
      * @return true if the password is of a valid format, otherwise false
      */
-    public boolean validatePassword(char[] pwd) {
-        if (pwd.length == 0) {
+    public boolean validatePassword(String pwd) {
+        if (pwd.length() == 0) {
             return false;
         }
         return true;
@@ -60,7 +61,7 @@ public class LoginPresenter {
      * @param pwd
      * @return
      */
-    public boolean canLogin(String usr, char[] pwd) {
+    public boolean canLogin(String usr, String pwd) {
     	if(validatePassword(pwd)) {
     		if (attemptLogin(usr, pwd)) {
     			return true;
@@ -78,9 +79,9 @@ public class LoginPresenter {
      * @return true if the login details are valid and if the server 
      * and database are running.
      */
-    private boolean attemptLogin(String usr, char[] pwd) {
-    	Session session = Session.getInstance(usr, pwd.toString());
-    	Action action = new Action(ActionType.READ);
+    private boolean attemptLogin(String usr, String pwd) {
+    	Session session = Session.getInstance(usr, pwd);
+    	Action action = new Action(ActionType.READ, "authenticate");
     	Request login = new Request(session.getUsername(),
     			session.getPassword(), action);
     	
@@ -88,7 +89,8 @@ public class LoginPresenter {
     	client.run();
     	
     	Response back = client.getResponse();
-    	System.out.println("[Response]: " + back.getStatus() + ": " + back.getResponse());
+    	RoleResource role = (RoleResource) back.getResponse();
+    	System.out.println("[Response to Login]: " + back.getStatus() + ": " + role.getRole().toString());
     	
         return true;
     }

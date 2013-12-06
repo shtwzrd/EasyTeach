@@ -36,6 +36,7 @@ public class EasyTeachClient{
 					response = (Response) in.readObject();
 					System.out.println("[Response]: " + response.getResponse());
 					sendMessage(request);
+					response = (Response) in.readObject();
 					sendMessage(closeConnection);
 				}
 				catch(ClassNotFoundException classNot){
