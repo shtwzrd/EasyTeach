@@ -42,12 +42,14 @@ public class ManageUserUI {
     private JButton btnDiscard;
     private JButton btnGeneratePassword;
     private JButton btnSaveUser;
-    private Component txtFirstName;
+    private JTextField txtFirstName;
     private JTextField txtLastname;
     private JTextField txtEmail;
     private JTable enrolledClassesTable;
     private JTable allClassesTable;
     private JPanel centerPanel;
+    private JButton btnAddClass;
+    private JButton btnRemoveClass;
 
     /**
      * Constructor for building the manageUserPanel. The panel is built by 
@@ -63,7 +65,7 @@ public class ManageUserUI {
      * Returns the ManageUserPanel with all of the JComponents within.
      * @return the JPanel manageUserPanel
      */
-    public JPanel getManagerUserUI() {
+    public JPanel getManageUserUI() {
         return manageUserPanel;
     }
     
@@ -115,7 +117,7 @@ public class ManageUserUI {
      * along with buttons for adding and removing a suer from classes.
      */
     private void buildClassPanel() {
-        JPanel classPanel = new JPanel(new GridLayout(1, 2));
+        JPanel classPanel = new JPanel(new GridLayout(2, 1));
         classPanel.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, 
                 new Color(0, 0, 0), null), "Classes", TitledBorder.CENTER, 
                 TitledBorder.TOP, new Font("Tahoma", Font.PLAIN, 20)));        
@@ -128,10 +130,7 @@ public class ManageUserUI {
                 TitledBorder.CENTER, TitledBorder.TOP));
         enrolledClassesPanel.setBackground(UIColors.lightBlue);
         
-        JButton btnRemoveClass = new JButton("Remove User From Class");
-        enrolledClassesPanel.add(btnRemoveClass, BorderLayout.SOUTH);
-        
-        // Table showing all enroled classes
+        // Table showing all enrolled classes
         enrolledClassesTable = new JTable();
         DefaultTableModel1 enrolledModel = new DefaultTableModel1();
         String[] enrolledHeads = {"Enrolled Class"};
@@ -144,16 +143,27 @@ public class ManageUserUI {
         JScrollPane enrolledClassesScroll = new JScrollPane(enrolledClassesTable);
         enrolledClassesScroll.getViewport().setBackground(UIColors.white);
         enrolledClassesPanel.add(enrolledClassesScroll, BorderLayout.CENTER);
+
+        JPanel addRemovePanel = new JPanel();
+        addRemovePanel.setBackground(UIColors.lightBlue);
+        addRemovePanel.setLayout(new GridLayout(1, 2));
         
+        JButton btnRemoveClass = new JButton("Remove User From Class");
+        addRemovePanel.add(btnRemoveClass);
+        
+        JButton btnAddClass = new JButton("Add User To Class");
+        addRemovePanel.add(btnAddClass);
+        
+        enrolledClassesPanel.add(addRemovePanel, BorderLayout.SOUTH);
+        
+        classPanel.add(enrolledClassesPanel);
+
         // The panel showing all classes in the system
         JPanel allClassesPanel = new JPanel(new BorderLayout());
         allClassesPanel.setBorder(new TitledBorder(null, "All Classes", 
                 TitledBorder.CENTER, TitledBorder.TOP));
         allClassesPanel.setBackground(UIColors.lightBlue);
         classPanel.add(allClassesPanel);
-        
-        JButton btnAddClass = new JButton("Add User To Class");
-        allClassesPanel.add(btnAddClass, BorderLayout.SOUTH);
         
         // Table showing all classes
         allClassesTable = new JTable();
@@ -171,8 +181,6 @@ public class ManageUserUI {
         JScrollPane allClassesScroll = new JScrollPane(allClassesTable);
         allClassesScroll.getViewport().setBackground(UIColors.white);
         allClassesPanel.add(allClassesScroll, BorderLayout.CENTER);
-                
-        classPanel.add(enrolledClassesPanel);
     }
 
     /**
@@ -285,6 +293,14 @@ public class ManageUserUI {
             }
             
             else if (e.getSource() == btnSaveUser) {
+                
+            }
+            
+            else if (e.getSource() == btnAddClass) {
+                
+            }
+            
+            else if (e.getSource() == btnRemoveClass) {
                 
             }
             

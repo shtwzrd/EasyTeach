@@ -459,8 +459,8 @@ public class ManageExerciseUI {
             }
             
             else if (e.getSource() == btnHelp) {
-                JOptionPane.showMessageDialog(null, HelpPresenter.getAddExerciseHelp(), 
-                        HelpPresenter.getAddExerciseTitle(), JOptionPane.PLAIN_MESSAGE, 
+                JOptionPane.showMessageDialog(null, HelpPresenter.getManageExerciseHelp(), 
+                        HelpPresenter.getManageExerciseTitle(), JOptionPane.PLAIN_MESSAGE, 
                         HelpPresenter.getHelpIcon());
             }
         }
