@@ -1,6 +1,6 @@
 /* Author: 	Oliver Nielsen
- * Date: 	03. December, 2013
- * Version:	1.1
+ * Date: 	06. December, 2013
+ * Version:	1.2
 
  * Following is the SQL code (DML) for manipulating the tables for the 
  * "MBO EasyTeach" application.
@@ -21,6 +21,7 @@ DROP PROCEDURE IF EXISTS selectCourseRowWithCourseNo;
 
 DROP PROCEDURE IF EXISTS selectUserRows;
 DROP PROCEDURE IF EXISTS selectUserRowWithUserNo;
+DROP PROCEDURE IF EXISTS selectUserRowWithEmail;
 
 DROP PROCEDURE IF EXISTS selectQuestionRows;
 DROP PROCEDURE IF EXISTS selectQuestionRowWithQuestionNo;
@@ -121,6 +122,17 @@ BEGIN
 	SELECT u.*
 		FROM User u
 		WHERE u.userNo = pUserNo;
+END //
+DELIMITER ;
+
+/* Returns the user with the specific email */
+DELIMITER //
+CREATE PROCEDURE selectUserRowWithEmail (
+	IN pEmail				VARCHAR(256))
+BEGIN
+	SELECT u.*
+		FROM User u
+		WHERE u.email = pEmail;
 END //
 DELIMITER ;
 
