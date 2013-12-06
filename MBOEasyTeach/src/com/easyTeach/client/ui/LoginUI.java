@@ -34,26 +34,18 @@ import com.easyTeach.client.presenter.LoginPresenter;
  * </p>
  * 
  * @author Morten Faarkrog
- * @version 1.0
- * @date 28. November, 2013
+ * @version 1.1
+ * @date 4. December, 2013
  */
 
 public class LoginUI {
 
     private LoginPresenter loginPresenter;
-    private HelpPresenter helpPresenter;
     private JFrame frame;
     private JTextField txtUsername;
     private JPasswordField txtPassword;
     private JButton btnLogin;
     private JButton btnHelp;    
-
-    /**
-     * *** Launches the application. Move to another class.
-     */
-    public static void main(String[] args) { 
-        new LoginUI();
-    }
 
     /**
      * Constructor for creating new instances of the Login UI.
@@ -62,7 +54,6 @@ public class LoginUI {
      */
     public LoginUI() {
         loginPresenter = new LoginPresenter();
-        helpPresenter = new HelpPresenter();
         buildUI();
     }
     
@@ -80,6 +71,7 @@ public class LoginUI {
         
         // Center panel
         JPanel centerPanel = new JPanel();
+        centerPanel.setBackground(UIColors.lightBlue);
         centerPanel.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP));
         // GridBagLayout is used to position things more precisely. 
         GridBagLayout gbl_centerPanel = new GridBagLayout();
@@ -121,6 +113,7 @@ public class LoginUI {
         
         // Button panel - South border
         JPanel btnPanel = new JPanel();
+        btnPanel.setBackground(UIColors.darkBlue);
         btnPanel.setBorder(new EtchedBorder(EtchedBorder.LOWERED));
         contentPane.add(btnPanel, BorderLayout.SOUTH);
         
@@ -131,16 +124,24 @@ public class LoginUI {
         btnPanel.add(btnHelp);
         
         // Button listeners
-        LoginUIListener listener = new LoginUIListener();
-        btnLogin.addActionListener(listener);
-        btnHelp.addActionListener(listener);
-        txtUsername.addActionListener(listener);
-        txtPassword.addActionListener(listener);
+        addActionListeners();
         
         frame.setResizable(false);
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
+    }
+
+    /**
+     * Method in charge of adding an ActionListener to the various
+     * buttons and fields in the LoginUI.
+     */
+    private void addActionListeners() {
+        LoginUIListener listener = new LoginUIListener();
+        btnLogin.addActionListener(listener);
+        btnHelp.addActionListener(listener);
+        txtUsername.addActionListener(listener);
+        txtPassword.addActionListener(listener);
     }
     
     /**
@@ -194,9 +195,9 @@ public class LoginUI {
             }
             
             else if (e.getSource() == btnHelp) {
-                JOptionPane.showMessageDialog(null, helpPresenter.getLoginHelp(), 
-                        helpPresenter.getLoginTitle(), JOptionPane.PLAIN_MESSAGE, 
-                        helpPresenter.getHelpIcon());
+                JOptionPane.showMessageDialog(null, HelpPresenter.getLoginHelp(), 
+                        HelpPresenter.getLoginTitle(), JOptionPane.PLAIN_MESSAGE, 
+                        HelpPresenter.getHelpIcon());
             }
         }
         
