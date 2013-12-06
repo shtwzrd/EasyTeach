@@ -54,7 +54,7 @@ public class WrapperTest {
 	}
 	
 	public WrapperTest() {
-		//testUserWrapper();
+		System.out.println(testUserWrapper());
 		//testClassWrapper();
 		//testCourseWrapper();
 		//testExerciseParameterWrapper();
@@ -119,14 +119,15 @@ public class WrapperTest {
 			System.out.println(u.getDateAdded());
 		}
 		
-		// Test to see if insert works.
+		// Test to see if select works.
+
 		if(!UserWrapper.getUserRowWithUserNo("1").getEmail().equals("test@test.com")
 				|| !UserWrapper.getUserRowWithUserNo("1").getUserType().equals("Student")
 				|| !UserWrapper.getUserRowWithUserNo("1").getFirstName().equals("Tonni")
 				|| !UserWrapper.getUserRowWithUserNo("1").getLastName().equals("Kristensen")
 				|| !UserWrapper.getUserRowWithUserNo("1").getPassword().equals("randompassword123#")
-				|| UserWrapper.getUserRowWithUserNo("1").getDateAdded().getYear() != 2013) {
-			System.out.println("Error in Insert");
+				/*|| UserWrapper.getUserRowWithUserNo("1").getDateAdded().getYear() != 2013*/) {
+			System.out.println("Error in Select");
 			return false;
 		}
 		
@@ -150,6 +151,7 @@ public class WrapperTest {
 			return false;
 		}
 		
+		System.out.println("It all worked! So go eat some cake!");
 		return true;
 		
 	}
@@ -278,7 +280,6 @@ public class WrapperTest {
 			System.out.println("Error in Delete");
 			return false;
 		}
-		
 		return true;
 	}
 	
