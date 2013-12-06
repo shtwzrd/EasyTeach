@@ -16,9 +16,9 @@ import com.easyTeach.server.databaseConnector.ConnectionManager;
  * the MBO EasyTeach's database.
  * 
  * @author Morten Faarkrog
- * @version 1.0
+ * @version 1.1
  * @see User
- * @date 30. November, 2013
+ * @date 06. December, 2013
  */
 
 public class UserWrapper {
@@ -213,6 +213,52 @@ public class UserWrapper {
                 PreparedStatement stmt = conn.prepareStatement(sql);
                 ) {
             stmt.setString(1, userNo);
+            rs = stmt.executeQuery();
+            rs.next();
+            
+            User userEntity = new User();
+            userEntity.setUserNo(rs.getString("userNo"));
+            userEntity.setEmail(rs.getString("email"));
+            userEntity.setUserType(rs.getString("userType"));
+            userEntity.setFirstName(rs.getString("firstName"));
+            userEntity.setLastName(rs.getString("lastName"));
+            userEntity.setPassword(rs.getString("password"));
+            userEntity.setDateAdded(rs.getDate("dateAdded"));
+            
+            return userEntity;
+            
+        } catch (SQLException e) {
+            System.err.println(e);
+            return null;
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+            }
+            catch (SQLException e) {
+                System.err.println(e);                
+            }
+        }
+    }
+    
+    /**
+     * Returns a row from the database's User table with a specific email.
+     * 
+     * @author Oliver Nielsen
+     * 
+     * @param email The email of a specific user
+     * @return An instance of User with the specific email
+     * @see User
+     */
+    public static User getUserRowWithEmail(String email) {
+        String sql = "{call selectUserRowWithEmail(?)}";
+        ResultSet rs = null;
+        
+        try (
+                PreparedStatement stmt = conn.prepareStatement(sql);
+                ) {
+            stmt.setString(1, email);
             rs = stmt.executeQuery();
             rs.next();
             
