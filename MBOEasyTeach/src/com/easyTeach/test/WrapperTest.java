@@ -54,8 +54,8 @@ public class WrapperTest {
 	}
 	
 	public WrapperTest() {
-		System.out.println(testUserWrapper());
-		//testClassWrapper();
+		//System.out.println(testUserWrapper());
+		System.out.println(testClassWrapper());
 		//testCourseWrapper();
 		//testExerciseParameterWrapper();
 		//testExerciseWrapper();
@@ -151,7 +151,7 @@ public class WrapperTest {
 			return false;
 		}
 		
-		System.out.println("It all worked! So go eat some cake!");
+		System.out.println("It all worked! \nRemember to reset the database if you want to do the same test again!");
 		return true;
 		
 	}
@@ -189,8 +189,8 @@ public class WrapperTest {
 		//Testing the R in CRUD - The Read (Select) Statements.
 		HashSet<Class> hashSetClass = ClassWrapper.getClassRows();
 		for (Class c : hashSetClass) {
-			System.out.println(c.getClassNo());
-			System.out.println(c.getYear());
+			System.out.print(c.getClassNo() + ", ");
+			System.out.print(c.getYear() + ", ");
 			System.out.println(c.getClassName());
 		}
 		
@@ -220,7 +220,7 @@ public class WrapperTest {
 			System.out.println("Error in Delete");
 			return false;
 		}
-		
+		System.out.println("It all worked! \nRemember to reset the database if you want to do the same test again!");
 		return true;
 	}
 	
@@ -280,6 +280,8 @@ public class WrapperTest {
 			System.out.println("Error in Delete");
 			return false;
 		}
+		
+		System.out.println("It all worked! \nRemember to reset the database if you want to do the same test again!");
 		return true;
 	}
 	
@@ -356,6 +358,7 @@ public class WrapperTest {
 			return false;
 		}
 		
+		System.out.println("It all worked! \nRemember to reset the database if you want to do the same test again!");
 		return true;
 	}
 	
@@ -481,6 +484,7 @@ public class WrapperTest {
 			return false;
 		}
 		
+		System.out.println("It all worked! \nRemember to reset the database if you want to do the same test again!");
 		return true;
 
 	}
@@ -547,6 +551,7 @@ public class WrapperTest {
 			return false;
 		}
 		
+		System.out.println("It all worked! \nRemember to reset the database if you want to do the same test again!");
 		return true;
 	}
 	
@@ -620,6 +625,7 @@ public class WrapperTest {
 			return false;
 		}
 		
+		System.out.println("It all worked! \nRemember to reset the database if you want to do the same test again!");
 		return true;
 	}
 	
@@ -692,6 +698,7 @@ public class WrapperTest {
 			return false;
 		}
 		
+		System.out.println("It all worked! \nRemember to reset the database if you want to do the same test again!");
 		return true;
 	}
 	
@@ -765,6 +772,7 @@ public class WrapperTest {
 			return false;
 		}
 		
+		System.out.println("It all worked! \nRemember to reset the database if you want to do the same test again!");
 		return true;
 	}
 	
@@ -837,6 +845,7 @@ public class WrapperTest {
 			return false;
 		}
 		
+		System.out.println("It all worked! \nRemember to reset the database if you want to do the same test again!");
 		return true;
 	}
 
@@ -910,6 +919,7 @@ public class WrapperTest {
 			return false;
 		}
 		
+		System.out.println("It all worked! \nRemember to reset the database if you want to do the same test again!");
 		return true;
 	}
 	
@@ -962,14 +972,14 @@ public class WrapperTest {
 //		if (AnswerWrapper.getAnswerRowsWithQuestionNo("1")) {
 //			
 //		}
-		
+		 
 		// Testing the U in CRUD - The Update Statements.
 		answer1.setAnswer("Right Answer");
 		answer1.setQuestionNo("1");
 		AnswerWrapper.updateAnswerRow(answer1);
 		
 		// Test to see if update works
-//		if (!AnswerWrapper.getAnswerRowsWithQuestionNo("1").getAnswer().equals("Rigth Answer")) {
+//		if (AnswerWrapper.getAnswerRows().) {
 //			System.out.println("Error in Update");
 //			return false;
 //		}
@@ -983,6 +993,7 @@ public class WrapperTest {
 			return false;
 		}
 		
+		System.out.println("It all worked! \nRemember to reset the database if you want to do the same test again!");
 		return true;
 	}
 	
@@ -1071,6 +1082,7 @@ public class WrapperTest {
 			return false;
 		}
 		
+		System.out.println("It all worked! \nRemember to reset the database if you want to do the same test again!");
 		return true;
 	}
 
@@ -1149,6 +1161,7 @@ public class WrapperTest {
 			return false;
 		}
 		
+		System.out.println("It all worked! \nRemember to reset the database if you want to do the same test again!");
 		return true;
 	}
 	
