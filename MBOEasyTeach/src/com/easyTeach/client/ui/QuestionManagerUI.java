@@ -209,12 +209,14 @@ public class QuestionManagerUI  {
         
         questionTable = new JTable();
         DefaultTableModel1 questionModel = new DefaultTableModel1();
-        String[] questionHeads = {"Question Type", "Question", "Points"};
+        String[] questionHeads = {"Question No", "Question Type", "Question", "Points", "Tags"};
         questionModel.setRowCount(1);
         questionModel.setColumnIdentifiers(questionHeads);
-        questionModel.setValueAt("Multiple Choice", 0, 0);
-        questionModel.setValueAt("What is the meaning of life?", 0, 1);
-        questionModel.setValueAt("1337", 0, 2);
+        questionModel.setValueAt("134", 0, 0);
+        questionModel.setValueAt("Multiple Choice", 0, 1);
+        questionModel.setValueAt("What is the meaning of life?", 0, 2);
+        questionModel.setValueAt("1337", 0, 3);
+        questionModel.setValueAt("meaning, life", 0, 4);
         questionTable.setModel(questionModel);
         
         JScrollPane questionScroll = new JScrollPane(questionTable);

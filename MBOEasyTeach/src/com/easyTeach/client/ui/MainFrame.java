@@ -58,7 +58,7 @@ public class MainFrame {
     private void buildFrame() {
         frame = new JFrame("MBO EasyTeach");
         frame.setLayout(new BorderLayout());
-        frame.setSize(800, 800);
+        frame.setSize(1000, 800);
         contentPanel = new JPanel();
         contentPanel.setLayout(new BorderLayout());
         
@@ -66,7 +66,6 @@ public class MainFrame {
         
         frame.add(contentPanel, BorderLayout.CENTER);
         frame.setLocationRelativeTo(null);
-        frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
     }
@@ -151,7 +150,14 @@ public class MainFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
             if (e.getSource() == mntmHome) {
-                // Go to home UI
+                int reply = JOptionPane.showConfirmDialog(null, 
+                        "Are you sure you want to go to the home screen?", 
+                        "Home Message", JOptionPane.YES_NO_OPTION);
+                if (reply == JOptionPane.YES_OPTION) {
+                    //if usertype = admin
+                    updateFrame(new AdminManagerUI().getAdminManagerUI(), "Admin Manager");                    
+                }
+                
             }
             
             else if (e.getSource() == mntmLogOut) {

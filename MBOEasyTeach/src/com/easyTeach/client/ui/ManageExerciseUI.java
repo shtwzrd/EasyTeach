@@ -61,6 +61,7 @@ public class ManageExerciseUI {
     private JButton btnNextQuestion;
     private JButton btnNewTag;
     private JButton btnFindExistingTag;
+    private JButton btnRemoveQuestion;
 
     /**
      * Constructor for building the manageExercisePanel. The panel is built by 
@@ -354,6 +355,9 @@ public class ManageExerciseUI {
         btnResetQuestion = new JButton("Reset Question");
         questionButtonPanel.add(btnResetQuestion);
         
+        btnRemoveQuestion = new JButton("Remove Question");
+        questionButtonPanel.add(btnRemoveQuestion);
+        
         btnAddExistingQuestion = new JButton("Add Existing Question");
         questionButtonPanel.add(btnAddExistingQuestion);
         
@@ -382,6 +386,7 @@ public class ManageExerciseUI {
         btnNextQuestion.addActionListener(listener);
         btnNewTag.addActionListener(listener);
         btnFindExistingTag.addActionListener(listener);
+        btnRemoveQuestion.addActionListener(listener);
     }
     
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
@@ -415,6 +420,10 @@ public class ManageExerciseUI {
             }
 
             else if (e.getSource() == btnAddExistingQuestion) {
+                
+            }
+            
+            else if (e.getSource() == btnRemoveQuestion) {
                 
             }
 
@@ -459,8 +468,8 @@ public class ManageExerciseUI {
             }
             
             else if (e.getSource() == btnHelp) {
-                JOptionPane.showMessageDialog(null, HelpPresenter.getAddExerciseHelp(), 
-                        HelpPresenter.getAddExerciseTitle(), JOptionPane.PLAIN_MESSAGE, 
+                JOptionPane.showMessageDialog(null, HelpPresenter.getManageExerciseHelp(), 
+                        HelpPresenter.getManageExerciseTitle(), JOptionPane.PLAIN_MESSAGE, 
                         HelpPresenter.getHelpIcon());
             }
         }

@@ -28,11 +28,14 @@ public class Run {
         new HelpPresenter();
         new LoginUI();
         new MainFrame();
-//        MainFrame.updateFrame(new AddExerciseUI().getAddExerciseUI(), "Title");
-//        MainFrame.updateFrame(new ManageUserUI().getManagerUserUI(), "Title");
+//        MainFrame.updateFrame(new ManageExerciseUI().getManageExerciseUI(), "Title");
+//        MainFrame.updateFrame(new ManageUserUI().getManageUserUI(), "Title");
 //        MainFrame.updateFrame(new UserManagerUI().getUserManagerUI(), "Title");
 //        MainFrame.updateFrame(new ExerciseManagerUI().getExerciseManagerUI(), "Title");
-        MainFrame.updateFrame(new QuestionManagerUI().getQuestionManagerUI(), "Title");
+//        MainFrame.updateFrame(new QuestionManagerUI().getQuestionManagerUI(), "Title");
+//        MainFrame.updateFrame(new ManageClassUI().getManageClassUI(), "Title");
+        MainFrame.updateFrame(new AdminManagerUI().getAdminManagerUI(), "Admin Manager");
+//        MainFrame.updateFrame(new ManageCourseUI().getManageCourseUI(), "Title");
     }
 
 }
