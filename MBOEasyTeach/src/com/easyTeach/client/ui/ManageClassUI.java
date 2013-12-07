@@ -159,10 +159,10 @@ public class ManageClassUI {
         addRemovePanel.setBackground(UIColors.lightBlue);
         addRemovePanel.setLayout(new GridLayout(1, 2));
         
-        JButton btnRemoveStudent = new JButton("Remove Student From Class");
+        btnRemoveStudent = new JButton("Remove Student From Class");
         addRemovePanel.add(btnRemoveStudent);
         
-        JButton btnAddStudent = new JButton("Add Student To Class");
+        btnAddStudent = new JButton("Add Student To Class");
         addRemovePanel.add(btnAddStudent);
         
         enrolledStudentsPanel.add(addRemovePanel, BorderLayout.SOUTH);
@@ -289,7 +289,14 @@ public class ManageClassUI {
         @Override
         public void actionPerformed(ActionEvent e) {
             if (e.getSource() == btnDiscard) {
-                
+                int reply = JOptionPane.showConfirmDialog(null,
+                        "Are you sure you want discard what you have made?\n"
+                                + "Warning: It will not be saved.",
+                        "Discard Message", JOptionPane.YES_NO_OPTION);
+                if (reply == JOptionPane.YES_OPTION) {
+                    MainFrame.updateFrame(new AdminManagerUI().getAdminManagerUI(),
+                            "Admin Manager");
+                }
             }
             
             else if (e.getSource() == btnSaveClass) {

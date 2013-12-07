@@ -3,8 +3,6 @@ package com.easyTeach.client.ui;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
-import org.jasypt.util.password.StrongPasswordEncryptor;
-
 import com.easyTeach.client.presenter.HelpPresenter;
 
 /**
@@ -35,7 +33,9 @@ public class Run {
 //        MainFrame.updateFrame(new UserManagerUI().getUserManagerUI(), "Title");
 //        MainFrame.updateFrame(new ExerciseManagerUI().getExerciseManagerUI(), "Title");
 //        MainFrame.updateFrame(new QuestionManagerUI().getQuestionManagerUI(), "Title");
-        MainFrame.updateFrame(new ManageClassUI().getManageClassUI(), "Title");
+//        MainFrame.updateFrame(new ManageClassUI().getManageClassUI(), "Title");
+        MainFrame.updateFrame(new AdminManagerUI().getAdminManagerUI(), "Admin Manager");
+//        MainFrame.updateFrame(new ManageCourseUI().getManageCourseUI(), "Title");
     }
 
 }

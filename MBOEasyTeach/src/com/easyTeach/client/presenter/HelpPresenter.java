@@ -51,15 +51,6 @@ public class HelpPresenter {
         return "Add info here!";
     }
     
-    // UserManagerUI Help
-    public static String getUserManagerTitle() {
-        return "EasyTeach - User Manager Help";
-    }
-    
-    public static String getUserManagerHelp() {
-        return "Add info here!";
-    }
-    
     // ExerciseManagerUI Help
     public static String getExerciseManagerTitle() {
         return "EasyTeach - Exercise Manager Help";
@@ -84,6 +75,24 @@ public class HelpPresenter {
     }
     
     public static String getManageClassHelp() {
+        return "Add info here!";
+    }
+    
+    // AdminManagerUI Help
+    public static String getAdminManagerTitle() {
+        return "EasyTeach - Admin Manager Help";
+    }
+    
+    public static String getAdminManagerHelp() {
+        return "Add info here!";
+    }
+    
+    // ManageCourseUI Help
+    public static String getManageCourseTitle() {
+        return "EasyTeach - Manage Course Help";
+    }
+    
+    public static String getManageCourseHelp() {
         return "Add info here!";
     }
     
