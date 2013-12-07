@@ -80,7 +80,7 @@ public class LoginPresenter {
     private boolean attemptLogin(String usr, String pwd) {
     	Session session = Session.getInstance(usr, pwd);
     	Action action = new Action(ActionType.READ, "authenticate");
-    	Request login = new Request(Session.getInstance(), action);
+    	Request login = new Request(session, action);
     	
     	EasyTeachClient client = new EasyTeachClient(login);
     	client.run();

@@ -1,10 +1,15 @@
+package com.easyTeach.common.network;
+
+import java.io.Serializable;
+
+import com.easyTeach.common.network.resource.Resource;
 /**
  * <p>
  *  A Request is an object encapsulating all the information
  *  required to describe a task to perform on the server. It
- *  consists of an @see Action - a verb describing what to do,
- *  a @see Resource - an object encapsulating the state of the
- *  noun on which the Action is to be applied, and a @see Session
+ *  consists of an {@link Action} - a verb describing what to do,
+ *  a {@link Resource} - an object encapsulating the state of the
+ *  noun on which the Action is to be applied, and a {@link Session}
  *  object, which will be used for Authenticating and Authorizing
  *  the Request prior to honoring it.
  * </p>
@@ -15,12 +20,6 @@
  * @obvious Comments for methods are omitted as they are self explanatory
  *          (getters/setters).
  */
-package com.easyTeach.common.network;
-
-import java.io.Serializable;
-
-import com.easyTeach.common.network.resource.Resource;
-
 public final class Request implements Serializable {
 
 	private static final long serialVersionUID = -5146474164969036624L;
@@ -43,7 +42,7 @@ public final class Request implements Serializable {
 		this.action = action;
 		this.session = session;
 	}
-	
+
 	/**
 	 * Constructor for a typical, full-bodied Request.
 	 * 

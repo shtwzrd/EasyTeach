@@ -13,8 +13,8 @@ import com.easyTeach.server.databaseWrapper.UserWrapper;
 
 /** 
  * <p>
- * The Authenticate class is a class that authenticate different operations
- * to be sure user interactions is allowed for them.
+ * The Authenticate class is a class that authenticates and Authorizes
+ *  different operations sent to the server via Requests.
  * </p>
  * 
  * @author Oliver Nielsen
