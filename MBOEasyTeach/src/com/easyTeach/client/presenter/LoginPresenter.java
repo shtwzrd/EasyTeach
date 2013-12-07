@@ -1,5 +1,15 @@
 package com.easyTeach.client.presenter;
 
+import org.jasypt.util.password.StrongPasswordEncryptor;
+
+import com.easyTeach.client.network.EasyTeachClient;
+import com.easyTeach.client.network.Session;
+import com.easyTeach.common.network.Action;
+import com.easyTeach.common.network.Action.ActionType;
+import com.easyTeach.common.network.Request;
+import com.easyTeach.common.network.Response;
+import com.easyTeach.common.network.resource.RoleResource;
+
 /**
  * <p>
  * The LoginPresenter class is in charge of handling the different events
@@ -32,13 +42,13 @@ public class LoginPresenter {
     
     /**
      * Checks if the password entered by a user is of a valid format. 
-     * This means that it cannot contains be empty.
+     * This means that it cannot be empty.
      * 
      * @param pwd is the password of the user trying to log in
      * @return true if the password is of a valid format, otherwise false
      */
-    public boolean validatePassword(char[] pwd) {
-        if (pwd.length == 0) {
+    public boolean validatePassword(String pwd) {
+        if (pwd.length() == 0) {
             return false;
         }
         return true;
@@ -51,10 +61,12 @@ public class LoginPresenter {
      * @param pwd
      * @return
      */
-    public boolean canLogin(String usr, char[] pwd) {
-        if (attemptLogin(usr, pwd)) {
-            return true;
-        }
+    public boolean canLogin(String usr, String pwd) {
+    	if(validatePassword(pwd)) {
+    		if (attemptLogin(usr, pwd)) {
+    			return true;
+    		}
+    	}
         
         return false;
     }
@@ -67,8 +79,19 @@ public class LoginPresenter {
      * @return true if the login details are valid and if the server 
      * and database are running.
      */
-    private boolean attemptLogin(String usr, char[] pwd) {
-        // Encrypt password here?
+    private boolean attemptLogin(String usr, String pwd) {
+    	Session session = Session.getInstance(usr, pwd);
+    	Action action = new Action(ActionType.READ, "authenticate");
+    	Request login = new Request(session.getUsername(),
+    			session.getPassword(), action);
+    	
+    	EasyTeachClient client = new EasyTeachClient(login);
+    	client.run();
+    	
+    	Response back = client.getResponse();
+    	RoleResource role = (RoleResource) back.getResponse();
+    	System.out.println("[Response to Login]: " + back.getStatus() + ": " + role.getRole().toString());
+    	
         return true;
     }
     

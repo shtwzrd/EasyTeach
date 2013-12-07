@@ -1,4 +1,4 @@
-package com.easyTeach.common.network;
+package com.easyTeach.common.network.resource;
 
 import java.io.Serializable;
 

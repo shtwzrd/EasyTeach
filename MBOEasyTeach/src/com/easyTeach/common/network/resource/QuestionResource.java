@@ -1,4 +1,5 @@
-package com.easyTeach.common.network;
+package com.easyTeach.common.network.resource;
+
 
 public class QuestionResource implements Resource {
 

@@ -27,12 +27,12 @@ public class Run {
         new UIColors();
         new HelpPresenter();
         new LoginUI();
-        new MainFrame();
+//        new MainFrame();
 //        MainFrame.updateFrame(new AddExerciseUI().getAddExerciseUI(), "Title");
 //        MainFrame.updateFrame(new ManageUserUI().getManagerUserUI(), "Title");
 //        MainFrame.updateFrame(new UserManagerUI().getUserManagerUI(), "Title");
 //        MainFrame.updateFrame(new ExerciseManagerUI().getExerciseManagerUI(), "Title");
-        MainFrame.updateFrame(new QuestionManagerUI().getQuestionManagerUI(), "Title");
+//        MainFrame.updateFrame(new QuestionManagerUI().getQuestionManagerUI(), "Title");
     }
 
 }

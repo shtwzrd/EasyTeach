@@ -1,29 +1,34 @@
 package com.easyTeach.common.network;
 
 import java.io.Serializable;
-import java.util.List;
+
+import com.easyTeach.common.network.resource.Resource;
 
 public final class Response implements Serializable {
 
-	private static final long serialVersionUID = -8333015697444572625L;
-	private List<String> payload;
-	private boolean closeResponse;
+	private static final long serialVersionUID = 8697470653282332307L;
+	private Resource payload;
+	private ResponseStatus status;
 	
-	public Response(List<String> payload) {
-		this.payload = payload;
-		this.closeResponse = false;
+	public Response(ResponseStatus status, Resource resource) {
+		this.payload = resource;
+		this.status = status;
 	}
 	
-	public Response(boolean closing) {
-		this.closeResponse = closing;
+	public Response(ResponseStatus status) {
+		this.status = status;
 	}
 	
-	public List<String> getResponse() {
+	public Resource getResponse() {
 		return this.payload;
 	}
 	
-	public boolean isClosing() {
-		return closeResponse;
+	public ResponseStatus getStatus() {
+		return this.status;
+	}
+	
+	public enum ResponseStatus {
+		SUCCESS, FAILURE, CLOSE;
 	}
 
 }

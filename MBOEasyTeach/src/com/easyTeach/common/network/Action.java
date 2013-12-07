@@ -10,7 +10,7 @@ public final class Action implements Serializable {
 	
 	public Action(ActionType type) {
 		this.type = type;
-		attribute = null;
+		attribute = "";
 	}
 	
 	public Action(ActionType type, String attribute) {

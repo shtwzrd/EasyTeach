@@ -1,12 +1,16 @@
 package com.easyTeach.server.network;
 
-import java.io.*;
-import java.net.*;
-import java.util.ArrayList;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.ServerSocket;
+import java.net.Socket;
 
 import com.easyTeach.common.network.Action.ActionType;
 import com.easyTeach.common.network.Request;
 import com.easyTeach.common.network.Response;
+import com.easyTeach.common.network.Response.ResponseStatus;
+import com.easyTeach.server.domainLogic.Authenticator;
 
 public class EasyTeachServer {
 	private ServerSocket providerSocket;
@@ -14,21 +18,14 @@ public class EasyTeachServer {
 	private ObjectOutputStream out;
 	private ObjectInputStream in;
 	private Response response;
-	private Response closingResponse;
 	private Request request;
 
 	public EasyTeachServer() {
-		closingResponse = new Response(true);	
-		String msg = "Connection successful";
-		ArrayList<String> payload = new ArrayList<String>();
-		payload.add(msg);
-		response = new Response(payload);
+		response = new Response(ResponseStatus.SUCCESS);
 	}
 
 	void run()
 	{
-
-
 		try {
 			providerSocket = new ServerSocket(8111, 10);
 
@@ -45,8 +42,12 @@ public class EasyTeachServer {
 				try {
 					request = (Request) in.readObject();
 					System.out.println("[Request]: " + request.getAction().getType().toString());
-					if (request.getAction().getType() == ActionType.CLOSE)
-						sendMessage(closingResponse);
+					switch(request.getAction().getAttribute()) {
+					case "authenticate" : response = Authenticator.authenticateUser(
+							request.getUser(), request.getPassword());
+							break;
+					}
+					sendMessage(response);
 				}
 				catch(ClassNotFoundException classnot){
 					System.err.println("Data received in unknown format");

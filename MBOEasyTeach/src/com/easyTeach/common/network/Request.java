@@ -2,6 +2,8 @@ package com.easyTeach.common.network;
 
 import java.io.Serializable;
 
+import com.easyTeach.common.network.resource.Resource;
+
 public final class Request implements Serializable {
 
 	private static final long serialVersionUID = -5146474164969036624L;
