@@ -1,11 +1,12 @@
 /**
  * <p>
  *  A Request is an object encapsulating all the information
- *  required to describe a task to perform on the server 
- *  a @see Request object. An Action contains an @see ActionType,
- *  which are simple verbs. Additionally, an Action may have an
- *  Attribute string, which is useful in cases where additional
- *  information is required to perform an Action.
+ *  required to describe a task to perform on the server. It
+ *  consists of an @see Action - a verb describing what to do,
+ *  a @see Resource - an object encapsulating the state of the
+ *  noun on which the Action is to be applied, and a @see Session
+ *  object, which will be used for Authenticating and Authorizing
+ *  the Request prior to honoring it.
  * </p>
  *
  * @author Brandon Lucas
@@ -25,21 +26,40 @@ public final class Request implements Serializable {
 	private static final long serialVersionUID = -5146474164969036624L;
 	private Action action;
 	private Resource resource;
-	private String user;
-	private String password;
+	private Session session;
 
-	public Request(String user, String password,
-			Action action) {
+	/**
+	 * <p>
+	 * Constructor for an "empty" Request, not requiring a "noun."
+	 * A CLOSE Request typically does not require a Resource, for
+	 * example.
+	 * </p>
+	 * @param session The session object containing the credentials
+	 * of the currently logged-in user.
+	 * @param action Action object describing what the client would
+	 * like the server to do.
+	 */
+	public Request(Session session, Action action) {
 		this.action = action;
-		this.user = user;
-		this.password = password;
+		this.session = session;
 	}
-	public Request(String user, String password,
-			Action action, Resource resource) {
+	
+	/**
+	 * Constructor for a typical, full-bodied Request.
+	 * 
+	 * @param session The session object containing the credentials
+	 * of the currently logged-in user.
+	 * @param action Action object describing what the client would
+	 * like the server to do.
+	 * @param resource Object describing what sort of entity the 
+	 * action should be performed upon, and any necessary state
+	 * required to do so.
+	 */
+	public Request(Session session, Action action,
+			Resource resource) {
 		this.action = action;
 		this.resource = resource;
-		this.user = user;
-		this.password = password;
+		this.session = session;
 	}
 
 	public Action getAction() {
@@ -50,12 +70,8 @@ public final class Request implements Serializable {
 		return this.resource;
 	}
 
-	public String getUser() {
-		return this.user;
-	}
-
-	public String getPassword() {
-		return this.password;
+	public Session getSession() {
+		return this.session;
 	}
 
 }

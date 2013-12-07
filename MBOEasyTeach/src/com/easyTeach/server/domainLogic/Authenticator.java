@@ -5,6 +5,7 @@ import org.jasypt.util.password.StrongPasswordEncryptor;
 import com.easyTeach.common.entity.User;
 import com.easyTeach.common.network.Response;
 import com.easyTeach.common.network.Response.ResponseStatus;
+import com.easyTeach.common.network.Session;
 import com.easyTeach.common.network.resource.RoleResource;
 import com.easyTeach.common.network.resource.RoleResource.Role;
 import com.easyTeach.server.databaseWrapper.UserWrapper;
@@ -43,18 +44,22 @@ public class Authenticator {
 	
 	
 	/**
-	 * Authenticates the login attempt.
+	 * Authenticates and Authorizes a user requesting interaction with the
+	 * Server.
 	 * 
-	 * @param username Which is gotten from a JTextField when logging in.
-	 * @param password Which is gotten from a JTextField when logging in.
-	 * @return Returns a boolean value. true if the information corresponds,
-	 * false if not.
+	 * @param session Session token containing the credentials of a user.
+	 * @return Returns a Response object with a Success or Failure status,
+	 * and the level of authorization given to the user provided
+	 * authentication was successful.
 	 */
 	
-	public static Response authenticateUser(String username, String password) {
+	public static Response authenticateUser(Session session) {
 		StrongPasswordEncryptor pEncrypt = new StrongPasswordEncryptor();
-		
-		User user = new UserWrapper().getUserRowWithEmail(username);
+
+		String username = session.getPassword();
+		String password = session.getPassword();
+
+		User user = UserWrapper.getUserRowWithEmail(username);
 		
 		
 		if (user != null && pEncrypt.checkPassword(password, user.getPassword())) {

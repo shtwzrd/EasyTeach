@@ -11,6 +11,7 @@ import com.easyTeach.common.network.Action;
 import com.easyTeach.common.network.Action.ActionType;
 import com.easyTeach.common.network.Request;
 import com.easyTeach.common.network.Response;
+import com.easyTeach.common.network.Session;
 
 public class EasyTeachClient{
 	private Socket requestSocket;
@@ -24,8 +25,7 @@ public class EasyTeachClient{
 		
 		Action close = new Action(ActionType.CLOSE);
 		this.request = request;
-		closeConnection = new Request(Session.getInstance().getUsername(),
-				Session.getInstance().getPassword(), close);
+		closeConnection = new Request(Session.getInstance(), close);
 	}
 
 	public void run()

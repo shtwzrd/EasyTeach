@@ -1,13 +1,11 @@
 package com.easyTeach.client.presenter;
 
-import org.jasypt.util.password.StrongPasswordEncryptor;
-
 import com.easyTeach.client.network.EasyTeachClient;
-import com.easyTeach.client.network.Session;
 import com.easyTeach.common.network.Action;
 import com.easyTeach.common.network.Action.ActionType;
 import com.easyTeach.common.network.Request;
 import com.easyTeach.common.network.Response;
+import com.easyTeach.common.network.Session;
 import com.easyTeach.common.network.resource.RoleResource;
 
 /**
@@ -82,8 +80,7 @@ public class LoginPresenter {
     private boolean attemptLogin(String usr, String pwd) {
     	Session session = Session.getInstance(usr, pwd);
     	Action action = new Action(ActionType.READ, "authenticate");
-    	Request login = new Request(session.getUsername(),
-    			session.getPassword(), action);
+    	Request login = new Request(Session.getInstance(), action);
     	
     	EasyTeachClient client = new EasyTeachClient(login);
     	client.run();

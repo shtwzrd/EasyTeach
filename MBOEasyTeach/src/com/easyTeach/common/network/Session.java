@@ -1,4 +1,4 @@
-package com.easyTeach.client.network;
+package com.easyTeach.common.network;
 
 public final class Session {
     

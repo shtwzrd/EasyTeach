@@ -44,7 +44,7 @@ public class EasyTeachServer {
 					System.out.println("[Request]: " + request.getAction().getType().toString());
 					switch(request.getAction().getAttribute()) {
 					case "authenticate" : response = Authenticator.authenticateUser(
-							request.getUser(), request.getPassword());
+							request.getSession());
 							break;
 					}
 					sendMessage(response);
