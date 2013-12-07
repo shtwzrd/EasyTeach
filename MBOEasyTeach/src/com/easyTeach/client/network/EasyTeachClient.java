@@ -1,10 +1,16 @@
 package com.easyTeach.client.network;
 
-import java.io.*;
-import java.net.*;
 
-import com.easyTeach.common.network.*;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
+import java.net.UnknownHostException;
+
+import com.easyTeach.common.network.Action;
 import com.easyTeach.common.network.Action.ActionType;
+import com.easyTeach.common.network.Request;
+import com.easyTeach.common.network.Response;
 
 public class EasyTeachClient{
 	private Socket requestSocket;

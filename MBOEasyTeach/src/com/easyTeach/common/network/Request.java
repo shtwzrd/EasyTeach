@@ -1,3 +1,19 @@
+/**
+ * <p>
+ *  A Request is an object encapsulating all the information
+ *  required to describe a task to perform on the server 
+ *  a @see Request object. An Action contains an @see ActionType,
+ *  which are simple verbs. Additionally, an Action may have an
+ *  Attribute string, which is useful in cases where additional
+ *  information is required to perform an Action.
+ * </p>
+ *
+ * @author Brandon Lucas
+ * @version 1.0
+ * @date 6. December, 2013
+ * @obvious Comments for methods are omitted as they are self explanatory
+ *          (getters/setters).
+ */
 package com.easyTeach.common.network;
 
 import java.io.Serializable;
