@@ -7,21 +7,19 @@ import com.easyTeach.common.network.Resource;
 
 /**
  * <p>
- * The UserResource class is for receiving or sending relevant information
- * from our server about a user which will be handled by the presenter if 
- * receiving information.
+ * The UserResource class is for receiving or sending relevant information from
+ * or to our server about an user.
  * </p>
  * 
  * @author Oliver Nielsen
  * @version 0.2
  * @date 7. December, 2013
  * @obvious Comments for methods are omitted as they are self explanatory
- *          (getters/setters).
+ *          (getters).
  */
 
 public class UserResource implements Resource {
 
-	
 	private static final long serialVersionUID = -2136388195433328989L;
 
 	private String email;
@@ -31,46 +29,60 @@ public class UserResource implements Resource {
 	private String password;
 
 	private java.sql.Timestamp dateAdded;
-	
+
 	private HashSet<ClassResource> classes;
 
-	
 	/**
 	 * <p>
-     * Constructor for receiving information from the server side of the
-     * application. 
-     * </p>
-     * 
-     * @param email The email for the specific user.
-     * @param firstName The first name of the specific user.
-     * @param lastName The last name of the specific user.
-     * @param dateAdded The date the user was added to the database.
-     * @param classes The classes the specific user attends and have attended.
-     * 
-     * @see User
-     */
-	public UserResource(String email, String firstName, String lastName, java.sql.Timestamp dateAdded, HashSet<ClassResource> classes) {
+	 * Constructor for receiving information for a user from the server side of
+	 * the application.
+	 * </p>
+	 * 
+	 * @param email
+	 *            The email for the specific user.
+	 * @param firstName
+	 *            The first name of the specific user.
+	 * @param lastName
+	 *            The last name of the specific user.
+	 * @param dateAdded
+	 *            The date the user was added to the database.
+	 * @param classes
+	 *            The classes the specific user attends and have attended.
+	 * 
+	 * @see User
+	 */
+	public UserResource(String email, String firstName, String lastName,
+			java.sql.Timestamp dateAdded, HashSet<ClassResource> classes) {
 		this.email = email;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.dateAdded = dateAdded;
 		this.classes = classes;
 	}
-	
+
 	/**
-     * Constructor for sending information to the server side of the
-     * application. 
-     * 
-     * @param email The email for the specific user.
-     * @param userType The type of user of the specific user.
-     * @param firstName The first name of the specific user.
-     * @param lastName The last name of the specific user.
-     * @param password The password for the specific user.
-     * @param classes The classes the specific user attends and have attended.
-     * 
-     * @see User
-     */
-	public UserResource(String email, String userType, String firstName, String lastName, String password, HashSet<ClassResource> classes) {
+	 * <p>
+	 * Constructor for sending information for a user to the server side of the
+	 * application.
+	 * </p>
+	 * 
+	 * @param email
+	 *            The email for the specific user.
+	 * @param userType
+	 *            The type of user of the specific user.
+	 * @param firstName
+	 *            The first name of the specific user.
+	 * @param lastName
+	 *            The last name of the specific user.
+	 * @param password
+	 *            The password for the specific user.
+	 * @param classes
+	 *            The classes the specific user attends and have attended.
+	 * 
+	 * @see User
+	 */
+	public UserResource(String email, String userType, String firstName,
+			String lastName, String password, HashSet<ClassResource> classes) {
 		this.email = email;
 		this.userType = userType;
 		this.firstName = firstName;
@@ -106,6 +118,5 @@ public class UserResource implements Resource {
 	public HashSet<ClassResource> getClasses() {
 		return classes;
 	}
-	
-	
+
 }
