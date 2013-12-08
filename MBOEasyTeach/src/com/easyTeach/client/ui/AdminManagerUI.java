@@ -33,8 +33,8 @@ import com.easyTeach.client.presenter.HelpPresenter;
 
 public class AdminManagerUI {
 
-    private final String[] FILTER_CLASS = { "Class Name", "Year", "No. Classs" };
-    private final String[] FILTER_COURSE = { "Course Name", "No. Classes" };
+    private final String[] FILTER_CLASS = { "Class Name", "Year", "No. of Classs" };
+    private final String[] FILTER_COURSE = { "Course Name", "No. of Classes" };
     private final String[] FILTER_USER = { "First name", "Last name", "Email",
             "Date Added" };
     private JPanel adminManagerPanel;
@@ -126,7 +126,7 @@ public class AdminManagerUI {
 
         courseTable = new JTable();
         DefaultTableModel1 courseModel = new DefaultTableModel1();
-        String[] courseHeads = { "Course name", "No. Classes" };
+        String[] courseHeads = { "Course name", "No. of Classes" };
         courseModel.setRowCount(1);
         courseModel.setColumnIdentifiers(courseHeads);
         courseModel.setValueAt("Software Design", 0, 0);
@@ -158,7 +158,7 @@ public class AdminManagerUI {
 
         classTable = new JTable();
         DefaultTableModel1 classModel = new DefaultTableModel1();
-        String[] classHeads = { "Class Name", "Year", "No. Students" };
+        String[] classHeads = { "Class Name", "Year", "No. of Students" };
         classModel.setRowCount(1);
         classModel.setColumnIdentifiers(classHeads);
         classModel.setValueAt("DAT13W", 0, 0);
@@ -451,6 +451,7 @@ public class AdminManagerUI {
 
             else if (e.getSource() == teacherFilter) {
                 System.out.println(teacherTxt.getText());
+                System.out.println(teacherCombo.getSelectedItem());
             }
 
             else if (e.getSource() == adminFilter) {

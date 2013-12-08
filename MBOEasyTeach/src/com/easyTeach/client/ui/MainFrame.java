@@ -29,7 +29,7 @@ import javax.swing.UIManager;
  * 
  * @author Morten Faarkrog
  * @version 1.2
- * @date 4. December, 2013
+ * @date 8. December, 2013
  */
 
 public class MainFrame {
@@ -58,7 +58,7 @@ public class MainFrame {
     private void buildFrame() {
         frame = new JFrame("MBO EasyTeach");
         frame.setLayout(new BorderLayout());
-        frame.setSize(1000, 800);
+        frame.setSize(900, 800);
         contentPanel = new JPanel();
         contentPanel.setLayout(new BorderLayout());
         
@@ -141,9 +141,9 @@ public class MainFrame {
      * </p>
      * 
      * @author Morten Faarkrog
-     * @version 1.0
+     * @version 0.9
      * @see ActionListener
-     * @date 4. December, 2013
+     * @date 8. December, 2013
      */
     private class MainFrameListener implements ActionListener {
 
@@ -161,7 +161,14 @@ public class MainFrame {
             }
             
             else if (e.getSource() == mntmLogOut) {
-                // Log out
+                int reply = JOptionPane.showConfirmDialog(null, 
+                        "Are you sure you want to go to log out?", 
+                        "Log Out Message", JOptionPane.YES_NO_OPTION);
+                if (reply == JOptionPane.YES_OPTION) {
+                    // Update Session object
+                    MainFrame.frame.dispose();
+                    new LoginUI();                    
+                }
             }
             
             else if (e.getSource() == mntmQuit) {

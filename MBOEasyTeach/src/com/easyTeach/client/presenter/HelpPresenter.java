@@ -96,4 +96,13 @@ public class HelpPresenter {
         return "Add info here!";
     }
     
+    // AdminManagerUI Help
+    public static String getStudentManagerTitle() {
+        return "EasyTeach - Student Manager Help";
+    }
+    
+    public static String getStudentManagerHelp() {
+        return "Add info here!";
+    }
+    
 }

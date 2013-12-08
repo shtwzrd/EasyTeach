@@ -10,7 +10,7 @@ import com.easyTeach.client.presenter.HelpPresenter;
  * 
  * @author Morten Faarkrog
  * @version 1.0
- * @date 5. December, 2013
+ * @date 7. December, 2013
  */
 
 public class Run {
@@ -25,7 +25,6 @@ public class Run {
         
         // Start application
         new UIColors();
-        new HelpPresenter();
         new LoginUI();
         new MainFrame();
 //        MainFrame.updateFrame(new ManageExerciseUI().getManageExerciseUI(), "Title");
@@ -34,8 +33,12 @@ public class Run {
 //        MainFrame.updateFrame(new ExerciseManagerUI().getExerciseManagerUI(), "Title");
 //        MainFrame.updateFrame(new QuestionManagerUI().getQuestionManagerUI(), "Title");
 //        MainFrame.updateFrame(new ManageClassUI().getManageClassUI(), "Title");
-        MainFrame.updateFrame(new AdminManagerUI().getAdminManagerUI(), "Admin Manager");
+//        MainFrame.updateFrame(new AdminManagerUI().getAdminManagerUI(), "Admin Manager");
 //        MainFrame.updateFrame(new ManageCourseUI().getManageCourseUI(), "Title");
+//        MainFrame.updateFrame(new TeacherManagerUI().getTeacherManagerUI(), "Teacher Manager");
+        MainFrame.updateFrame(new ManageExerciseInfoUI().getManageExerciseInfoUI(), "Title");
+//        MainFrame.updateFrame(new StudentManagerUI().getStudentManagerUI(), "Student Manager");
+        
     }
 
 }

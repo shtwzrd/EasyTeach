@@ -21,6 +21,7 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
 import com.easyTeach.client.presenter.HelpPresenter;
+import com.easyTeach.client.presenter.QuestionManagerPresenter;
 
 /**
  * The QuestionManagerUI class constructs a JPanel with all the different 
@@ -79,24 +80,8 @@ public class QuestionManagerUI  {
         questionManagerPanel = new JPanel(new BorderLayout());
         questionManagerPanel.setBackground(UIColors.lightBlue);
         
-        buildNorthPanel();
         buildCenterPanel();
         buildSouthPanel();               
-    }
-
-    /**
-     * Builds the north panel with the the headline of the UI.
-     */
-    private void buildNorthPanel() {
-        JPanel northPanel = new JPanel();
-        northPanel.setBackground(UIColors.darkBlue);
-        
-        JLabel lblManageQuestionTitle = new JLabel("Question Manager");
-        lblManageQuestionTitle.setForeground(UIColors.white);
-        lblManageQuestionTitle.setFont(new Font("Lucida Grande", Font.BOLD, 24));
-        northPanel.add(lblManageQuestionTitle);
-
-        questionManagerPanel.add(northPanel, BorderLayout.NORTH);
     }
     
     /**

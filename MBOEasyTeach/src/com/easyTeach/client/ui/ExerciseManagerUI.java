@@ -20,6 +20,7 @@ import javax.swing.JTextField;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
+import com.easyTeach.client.presenter.ExerciseManagerPresenter;
 import com.easyTeach.client.presenter.HelpPresenter;
 
 /**
@@ -49,6 +50,7 @@ public class ExerciseManagerUI {
     private JButton btnFilter;
     private JPanel questionTablePanel;
     private JTextField txtFilter;
+    private JButton btnDuplicateExercise;
 
     /**
      * Constructor for building the exerciseManagerPanel. The panel is built by
@@ -79,25 +81,8 @@ public class ExerciseManagerUI {
         exerciseManagerPanel = new JPanel(new BorderLayout());
         exerciseManagerPanel.setBackground(UIColors.lightBlue);
 
-        buildNorthPanel();
         buildCenterPanel();
         buildSouthPanel();
-    }
-
-    /**
-     * Builds the north panel with the the headline of the UI.
-     */
-    private void buildNorthPanel() {
-        JPanel northPanel = new JPanel();
-        northPanel.setBackground(UIColors.darkBlue);
-
-        JLabel lblManageExerciseTitle = new JLabel("Exercise Manager");
-        lblManageExerciseTitle.setForeground(UIColors.white);
-        lblManageExerciseTitle
-                .setFont(new Font("Lucida Grande", Font.BOLD, 24));
-        northPanel.add(lblManageExerciseTitle);
-
-        exerciseManagerPanel.add(northPanel, BorderLayout.NORTH);
     }
 
     /**
@@ -114,6 +99,9 @@ public class ExerciseManagerUI {
         btnEditExercise = new JButton("Edit Exercise");
         southButtonPanel.add(btnEditExercise);
 
+        btnDuplicateExercise = new JButton("Duplicate Exercise");
+        southButtonPanel.add(btnDuplicateExercise);
+        
         btnDeleteExercise = new JButton("Delete Exercise");
         southButtonPanel.add(btnDeleteExercise);
 
@@ -243,6 +231,7 @@ public class ExerciseManagerUI {
         btnEditExercise.addActionListener(listener);
         btnHelp.addActionListener(listener);
         btnFilter.addActionListener(listener);
+        btnDuplicateExercise.addActionListener(listener);
     }
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
@@ -265,7 +254,9 @@ public class ExerciseManagerUI {
         @Override
         public void actionPerformed(ActionEvent e) {
             if (e.getSource() == btnAddExercise) {
-
+                MainFrame.updateFrame(
+                        new ManageExerciseInfoUI().getManageExerciseInfoUI(),
+                        "Manage Exercise Info");
             }
 
             else if (e.getSource() == btnDeleteExercise) {
@@ -285,6 +276,10 @@ public class ExerciseManagerUI {
 
             else if (e.getSource() == btnFilter) {
 
+            }
+            
+            else if (e.getSource() == btnDuplicateExercise) {
+                
             }
         }
 
