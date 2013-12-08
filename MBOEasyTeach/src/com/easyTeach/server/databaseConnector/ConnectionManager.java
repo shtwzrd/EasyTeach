@@ -26,9 +26,9 @@ public class ConnectionManager {
     
     private static ConnectionManager instance = null;
 
-    private static final String USERNAME = "dbuser";
-    private static final String PASSWORD = "dbpassword";
-    private static final String CONN_STRING = "jdbc:mysql://localhost/easyTeach";
+    private static final String USERNAME = "MBOEasyTeach";
+    private static final String PASSWORD = "MBOEasyTeach1#";
+    private static final String CONN_STRING = "jdbc:mysql://MBOEasyTeach.db.10715691.hostedresource.com/MBOEasyTeach";
     private Connection conn = null;
     
     /** 

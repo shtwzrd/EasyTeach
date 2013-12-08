@@ -3,9 +3,11 @@ package com.easyTeach.common.network;
 import java.io.Serializable;
 
 import com.easyTeach.common.network.resource.Resource;
-/**
+import com.easyTeach.common.network.resource.RoleResource.Role;
+
+/**A Request is a message sent from Client to Server.
  * <p>
- *  A Request is an object encapsulating all the information
+ *  It is an object encapsulating all the information
  *  required to describe a task to perform on the server. It
  *  consists of an {@link Action} - a verb describing what to do,
  *  a {@link Resource} - an object encapsulating the state of the
@@ -13,6 +15,12 @@ import com.easyTeach.common.network.resource.Resource;
  *  object, which will be used for Authenticating and Authorizing
  *  the Request prior to honoring it.
  * </p>
+ * @see Resource
+ * @see Session
+ * @see Action
+ * @see Authenticator
+ * @see Router
+ * @see EasyTeachServer
  *
  * @author Brandon Lucas
  * @version 1.0
@@ -26,13 +34,12 @@ public final class Request implements Serializable {
 	private Action action;
 	private Resource resource;
 	private Session session;
+	private Role role;
 
 	/**
-	 * <p>
 	 * Constructor for an "empty" Request, not requiring a "noun."
 	 * A CLOSE Request typically does not require a Resource, for
 	 * example.
-	 * </p>
 	 * @param session The session object containing the credentials
 	 * of the currently logged-in user.
 	 * @param action Action object describing what the client would
@@ -60,6 +67,32 @@ public final class Request implements Serializable {
 		this.resource = resource;
 		this.session = session;
 	}
+	
+	/**
+	 * Constructor used by the Authenticator class.
+	 * 
+	 *  <p>
+	 *  Once the Authenticator has validated a user, it strips the
+	 *  Session object out of the Request, as it has already been
+	 *  verified, and instead it passes a Role object so that the
+	 *  Router knows what to do with it. <b> Don't send these kinds
+	 *  of Requests to the Server - it will reject them. </b>
+	 *  </p>
+	 * 
+	 * @param action Action object describing what the client would
+	 * like the server to do.
+	 * @param resource Object describing what sort of entity the
+	 * action should be performed upon, and any necessary state
+	 * required to do so.
+	 * @param role The level of privilege the Authenticator assigned
+	 * the Request.
+	 */
+	
+	public Request(Action action, Resource resource, Role role) {
+		this.action = action;
+		this.resource = resource;
+		this.role = role;
+	}
 
 	public Action getAction() {
 		return this.action;
@@ -71,6 +104,10 @@ public final class Request implements Serializable {
 
 	public Session getSession() {
 		return this.session;
+	}
+	
+	public Role getRole() {
+		return this.role;
 	}
 
 }

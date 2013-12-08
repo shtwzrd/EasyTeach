@@ -2,14 +2,15 @@ package com.easyTeach.common.network;
 
 import java.io.Serializable;
 
-/**
- * <p>
- * An Action is an object encapsulating the verb being issued by
- *  a {@link Request} object. An Action contains an {@link ActionType},
+/** An Action is an object encapsulating the verb being issued by
+ *  a {@link Request} object.
+ *  <li>
+ *  <p>
+ *  An Action contains an {@link ActionType},
  *  which are simple verbs. Additionally, an Action may have an
  *  Attribute string, which is useful in cases where additional
  *  information is required to perform an Action.
- * </p>
+ *  </p>
  *
  * @author Brandon Lucas
  * @version 1.0
@@ -24,9 +25,7 @@ public final class Action implements Serializable {
 	private String attribute;
 	
 	/**
-     * <p>
      * Constructor for a simple Action, containing no attribute.
-     * </p>
      *
      * @param ActionType the enummerated type of Action to be performed.
      *
@@ -38,9 +37,7 @@ public final class Action implements Serializable {
 	}
 	
 	/**
-     * <p>
      * Constructor for an Action requiring an attribute.
-     * </p>
      *
      * @param ActionType the enummerated type of Action to be performed.
      * @param attribute A string detailing any additional information required
@@ -61,9 +58,9 @@ public final class Action implements Serializable {
 	}
 	
 	/**
-	 *	<p>
 	 *	Enumeration used for describing what kind of {@link Action} to perform
 	 *	on a {@link Resource}.  
+	 *
 	 * @author Brandon Lucas
 	 * @version 1.0
 	 * @date 6. December, 2013

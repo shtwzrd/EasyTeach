@@ -1,8 +1,29 @@
 package com.easyTeach.common.network;
 
-public final class Session {
+import java.io.Serializable;
+
+/** Singleton containing the username and password of the user of
+ *  interest.
+ *  <li>
+ *  <p>
+ *  The Session object is attached to a Request and consumed by
+ *  the Authenticator on the Server-side, both for Authenticating
+ *  and Authorizing purposes. Requests sent without a Session would
+ *  be ignored by the Server.
+ *  </p>
+ * @see Request
+ * @see Authenticator
+ * @see EasyTeachServer
+ * 
+ * @author Brandon Lucas
+ * @version 1.0
+ * @date 5. December, 2013
+ */
+public final class Session implements Serializable {
     
-    private static Session instance = null;
+	private static final long serialVersionUID = 755503070261426219L;
+
+	private static Session instance = null;
     private String username;
     private String password;
     

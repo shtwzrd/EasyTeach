@@ -11,7 +11,29 @@ import com.easyTeach.common.network.Request;
 import com.easyTeach.common.network.Response;
 import com.easyTeach.common.network.Response.ResponseStatus;
 import com.easyTeach.server.domainLogic.Authenticator;
-
+/** Application server, implemented with Sockets sending serialized
+ * Java objects over TCP/IP.
+ * 
+ * <p> 
+ * The EasyTeachServer communicates with Clients by receiving
+ * Request objects and returning Response objects. The server
+ * discards incoming Requests lacking a Session, and sends all
+ * other Requests through to the Authenticator. The Authenticator
+ * communicates with the business logic and returns a Response to
+ * the Server, which the Server sends back to the Client, completing
+ * the communication.
+ * </p>
+ * 
+ * @author Brandon Lucas
+ * @version 1.1
+ * @date 3. December, 2013
+ * 
+ * @see Request
+ * @see Response
+ * @see Authenticator
+ * @see Session
+ * @see EasyTeachClient
+ */
 public class EasyTeachServer {
 	private ServerSocket providerSocket;
 	private Socket connection = null;
@@ -28,26 +50,35 @@ public class EasyTeachServer {
 	{
 		try {
 			providerSocket = new ServerSocket(8111, 10);
-
 			System.out.println("Waiting for connection");
 			connection = providerSocket.accept();
 			System.out.println("Connection received from " + connection.getInetAddress().getHostName());
 
+			//Initialize the input and output streams in preparation for communication with
+			//the client.
 			out = new ObjectOutputStream(connection.getOutputStream());
 			out.flush();
 			in = new ObjectInputStream(connection.getInputStream());
+
+			//Acknowledge the client's connection.
 			sendMessage(response);
 
 			do {
 				try {
+					//Read the Request and log it
 					request = (Request) in.readObject();
 					System.out.println("[Request]: " + request.getAction().getType().toString());
-					switch(request.getAction().getAttribute()) {
-					case "authenticate" : response = Authenticator.authenticateUser(
-							request.getSession());
-							break;
+
+					//Throw out Requests with no credentials
+					if(request.getSession() != null) {
+						response = Authenticator.authenticateUser(request);
+					} else {
+						response = new Response(ResponseStatus.FAILURE);
 					}
-					sendMessage(response);
+
+					if(request.getAction().getType() != ActionType.CLOSE) {
+						sendMessage(response);
+					}
 				}
 				catch(ClassNotFoundException classnot){
 					System.err.println("Data received in unknown format");
@@ -58,6 +89,7 @@ public class EasyTeachServer {
 			ioException.printStackTrace();
 		}
 		finally { 
+			//Cleanup
 			try {
 				in.close();
 				out.close();
@@ -79,9 +111,13 @@ public class EasyTeachServer {
 			ioException.printStackTrace();
 		}
 	}
+
+	/**
+	 * Server-side entry point.
+	 */
 	public static void main(String args[]) {
 		EasyTeachServer server = new EasyTeachServer();
-		while(true){
+		while (true) {
 			server.run();
 		}
 	}

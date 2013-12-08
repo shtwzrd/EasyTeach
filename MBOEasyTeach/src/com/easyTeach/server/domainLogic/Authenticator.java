@@ -1,48 +1,30 @@
 package com.easyTeach.server.domainLogic;
 
 import org.jasypt.util.password.StrongPasswordEncryptor;
-
 import com.easyTeach.common.entity.User;
+import com.easyTeach.common.network.Request;
 import com.easyTeach.common.network.Response;
 import com.easyTeach.common.network.Response.ResponseStatus;
-import com.easyTeach.common.network.Session;
 import com.easyTeach.common.network.resource.RoleResource;
 import com.easyTeach.common.network.resource.RoleResource.Role;
 import com.easyTeach.server.databaseWrapper.UserWrapper;
 
 
 /** 
- * <p>
- * The Authenticate class is a class that authenticates and Authorizes
- *  different operations sent to the server via Requests.
- * </p>
+ * The Authenticator class is a class that authenticates and authorizes
+ *  different operations sent to the server via {@link Request}s
  * 
- * @author Oliver Nielsen
- * @version 0.1
+ * @author Oliver Nielsen, Brandon Lucas
+ * @version 1.0
  * @date 06. December, 2013
  */
+public final class Authenticator {
 
+	/**
+	 * Private constructor for a class that is only referenced statically.
+	 */
+	private Authenticator() {}
 
-public class Authenticator {
-	
-	public Authenticator() {
-		// Empty constructor
-	}
-	
-	public static void main(String[] args) {
-		StrongPasswordEncryptor pEncrypt = new StrongPasswordEncryptor();
-		User user = new User();
-		user.setPassword(pEncrypt.encryptPassword("test"));
-		user.setEmail("tester@test.com");
-		user.setFirstName("TestFirst");
-		user.setLastName("TestLast");
-		user.setUserType("Student");
-		user.setDateAdded(new java.sql.Date(2014-12-01));
-//		new UserWrapper().insertIntoUser(user);
-		System.out.println(pEncrypt.checkPassword("test", user.getPassword()));
-	}
-	
-	
 	/**
 	 * Authenticates and Authorizes a user requesting interaction with the
 	 * Server.
@@ -52,29 +34,39 @@ public class Authenticator {
 	 * and the level of authorization given to the user provided
 	 * authentication was successful.
 	 */
-	
-	public static Response authenticateUser(Session session) {
+	public static Response authenticateUser(Request request) {
 		StrongPasswordEncryptor pEncrypt = new StrongPasswordEncryptor();
 
-		String username = session.getPassword();
-		String password = session.getPassword();
+		String username = request.getSession().getUsername();
+		String password = request.getSession().getPassword();
 
 		User user = UserWrapper.getUserRowWithEmail(username);
-		
-		
-		if (user != null && pEncrypt.checkPassword(password, user.getPassword())) {
-			RoleResource role = new RoleResource(Role.STUDENT);
-			switch(user.getUserType()) {
-				case "Student" : role = new RoleResource(Role.STUDENT);
-				break;
-				case "Teacher" : role = new RoleResource(Role.TEACHER);
-				break;
-				case "Admin"   : role = new RoleResource(Role.ADMIN);
-				break;
-			}
-			return new Response(ResponseStatus.SUCCESS, role); 
-		}
-		return new Response(ResponseStatus.FAILURE);
-	}
 
+
+		if (user != null && pEncrypt.checkPassword(password, user.getPassword())) {
+			Role role = Role.STUDENT;
+			switch(user.getUserType()) {
+				case "Student" : role = Role.STUDENT;
+					break;
+				case "Teacher" : role = Role.TEACHER;
+					break;
+				case "Admin"   : role = Role.ADMIN;
+					break;
+			}
+
+			//Special case: If the Action was simply to "authenticate", the client has
+			//succeeded. There is no need to further route the Request.
+			if(request.getAction().getAttribute().equals("authenticate")) {
+				return new Response(ResponseStatus.SUCCESS, new RoleResource(role));
+			//Otherwise, pass the Request to the Router to find out what to do with it.
+			} else {
+				Request toRouter = new Request(request.getAction(), request.getResource(),
+						role);
+				return Router.getResponse(toRouter);
+			}
+		} else { //We couldn't authenticate that user!	
+			return new Response(ResponseStatus.FAILURE);
+		}
+	}
 }
+
