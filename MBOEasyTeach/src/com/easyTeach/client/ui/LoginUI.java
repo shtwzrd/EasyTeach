@@ -172,7 +172,7 @@ public class LoginUI {
         public void actionPerformed(ActionEvent e) {
             if (e.getSource() == btnLogin) {
                 String username = txtUsername.getText();
-                char[] password = txtPassword.getPassword();
+                String password = txtPassword.getText();
                 
                 if (loginPresenter.validateUsername(username)) {
                     if (loginPresenter.canLogin(username, password)) {
@@ -183,7 +183,7 @@ public class LoginUI {
                         // Show suiting message here
                     }
                 }
-                Arrays.fill(password, ' ');
+                //Arrays.fill(password, ' ');
             }
             
             else if (e.getSource() == txtPassword) {
