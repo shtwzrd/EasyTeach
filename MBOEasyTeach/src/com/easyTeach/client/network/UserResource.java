@@ -7,8 +7,9 @@ import com.easyTeach.common.network.Resource;
 
 /**
  * <p>
- * The UserResource class is for receiving relevant information from our server
- * about a user which will be handled by the presenter.
+ * The UserResource class is for receiving or sending relevant information
+ * from our server about a user which will be handled by the presenter if 
+ * receiving information.
  * </p>
  * 
  * @author Oliver Nielsen
