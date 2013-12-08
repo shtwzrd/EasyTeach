@@ -21,16 +21,16 @@ import javax.swing.border.TitledBorder;
 import com.easyTeach.client.presenter.HelpPresenter;
 import com.easyTeach.client.presenter.LoginPresenter;
 
-/** 
+/**
  * <p>
- * The LoginUI class is one of the User Interface (UI) classes for the 
- * "MBO EasyTeach "application. It is part of the client side of the 
- * application and will be located on users' computers.
+ * The LoginUI class is one of the User Interface (UI) classes for the
+ * "MBO EasyTeach "application. It is part of the client side of the application
+ * and will be located on users' computers.
  * </p>
  * 
  * <p>
- * The class has a private inner class implements ActionListener for 
- * handling triggered events.
+ * The class has a private inner class implements ActionListener for handling
+ * triggered events.
  * </p>
  * 
  * @author Morten Faarkrog
@@ -45,22 +45,22 @@ public class LoginUI {
     private JTextField txtUsername;
     private JPasswordField txtPassword;
     private JButton btnLogin;
-    private JButton btnHelp;    
+    private JButton btnHelp;
+    private JButton btnQuit;
 
     /**
-     * Constructor for creating new instances of the Login UI.
-     * The constructor calls the buildUI method which creates all the 
-     * JComponents for the UI. 
+     * Constructor for creating new instances of the Login UI. The constructor
+     * calls the buildUI method which creates all the JComponents for the UI.
      */
     public LoginUI() {
         loginPresenter = new LoginPresenter();
         buildUI();
     }
-    
+
     /**
-     * The buildUI method constructs the JFrame and all of the components
-     * for the LoginUI. Moreover, an ActionListener that listens to events
-     * is added to all fields and buttons.
+     * The buildUI method constructs the JFrame and all of the components for
+     * the LoginUI. Moreover, an ActionListener that listens to events is added
+     * to all fields and buttons.
      */
     public void buildUI() {
         frame = new JFrame("EasyTeach - Login");
@@ -68,24 +68,26 @@ public class LoginUI {
         JPanel contentPane = new JPanel();
         contentPane.setLayout(new BorderLayout());
         frame.setContentPane(contentPane);
-        
+
         // Center panel
         JPanel centerPanel = new JPanel();
         centerPanel.setBackground(UIColors.lightBlue);
-        centerPanel.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP));
-        // GridBagLayout is used to position things more precisely. 
+        centerPanel.setBorder(new TitledBorder(null, "", TitledBorder.LEADING,
+                TitledBorder.TOP));
+        // GridBagLayout is used to position things more precisely.
         GridBagLayout gbl_centerPanel = new GridBagLayout();
-        gbl_centerPanel.columnWeights = new double[]{0, 0, 1, Double.MIN_VALUE};
-        gbl_centerPanel.rowWeights = new double[]{0, 0, Double.MIN_VALUE};
+        gbl_centerPanel.columnWeights = new double[] { 0, 0, 1,
+                Double.MIN_VALUE };
+        gbl_centerPanel.rowWeights = new double[] { 0, 0, Double.MIN_VALUE };
         centerPanel.setLayout(gbl_centerPanel);
-        
+
         JLabel lblUsername = new JLabel("Username");
         GridBagConstraints gbc_lblUsername = new GridBagConstraints();
         gbc_lblUsername.insets = new Insets(0, 0, 5, 5);
         gbc_lblUsername.gridx = 0;
         gbc_lblUsername.gridy = 0;
         centerPanel.add(lblUsername, gbc_lblUsername);
-        
+
         txtUsername = new JTextField();
         GridBagConstraints gbc_txtUsername = new GridBagConstraints();
         gbc_txtUsername.insets = new Insets(0, 0, 5, 0);
@@ -94,14 +96,14 @@ public class LoginUI {
         gbc_txtUsername.gridy = 0;
         centerPanel.add(txtUsername, gbc_txtUsername);
         txtUsername.setColumns(10);
-        
+
         JLabel lblPassword = new JLabel("Password");
         GridBagConstraints gbc_lblPassword = new GridBagConstraints();
         gbc_lblPassword.insets = new Insets(0, 0, 0, 5);
         gbc_lblPassword.gridx = 0;
         gbc_lblPassword.gridy = 1;
         centerPanel.add(lblPassword, gbc_lblPassword);
-        
+
         txtPassword = new JPasswordField();
         GridBagConstraints gbc_txtPassword = new GridBagConstraints();
         gbc_txtPassword.fill = GridBagConstraints.HORIZONTAL;
@@ -110,22 +112,25 @@ public class LoginUI {
         centerPanel.add(txtPassword, gbc_txtPassword);
 
         contentPane.add(centerPanel, BorderLayout.CENTER);
-        
+
         // Button panel - South border
         JPanel btnPanel = new JPanel();
         btnPanel.setBackground(UIColors.darkBlue);
         btnPanel.setBorder(new EtchedBorder(EtchedBorder.LOWERED));
         contentPane.add(btnPanel, BorderLayout.SOUTH);
-        
+
         btnLogin = new JButton("Login");
         btnPanel.add(btnLogin);
-        
+
         btnHelp = new JButton("Help");
         btnPanel.add(btnHelp);
-        
+
+        btnQuit = new JButton("Quit");
+        btnPanel.add(btnQuit);
+
         // Button listeners
         addActionListeners();
-        
+
         frame.setResizable(false);
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -133,32 +138,33 @@ public class LoginUI {
     }
 
     /**
-     * Method in charge of adding an ActionListener to the various
-     * buttons and fields in the LoginUI.
+     * Method in charge of adding an ActionListener to the various buttons and
+     * fields in the LoginUI.
      */
     private void addActionListeners() {
         LoginUIListener listener = new LoginUIListener();
         btnLogin.addActionListener(listener);
         btnHelp.addActionListener(listener);
+        btnQuit.addActionListener(listener);
         txtUsername.addActionListener(listener);
         txtPassword.addActionListener(listener);
     }
-    
+
     /**
      * Explain here
      */
     public synchronized void loadFromPresenter() {
-        
+
     }
-    
-    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - // 
-    
+
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
+
     /**
      * <p>
-     * The inner private LoginUIListener class is in charge of listening
-     * for events happening in the LoginUI (e.g. an user clicking the help
-     * button). When an event occurs the LoginUIListener will send a signal
-     * to the LoginPresenter which will in return act upon the event.
+     * The inner private LoginUIListener class is in charge of listening for
+     * events happening in the LoginUI (e.g. an user clicking the help button).
+     * When an event occurs the LoginUIListener will send a signal to the
+     * LoginPresenter which will in return act upon the event.
      * </p>
      * 
      * @author Morten Faarkrog
@@ -167,40 +173,60 @@ public class LoginUI {
      * @date 28. November, 2013
      */
     private class LoginUIListener implements ActionListener {
-       
+
         @Override
         public void actionPerformed(ActionEvent e) {
             if (e.getSource() == btnLogin) {
                 String username = txtUsername.getText();
+<<<<<<< HEAD
                 String password = txtPassword.getText();
                 
+=======
+                char[] password = txtPassword.getPassword();
+
+>>>>>>> userInterface
                 if (loginPresenter.validateUsername(username)) {
                     if (loginPresenter.canLogin(username, password)) {
                         new MainFrame();
+                        // if usertype = admin
+                        MainFrame.updateFrame(
+                                new AdminManagerUI().getAdminManagerUI(),
+                                "Admin Manager");
                         frame.dispose();
-                    } 
-                    else {
+                    } else {
                         // Show suiting message here
                     }
                 }
                 //Arrays.fill(password, ' ');
             }
-            
+
             else if (e.getSource() == txtPassword) {
                 btnLogin.doClick();
             }
-            
+
             else if (e.getSource() == txtUsername) {
-                btnLogin.doClick();                
+                btnLogin.doClick();
             }
-            
+
             else if (e.getSource() == btnHelp) {
-                JOptionPane.showMessageDialog(null, HelpPresenter.getLoginHelp(), 
-                        HelpPresenter.getLoginTitle(), JOptionPane.PLAIN_MESSAGE, 
-                        HelpPresenter.getHelpIcon());
+                JOptionPane.showMessageDialog(null,
+                        HelpPresenter.getLoginHelp(),
+                        HelpPresenter.getLoginTitle(),
+                        JOptionPane.PLAIN_MESSAGE, HelpPresenter.getHelpIcon());
+            }
+
+            else if (e.getSource() == btnQuit) {
+                int reply = JOptionPane
+                        .showConfirmDialog(
+                                null,
+                                "Are you sure you want to go to quit the \"MBO EasyTeach\" application?",
+                                "Quit Message", JOptionPane.YES_NO_OPTION);
+                if (reply == JOptionPane.YES_OPTION) {
+                    System.exit(1);
+                }
             }
         }
-        
+
     }
 
 }

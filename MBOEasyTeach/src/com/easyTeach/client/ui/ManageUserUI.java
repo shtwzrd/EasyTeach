@@ -2,7 +2,6 @@ package com.easyTeach.client.ui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
@@ -204,7 +203,7 @@ public class ManageUserUI {
         lblUserType.setHorizontalAlignment(SwingConstants.CENTER);
         infoPanel.add(lblUserType);
 
-        JComboBox userTypeBox = new JComboBox();
+        userTypeBox = new JComboBox();
         userTypeBox.setModel(new DefaultComboBoxModel(USER_TYPES));
         infoPanel.add(userTypeBox);
 
