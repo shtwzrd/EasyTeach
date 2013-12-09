@@ -1,6 +1,6 @@
 package com.easyTeach.common.network;
 
-import com.easyTeach.common.network.Resource;
+import com.easyTeach.common.network.resource.Resource;
 
 /**
  * <p>

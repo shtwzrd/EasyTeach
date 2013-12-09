@@ -3,7 +3,8 @@ package com.easyTeach.common.network;
 import java.util.HashSet;
 
 import com.easyTeach.common.entity.Exercise;
-import com.easyTeach.common.network.Resource;
+import com.easyTeach.common.network.resource.QuestionResource;
+import com.easyTeach.common.network.resource.Resource;
 
 /**
  * <p>
