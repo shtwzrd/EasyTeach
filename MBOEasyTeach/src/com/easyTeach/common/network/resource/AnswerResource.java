@@ -92,7 +92,5 @@ public class AnswerResource implements Resource {
 	public String getName() {
 		return "AnswerResource";
 	}
-	
-	
 
 }

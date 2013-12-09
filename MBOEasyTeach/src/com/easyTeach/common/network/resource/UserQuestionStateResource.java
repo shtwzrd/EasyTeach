@@ -1,5 +1,6 @@
 package com.easyTeach.common.network.resource;
 
+import com.easyTeach.common.entity.UserQuestionState;
 
 /**
  * <p>
