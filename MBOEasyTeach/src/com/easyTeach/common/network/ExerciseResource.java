@@ -1,4 +1,4 @@
-package com.easyTeach.client.network;
+package com.easyTeach.common.network;
 
 import java.util.HashSet;
 
@@ -12,8 +12,8 @@ import com.easyTeach.common.network.Resource;
  * </p>
  * 
  * @author Oliver Nielsen
- * @version 0.2
- * @date 8. December, 2013
+ * @version 1.0
+ * @date 9. December, 2013
  * @obvious Comments for methods are omitted as they are self explanatory
  *          (getters).
  */
@@ -22,6 +22,7 @@ public class ExerciseResource implements Resource {
 
 	private static final long serialVersionUID = -1099918936461854937L;
 
+	private String exerciseNo;
 	private String courseNo;
 	private String userNo; // Author
 	private String exerciseName;
@@ -43,8 +44,8 @@ public class ExerciseResource implements Resource {
 	// RECEIVING INFORMATION
 	/**
 	 * <p>
-	 * Constructor for receiving information for a test from the server side of
-	 * the application.
+	 * This constructor for receiving information for a test from the server
+	 * side of the application.
 	 * </p>
 	 * 
 	 * @param courseNo
@@ -86,8 +87,8 @@ public class ExerciseResource implements Resource {
 
 	/**
 	 * <p>
-	 * Constructor for receiving information for a quiz from the server side of
-	 * the application.
+	 * This constructor for receiving information for a quiz from the server
+	 * side of the application.
 	 * </p>
 	 * 
 	 * @param courseNo
@@ -103,7 +104,7 @@ public class ExerciseResource implements Resource {
 	 * 
 	 * @see Exercise
 	 */
-	public ExerciseResource(String courseNo, String userNo,
+	public ExerciseResource(String exerciseNo, String courseNo, String userNo,
 			String exerciseName, java.sql.Date dateAdded,
 			HashSet<QuestionResource> questions) {
 		this.courseNo = courseNo;
@@ -117,10 +118,12 @@ public class ExerciseResource implements Resource {
 	// SENDING INFORMATION
 	/**
 	 * <p>
-	 * Constructor for sending information for a test to the server side of the
-	 * application.
+	 * This constructor for sending information for a test to the server side of
+	 * the application.
 	 * </p>
 	 * 
+	 * @param exerciseNo
+	 *            The exercise number.
 	 * @param courseNo
 	 *            The number for the specific course the test is for.
 	 * @param userNo
@@ -142,10 +145,11 @@ public class ExerciseResource implements Resource {
 	 * 
 	 * @see Exercise
 	 */
-	public ExerciseResource(String courseNo, String userNo,
+	public ExerciseResource(String exerciseNo, String courseNo, String userNo,
 			String exerciseName, String password, boolean isLocked,
 			java.sql.Timestamp accessBegin, java.sql.Timestamp accessEnd,
 			int timeLimit, HashSet<QuestionResource> questions) {
+		this.exerciseNo = exerciseNo;
 		this.courseNo = courseNo;
 		this.userNo = userNo;
 		this.exerciseName = exerciseName;
@@ -160,10 +164,12 @@ public class ExerciseResource implements Resource {
 
 	/**
 	 * <p>
-	 * Constructor for sending information for a quiz to the server side of the
-	 * application.
+	 * This constructor for sending information for a quiz to the server side of
+	 * the application.
 	 * </p>
 	 * 
+	 * @param exerciseNo
+	 *            The exercise number.
 	 * @param courseNo
 	 *            The number for the specific course the test is for.
 	 * @param userNo
@@ -175,13 +181,18 @@ public class ExerciseResource implements Resource {
 	 * 
 	 * @see Exercise
 	 */
-	public ExerciseResource(String courseNo, String userNo,
+	public ExerciseResource(String exerciseNo, String courseNo, String userNo,
 			String exerciseName, HashSet<QuestionResource> questions) {
+		this.exerciseNo = exerciseNo;
 		this.courseNo = courseNo;
 		this.userNo = userNo;
 		this.exerciseName = exerciseName;
 		this.questions = questions;
 		this.isTest = false;
+	}
+
+	public String getExerciseNo() {
+		return exerciseNo;
 	}
 
 	public String getCourseNo() {

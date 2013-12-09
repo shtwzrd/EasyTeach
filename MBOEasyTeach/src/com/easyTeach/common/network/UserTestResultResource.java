@@ -1,4 +1,4 @@
-package com.easyTeach.client.network;
+package com.easyTeach.common.network;
 
 import com.easyTeach.common.entity.UserTestResult;
 import com.easyTeach.common.network.Resource;
@@ -10,8 +10,8 @@ import com.easyTeach.common.network.Resource;
  * </p>
  * 
  * @author Oliver Nielsen
- * @version 0.2
- * @date 8. December, 2013
+ * @version 1.0
+ * @date 9. December, 2013
  * @obvious Comments for methods are omitted as they are self explanatory
  *          (getters).
  */
@@ -27,19 +27,19 @@ public class UserTestResultResource implements Resource {
 
 	/**
 	 * <p>
-	 * Constructor for receiving information for an users test result from the
-	 * server side of the application.
+	 * This constructor for receiving information for an users test result from
+	 * the server side of the application.
 	 * </p>
 	 * 
 	 * <p>
-	 * The constructor is also used for sending information for an users test
+	 * This constructor is also used for sending information for an users test
 	 * result to the server side of the application.
 	 * </p>
 	 * 
 	 * @param userNo
-	 *            The user.
+	 *            The user number.
 	 * @param exerciseNo
-	 *            The exercise.
+	 *            The exercise number.
 	 * @param score
 	 *            The score the user got from the exercise.
 	 * 

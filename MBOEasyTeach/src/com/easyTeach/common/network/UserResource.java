@@ -1,4 +1,4 @@
-package com.easyTeach.client.network;
+package com.easyTeach.common.network;
 
 import java.util.HashSet;
 
@@ -12,8 +12,8 @@ import com.easyTeach.common.network.Resource;
  * </p>
  * 
  * @author Oliver Nielsen
- * @version 0.2
- * @date 7. December, 2013
+ * @version 1.0
+ * @date 9. December, 2013
  * @obvious Comments for methods are omitted as they are self explanatory
  *          (getters).
  */
@@ -34,8 +34,8 @@ public class UserResource implements Resource {
 
 	/**
 	 * <p>
-	 * Constructor for receiving information for a user from the server side of
-	 * the application.
+	 * This constructor for receiving information for a user from the server
+	 * side of the application.
 	 * </p>
 	 * 
 	 * @param email
@@ -62,8 +62,8 @@ public class UserResource implements Resource {
 
 	/**
 	 * <p>
-	 * Constructor for sending information for a user to the server side of the
-	 * application.
+	 * This constructor for sending information for a user to the server side of
+	 * the application.
 	 * </p>
 	 * 
 	 * @param email
