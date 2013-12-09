@@ -178,13 +178,8 @@ public class LoginUI {
         public void actionPerformed(ActionEvent e) {
             if (e.getSource() == btnLogin) {
                 String username = txtUsername.getText();
-<<<<<<< HEAD
                 String password = txtPassword.getText();
-                
-=======
-                char[] password = txtPassword.getPassword();
 
->>>>>>> userInterface
                 if (loginPresenter.validateUsername(username)) {
                     if (loginPresenter.canLogin(username, password)) {
                         new MainFrame();
@@ -197,7 +192,7 @@ public class LoginUI {
                         // Show suiting message here
                     }
                 }
-                //Arrays.fill(password, ' ');
+                // Arrays.fill(password, ' ');
             }
 
             else if (e.getSource() == txtPassword) {
@@ -216,9 +211,7 @@ public class LoginUI {
             }
 
             else if (e.getSource() == btnQuit) {
-                int reply = JOptionPane
-                        .showConfirmDialog(
-                                null,
+                int reply = JOptionPane.showConfirmDialog(null,
                                 "Are you sure you want to go to quit the \"MBO EasyTeach\" application?",
                                 "Quit Message", JOptionPane.YES_NO_OPTION);
                 if (reply == JOptionPane.YES_OPTION) {
