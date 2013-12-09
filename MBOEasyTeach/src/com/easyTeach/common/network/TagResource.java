@@ -1,5 +1,7 @@
 package com.easyTeach.common.network;
 
+import java.util.HashSet;
+
 import com.easyTeach.common.entity.Tag;
 import com.easyTeach.common.network.resource.Resource;
 
@@ -22,6 +24,8 @@ public class TagResource implements Resource {
 
 	private String tagNo;
 	private String tag;
+
+	private HashSet<TagResource> tags;
 
 	/**
 	 * <p>
@@ -56,12 +60,31 @@ public class TagResource implements Resource {
 		this.tag = tag;
 	}
 
+	/**
+	 * <p>
+	 * This constructor is used for sending information for a tag to the server
+	 * side of the application.
+	 * </p>
+	 * 
+	 * @param tags
+	 *            A HashSet of all the tags.
+	 * 
+	 * @see Tag
+	 */
+	public TagResource(HashSet<TagResource> tags) {
+		this.tags = tags;
+	}
+
 	public String getTagNo() {
 		return tagNo;
 	}
 
 	public String getTag() {
 		return tag;
+	}
+
+	public HashSet<TagResource> getTags() {
+		return tags;
 	}
 
 }
