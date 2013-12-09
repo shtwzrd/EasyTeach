@@ -4,7 +4,6 @@ package com.easyTeach.common.network.resource;
 import java.util.HashSet;
 
 import com.easyTeach.common.entity.Question;
-import com.easyTeach.common.network.Resource;
 
 /**
  * <p>
@@ -113,6 +112,11 @@ public class QuestionResource implements Resource {
 
 	public HashSet<AnswerResource> getAnswer() {
 		return answer;
+	}
+
+	@Override
+	public String getName() {
+		return "QuestionResource";
 	}
 
 }

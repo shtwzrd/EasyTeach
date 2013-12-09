@@ -38,4 +38,9 @@ public class RoleResource implements Resource {
 		STUDENT, TEACHER, ADMIN;
 	}
 
+	@Override
+	public String getName() {
+		return "RoleResource";
+	}
+
 }

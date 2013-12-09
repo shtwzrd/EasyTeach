@@ -1,7 +1,6 @@
-package com.easyTeach.common.network;
+package com.easyTeach.common.network.resource;
 
 import com.easyTeach.common.entity.Answer;
-import com.easyTeach.common.network.resource.Resource;
 
 /**
  * <p>
