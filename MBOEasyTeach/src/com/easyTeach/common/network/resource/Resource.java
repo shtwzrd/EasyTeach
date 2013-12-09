@@ -18,5 +18,7 @@ import java.io.Serializable;
  * @see Response
  */
 public interface Resource extends Serializable {
+	
+	public String getName();
 
 }
