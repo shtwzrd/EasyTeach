@@ -8,16 +8,43 @@ import com.easyTeach.common.network.Response.ResponseStatus;
 import com.easyTeach.common.network.resource.TagResource;
 import com.easyTeach.server.databaseWrapper.TagWrapper;
 
+/**
+ * <p>
+ * The TagResourceRules class returns all needed domain logic (or business
+ * logic) to the @Response class.
+ * </p>
+ * 
+ * @author Tonni Hyldgaard
+ * @version 0.1
+ * @see Tag
+ * @see TagResource
+ * @see TagWrapper
+ * @see Response
+ * @data 9. December, 2013.
+ */
+
 public class TagResourceRules {
 
-	private TagResourceRules() {
+	private TagResourceRules() {}
 
-	}
-
+	/**
+	 * 
+	 * @param tag
+	 * @return
+	 */
 	public static Response addTag(TagResource tag) {
 		return null;
 	}
 
+	/**
+	 * <p>
+	 * 
+	 * </p>
+	 * 
+	 * @param tag
+	 * @return
+	 */
+	
 	public static Response getTag(TagResource tag) {
 		Tag tagEntity = TagWrapper.getTagRowWithTagNo(tag.getTagNo());
 
@@ -43,10 +70,17 @@ public class TagResourceRules {
 	}
 
 	public static Response removeTag(TagResource tag) {
-		
+		if (TagWrapper.deleteTagRow(tag.getTagNo())) {
+			return new Response(ResponseStatus.SUCCESS);
+		} else {
+			return new Response(ResponseStatus.FAILURE);
+		}
 	}
 
 	public static Response updateTag(TagResource tag) {
+		if (TagWrapper.updateTagRow(new Tag(tag.))) {
+			return new Response()
+		}
 	}
 
 	private static TagResource convert(Tag tag) {
