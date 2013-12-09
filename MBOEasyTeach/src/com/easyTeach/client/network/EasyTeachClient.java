@@ -14,7 +14,7 @@ import com.easyTeach.common.network.Response;
 import com.easyTeach.common.network.Session;
 
 /** A client used for connecting to the server and issuing a single request.
- * <li> 
+ * <br> 
  * <p>
  * The EasyTeachClient is used by the various Presenter classes to query
  * data from the server and alert the server of any changes in Resource state.
@@ -72,7 +72,7 @@ public class EasyTeachClient{
 				sendMessage(closeConnection);
 			}
 			catch(ClassNotFoundException classNot) {
-				System.err.println("![Error]: Data received in an unknown format");
+				System.err.println("! [Error]: Data received in an unknown format");
 			}
 		}
 		catch(UnknownHostException unknownHost) {
@@ -95,7 +95,7 @@ public class EasyTeachClient{
 	}
 
 	private void sendMessage(Request request) {
-		try{
+		try {
 			out.writeObject(request);
 			out.flush();
 			System.out.println("[Client]: Issuing a " +
