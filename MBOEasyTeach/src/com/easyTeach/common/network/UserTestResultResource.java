@@ -63,4 +63,9 @@ public class UserTestResultResource implements Resource {
 		return score;
 	}
 
+	@Override
+	public String getName() {
+		return "UserTestResultResource";
+	}
+
 }

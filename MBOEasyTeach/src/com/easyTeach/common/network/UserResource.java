@@ -119,4 +119,9 @@ public class UserResource implements Resource {
 		return classes;
 	}
 
+	@Override
+	public String getName() {
+		return "UserResource";
+	}
+
 }

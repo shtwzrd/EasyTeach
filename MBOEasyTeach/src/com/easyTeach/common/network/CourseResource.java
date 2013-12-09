@@ -78,5 +78,10 @@ public class CourseResource implements Resource {
 	public HashSet<ClassResource> getClasses() {
 		return classes;
 	}
+	
+	@Override
+	public String getName() {
+		return "CourseResource";
+	}
 
 }

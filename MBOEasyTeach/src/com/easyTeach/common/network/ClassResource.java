@@ -91,4 +91,9 @@ public class ClassResource implements Resource {
 		return users;
 	}
 
+	@Override
+	public String getName() {
+		return "ClassResource";
+	}
+
 }

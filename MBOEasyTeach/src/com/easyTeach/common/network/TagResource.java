@@ -87,4 +87,9 @@ public class TagResource implements Resource {
 		return tags;
 	}
 
+	@Override
+	public String getName() {
+		return "TagResource";
+	}
+
 }

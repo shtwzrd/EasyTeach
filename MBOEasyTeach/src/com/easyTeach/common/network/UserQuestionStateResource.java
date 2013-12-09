@@ -15,7 +15,7 @@ import com.easyTeach.common.network.resource.Resource;
  *          (getters).
  */
 
-public class UserQuestionState implements Resource {
+public class UserQuestionStateResource implements Resource {
 
 	private static final long serialVersionUID = 1147390704665718441L;
 
@@ -45,7 +45,7 @@ public class UserQuestionState implements Resource {
 	 * 
 	 * @see UserQuestionState
 	 */
-	public UserQuestionState(String userNo, String questionNo,
+	public UserQuestionStateResource(String userNo, String questionNo,
 			boolean hasCompleted) {
 		this.userNo = userNo;
 		this.questionNo = questionNo;
@@ -62,6 +62,11 @@ public class UserQuestionState implements Resource {
 
 	public boolean isHasCompleted() {
 		return hasCompleted;
+	}
+
+	@Override
+	public String getName() {
+		return "UserQuestionStateResource";
 	}
 
 }

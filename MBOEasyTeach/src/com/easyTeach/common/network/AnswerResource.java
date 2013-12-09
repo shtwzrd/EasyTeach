@@ -89,4 +89,11 @@ public class AnswerResource implements Resource {
 		return isCorrect;
 	}
 
+	@Override
+	public String getName() {
+		return "AnswerResource";
+	}
+	
+	
+
 }

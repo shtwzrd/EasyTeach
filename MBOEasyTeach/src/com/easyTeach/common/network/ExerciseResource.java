@@ -240,4 +240,9 @@ public class ExerciseResource implements Resource {
 		return questions;
 	}
 
+	@Override
+	public String getName() {
+		return "ExerciseResource";
+	}
+
 }
