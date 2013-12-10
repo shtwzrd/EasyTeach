@@ -18,11 +18,22 @@ package com.easyTeach.common.entity;
  *          (getters/setters).
  */
 
-public class Course {
+public class Course implements Resource {
 
-    private String courseNo;    // INTEGER in DB
+	private static final long serialVersionUID = 4525515384143342071L;
+
+	private String courseNo;    // INTEGER in DB
     private String courseName;
     
+    public Course() {
+    	
+    }
+
+	public Course(String courseNo, String courseName) {
+		this.courseNo = courseNo;
+		this.courseName = courseName;
+	}
+
     public String getCourseNo() {
         return courseNo;
     }
@@ -38,5 +49,10 @@ public class Course {
     public void setCourseName(String courseName) {
         this.courseName = courseName;
     }
+
+	@Override
+	public String getName() {
+		return "Course";
+	}
     
 }

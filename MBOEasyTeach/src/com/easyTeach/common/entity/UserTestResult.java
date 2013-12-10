@@ -25,12 +25,23 @@ package com.easyTeach.common.entity;
  *          (getters/setters).
  */
 
-public class UserTestResult {
+public class UserTestResult implements Resource {
 
-    private String userNo;      // INTEGER in DB
-    private String exerciseNo;  // INTEGER in DB
+	private static final long serialVersionUID = 7930833334069648679L;
+	private String userNo;      // INTEGER in DB
+	private String exerciseNo;  // INTEGER in DB
     private int score;
     
+    public UserTestResult() {
+    	
+    }
+
+    public UserTestResult(String userNo, String exerciseNo, int score) {
+		this.userNo = userNo;
+		this.exerciseNo = exerciseNo;
+		this.score = score;
+	}
+
     public String getUserNo() {
         return userNo;
     }
@@ -54,5 +65,10 @@ public class UserTestResult {
     public void setScore(int score) {
         this.score = score;
     }
+
+	@Override
+	public String getName() {
+		return "UserTestResult";
+	}
     
 }

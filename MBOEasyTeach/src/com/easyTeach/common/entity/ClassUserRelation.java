@@ -26,11 +26,22 @@ package com.easyTeach.common.entity;
  *          (getters/setters).
  */
 
-public class ClassUserRelation {
+public class ClassUserRelation implements Resource {
     
-    private String classNo;   // INTEGER in DB
+	private static final long serialVersionUID = 7692567916121784096L;
+	private String classNo;   // INTEGER in DB
     private String userNo;    // INTEGER in DB
     
+    public ClassUserRelation() {
+    	
+    }
+
+    public ClassUserRelation(String classNo, String userNo) {
+		this.classNo = classNo;
+		this.userNo = userNo;
+	}
+
+	
     public String getClassNo() {
         return classNo;
     }
@@ -46,5 +57,10 @@ public class ClassUserRelation {
     public void setUserNo(String userNo) {
         this.userNo = userNo;
     }
+
+	@Override
+	public String getName() {
+		return "ClassUserRelation";
+	}
 
 }

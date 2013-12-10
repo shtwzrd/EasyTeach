@@ -26,10 +26,22 @@ package com.easyTeach.common.entity;
  *          (getters/setters).
  */
 
-public class QuestionTagRelation {
+public class QuestionTagRelation implements Resource {
     
-    private String questionNo;  // INTEGER in DB
+	private static final long serialVersionUID = -7709188094760631201L;
+
+	private String questionNo;  // INTEGER in DB
     private String tagNo;       // INTEGER in DB
+    
+
+    public QuestionTagRelation() {
+    	
+    }
+
+	public QuestionTagRelation(String questionNo, String tagNo) {
+		this.questionNo = questionNo;
+		this.tagNo = tagNo;
+	}
 
     public String getQuestionNo() {
         return questionNo;
@@ -46,5 +58,10 @@ public class QuestionTagRelation {
     public void setTagNo(String tagNo) {
         this.tagNo = tagNo;
     }
+
+	@Override
+	public String getName() {
+		return "QuestionTagRelation";
+	}
     
 }

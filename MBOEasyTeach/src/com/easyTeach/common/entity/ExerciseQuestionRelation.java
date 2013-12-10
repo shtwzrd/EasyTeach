@@ -26,11 +26,21 @@ package com.easyTeach.common.entity;
  *          (getters/setters).
  */
 
-public class ExerciseQuestionRelation {
+public class ExerciseQuestionRelation implements Resource {
     
-    private String exerciseNo;  // INTEGER in DB
-    private String questionNo;  // INTEGER in DB
+	private static final long serialVersionUID = -3678477660464296628L;
+	private String exerciseNo;  // INTEGER in DB
+	private String questionNo;  // INTEGER in DB
     
+    public ExerciseQuestionRelation() {
+    	
+    }
+    
+    public ExerciseQuestionRelation(String exerciseNo, String questionNo) {
+		this.exerciseNo = exerciseNo;
+		this.questionNo = questionNo;
+	}
+
     public String getExerciseNo() {
         return exerciseNo;
     }
@@ -46,5 +56,10 @@ public class ExerciseQuestionRelation {
     public void setQuestionNo(String questionNo) {
         this.questionNo = questionNo;
     }
+
+	@Override
+	public String getName() {
+		return "ExerciseQuestionRelation";
+	}
     
 }
