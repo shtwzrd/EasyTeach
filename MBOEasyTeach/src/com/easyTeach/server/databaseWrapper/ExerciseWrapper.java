@@ -47,7 +47,7 @@ public class ExerciseWrapper {
             stmt.setString(3, exerciseEntity.getAuthor());
             stmt.setString(4, exerciseEntity.getExerciseParameterNo());
             stmt.setString(5, exerciseEntity.getExerciseName());
-            stmt.setDate(6, exerciseEntity.getDateAdded());
+            stmt.setTimestamp(6, exerciseEntity.getDateAdded());
             stmt.setString(7, exerciseEntity.getPassword());
 
             int affected = stmt.executeUpdate();
@@ -150,7 +150,7 @@ public class ExerciseWrapper {
                 exerciseEntity.setExerciseParameterNo(rs
                         .getString("exerciseParameterNo"));
                 exerciseEntity.setExerciseName(rs.getString("exerciseName"));
-                exerciseEntity.setDateAdded(rs.getDate("dateAdded"));
+                exerciseEntity.setDateAdded(rs.getTimestamp("dateAdded"));
                 exerciseEntity.setPassword(rs.getString("password"));
 
                 hashSet.add(exerciseEntity);
@@ -188,7 +188,7 @@ public class ExerciseWrapper {
             exerciseEntity.setExerciseParameterNo(rs
                     .getString("exerciseParameterNo"));
             exerciseEntity.setExerciseName(rs.getString("exerciseName"));
-            exerciseEntity.setDateAdded(rs.getDate("dateAdded"));
+            exerciseEntity.setDateAdded(rs.getTimestamp("dateAdded"));
             exerciseEntity.setPassword(rs.getString("password"));
 
             return exerciseEntity;
@@ -236,7 +236,7 @@ public class ExerciseWrapper {
                 exerciseEntity.setExerciseParameterNo(rs
                         .getString("exerciseParameterNo"));
                 exerciseEntity.setExerciseName(rs.getString("exerciseName"));
-                exerciseEntity.setDateAdded(rs.getDate("dateAdded"));
+                exerciseEntity.setDateAdded(rs.getTimestamp("dateAdded"));
                 exerciseEntity.setPassword(rs.getString("password"));
 
                 hashSet.add(exerciseEntity);

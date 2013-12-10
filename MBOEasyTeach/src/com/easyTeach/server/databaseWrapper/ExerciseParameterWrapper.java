@@ -46,8 +46,8 @@ public class ExerciseParameterWrapper {
             stmt.setString(1, exerciseParameterEntity.getExerciseParameterNo());
             stmt.setBoolean(2, exerciseParameterEntity.getIsTest());
             stmt.setBoolean(3, exerciseParameterEntity.getIsLocked());
-            stmt.setDate(4, exerciseParameterEntity.getAccessBegin());
-            stmt.setDate(5, exerciseParameterEntity.getAccessEnd());
+            stmt.setTimestamp(4, exerciseParameterEntity.getAccessBegin());
+            stmt.setTimestamp(5, exerciseParameterEntity.getAccessEnd());
             stmt.setInt(6, exerciseParameterEntity.getTimeLimit());
 
             int affected = stmt.executeUpdate();
@@ -82,8 +82,8 @@ public class ExerciseParameterWrapper {
             stmt.setString(1, exerciseParameterEntity.getExerciseParameterNo());
             stmt.setBoolean(2, exerciseParameterEntity.getIsTest());
             stmt.setBoolean(3, exerciseParameterEntity.getIsLocked());
-            stmt.setDate(4, exerciseParameterEntity.getAccessBegin());
-            stmt.setDate(5, exerciseParameterEntity.getAccessEnd());
+            stmt.setTimestamp(4, exerciseParameterEntity.getAccessBegin());
+            stmt.setTimestamp(5, exerciseParameterEntity.getAccessEnd());
             stmt.setInt(6, exerciseParameterEntity.getTimeLimit());
 
             int affected = stmt.executeUpdate();
@@ -151,8 +151,8 @@ public class ExerciseParameterWrapper {
                 exerciseParameterEntity.setIsTest(rs.getBoolean("isTest"));
                 exerciseParameterEntity.setIsLocked(rs.getBoolean("isLocked"));
                 exerciseParameterEntity.setAccessBegin(rs
-                        .getDate("accessBegin"));
-                exerciseParameterEntity.setAccessEnd(rs.getDate("accessEnd"));
+                        .getTimestamp("accessBegin"));
+                exerciseParameterEntity.setAccessEnd(rs.getTimestamp("accessEnd"));
                 exerciseParameterEntity.setTimeLimit(rs.getInt("timeLimit"));
 
                 hashSet.add(exerciseParameterEntity);
@@ -189,8 +189,8 @@ public class ExerciseParameterWrapper {
                     .getString("exerciseParameterNo"));
             exerciseParameterEntity.setIsTest(rs.getBoolean("isTest"));
             exerciseParameterEntity.setIsLocked(rs.getBoolean("isLocked"));
-            exerciseParameterEntity.setAccessBegin(rs.getDate("accessBegin"));
-            exerciseParameterEntity.setAccessEnd(rs.getDate("accessEnd"));
+            exerciseParameterEntity.setAccessBegin(rs.getTimestamp("accessBegin"));
+            exerciseParameterEntity.setAccessEnd(rs.getTimestamp("accessEnd"));
             exerciseParameterEntity.setTimeLimit(rs.getInt("timeLimit"));
 
             return exerciseParameterEntity;
