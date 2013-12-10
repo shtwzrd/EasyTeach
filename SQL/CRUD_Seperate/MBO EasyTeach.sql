@@ -7,12 +7,10 @@
  * design previously made. 
 
  * Before creating the tables, please create a database called "easyTeach".
- * CREATE DATABASE easyTeach; */
-
+   CREATE DATABASE MBOEasyTeach; */
 
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 /* Data Definition Language */
-
 DROP TABLE IF EXISTS ExerciseQuestionRelation;
 DROP TABLE IF EXISTS QuestionTagRelation;
 DROP TABLE IF EXISTS UserQuestionState;
@@ -196,5 +194,3 @@ CREATE TABLE ExerciseQuestionRelation (
 ) 	ENGINE 		InnoDB;
 
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
-
-SELECT * FROM User;
