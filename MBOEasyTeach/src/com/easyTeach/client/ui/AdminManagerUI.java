@@ -18,6 +18,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
+import com.easyTeach.client.presenter.DisplayTableModel;
 import com.easyTeach.client.presenter.HelpPresenter;
 
 /**
@@ -125,7 +126,7 @@ public class AdminManagerUI {
         coursePanel.setBackground(UIColors.lightBlue);
 
         courseTable = new JTable();
-        DefaultTableModel1 courseModel = new DefaultTableModel1();
+        DisplayTableModel courseModel = new DisplayTableModel();
         String[] courseHeads = { "Course name", "No. of Classes" };
         courseModel.setRowCount(1);
         courseModel.setColumnIdentifiers(courseHeads);
@@ -157,7 +158,7 @@ public class AdminManagerUI {
         classPanel.setBackground(UIColors.lightBlue);
 
         classTable = new JTable();
-        DefaultTableModel1 classModel = new DefaultTableModel1();
+        DisplayTableModel classModel = new DisplayTableModel();
         String[] classHeads = { "Class Name", "Year", "No. of Students" };
         classModel.setRowCount(1);
         classModel.setColumnIdentifiers(classHeads);
@@ -208,7 +209,7 @@ public class AdminManagerUI {
         adminPanel.setBackground(UIColors.lightBlue);
 
         adminTable = new JTable();
-        DefaultTableModel1 adminModel = new DefaultTableModel1();
+        DisplayTableModel adminModel = new DisplayTableModel();
         String[] adminHeads = { "Last name", "First name", "Email",
                 "Date added" };
         adminModel.setRowCount(1);
@@ -244,7 +245,7 @@ public class AdminManagerUI {
         teacherPanel.setBackground(UIColors.lightBlue);
 
         teacherTable = new JTable();
-        DefaultTableModel1 teacherModel = new DefaultTableModel1();
+        DisplayTableModel teacherModel = new DisplayTableModel();
         String[] teacherHeads = { "Last name", "First name", "Email",
                 "Date added" };
         teacherModel.setRowCount(1);
@@ -282,7 +283,7 @@ public class AdminManagerUI {
         studentPanel.setBackground(UIColors.lightBlue);
 
         studentTable = new JTable();
-        DefaultTableModel1 studentModel = new DefaultTableModel1();
+        DisplayTableModel studentModel = new DisplayTableModel();
         String[] studentHeads = { "Last name", "First name", "Email",
                 "Date added" };
         studentModel.setRowCount(1);
