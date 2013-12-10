@@ -11,9 +11,9 @@ import com.easyTeach.common.entity.Tag;
 import com.easyTeach.server.databaseConnector.ConnectionManager;
 
 /**
- * The TagWrapper is the class responsible for handling all the prepared 
- * CRUD SQL statements for manipulating with the Tag table residing in 
- * the MBO EasyTeach's database.
+ * The TagWrapper is the class responsible for handling all the prepared CRUD
+ * SQL statements for manipulating with the Tag table residing in the MBO
+ * EasyTeach's database.
  * 
  * @author Morten Faarkrog
  * @version 1.0
@@ -23,159 +23,149 @@ import com.easyTeach.server.databaseConnector.ConnectionManager;
 
 public class TagWrapper {
 
-    private static Connection conn = 
-            ConnectionManager.getInstance().getConnection();
-    
+    private static Connection conn = ConnectionManager.getInstance()
+            .getConnection();
+
     /**
-     * Inserts a new Tag row into the Tag table within the easyTeach 
-     * database. The prepared statement needs the Tag's tag.
+     * Inserts a new Tag row into the Tag table within the easyTeach database.
+     * The prepared statement needs the Tag's tagNo and tag.
      * 
-     * @param tagEntity is an instance of the class Tag
-     * @return true if the tagEntity is successfully inserted into the
-     * easyTeach database, otherwise false.
+     * @param tagEntity
+     *            is an instance of the class Tag
+     * @return true if the tagEntity is successfully inserted into the easyTeach
+     *         database, otherwise false.
      * @see Tag
      */
     public static boolean insertIntoTag(Tag tagEntity) {
-        String sql = "{call insertIntoTag(?)}";
+        String sql = "{call insertIntoTag(?,?)}";
 
-        try (
-                CallableStatement stmt = conn.prepareCall(sql);
-                ) {
-            stmt.setString(1, tagEntity.getTag());
-            
+        try (CallableStatement stmt = conn.prepareCall(sql);) {
+            stmt.setString(1, tagEntity.getTagNo());
+            stmt.setString(2, tagEntity.getTag());
+
             int affected = stmt.executeUpdate();
             if (affected == 1) {
                 return true;
             } else {
                 return false;
             }
-        }
-        catch(SQLException e) {
+        } catch (SQLException e) {
             System.err.println(e);
             return false;
         }
     }
-    
+
     /**
-     * Updates an existing Tag row in the Tag table within the 
-     * easyTeach database. The prepared statement needs the Tag's 
-     * tagNo and tag. 
+     * Updates an existing Tag row in the Tag table within the easyTeach
+     * database. The prepared statement needs the Tag's tagNo and tag.
      * 
-     * @param tagEntity is an instance of the class Tag
-     * @return true if the Tag row is successfully updated in the
-     * easyTeach database, otherwise false.
+     * @param tagEntity
+     *            is an instance of the class Tag
+     * @return true if the Tag row is successfully updated in the easyTeach
+     *         database, otherwise false.
      * @see Tag
      */
     public static boolean updateTagRow(Tag tagEntity) {
         String sql = "{call updateTagRow(?,?)}";
-        
-        try (
-                CallableStatement stmt = conn.prepareCall(sql);
-                ) {
+
+        try (CallableStatement stmt = conn.prepareCall(sql);) {
             stmt.setString(1, tagEntity.getTagNo());
             stmt.setString(2, tagEntity.getTag());
-            
+
             int affected = stmt.executeUpdate();
             if (affected == 1) {
                 return true;
             } else {
                 return false;
             }
-        }
-        catch(SQLException e) {
+        } catch (SQLException e) {
             System.err.println(e);
             return false;
-        } 
+        }
     }
-    
+
     /**
-     * Deletes an existing Tag row in the Tag table within the 
-     * easyTeach database. The prepared statement needs the Tag's 
-     * tagNo.
+     * Deletes an existing Tag row in the Tag table within the easyTeach
+     * database. The prepared statement needs the Tag's tagNo.
      * 
-     * @param tagNo is the primary key of the Tag table.
-     * @return true if the Tag row is successfully deleted in the
-     * easyTeach database, otherwise false.
+     * @param tagNo
+     *            is the primary key of the Tag table.
+     * @return true if the Tag row is successfully deleted in the easyTeach
+     *         database, otherwise false.
      * @see Tag
      */
     public static boolean deleteTagRow(String tagNo) {
         String sql = "{call deleteTagRow(?)}";
-        
-        try (
-                CallableStatement stmt = conn.prepareCall(sql);
-                ) {
+
+        try (CallableStatement stmt = conn.prepareCall(sql);) {
             stmt.setString(1, tagNo);
-            
+
             int affected = stmt.executeUpdate();
             if (affected == 1) {
                 return true;
             } else {
                 return false;
             }
-        }
-        catch(SQLException e) {
+        } catch (SQLException e) {
             System.err.println(e);
             return false;
         }
     }
-    
+
     /**
-     * Returns all the rows from the database's Tag table in the form of a 
-     * HashSet containing Tag entities.   
+     * Returns all the rows from the database's Tag table in the form of a
+     * HashSet containing Tag entities.
      * 
-     * @return a HashSet with all the rows in the Tag table from the
-     * easyTeach database. The rows are converted into Tag entities.
+     * @return a HashSet with all the rows in the Tag table from the easyTeach
+     *         database. The rows are converted into Tag entities.
      * @see Tag
      */
     public static HashSet<Tag> getTagRows() {
         String sql = "{call selectTagRows()}";
 
-        try (
-                PreparedStatement stmt = conn.prepareStatement(sql);
-                ResultSet rs = stmt.executeQuery();
-                ){
+        try (PreparedStatement stmt = conn.prepareStatement(sql);
+                ResultSet rs = stmt.executeQuery();) {
 
             HashSet<Tag> hashSet = new HashSet<Tag>();
-            
+
             while (rs.next()) {
                 Tag tagEntity = new Tag();
                 tagEntity.setTagNo(rs.getString("tagNo"));
                 tagEntity.setTag(rs.getString("tag"));
-                
+
                 hashSet.add(tagEntity);
             }
             return hashSet;
-            
+
         } catch (SQLException e) {
             System.err.println(e);
             return null;
         }
     }
-    
+
     /**
      * Returns a row from the database's Tag table with a specific tagNo.
      * 
-     * @param tagNo is the primary key of the Tag table.
+     * @param tagNo
+     *            is the primary key of the Tag table.
      * @return An instance of Tag
      * @see Tag
      */
     public static Tag getTagRowWithTagNo(String tagNo) {
         String sql = "{call selectTagRowWithTagNo(?)}";
         ResultSet rs = null;
-        
-        try (
-                PreparedStatement stmt = conn.prepareStatement(sql);
-                ) {
+
+        try (PreparedStatement stmt = conn.prepareStatement(sql);) {
             stmt.setString(1, tagNo);
             rs = stmt.executeQuery();
             rs.next();
-            
+
             Tag tagEntity = new Tag();
             tagEntity.setTagNo(rs.getString("tagNo"));
             tagEntity.setTag(rs.getString("tag"));
-            
+
             return tagEntity;
-            
+
         } catch (SQLException e) {
             System.err.println(e);
             return null;
@@ -184,11 +174,10 @@ public class TagWrapper {
                 if (rs != null) {
                     rs.close();
                 }
-            }
-            catch (SQLException e) {
-                System.err.println(e);                
+            } catch (SQLException e) {
+                System.err.println(e);
             }
         }
     }
-    
+
 }
