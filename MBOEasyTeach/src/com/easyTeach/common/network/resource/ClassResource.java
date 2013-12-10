@@ -72,6 +72,28 @@ public class ClassResource implements Resource {
 		this.year = year;
 		this.users = users;
 	}
+	
+	/**
+     * <p>
+     * This constructor is used for sending information for a class to the
+     * client side of the application.
+     * </p>
+     * 
+     * @param classNo
+     *            The class number.
+     * @param className
+     *            The name of the class.
+     * @param year
+     *            The year of which the class started.
+     * 
+     * @author Morten Faarkrog
+     * @see Class
+     */
+	public ClassResource(String classNo, String className, int year) {
+        this.classNo = classNo;
+        this.className = className;
+        this.year = year;
+    }
 
 	public String getClassNo() {
 		return classNo;
