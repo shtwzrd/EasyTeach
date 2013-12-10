@@ -18,11 +18,25 @@ package com.easyTeach.common.entity;
  *          (getters/setters).
  */
 
-public class Class {
+public class Class implements Resource {
 
-    private String classNo;     // INTEGER in DB
-    private int year;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1902527301458973111L;
+	private String classNo;     // INTEGER in DB
+	private int year;
     private String className;
+    
+    public Class() {
+    	
+    }
+    
+    public Class(String classNo, int year, String className) {
+		this.classNo = classNo;
+		this.year = year;
+		this.className = className;
+	}
     
     public String getClassNo() {
         return classNo;
@@ -47,5 +61,10 @@ public class Class {
     public void setClassName(String className) {
         this.className = className;
     }
+
+	@Override
+	public String getName() {
+		return "Class";
+	}
 
 }

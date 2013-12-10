@@ -26,7 +26,7 @@ public class Run {
         // Start application
 //        new LoginUI();
         new MainFrame();
-        MainFrame.updateFrame(new ManageExerciseUI().getManageExerciseUI(), "Title");
+//        MainFrame.updateFrame(new ManageExerciseUI().getManageExerciseUI(), "Title");
 //        MainFrame.updateFrame(new ManageUserUI().getManageUserUI(), "Title");
 //        MainFrame.updateFrame(new UserManagerUI().getUserManagerUI(), "Title");
 //        MainFrame.updateFrame(new ExerciseManagerUI().getExerciseManagerUI(), "Title");
@@ -34,7 +34,7 @@ public class Run {
 //        MainFrame.updateFrame(new ManageClassUI().getManageClassUI(), "Title");
 //        MainFrame.updateFrame(new AdminManagerUI().getAdminManagerUI(), "Admin Manager");
 //        MainFrame.updateFrame(new ManageCourseUI().getManageCourseUI(), "Title");
-//        MainFrame.updateFrame(new TeacherManagerUI().getTeacherManagerUI(), "Teacher Manager");
+        MainFrame.updateFrame(new TeacherManagerUI().getTeacherManagerUI(), "Teacher Manager");
 //        MainFrame.updateFrame(new ManageExerciseInfoUI().getManageExerciseInfoUI(), "Title");
 //        MainFrame.updateFrame(new StudentManagerUI().getStudentManagerUI(), "Student Manager");
         

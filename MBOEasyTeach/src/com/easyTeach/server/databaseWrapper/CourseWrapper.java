@@ -28,7 +28,7 @@ public class CourseWrapper {
     
     /**
      * Inserts a new Course row into the course table within the easyTeach 
-     * database. The prepared statement needs the course's courseName.
+     * database. The prepared statement needs the course's courseNo and courseName.
      * 
      * @param courseEntity is an instance of the class Course
      * @return true if the courseEntity is successfully inserted into the
@@ -36,12 +36,13 @@ public class CourseWrapper {
      * @see Course
      */
     public static boolean insertIntoCourse(Course courseEntity) {
-        String sql = "{call insertIntoCourse(?)}";
+        String sql = "{call insertIntoCourse(?,?)}";
 
         try (
                 CallableStatement stmt = conn.prepareCall(sql);
                 ) {
-            stmt.setString(1, courseEntity.getCourseName());
+            stmt.setString(1, courseEntity.getCourseNo());
+            stmt.setString(2, courseEntity.getCourseName());
             
             int affected = stmt.executeUpdate();
             if (affected == 1) {
@@ -158,7 +159,7 @@ public class CourseWrapper {
      * @return An instance of Course
      * @see Course
      */
-    public static Course getCourseRowWithCourseNo(String courseNo) throws SQLException {
+    public static Course getCourseRowWithCourseNo(String courseNo) {
         String sql = "{call selectCourseRowWithCourseNo(?)}";
         ResultSet rs = null;
         
@@ -179,7 +180,53 @@ public class CourseWrapper {
             System.err.println(e);
             return null;
         } finally {
-            rs.close();
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+            }
+            catch (SQLException e) {
+                System.err.println(e);
+            }
+        }
+    }
+    
+    /**
+     * Returns a row from the database's Course table with a specific courseName.
+     * 
+     * @param courseName is a unique key of the Course table.
+     * @return An instance of Course
+     * @see Course
+     */
+    public static Course getCourseRowWithCourseName(String courseName) {
+        String sql = "{call selectCourseRowWithCourseName(?)}";
+        ResultSet rs = null;
+        
+        try (
+                PreparedStatement stmt = conn.prepareStatement(sql);
+                ) {
+            stmt.setString(1, courseName);
+            rs = stmt.executeQuery();
+            rs.next();
+            
+            Course courseEntity = new Course();
+            courseEntity.setCourseNo(rs.getString("courseNo"));
+            courseEntity.setCourseName(rs.getString("courseName"));
+            
+            return courseEntity;
+            
+        } catch (SQLException e) {
+            System.err.println(e);
+            return null;
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+            }
+            catch (SQLException e) {
+                System.err.println(e);
+            }
         }
     }
     

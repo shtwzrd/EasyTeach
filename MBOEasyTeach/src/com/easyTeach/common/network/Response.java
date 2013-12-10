@@ -1,7 +1,8 @@
 package com.easyTeach.common.network;
 
 import java.io.Serializable;
-import com.easyTeach.common.network.resource.Resource;
+
+import com.easyTeach.common.entity.Resource;
 
 /**A Response is a message sent from Server to Client.
  * <li>

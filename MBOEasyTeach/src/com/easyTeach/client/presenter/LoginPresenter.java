@@ -6,7 +6,7 @@ import com.easyTeach.common.network.Action.ActionType;
 import com.easyTeach.common.network.Request;
 import com.easyTeach.common.network.Response;
 import com.easyTeach.common.network.Session;
-import com.easyTeach.common.network.resource.RoleResource;
+import com.easyTeach.server.domainLogic.RoleResource;
 
 /**
  * <p>

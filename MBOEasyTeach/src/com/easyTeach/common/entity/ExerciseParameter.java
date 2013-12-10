@@ -1,5 +1,7 @@
 package com.easyTeach.common.entity;
 
+import java.sql.Date;
+
 /** 
  * <p>
  * The ExerciseParameter class represents a row from the ExerciseParameter 
@@ -24,15 +26,29 @@ package com.easyTeach.common.entity;
  *          (getters/setters).
  */
 
-public class ExerciseParameter {
+public class ExerciseParameter implements Resource {
 
-    private String exerciseParameterNo; // INTEGER in DB
-    private boolean isTest;
+	private static final long serialVersionUID = -7509586622282485136L;
+	private String exerciseParameterNo; // INTEGER in DB
+	private boolean isTest;
     private boolean isLocked;
     private java.sql.Date accessBegin;
     private java.sql.Date accessEnd;
     private int timeLimit;
     
+	public ExerciseParameter() {
+		
+	}
+    public ExerciseParameter(String exerciseParameterNo, boolean isTest,
+			boolean isLocked, Date accessBegin, Date accessEnd, int timeLimit) {
+		this.exerciseParameterNo = exerciseParameterNo;
+		this.isTest = isTest;
+		this.isLocked = isLocked;
+		this.accessBegin = accessBegin;
+		this.accessEnd = accessEnd;
+		this.timeLimit = timeLimit;
+	}
+
     public String getExerciseParameterNo() {
         return exerciseParameterNo;
     }
@@ -80,5 +96,10 @@ public class ExerciseParameter {
     public void setTimeLimit(int timeLimit) {
         this.timeLimit = timeLimit;
     }
+
+	@Override
+	public String getName() {
+		return "ExerciseParameter";
+	}
     
 }
