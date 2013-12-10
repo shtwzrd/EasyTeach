@@ -9,16 +9,31 @@ import com.easyTeach.common.network.Response;
 import com.easyTeach.common.network.Response.ResponseStatus;
 import com.easyTeach.server.databaseWrapper.ClassUserRelationWrapper;
 
+/**
+ * Class used for manipulating with {@link ClassUserRelation} entities. It
+ * contains, the logic for updating and adding ClassUserRelation using the
+ * {@link ClassUserRelationWrapper}. The constructor is private as there should
+ * never be created an instance of the ClassUserRelationRules class itself.
+ * 
+ * @author Morten Faarkrog
+ * @version 1.0
+ * @date 10. December, 2013
+ */
+
 public final class ClassUserRelationRules {
 
     private ClassUserRelationRules() {
     }
 
     /**
-     * TODO
+     * Updates {@link ClassUserRelation} rows in the database by a specific
+     * class.
      * 
      * @param relations
-     * @return
+     *            the HashSet of ClassUserRelations that should be synchronized
+     *            with the database.
+     * @return a Response object with a success status if the ClassUserRelation
+     *         was updated.
      */
     public static Response updateRelationsByClass(ResourceSet relations) {
         // Finds out what classNo we are working with
@@ -35,10 +50,14 @@ public final class ClassUserRelationRules {
     }
 
     /**
-     * TODO
+     * Updates {@link ClassUserRelation} rows in the database by a specific
+     * user.
      * 
      * @param relations
-     * @return
+     *            HashSet of ClassUserRelations that should be synchronized with
+     *            the database.
+     * @return a Response object with a success status if the ClassUserRelation
+     *         was updated.
      */
     public static Response updateRelationsByUser(ResourceSet relations) {
         // Finds out what userNo we are working with
@@ -55,13 +74,12 @@ public final class ClassUserRelationRules {
     }
 
     /**
-     * TODO
-     * 
-     * Synchronizes the FML
+     * Synchronizes the {@link ClassUserRelation} database-rows for a specific
+     * user or class with a given set of ClassUserRelations.
      * 
      * @param databaseSet
-     *            The HashSet of all the ClassUserRelations with a specific
-     *            userNo or classNo
+     *            HashSet of all the ClassUserRelations with a specific userNo
+     *            or classNo
      * @param relations
      *            The ResourceSet passed to the Domain Logic by the Presenter
      */
@@ -85,11 +103,15 @@ public final class ClassUserRelationRules {
     }
 
     /**
-     * TODO
+     * Adds a set of {@link ClassUserRelations} to the database.
      * 
-     * 
+     * @param relations
+     *            HashSet of ClassUserRelations that should be added with the
+     *            database.
+     * @return a Response object with a success status if all
+     *         {@link ClassUserRelations} were added. Otherwise false.
      */
-    public static Response addRelationsByUser(ResourceSet relations) {
+    public static Response addRelations(ResourceSet relations) {
         boolean checker = true;
 
         for (Resource resource : relations) {
@@ -103,7 +125,7 @@ public final class ClassUserRelationRules {
             return new Response(ResponseStatus.SUCCESS);
         }
 
-        return new Response(ResponseStatus.FAIULRE,
+        return new Response(ResponseStatus.FAILURE,
                 "Failed to insert all relations");
     }
 

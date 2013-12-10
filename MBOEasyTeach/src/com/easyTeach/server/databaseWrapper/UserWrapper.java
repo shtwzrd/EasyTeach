@@ -136,7 +136,7 @@ public class UserWrapper {
      *         database, otherwise false.
      * @see User
      */
-    public static boolean deleteuserRow(String userNo) {
+    public static boolean deleteUserRow(String userNo) {
         String sql = "{call deleteUserRow(?)}";
 
         try (CallableStatement stmt = conn.prepareCall(sql);) {

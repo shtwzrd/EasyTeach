@@ -1,23 +1,19 @@
 package com.easyTeach.server.domainLogic;
 
+import com.easyTeach.common.entity.Class;
+import com.easyTeach.common.entity.Resource;
+import com.easyTeach.common.entity.ResourceSet;
+import com.easyTeach.common.entity.User;
 import com.easyTeach.common.network.Action;
 import com.easyTeach.common.network.Request;
 import com.easyTeach.common.network.Response;
 import com.easyTeach.common.network.Response.ResponseStatus;
-import com.easyTeach.common.network.resource.Resource;
-import com.easyTeach.common.network.resource.RoleResource;
-import com.easyTeach.common.network.resource.RoleResource.Role;
+import com.easyTeach.server.domainLogic.RoleResource.Role;
 
 public final class Router {
 
 	private Router() {
 
-	}
-
-	public static void main(String[] args) {
-		Resource resource = new RoleResource((Role.STUDENT));
-
-		System.out.println(resource.getClass().getName());
 	}
 
 	public static Response getResponse(Request toRoute) {
@@ -26,24 +22,63 @@ public final class Router {
 		Role role = toRoute.getRole();
 
 		switch (role.toString()) {
-		case "TEACHER":
+		case "ADMIN":
 			switch (resource.getName()) {
-			case "Tag":
+			case "Class":
 				switch (action.getType().toString()) {
 				case "CREATE":
-					return TagResourceRules.addTag(resource);
-					break;
+					return ClassRules.addClass((Class) resource);
+				case "DELETE":
+				    return ClassRules.deleteClass((Class) resource);
+				case "UPDATE":
+                    return ClassRules.updateClass((Class) resource);
 				case "READ":
-					switch (action.getAttribute()) {
-					case "all":
-						return TagResourceRules.getAllTags(resource);
-						break;
-					}
-				}
-
+                    switch(action.getAttribute()) {
+                    case "all":
+                        return ClassRules.getClasses();
+                    case "students":
+                        return ClassRules.getStudents((Class) resource);
+                    default:
+                        return ClassRules.getClass((Class) resource);
+                    }
+                }
+				
+			case "User":
+			    switch (action.getType().toString()) {
+                case "READ":
+                    switch(action.getAttribute()) {
+                    case "students":
+                        return UserRules.getStudents();
+                    case "teachers":
+                        return UserRules.getTeachers();
+                    case "admins":
+                        return UserRules.getAdmins();
+                    case "classes":
+                        return UserRules.getClasses((User) resource);
+                    default:
+                        return UserRules.getUser((User) resource);
+                    }
+			    }
+			    
+			case "ClassUserRelation":
+                switch (action.getType().toString()) {
+                case "READ":
+                    return ClassUserRelationRules.addRelations((ResourceSet) resource);
+                case "UPDATE":
+                    switch(action.getAttribute()) {
+                    case "class":
+                        return ClassUserRelationRules.updateRelationsByClass((ResourceSet) resource);
+                    case "user":
+                        return ClassUserRelationRules.updateRelationsByUser((ResourceSet) resource);
+                    }
+                }
+			   
+                    
 			}
+		default: 
+		    return new Response(ResponseStatus.SUCCESS);
 		}
 
-		return new Response(ResponseStatus.SUCCESS);
 	}
+		
 }
