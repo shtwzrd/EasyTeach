@@ -39,9 +39,12 @@ CREATE TABLE Class (
 
 CREATE TABLE Course (
 <<<<<<< HEAD
+<<<<<<< HEAD
 	courseNo	INTEGER(6)	NOT NULL 	AUTO_INCREMENT,
 	courseName	VARCHAR(50)	NOT NULL	UNIQUE,
 =======
+=======
+>>>>>>> e7b48988548a5b3b04caf2b0551049f82e0bfccd
 	courseNo	VARCHAR(32)	NOT NULL,
 	courseName	VARCHAR(50)	NOT NULL,
 >>>>>>> e7b48988548a5b3b04caf2b0551049f82e0bfccd
@@ -202,4 +205,8 @@ CREATE TABLE ExerciseQuestionRelation (
 
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
+<<<<<<< HEAD
 SELECT * FROM User;
+=======
+SELECT * FROM User;
+>>>>>>> e7b48988548a5b3b04caf2b0551049f82e0bfccd
