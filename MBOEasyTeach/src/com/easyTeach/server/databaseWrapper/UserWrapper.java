@@ -40,24 +40,21 @@ public class UserWrapper {
     public static boolean insertIntoUser(User userEntity) {
         String sql = "{call insertIntoUser(?,?,?,?,?,?)}";
 
-        try (
-                CallableStatement stmt = conn.prepareCall(sql);
-                ) {
+        try (CallableStatement stmt = conn.prepareCall(sql);) {
             stmt.setString(1, userEntity.getUserNo());
             stmt.setString(2, userEntity.getEmail());
             stmt.setString(3, userEntity.getUserType());
             stmt.setString(4, userEntity.getFirstName());
             stmt.setString(5, userEntity.getLastName());
             stmt.setString(6, userEntity.getPassword());
-            
+
             int affected = stmt.executeUpdate();
             if (affected == 1) {
                 return true;
             } else {
                 return false;
             }
-        }
-        catch(SQLException e) {
+        } catch (SQLException e) {
             System.err.println(e);
             return false;
         }
@@ -190,6 +187,53 @@ public class UserWrapper {
         } catch (SQLException e) {
             System.err.println(e);
             return null;
+        }
+    }
+
+    /**
+     * Returns the user's from a specific class.
+     * 
+     * @param classNo
+     *            The primary key of a Class table
+     * @return A HashSet of users
+     * @see User
+     */
+    public static HashSet<User> getUserRowsWithClassNo(String classNo) {
+        String sql = "{call selectUserRowsWithClassNo(?)}";
+        ResultSet rs = null;
+
+        try (PreparedStatement stmt = conn.prepareStatement(sql);) {
+
+            stmt.setString(1, classNo);
+            rs = stmt.executeQuery();
+            
+            HashSet<User> hashSet = new HashSet<User>();
+
+            while (rs.next()) {
+                User userEntity = new User();
+                userEntity.setUserNo(rs.getString("userNo"));
+                userEntity.setEmail(rs.getString("email"));
+                userEntity.setUserType(rs.getString("userType"));
+                userEntity.setFirstName(rs.getString("firstName"));
+                userEntity.setLastName(rs.getString("lastName"));
+                userEntity.setPassword(rs.getString("password"));
+                userEntity.setDateAdded(rs.getDate("dateAdded"));
+
+                hashSet.add(userEntity);
+            }
+            return hashSet;
+
+        } catch (SQLException e) {
+            System.err.println(e);
+            return null;
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+            } catch (SQLException e) {
+                System.err.println(e);
+            }
         }
     }
 
