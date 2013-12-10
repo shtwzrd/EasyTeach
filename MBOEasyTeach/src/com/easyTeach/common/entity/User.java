@@ -26,8 +26,7 @@ public class User implements Resource {
 
 	private static final long serialVersionUID = -3219392603446174749L;
 
-	private String userNo; // INTEGER in DB
-
+	private String userNo; 
 	private String email;
 	private String userType;
 	private String firstName;

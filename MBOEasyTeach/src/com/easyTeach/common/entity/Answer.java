@@ -31,8 +31,8 @@ public class Answer implements Resource {
 	private static final long serialVersionUID = 3835988620378877550L;
 	
 
-	private String questionNo;  // INTEGER in DB
-    private String answerNo;    // INTEGER in DB
+	private String questionNo;
+	private String answerNo;
     private String answer;
     private boolean isCorrect;
     

@@ -22,7 +22,7 @@ package com.easyTeach.common.entity;
 public class Question implements Resource {
 
 	private static final long serialVersionUID = -4370845973860797037L;
-	private String questionNo; // INTEGER in DB
+	private String questionNo; 
 
 	private String questionType;
 	private String question;

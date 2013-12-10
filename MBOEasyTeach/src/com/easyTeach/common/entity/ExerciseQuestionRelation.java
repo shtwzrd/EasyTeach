@@ -29,8 +29,8 @@ package com.easyTeach.common.entity;
 public class ExerciseQuestionRelation implements Resource {
     
 	private static final long serialVersionUID = -3678477660464296628L;
-	private String exerciseNo;  // INTEGER in DB
-	private String questionNo;  // INTEGER in DB
+	private String exerciseNo;  
+	private String questionNo;  
     
     public ExerciseQuestionRelation() {
     	

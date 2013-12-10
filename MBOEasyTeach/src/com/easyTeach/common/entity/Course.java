@@ -22,7 +22,7 @@ public class Course implements Resource {
 
 	private static final long serialVersionUID = 4525515384143342071L;
 
-	private String courseNo;    // INTEGER in DB
+	private String courseNo;    
     private String courseName;
     
     public Course() {

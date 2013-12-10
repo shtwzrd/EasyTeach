@@ -20,11 +20,8 @@ package com.easyTeach.common.entity;
 
 public class Class implements Resource {
 
-    /**
-	 * 
-	 */
 	private static final long serialVersionUID = 1902527301458973111L;
-	private String classNo;     // INTEGER in DB
+	private String classNo;     
 	private int year;
     private String className;
     

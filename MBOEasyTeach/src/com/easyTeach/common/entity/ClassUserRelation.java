@@ -29,8 +29,8 @@ package com.easyTeach.common.entity;
 public class ClassUserRelation implements Resource {
     
 	private static final long serialVersionUID = 7692567916121784096L;
-	private String classNo;   // INTEGER in DB
-    private String userNo;    // INTEGER in DB
+	private String classNo;   
+    private String userNo;    
     
     public ClassUserRelation() {
     	

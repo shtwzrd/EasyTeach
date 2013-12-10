@@ -30,8 +30,8 @@ public class QuestionTagRelation implements Resource {
     
 	private static final long serialVersionUID = -7709188094760631201L;
 
-	private String questionNo;  // INTEGER in DB
-    private String tagNo;       // INTEGER in DB
+	private String questionNo;  
+    private String tagNo;       
     
 
     public QuestionTagRelation() {

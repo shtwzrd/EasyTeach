@@ -1,6 +1,6 @@
 package com.easyTeach.common.entity;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 /** 
  * <p>
@@ -29,18 +29,18 @@ import java.sql.Date;
 public class ExerciseParameter implements Resource {
 
 	private static final long serialVersionUID = -7509586622282485136L;
-	private String exerciseParameterNo; // INTEGER in DB
+	private String exerciseParameterNo; 
 	private boolean isTest;
     private boolean isLocked;
-    private java.sql.Date accessBegin;
-    private java.sql.Date accessEnd;
+    private java.sql.Timestamp accessBegin;
+    private java.sql.Timestamp accessEnd;
     private int timeLimit;
     
 	public ExerciseParameter() {
 		
 	}
     public ExerciseParameter(String exerciseParameterNo, boolean isTest,
-			boolean isLocked, Date accessBegin, Date accessEnd, int timeLimit) {
+			boolean isLocked, Timestamp accessBegin, Timestamp accessEnd, int timeLimit) {
 		this.exerciseParameterNo = exerciseParameterNo;
 		this.isTest = isTest;
 		this.isLocked = isLocked;
@@ -73,19 +73,19 @@ public class ExerciseParameter implements Resource {
         this.isLocked = isLocked;
     }
     
-    public java.sql.Date getAccessBegin() {
+    public java.sql.Timestamp getAccessBegin() {
         return accessBegin;
     }
     
-    public void setAccessBegin(java.sql.Date accessBegin) {
+    public void setAccessBegin(java.sql.Timestamp accessBegin) {
         this.accessBegin = accessBegin;
     }
     
-    public java.sql.Date getAccessEnd() {
+    public java.sql.Timestamp getAccessEnd() {
         return accessEnd;
     }
     
-    public void setAccessEnd(java.sql.Date accessEnd) {
+    public void setAccessEnd(java.sql.Timestamp accessEnd) {
         this.accessEnd = accessEnd;
     }
     

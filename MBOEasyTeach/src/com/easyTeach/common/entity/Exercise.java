@@ -1,6 +1,6 @@
 package com.easyTeach.common.entity;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 /** 
  * <p>
@@ -31,12 +31,12 @@ import java.sql.Date;
 public class Exercise implements Resource {
 
 	private static final long serialVersionUID = -3283333993528405399L;
-	private String exerciseNo;          // INTEGER in DB
-	private String courseNo;            // INTEGER in DB
-    private String author;              // INTEGER in DB
-    private String exerciseParameterNo; // INTEGER in DB
+	private String exerciseNo;          
+	private String courseNo;            
+    private String author;              
+    private String exerciseParameterNo; 
     private String exerciseName;
-    private java.sql.Date dateAdded;
+    private Timestamp dateAdded;
     private String password;
     
     public Exercise() {
@@ -44,7 +44,7 @@ public class Exercise implements Resource {
     }
     
     public Exercise(String exerciseNo, String courseNo, String author,
-			String exerciseParameterNo, String exerciseName, Date dateAdded,
+			String exerciseParameterNo, String exerciseName, Timestamp dateAdded,
 			String password) {
 		this.exerciseNo = exerciseNo;
 		this.courseNo = courseNo;
@@ -95,11 +95,11 @@ public class Exercise implements Resource {
         this.exerciseName = exerciseName;
     }
     
-    public java.sql.Date getDateAdded() {
+    public java.sql.Timestamp getDateAdded() {
         return dateAdded;
     }
     
-    public void setDateAdded(java.sql.Date dateAdded) {
+    public void setDateAdded(java.sql.Timestamp dateAdded) {
         this.dateAdded = dateAdded;
     }
     

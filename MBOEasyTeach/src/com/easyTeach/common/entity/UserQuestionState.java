@@ -28,8 +28,8 @@ package com.easyTeach.common.entity;
 public class UserQuestionState implements Resource {
 
 	private static final long serialVersionUID = 7334694504064972021L;
-	private String userNo; // INTEGER in DB
-	private String questionNo; // INTEGER in DB
+	private String userNo; 
+	private String questionNo; 
 	private boolean hasCompleted;
 
 	public UserQuestionState() {

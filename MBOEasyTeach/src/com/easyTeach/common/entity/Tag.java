@@ -21,7 +21,7 @@ package com.easyTeach.common.entity;
 public class Tag implements Resource {
 
 	private static final long serialVersionUID = 2838453778906794818L;
-	private String tagNo; // INTEGER in DB
+	private String tagNo; 
 	private String tag;
 
 	public Tag() {

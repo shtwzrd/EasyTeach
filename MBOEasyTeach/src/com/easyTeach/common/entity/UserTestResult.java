@@ -28,8 +28,8 @@ package com.easyTeach.common.entity;
 public class UserTestResult implements Resource {
 
 	private static final long serialVersionUID = 7930833334069648679L;
-	private String userNo;      // INTEGER in DB
-	private String exerciseNo;  // INTEGER in DB
+	private String userNo;      
+	private String exerciseNo;  
     private int score;
     
     public UserTestResult() {
