@@ -26,13 +26,28 @@ package com.easyTeach.common.entity;
  *          (getters/setters).
  */
 
-public class Answer {
+public class Answer implements Resource {
 
-    private String questionNo;  // INTEGER in DB
+	private static final long serialVersionUID = 3835988620378877550L;
+	
+
+	private String questionNo;  // INTEGER in DB
     private String answerNo;    // INTEGER in DB
     private String answer;
     private boolean isCorrect;
     
+    public Answer() {
+    	
+    }
+
+    public Answer(String questionNo, String answerNo, String answer,
+			boolean isCorrect) {
+		this.questionNo = questionNo;
+		this.answerNo = answerNo;
+		this.answer = answer;
+		this.isCorrect = isCorrect;
+	}
+
     public String getQuestionNo() {
         return questionNo;
     }
@@ -64,5 +79,10 @@ public class Answer {
     public void setIsCorrect(boolean isCorrect) {
         this.isCorrect = isCorrect;
     }
+
+	@Override
+	public String getName() {
+		return "Answer";
+	}
     
 }

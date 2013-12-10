@@ -1,5 +1,7 @@
 package com.easyTeach.common.entity;
 
+import java.sql.Date;
+
 /** 
  * <p>
  * The Exercise class represents a row from the Exercise table in the 
@@ -26,15 +28,32 @@ package com.easyTeach.common.entity;
  *          (getters/setters).
  */
 
-public class Exercise {
+public class Exercise implements Resource {
 
-    private String exerciseNo;          // INTEGER in DB
-    private String courseNo;            // INTEGER in DB
+	private static final long serialVersionUID = -3283333993528405399L;
+	private String exerciseNo;          // INTEGER in DB
+	private String courseNo;            // INTEGER in DB
     private String author;              // INTEGER in DB
     private String exerciseParameterNo; // INTEGER in DB
     private String exerciseName;
     private java.sql.Date dateAdded;
     private String password;
+    
+    public Exercise() {
+    	
+    }
+    
+    public Exercise(String exerciseNo, String courseNo, String author,
+			String exerciseParameterNo, String exerciseName, Date dateAdded,
+			String password) {
+		this.exerciseNo = exerciseNo;
+		this.courseNo = courseNo;
+		this.author = author;
+		this.exerciseParameterNo = exerciseParameterNo;
+		this.exerciseName = exerciseName;
+		this.dateAdded = dateAdded;
+		this.password = password;
+	}
     
     public String getExerciseNo() {
         return exerciseNo;
@@ -91,5 +110,10 @@ public class Exercise {
     public void setPassword(String password) {
         this.password = password;
     }
+
+	@Override
+	public String getName() {
+		return "Exercise";
+	}
     
 }

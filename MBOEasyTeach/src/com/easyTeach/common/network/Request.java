@@ -2,8 +2,8 @@ package com.easyTeach.common.network;
 
 import java.io.Serializable;
 
-import com.easyTeach.common.network.resource.Resource;
-import com.easyTeach.common.network.resource.RoleResource.Role;
+import com.easyTeach.common.entity.Resource;
+import com.easyTeach.server.domainLogic.RoleResource.Role;
 
 /**
  * A Request is a message sent from Client to Server.

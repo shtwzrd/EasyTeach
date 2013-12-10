@@ -6,9 +6,9 @@ import com.easyTeach.common.entity.User;
 import com.easyTeach.common.network.Request;
 import com.easyTeach.common.network.Response;
 import com.easyTeach.common.network.Response.ResponseStatus;
-import com.easyTeach.common.network.resource.RoleResource;
-import com.easyTeach.common.network.resource.RoleResource.Role;
 import com.easyTeach.server.databaseWrapper.UserWrapper;
+import com.easyTeach.server.domainLogic.RoleResource;
+import com.easyTeach.server.domainLogic.RoleResource.Role;
 
 /**
  * The Authenticator class is a class that authenticates and authorizes

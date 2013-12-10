@@ -11,9 +11,9 @@ import com.easyTeach.common.entity.ClassUserRelation;
 import com.easyTeach.server.databaseConnector.ConnectionManager;
 
 /**
- * The ClassUserRelationWrapper is the class responsible for handling 
- * all the prepared CRUD SQL statements for manipulating with the
- * ClassUserRelation table residing in the MBO EasyTeach's database.
+ * The ClassUserRelationWrapper is the class responsible for handling all the
+ * prepared CRUD SQL statements for manipulating with the ClassUserRelation
+ * table residing in the MBO EasyTeach's database.
  * 
  * @author Morten Faarkrog
  * @version 1.0
@@ -23,144 +23,138 @@ import com.easyTeach.server.databaseConnector.ConnectionManager;
 
 public class ClassUserRelationWrapper {
 
-    private static Connection conn = 
-            ConnectionManager.getInstance().getConnection();
-    
+    private static Connection conn = ConnectionManager.getInstance()
+            .getConnection();
+
     /**
-     * Inserts a new ClassUserRelation row into the ClassUserRelation table 
-     * within the easyTeach database. The prepared statement needs the 
+     * Inserts a new ClassUserRelation row into the ClassUserRelation table
+     * within the easyTeach database. The prepared statement needs the
      * classUserRelation's classNo and userNo.
      * 
-     * @param classUserRelationEntity is an instance of the class 
-     * ClassUserRelation.
-     * @return true if the classUserRelationEntity is successfully inserted 
-     * into the easyTeach database, otherwise false.
+     * @param classUserRelationEntity
+     *            is an instance of the class ClassUserRelation.
+     * @return true if the classUserRelationEntity is successfully inserted into
+     *         the easyTeach database, otherwise false.
      * @see ClassUserRelation
      */
-    public static boolean insertIntoClassUserRelation(ClassUserRelation classUserRelationEntity) {
+    public static boolean insertIntoClassUserRelation(
+            ClassUserRelation classUserRelationEntity) {
         String sql = "{call insertIntoClassUserRelation(?,?)}";
 
-        try (
-                CallableStatement stmt = conn.prepareCall(sql);
-                ) {
+        try (CallableStatement stmt = conn.prepareCall(sql);) {
             stmt.setString(1, classUserRelationEntity.getClassNo());
             stmt.setString(2, classUserRelationEntity.getUserNo());
-            
+
             int affected = stmt.executeUpdate();
             if (affected == 1) {
                 return true;
             } else {
                 return false;
             }
-        }
-        catch(SQLException e) {
+        } catch (SQLException e) {
             System.err.println(e);
             return false;
         }
     }
-    
+
     /**
-     * Deletes an existing ClassUserRelation row in the ClassUserRelation 
-     * table within the easyTeach database. The prepared statement needs 
-     * the classUserRelation's classNo and userNo.  
+     * Deletes an existing ClassUserRelation row in the ClassUserRelation table
+     * within the easyTeach database. The prepared statement needs the
+     * classUserRelation's classNo and userNo.
      * 
-     * @param classNo is part of the primary key of the ClassUserRelation 
-     * table.
-     * @param userNo is part of the primary key of the ClassUserRelation 
-     * table.
-     * @return true if the ClassUserRelation row is successfully deleted in 
-     * the easyTeach database, otherwise false.
+     * @param classNo
+     *            is part of the primary key of the ClassUserRelation table.
+     * @param userNo
+     *            is part of the primary key of the ClassUserRelation table.
+     * @return true if the ClassUserRelation row is successfully deleted in the
+     *         easyTeach database, otherwise false.
      * @see ClassUserRelation
      */
-    public static boolean deleteClassUserRelationRow(String classNo, String userNo) {
+    public static boolean deleteClassUserRelationRow(String classNo,
+            String userNo) {
         String sql = "{call deleteClassUserRelationRow(?,?)}";
-        
-        try (
-                CallableStatement stmt = conn.prepareCall(sql);
-                ) {
+
+        try (CallableStatement stmt = conn.prepareCall(sql);) {
             stmt.setString(1, classNo);
             stmt.setString(2, userNo);
-            
+
             int affected = stmt.executeUpdate();
             if (affected == 1) {
                 return true;
             } else {
                 return false;
             }
-        }
-        catch(SQLException e) {
+        } catch (SQLException e) {
             System.err.println(e);
             return false;
         }
     }
-    
+
     /**
-     * Returns all the rows from the database's ClassUserRelation table in 
-     * the form of a HashSet containing ClassUserRelation entities.   
+     * Returns all the rows from the database's ClassUserRelation table in the
+     * form of a HashSet containing ClassUserRelation entities.
      * 
-     * @return a HashSet with all the rows in the ClassUserRelation table 
-     * from the easyTeach database. The rows are converted into 
-     * ClassUserRelation entities.
+     * @return a HashSet with all the rows in the ClassUserRelation table from
+     *         the easyTeach database. The rows are converted into
+     *         ClassUserRelation entities.
      * @see ClassUserRelation
      */
     public static HashSet<ClassUserRelation> getClassUserRelationRows() {
         String sql = "{call selectClassUserRelationRows()}";
 
-        try (
-                PreparedStatement stmt = conn.prepareStatement(sql);
-                ResultSet rs = stmt.executeQuery();
-                ){
+        try (PreparedStatement stmt = conn.prepareStatement(sql);
+                ResultSet rs = stmt.executeQuery();) {
 
             HashSet<ClassUserRelation> hashSet = new HashSet<ClassUserRelation>();
-            
+
             while (rs.next()) {
                 ClassUserRelation classUserRelationEntity = new ClassUserRelation();
                 classUserRelationEntity.setClassNo(rs.getString("classNo"));
                 classUserRelationEntity.setUserNo(rs.getString("userNo"));
-                
+
                 hashSet.add(classUserRelationEntity);
             }
             return hashSet;
-            
+
         } catch (SQLException e) {
             System.err.println(e);
             return null;
         }
     }
-    
+
     /**
-     * Returns all the rows from the database's ClassUserRelation table 
-     * with a specific classNo in the form of a HashSet containing 
-     * ClassUserRelation entities.   
+     * Returns all the rows from the database's ClassUserRelation table with a
+     * specific classNo in the form of a HashSet containing ClassUserRelation
+     * entities.
      * 
-     * @param classNo is part of the primary key of the ClassUserRelation table
-     * @return a HashSet with all the matching rows in the ClassUserRelation 
-     * table from the easyTeach database. The rows are converted into 
-     * ClassUserRelation entities.
+     * @param classNo
+     *            is part of the primary key of the ClassUserRelation table
+     * @return a HashSet with all the matching rows in the ClassUserRelation
+     *         table from the easyTeach database. The rows are converted into
+     *         ClassUserRelation entities.
      * @see ClassUserRelation
      */
-    public static HashSet<ClassUserRelation> getClassUserRelationRowsWithClassNo(String classNo) {
+    public static HashSet<ClassUserRelation> getClassUserRelationRowsWithClassNo(
+            String classNo) {
         String sql = "{call selectClassUserRelationRowsWithClassNo(?)}";
         ResultSet rs = null;
-        
-        try (
-                PreparedStatement stmt = conn.prepareStatement(sql);
-                ) {
+
+        try (PreparedStatement stmt = conn.prepareStatement(sql);) {
             stmt.setString(1, classNo);
             rs = stmt.executeQuery();
-            
+
             HashSet<ClassUserRelation> hashSet = new HashSet<ClassUserRelation>();
-            
+
             while (rs.next()) {
                 ClassUserRelation classUserRelationEntity = new ClassUserRelation();
                 classUserRelationEntity.setClassNo(rs.getString("classNo"));
                 classUserRelationEntity.setUserNo(rs.getString("userNo"));
-                
+
                 hashSet.add(classUserRelationEntity);
             }
-                
+
             return hashSet;
-            
+
         } catch (SQLException e) {
             System.err.println(e);
             return null;
@@ -169,46 +163,45 @@ public class ClassUserRelationWrapper {
                 if (rs != null) {
                     rs.close();
                 }
-            }
-            catch (SQLException e) {
-                System.err.println(e);                
+            } catch (SQLException e) {
+                System.err.println(e);
             }
         }
     }
-    
+
     /**
-     * Returns all the rows from the database's ClassUserRelation table 
-     * with a specific userNo in the form of a HashSet containing 
-     * ClassUserRelation entities.   
+     * Returns all the rows from the database's ClassUserRelation table with a
+     * specific userNo in the form of a HashSet containing ClassUserRelation
+     * entities.
      * 
-     * @param userNo is part of the primary key of the ClassUserRelation table
-     * @return a HashSet with all the matching rows in the ClassUserRelation 
-     * table from the easyTeach database. The rows are converted into 
-     * ClassUserRelation entities.
+     * @param userNo
+     *            is part of the primary key of the ClassUserRelation table
+     * @return a HashSet with all the matching rows in the ClassUserRelation
+     *         table from the easyTeach database. The rows are converted into
+     *         ClassUserRelation entities.
      * @see ClassUserRelation
      */
-    public static HashSet<ClassUserRelation> getClassUserRelationRowsWithUserNo(String userNo) {
+    public static HashSet<ClassUserRelation> getClassUserRelationRowsWithUserNo(
+            String userNo) {
         String sql = "{call selectClassUserRelationRowsWithUserNo(?)}";
         ResultSet rs = null;
-        
-        try (
-                PreparedStatement stmt = conn.prepareStatement(sql);
-                ) {
+
+        try (PreparedStatement stmt = conn.prepareStatement(sql);) {
             stmt.setString(1, userNo);
             rs = stmt.executeQuery();
-            
+
             HashSet<ClassUserRelation> hashSet = new HashSet<ClassUserRelation>();
-            
+
             while (rs.next()) {
                 ClassUserRelation classUserRelationEntity = new ClassUserRelation();
                 classUserRelationEntity.setClassNo(rs.getString("classNo"));
                 classUserRelationEntity.setUserNo(rs.getString("userNo"));
-                
+
                 hashSet.add(classUserRelationEntity);
             }
-                
+
             return hashSet;
-            
+
         } catch (SQLException e) {
             System.err.println(e);
             return null;
@@ -217,11 +210,10 @@ public class ClassUserRelationWrapper {
                 if (rs != null) {
                     rs.close();
                 }
-            }
-            catch (SQLException e) {
-                System.err.println(e);                
+            } catch (SQLException e) {
+                System.err.println(e);
             }
         }
     }
-    
+
 }
