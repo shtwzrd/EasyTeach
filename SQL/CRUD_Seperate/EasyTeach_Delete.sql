@@ -28,7 +28,7 @@ DROP PROCEDURE IF EXISTS deleteExerciseQuestionRelationRow;
 /* Procedure for deleting a row from the Class table */
 DELIMITER //
 CREATE PROCEDURE deleteClassRow (
-	IN pClassNo INTEGER(6))
+	IN pClassNo VARCHAR(32))
 BEGIN
 	START TRANSACTION;
 	DELETE FROM Class 
@@ -40,7 +40,7 @@ DELIMITER ;
 /* Procedure for deleting a row from the Course table */
 DELIMITER //
 CREATE PROCEDURE deleteCourseRow (
-	IN pCourseNo INTEGER(6))
+	IN pCourseNo VARCHAR(32))
 BEGIN
 	START TRANSACTION;
 	DELETE FROM Course 
@@ -52,7 +52,7 @@ DELIMITER ;
 /* Procedure for deleting a row from the User table */
 DELIMITER //
 CREATE PROCEDURE deleteUserRow (
-	IN pUserNo INTEGER(6))
+	IN pUserNo VARCHAR(32))
 BEGIN 
 	START TRANSACTION;
 	DELETE FROM User 
@@ -64,7 +64,7 @@ DELIMITER ;
 /* Procedure for deleting a row from the Question table */
 DELIMITER //
 CREATE PROCEDURE deleteQuestionRow (
-	IN pQuestionNo INTEGER(6))
+	IN pQuestionNo VARCHAR(32))
 BEGIN 
 	START TRANSACTION;
 	DELETE FROM Question
@@ -76,7 +76,7 @@ DELIMITER ;
 /* Procedure for deleting a row from the Tag table */
 DELIMITER //
 CREATE PROCEDURE deleteTagRow (
-	IN pTagNo INTEGER(6))
+	IN pTagNo VARCHAR(32))
 BEGIN 
 	START TRANSACTION;
 	DELETE FROM Tag
@@ -88,8 +88,8 @@ DELIMITER ;
 /* Procedure for deleting a row from the Answer table */
 DELIMITER //
 CREATE PROCEDURE deleteAnswerRow (
-	IN pQuestionNo			INTEGER(6),
-	IN pAnswerNo			INTEGER(10))
+	IN pQuestionNo			VARCHAR(32),
+	IN pAnswerNo			VARCHAR(32))
 BEGIN
 	START TRANSACTION;
 		DELETE FROM Answer
@@ -101,7 +101,7 @@ DELIMITER ;
 /* Procedure for deleting a row from the ExerciseParameter table */
 DELIMITER //
 CREATE PROCEDURE deleteExerciseParameterRow (
-	IN pExerciseParameterNo INTEGER(10))
+	IN pExerciseParameterNo VARCHAR(32))
 BEGIN 
 	START TRANSACTION;
 	DELETE FROM ExerciseParameter
@@ -113,7 +113,7 @@ DELIMITER ;
 /* Procedure for deleting a row from the Exercise table */
 DELIMITER //
 CREATE PROCEDURE deleteExerciseRow (
-	IN pExerciseNo INTEGER(10))
+	IN pExerciseNo VARCHAR(32))
 BEGIN
 	START TRANSACTION;
 	DELETE FROM Exercise
@@ -124,8 +124,8 @@ DELIMITER ;
 
 DELIMITER //
 CREATE PROCEDURE deleteClassCourseRelationRow (
-	IN pClassNo 	INTEGER(10),
-	IN pCourseNo 	INTEGER(6))
+	IN pClassNo 	VARCHAR(32),
+	IN pCourseNo 	VARCHAR(32))
 BEGIN
 	START TRANSACTION;
 	DELETE FROM ClassCourseRelation
@@ -137,8 +137,8 @@ DELIMITER ;
 /* Procedure for deleting a row from the UserTestResults table */
 DELIMITER //
 CREATE PROCEDURE deleteUserTestResultRow (
-	IN pUserNo 		INTEGER(6), 
-	IN pExerciseNo	INTEGER(6))
+	IN pUserNo 		VARCHAR(32),
+	IN pExerciseNo	VARCHAR(32))
 BEGIN 
 	START TRANSACTION;
 	DELETE FROM UserTestResult
@@ -150,8 +150,8 @@ DELIMITER ;
 /* Procedure for deleting a row from the ClassUserRelation table */
 DELIMITER //
 CREATE PROCEDURE deleteClassUserRelationRow (
-	IN pClassNo INTEGER(6),
-	IN pUserNo	INTEGER(6))
+	IN pClassNo VARCHAR(32),
+	IN pUserNo	VARCHAR(32))
 BEGIN 
 	START TRANSACTION;
 	DELETE FROM ClassUserRelation
@@ -163,8 +163,8 @@ DELIMITER ;
 /* Procedure for deleting a row from the UserQuestionState table */
 DELIMITER //
 CREATE PROCEDURE deleteUserQuestionStateRow (
-	IN pUserNo 		INTEGER(6),
-	IN pQuestionNo	INTEGER(6))
+	IN pUserNo 		VARCHAR(32),
+	IN pQuestionNo	VARCHAR(32))
 BEGIN
 	START TRANSACTION;
 	DELETE FROM UserQuestionState
@@ -176,8 +176,8 @@ DELIMITER ;
 /* Procedure for deleting a row from the QuestionTagRelation table */
 DELIMITER //
 CREATE PROCEDURE deleteQuestionTagRelationRow (
-	IN pQuestionNo 	INTEGER(6),
-	IN pTagNo		INTEGER(6))
+	IN pQuestionNo 	VARCHAR(32),
+	IN pTagNo		VARCHAR(32))
 BEGIN 
 	START TRANSACTION;
 	DELETE FROM QuestionTagRelation
@@ -189,8 +189,8 @@ DELIMITER ;
 /* Procedure for deleting a row from the ExerciseQuestionRelation table */
 DELIMITER //
 CREATE PROCEDURE deleteExerciseQuestionRelationRow (
-	IN pExerciseNo	INTEGER(6),
-	IN pQuestionNo	INTEGER(6))
+	IN pExerciseNo	VARCHAR(32),
+	IN pQuestionNo	VARCHAR(32))
 BEGIN
 	START TRANSACTION;
 	DELETE FROM ExerciseQuestionRelation

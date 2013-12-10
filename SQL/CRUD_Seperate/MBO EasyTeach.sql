@@ -7,12 +7,10 @@
  * design previously made. 
 
  * Before creating the tables, please create a database called "easyTeach".
- * CREATE DATABASE easyTeach; */
-
+   CREATE DATABASE MBOEasyTeach; */
 
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 /* Data Definition Language */
-
 DROP TABLE IF EXISTS ExerciseQuestionRelation;
 DROP TABLE IF EXISTS QuestionTagRelation;
 DROP TABLE IF EXISTS UserQuestionState;
@@ -32,22 +30,14 @@ DROP TABLE IF EXISTS Class;
 CREATE TABLE Class (
 	classNo		VARCHAR(32)	NOT NULL,
 	year		INTEGER(4)	NOT NULL,
-	className	VARCHAR(50)	NOT NULL	UNIQUE,
+	className	VARCHAR(50)	NOT NULL,
 	CONSTRAINT	pk_class	PRIMARY KEY (classNo)
 ) 	ENGINE 		InnoDB;
 
 
 CREATE TABLE Course (
-<<<<<<< HEAD
-<<<<<<< HEAD
-	courseNo	INTEGER(6)	NOT NULL 	AUTO_INCREMENT,
-	courseName	VARCHAR(50)	NOT NULL	UNIQUE,
-=======
-=======
->>>>>>> e7b48988548a5b3b04caf2b0551049f82e0bfccd
 	courseNo	VARCHAR(32)	NOT NULL,
 	courseName	VARCHAR(50)	NOT NULL,
->>>>>>> e7b48988548a5b3b04caf2b0551049f82e0bfccd
 	CONSTRAINT	pk_course	PRIMARY KEY (courseNo)
 ) 	ENGINE 		InnoDB;
 
@@ -204,9 +194,3 @@ CREATE TABLE ExerciseQuestionRelation (
 ) 	ENGINE 		InnoDB;
 
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
-
-<<<<<<< HEAD
-SELECT * FROM User;
-=======
-SELECT * FROM User;
->>>>>>> e7b48988548a5b3b04caf2b0551049f82e0bfccd
