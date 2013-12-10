@@ -66,6 +66,23 @@ DROP PROCEDURE IF EXISTS selectExerciseQuestionRelationRowsWithExerciseNo;
 DROP PROCEDURE IF EXISTS selectExerciseQuestionRelationRowsWithQuestionNo;
 
 
+/* NEW DOMAIN LOGIC PROCEDURES DROPS */
+DROP PROCEDURE IF EXISTS selectUserRowsWithClassNo;
+
+/* Returns every user for a class */
+DELIMITER //
+CREATE PROCEDURE selectUserRowsWithClassNo (
+	IN pClassNo			VARCHAR(32))
+BEGIN
+	SELECT u.*
+		FROM User u
+		INNER JOIN ClassUserRelation cur
+			ON cur.userNo = u.userNo
+		WHERE cur.classNo = pClassNo;
+END //
+DELIMITER ;
+
+
 
 /* Returns every class */
 DELIMITER //
