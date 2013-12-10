@@ -89,6 +89,30 @@ public class QuestionResource implements Resource {
 		this.tags = tags;
 		this.answer = answers;
 	}
+	
+	/**
+	 * <p>
+	 * This constructor is used for sending information for a question to the
+	 * server side of the application.
+	 * </p>
+	 * 
+	 * @param questionNo
+	 *            The question number.
+	 * @param questionType
+	 *            The type of the question.
+	 * @param question
+	 *            The question text.
+	 * @param points
+	 *            The points for a correct answer for this question.
+	 * @see Question
+	 */
+	public QuestionResource(String questionNo, String questionType,
+			String question, int points) {
+		this.questionNo = questionNo;
+		this.questionType = questionType;
+		this.question = question;
+		this.points = points;
+	}
 
 	public String getQuestionNo() {
 		return questionNo;
