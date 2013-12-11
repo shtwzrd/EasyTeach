@@ -75,6 +75,8 @@ DROP PROCEDURE IF EXISTS selectExerciseRowsWithTagNo;
 
 DROP PROCEDURE IF EXISTS selectQuestionRowsWithTagNo;
 
+DROP PROCEDURE IF EXISTS selectExericseRowsWithTag;
+
 /* Returns every user for a class */
 DELIMITER //
 CREATE PROCEDURE selectUserRowsWithClassNo (
@@ -131,7 +133,26 @@ BEGIN
 END //
 DELIMITER ;
 
+/* RUN THIS!!!! */
 
+/* Returns every exercise with questions that has a relation to the specific tag */
+DELIMITER //
+CREATE PROCEDURE selectExerciseRowsWithTagNo (
+	IN pTag				VARCHAR(50))
+BEGIN
+	SELECT e.*
+		FROM Exercise e
+		INNER JOIN ExerciseQuestionRelation eqr
+			ON eqr.exerciseNo = e.exerciseNo
+		INNER JOIN Question q
+			ON q.questionNo = eqr.questionNo
+		INNER JOIN QuestionTagRelation qtr
+			ON qtr.questionNo = q.questionNo
+		INNER JOIN Tag t
+			ON t.tagNo = qtr.tagNo
+		WHERE t.tag = pTag;
+END //
+DELIMITER ;
 
 
 /* Returns every class */

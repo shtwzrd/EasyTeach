@@ -24,10 +24,6 @@ public class CourseRules {
 	}
 
 	/**
-	 * getCourse getCourses getCoursesByClass
-	 */
-
-	/**
 	 * @param courseEntity
 	 *            Course entity containing the courseNo.
 	 * @return A Response object with a success status and the course associated
@@ -86,8 +82,8 @@ public class CourseRules {
 	/**
 	 * @param courseEntity
 	 *            Course entity should be added.
-	 * @return A Response object with a success status if the Course was
-	 *         added. If not false.
+	 * @return A Response object with a success status if the Course was added.
+	 *         If not false.
 	 */
 	public static Response addCourse(Course courseEntity) {
 		if (CourseWrapper.insertIntoCourse(courseEntity)) {
