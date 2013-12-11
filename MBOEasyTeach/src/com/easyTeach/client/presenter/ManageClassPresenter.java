@@ -15,6 +15,19 @@ import com.easyTeach.common.network.Response;
 import com.easyTeach.common.network.Response.ResponseStatus;
 import com.easyTeach.common.network.Session;
 
+/**
+ * The ManageClassPresenter communicates with the domain logic on behalf of the
+ * ManageClassUI, providing all of its logic.
+ * <p>
+ * The Listeners in the UI class call the relevant methods in the Presenter in
+ * order to update and retrieve information from the domain logic. This is an
+ * implementation of the Model View Presenter pattern.
+ * </p>
+ * 
+ * @author Brandon Lucas
+ * @version 1.0
+ * @date 12. December, 2013
+ */
 public class ManageClassPresenter {
 
 	private DisplayTableModel enrolledStudents;
