@@ -21,6 +21,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
+import com.easyTeach.client.presenter.DisplayTableModel;
 import com.easyTeach.client.presenter.HelpPresenter;
 
 /**
@@ -132,7 +133,7 @@ public class ManageCourseUI {
 
         // Table showing all associated classes
         associatedClassesTable = new JTable();
-        DefaultTableModel1 associatedModel = new DefaultTableModel1();
+        DisplayTableModel associatedModel = new DisplayTableModel();
         String[] associatedHeads = { "Class No.", "Class name", "Year" };
         associatedModel.setRowCount(1);
         associatedModel.setColumnIdentifiers(associatedHeads);
@@ -173,7 +174,7 @@ public class ManageCourseUI {
 
         // Table showing all classes
         allClassesTable = new JTable();
-        DefaultTableModel1 allClassesModel = new DefaultTableModel1();
+        DisplayTableModel allClassesModel = new DisplayTableModel();
 
         String[] classHeads = { "Class No.", "Class name", "Year" };
         allClassesModel.setRowCount(1);

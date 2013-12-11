@@ -59,7 +59,7 @@ public class ManageClassPresenter {
 		EasyTeachClient client = new EasyTeachClient(out);
 		client.run();
 		Response in = client.getResponse();
-		System.out.println(in.getStatus());
+		System.out.println(in.getStatus() + ": " + in.getResponseMessage());
 	}
 
 	public void filter() {

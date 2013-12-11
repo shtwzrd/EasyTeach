@@ -20,8 +20,10 @@ import javax.swing.JTextField;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
+import com.easyTeach.client.presenter.DisplayTableModel;
 import com.easyTeach.client.presenter.ExerciseManagerPresenter;
 import com.easyTeach.client.presenter.HelpPresenter;
+import com.easyTeach.client.presenter.DisplayTableModel;
 
 /**
  * The ExerciseManagerUI class constructs a JPanel with all the different
@@ -143,7 +145,7 @@ public class ExerciseManagerUI {
                 new Font("Tahoma", Font.PLAIN, 20)));
         lowerCenterPanel.add(questionTablePanel, BorderLayout.CENTER);
 
-        DefaultTableModel1 questionModel = new DefaultTableModel1();
+        DisplayTableModel questionModel = new DisplayTableModel();
         String[] questionHeads = { "Question Type", "Question", "Tags" };
         questionModel.setRowCount(1);
         questionModel.setColumnIdentifiers(questionHeads);
@@ -201,7 +203,7 @@ public class ExerciseManagerUI {
                         Font.PLAIN, 20)));
 
         exerciseTable = new JTable();
-        DefaultTableModel1 exerciseModel = new DefaultTableModel1();
+        DisplayTableModel exerciseModel = new DisplayTableModel();
         String[] exerciseHeads = { "Course", "Author", "Exercise Name",
                 "Is Test" };
         exerciseModel.setRowCount(1);

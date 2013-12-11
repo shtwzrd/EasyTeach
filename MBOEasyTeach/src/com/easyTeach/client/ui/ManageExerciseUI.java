@@ -23,6 +23,7 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.TableColumnModel;
 
+import com.easyTeach.client.presenter.DisplayTableModel;
 import com.easyTeach.client.presenter.HelpPresenter;
 
 /**
@@ -333,7 +334,7 @@ public class ManageExerciseUI {
         // Random data. Will work differently at some point.. * * * * * * * * *
         // * * * *
         table = new JTable();
-        DefaultTableModel1 model = new DefaultTableModel1();
+        DisplayTableModel model = new DisplayTableModel();
         String[] heads = { "Correct", "Choice" };
         model.setRowCount(4);
         model.setColumnIdentifiers(heads);

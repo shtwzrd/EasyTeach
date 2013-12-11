@@ -76,15 +76,20 @@ public class EasyTeachServer {
 					System.out.println("[Request]: "
 							+ request.getAction().getType().toString());
 
-					// Throw out Requests with no credentials
-					if (request.getSession() != null) {
-						response = Authenticator.authenticateUser(request);
-					} else {
-						response = new Response(ResponseStatus.FAILURE);
-					}
-
 					if (request.getAction().getType() != ActionType.CLOSE) {
-						sendMessage(response);
+
+						// Throw out Requests with no credentials
+						if (request.getSession() != null) {
+							response = Authenticator.authenticateUser(request);
+						} else {
+							response = new Response(ResponseStatus.FAILURE);
+						}
+
+						if (request.getAction().getType() != ActionType.CLOSE) {
+							sendMessage(response);
+						}
+					} else {
+
 					}
 				} catch (ClassNotFoundException classnot) {
 					System.err.println("Data received in unknown format");

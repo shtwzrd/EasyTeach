@@ -2,13 +2,11 @@ package com.easyTeach.client.ui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.AbstractButton;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -22,6 +20,7 @@ import javax.swing.JTextField;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
+import com.easyTeach.client.presenter.DisplayTableModel;
 import com.easyTeach.client.presenter.HelpPresenter;
 
 /**
@@ -146,7 +145,7 @@ public class StudentManagerUI {
         quizzesPanel.setBackground(UIColors.lightBlue);
 
         availableTestsTable = new JTable();
-        DefaultTableModel1 quizzesModel = new DefaultTableModel1();
+        DisplayTableModel quizzesModel = new DisplayTableModel();
         String[] quizzesHeads = { "Exercise Name", "Tags", "Completed",
                 "Date Added" };
         quizzesModel.setRowCount(1);
@@ -211,7 +210,7 @@ public class StudentManagerUI {
         availableTestsPanel.setBackground(UIColors.lightBlue);
 
         availableTestsTable = new JTable();
-        DefaultTableModel1 availableTestsModel = new DefaultTableModel1();
+        DisplayTableModel availableTestsModel = new DisplayTableModel();
         String[] availableTestsHeads = { "Exercise Name", "Tags", "Completed",
                 "Date Added" };
         availableTestsModel.setRowCount(1);
@@ -239,7 +238,7 @@ public class StudentManagerUI {
         lockedTestsPanel.setBackground(UIColors.lightBlue);
 
         lockedTestsTable = new JTable();
-        DefaultTableModel1 lockedTestsModel = new DefaultTableModel1();
+        DisplayTableModel lockedTestsModel = new DisplayTableModel();
         String[] lockedTestsHeads = { "Exercise Name", "Tags", "Completed",
                 "Date Added" };
         lockedTestsModel.setRowCount(1);

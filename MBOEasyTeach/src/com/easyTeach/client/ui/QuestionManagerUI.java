@@ -20,6 +20,7 @@ import javax.swing.JTextField;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
+import com.easyTeach.client.presenter.DisplayTableModel;
 import com.easyTeach.client.presenter.HelpPresenter;
 import com.easyTeach.client.presenter.QuestionManagerPresenter;
 
@@ -138,7 +139,7 @@ public class QuestionManagerUI  {
                 TitledBorder.TOP, new Font("Tahoma", Font.PLAIN, 20)));     
         lowerCenterPanel.add(answerTablePanel, BorderLayout.CENTER);
         
-        DefaultTableModel1 answerModel = new DefaultTableModel1();
+        DisplayTableModel answerModel = new DisplayTableModel();
         String[] answerHeads = {"Correct", "Answer"};
         answerModel.setRowCount(1);
         answerModel.setColumnIdentifiers(answerHeads);
@@ -193,7 +194,7 @@ public class QuestionManagerUI  {
                 TitledBorder.TOP, new Font("Tahoma", Font.PLAIN, 20)));
         
         questionTable = new JTable();
-        DefaultTableModel1 questionModel = new DefaultTableModel1();
+        DisplayTableModel questionModel = new DisplayTableModel();
         String[] questionHeads = {"Question No", "Question Type", "Question", "Points", "Tags"};
         questionModel.setRowCount(1);
         questionModel.setColumnIdentifiers(questionHeads);

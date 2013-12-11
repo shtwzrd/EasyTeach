@@ -87,7 +87,8 @@ public class LoginPresenter {
     	
     	Response back = client.getResponse();
     	RoleResource role = (RoleResource) back.getResponse();
-    	System.out.println("[Response to Login]: " + back.getStatus() + ": " + role.getRole().toString());
+    	if(role != null)
+    		System.out.println("[Response to Login]: " + back.getStatus() + ": " + role.getRole().toString());
     	
         return true;
     }
