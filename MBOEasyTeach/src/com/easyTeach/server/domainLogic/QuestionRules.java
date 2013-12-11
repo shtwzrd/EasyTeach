@@ -1,14 +1,12 @@
 package com.easyTeach.server.domainLogic;
 
-import com.easyTeach.common.entity.Exercise;
+import java.sql.SQLException;
+
 import com.easyTeach.common.entity.Question;
 import com.easyTeach.common.entity.ResourceSet;
-import com.easyTeach.common.entity.Tag;
 import com.easyTeach.common.network.Response;
 import com.easyTeach.common.network.Response.ResponseStatus;
-import com.easyTeach.server.databaseWrapper.ExerciseWrapper;
 import com.easyTeach.server.databaseWrapper.QuestionWrapper;
-import com.easyTeach.server.databaseWrapper.TagWrapper;
 
 public class QuestionRules {
 
@@ -57,14 +55,23 @@ public class QuestionRules {
 	 * @see QuestionWrapper
 	 */
 	public static Response getQuestionWithQuestionNo(Question question) {
-		Question newQuestion = QuestionWrapper
-				.getQuestionRowWithQuestionNo(question.getQuestionNo());
+		Question newQuestion = null;
+		try {
+			newQuestion = QuestionWrapper
+					.getQuestionRowWithQuestionNo(question.getQuestionNo());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 
 		if (newQuestion != null) {
 			return new Response(ResponseStatus.SUCCESS, newQuestion);
 		}
 
 		return new Response(ResponseStatus.FAILURE);
+	}
+	
+	public static Response getQuestionWithTagNo() {
+		ResourceSet 
 	}
 	
 	/**
