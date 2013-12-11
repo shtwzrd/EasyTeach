@@ -35,8 +35,7 @@ public class ManageClassPresenter {
 	private ResourceSet studentSelectionSet;
 	private Class currentClass;
 	private ResourceSet studentsEnrolledSet;
-	private ResourceSet filteredStudentsSelection;
-	private ResourceSet relations;
+	private ResourceSet filteredStudentsSelection; private ResourceSet relations;
 	private EasyTeachClient client;
 	private User user;
 	private User currentlySelectedUserInSelection;
