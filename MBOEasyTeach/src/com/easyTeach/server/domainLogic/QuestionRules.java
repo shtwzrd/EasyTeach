@@ -4,9 +4,11 @@ import java.sql.SQLException;
 
 import com.easyTeach.common.entity.Question;
 import com.easyTeach.common.entity.ResourceSet;
+import com.easyTeach.common.entity.Tag;
 import com.easyTeach.common.network.Response;
 import com.easyTeach.common.network.Response.ResponseStatus;
 import com.easyTeach.server.databaseWrapper.QuestionWrapper;
+import com.easyTeach.server.databaseWrapper.TagWrapper;
 
 public class QuestionRules {
 
@@ -70,8 +72,26 @@ public class QuestionRules {
 		return new Response(ResponseStatus.FAILURE);
 	}
 	
-	public static Response getQuestionWithTagNo() {
-		ResourceSet 
+	/**
+	 * @param Tag
+	 *            entity containing the tagNo of the tag one is finding
+	 *            questions for.
+	 * @return a Response object with a success status and all the classes
+	 *         associated to a specific exercises.
+	 * @see Tag
+	 * @see TagWrapper
+	 * @see Question
+	 * @see QuestionWrapper
+	 */
+	public static Response getQuestionRowsWithTagNo(Tag tag) {
+		ResourceSet questions = new ResourceSet();
+
+		for (Question questionEntity : QuestionWrapper
+				.getQuestionRowsWithTagNo(tag.getTagNo())) {
+			questions.add(questionEntity);
+		}
+
+		return new Response(ResponseStatus.SUCCESS, questions);
 	}
 	
 	/**

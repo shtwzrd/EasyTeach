@@ -108,28 +108,6 @@ public class TagRules {
 	}
 	
 	/**
-	 * @param Tag
-	 *            entity containing the tagNo of the tag one is finding
-	 *            questions for.
-	 * @return a Response object with a success status and all the classes
-	 *         associated to a specific exercises.
-	 * @see Tag
-	 * @see TagWrapper
-	 * @see Question
-	 * @see QuestionWrapper
-	 */
-	public static Response getQuestionRowsWithTagNo(Tag tag) {
-		ResourceSet questions = new ResourceSet();
-
-		for (Question questionEntity : QuestionWrapper
-				.getQuestionRowsWithTagNo(tag.getTagNo())) {
-			questions.add(questionEntity);
-		}
-
-		return new Response(ResponseStatus.SUCCESS, questions);
-	}
-	
-	/**
      * Updates a {@link Tag} row in the database.
      * 
      * @param tagEntity the class that should be updated.
