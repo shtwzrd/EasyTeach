@@ -13,6 +13,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 
+import com.easyTeach.common.network.Session;
+
 /**
  * <p>
  * The MainFrame class is the main frame for the MBO EasyTeach application.
@@ -167,6 +169,7 @@ public class MainFrame {
                 if (reply == JOptionPane.YES_OPTION) {
                     // Update Session object
                     MainFrame.frame.dispose();
+                    Session.getInstance().close();
                     new LoginUI();                    
                 }
             }

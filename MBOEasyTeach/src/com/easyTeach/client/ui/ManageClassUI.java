@@ -17,11 +17,13 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
-import com.easyTeach.client.presenter.DisplayTableModel;
 import com.easyTeach.client.presenter.HelpPresenter;
 import com.easyTeach.client.presenter.ManageClassPresenter;
 
@@ -42,14 +44,14 @@ public class ManageClassUI {
 	private JButton btnHelp;
 	private JButton btnDiscard;
 	private JButton btnSaveClass;
-	private JTable enrolledClassesTable;
-	private JTable allStudentsTable;
+	protected JTable enrolledClassesTable;
+	protected JTable allStudentsTable;
 	private JPanel centerPanel;
-	private JButton btnRemoveStudent;
-	private JButton btnAddStudent;
+	protected JButton btnRemoveStudent;
+	protected JButton btnAddStudent;
 	protected JTextField txtYear;
 	protected JTextField txtClassName;
-	private JComboBox filterBox;
+	private JComboBox<String> filterBox;
 	private JTextField txtFilter;
 	private JButton btnFilter;
 	protected ManageClassPresenter presenter;
@@ -162,11 +164,11 @@ public class ManageClassUI {
 		addRemovePanel.setLayout(new GridLayout(1, 2));
 
 		btnRemoveStudent = new JButton("Remove Student From Class");
-		btnRemoveStudent.setEnabled(presenter.canRemove());
+		btnRemoveStudent.setEnabled(false);
 		addRemovePanel.add(btnRemoveStudent);
 
 		btnAddStudent = new JButton("Add Student To Class");
-		btnAddStudent.setEnabled(presenter.canAdd());
+		btnAddStudent.setEnabled(false);
 		addRemovePanel.add(btnAddStudent);
 
 		enrolledStudentsPanel.add(addRemovePanel, BorderLayout.SOUTH);
@@ -188,8 +190,8 @@ public class ManageClassUI {
 		JLabel lblFilter = new JLabel("Filter");
 		filterPanel.add(lblFilter);
 
-		filterBox = new JComboBox();
-		filterBox.setModel(new DefaultComboBoxModel(FILTER));
+		filterBox = new JComboBox<String>();
+		filterBox.setModel(new DefaultComboBoxModel<String>(FILTER));
 		filterPanel.add(filterBox);
 
 		JLabel lblBy = new JLabel("by");
@@ -265,13 +267,17 @@ public class ManageClassUI {
 		btnDiscard.addActionListener(listener);
 		btnHelp.addActionListener(listener);
 		btnSaveClass.addActionListener(listener);
+		ListSelectionModel lsmEnrolled = enrolledClassesTable
+				.getSelectionModel();
+		ListSelectionModel lsmSelection = enrolledClassesTable
+				.getSelectionModel();
+		lsmEnrolled.addListSelectionListener(listener);
+		lsmSelection.addListSelectionListener(listener);
 	}
 
 	protected void syncWithPresenter() {
 		if (!isSyncing) {
 			isSyncing = true;
-			btnAddStudent.setEnabled(presenter.canAdd());
-			btnRemoveStudent.setEnabled(presenter.canRemove());
 
 			enrolledClassesTable.setModel(presenter.getEnrolledStudentsModel());
 			allStudentsTable.setModel(presenter.getAllStudentsModel());
@@ -292,7 +298,26 @@ public class ManageClassUI {
 	 * @see ActionListener
 	 * @date 6. December, 2013
 	 */
-	private class ManageClassListener implements ActionListener {
+	private class ManageClassListener implements ActionListener,
+			ListSelectionListener {
+		@Override
+		public void valueChanged(ListSelectionEvent e) {
+			if (!e.getValueIsAdjusting()
+					&& e.getSource() == enrolledClassesTable) {
+				boolean rowsAreSelected = enrolledClassesTable
+						.getSelectedRowCount() > 0;
+				btnRemoveStudent.setEnabled(rowsAreSelected);
+				presenter.setSelectedUserInEnrolled(enrolledClassesTable
+						.getValueAt(enrolledClassesTable.getSelectedRow(), 0));
+			}
+			if (!e.getValueIsAdjusting() && e.getSource() == allStudentsTable) {
+				boolean rowsAreSelected = allStudentsTable
+						.getSelectedRowCount() > 0;
+				btnAddStudent.setEnabled(rowsAreSelected);
+				presenter.setSelectedUserInSelection(allStudentsTable
+						.getValueAt(allStudentsTable.getSelectedRow(), 0));
+			}
+		}
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -315,7 +340,10 @@ public class ManageClassUI {
 			}
 
 			else if (e.getSource() == btnFilter) {
-				presenter.filter();
+				String column = filterBox.getSelectedItem().toString();
+				String by = txtFilter.getText();
+
+				presenter.filter(column, by);
 				syncWithPresenter();
 			}
 
