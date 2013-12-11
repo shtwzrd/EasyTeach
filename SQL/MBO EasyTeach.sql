@@ -28,7 +28,7 @@ DROP TABLE IF EXISTS Class;
 
 
 CREATE TABLE Class (
-	classNo		VARCHAR(32)	NOT NULL,
+	classNo		VARCHAR(36)	NOT NULL,
 	year		INTEGER(4)	NOT NULL,
 	className	VARCHAR(50)	NOT NULL,
 	CONSTRAINT	pk_class	PRIMARY KEY (classNo)
@@ -36,14 +36,14 @@ CREATE TABLE Class (
 
 
 CREATE TABLE Course (
-	courseNo	VARCHAR(32)	NOT NULL,
+	courseNo	VARCHAR(36)	NOT NULL,
 	courseName	VARCHAR(50)	NOT NULL,
 	CONSTRAINT	pk_course	PRIMARY KEY (courseNo)
 ) 	ENGINE 		InnoDB;
 
 
 CREATE TABLE User (
-	userNo		VARCHAR(32)	 NOT NULL,
+	userNo		VARCHAR(36)	 NOT NULL,
 	email		VARCHAR(40)	 NOT NULL,
 	userType	VARCHAR(30)	 NOT NULL	DEFAULT 'Student',
 	firstName	VARCHAR(50)  NOT NULL,
@@ -56,7 +56,7 @@ CREATE TABLE User (
 
 
 CREATE TABLE Question (
-	questionNo		VARCHAR(32)		NOT NULL,
+	questionNo		VARCHAR(36)		NOT NULL,
 	questionType 	VARCHAR(50)		NOT NULL,
 	question 		TEXT(65535)		NOT NULL,
 	points			INTEGER(5),
@@ -65,14 +65,14 @@ CREATE TABLE Question (
 
 
 CREATE TABLE Tag (
-	tagNo		VARCHAR(32)	NOT NULL,
+	tagNo		VARCHAR(36)	NOT NULL,
 	tag			VARCHAR(50),
 	CONSTRAINT	pk_tag		PRIMARY KEY (tagNo)
 ) 	ENGINE 		InnoDB;
 
 CREATE TABLE Answer (
-	questionNo	VARCHAR(32)		NOT NULL,
-	answerNo	VARCHAR(32)		NOT NULL,
+	questionNo	VARCHAR(36)		NOT NULL,
+	answerNo	VARCHAR(36)		NOT NULL,
 	answer 		TEXT(65535)		NOT NULL,
 	isCorrect 	BOOLEAN			NOT NULL,
 	CONSTRAINT	pk_answer		PRIMARY KEY (questionNo, answerNo),
@@ -83,7 +83,7 @@ CREATE TABLE Answer (
 
 
 CREATE TABLE ExerciseParameter (
-	exerciseParameterNo	VARCHAR(32)		NOT NULL,
+	exerciseParameterNo	VARCHAR(36)		NOT NULL,
 	isTest				BOOLEAN			NOT NULL,
 	isLocked			BOOLEAN,
 	accessBegin			DATETIME,
@@ -94,10 +94,10 @@ CREATE TABLE ExerciseParameter (
 
 
 CREATE TABLE Exercise (
-	exerciseNo			VARCHAR(32)		NOT NULL,
-	courseNo			VARCHAR(32),
-	author 				VARCHAR(32),		/* userNo from User */
-	exerciseParameterNo VARCHAR(32)		NOT NULL,
+	exerciseNo			VARCHAR(36)		NOT NULL,
+	courseNo			VARCHAR(36),
+	author 				VARCHAR(36),		/* userNo from User */
+	exerciseParameterNo VARCHAR(36)		NOT NULL,
 	exerciseName		VARCHAR(100)	NOT NULL,
 	dateAdded			DATE			NOT NULL,
 	password			VARCHAR(256),
@@ -115,8 +115,8 @@ CREATE TABLE Exercise (
 
 
 CREATE TABLE ClassCourseRelation (
-	classNo		VARCHAR(32)				NOT NULL,
-	courseNo	VARCHAR(32)				NOT NULL,
+	classNo		VARCHAR(36)				NOT NULL,
+	courseNo	VARCHAR(36)				NOT NULL,
 	CONSTRAINT	pk_classCourseRelation	PRIMARY KEY (classNo, courseNo),
 	CONSTRAINT	fk_ccrClassNo			FOREIGN KEY (classNo) 	
 		REFERENCES 	Class (classNo) 
@@ -128,8 +128,8 @@ CREATE TABLE ClassCourseRelation (
 
 
 CREATE TABLE UserTestResult (
-	userNo		VARCHAR(32)				NOT NULL,
-	exerciseNo	VARCHAR(32)				NOT NULL,
+	userNo		VARCHAR(36)				NOT NULL,
+	exerciseNo	VARCHAR(36)				NOT NULL,
 	score		INTEGER(5)				NOT NULL,
 	CONSTRAINT	pk_userTestResult		PRIMARY KEY (userNo, exerciseNo),
 	CONSTRAINT	fk_utrUserNo			FOREIGN KEY (userNo) 	
@@ -142,8 +142,8 @@ CREATE TABLE UserTestResult (
 
 
 CREATE TABLE ClassUserRelation (
-	classNo		VARCHAR(32)				NOT NULL,
-	userNo		VARCHAR(32)				NOT NULL,
+	classNo		VARCHAR(36)				NOT NULL,
+	userNo		VARCHAR(36)				NOT NULL,
 	CONSTRAINT	pk_classUserRelation	PRIMARY KEY (classNo, userNo),
 	CONSTRAINT	fk_curClassNo			FOREIGN KEY (classNo) 	
 		REFERENCES 	Class (classNo) 
@@ -155,8 +155,8 @@ CREATE TABLE ClassUserRelation (
 
 
 CREATE TABLE UserQuestionState (
-	userNo			VARCHAR(32)			NOT NULL,
-	questionNo		VARCHAR(32)			NOT NULL,
+	userNo			VARCHAR(36)			NOT NULL,
+	questionNo		VARCHAR(36)			NOT NULL,
 	hasCompleted 	BOOLEAN				NOT NULL,
 	CONSTRAINT	pk_userQuestionState	PRIMARY KEY (userNo, questionNo),
 	CONSTRAINT	fk_uqsUserNo			FOREIGN KEY (userNo) 	
@@ -169,8 +169,8 @@ CREATE TABLE UserQuestionState (
 
 
 CREATE TABLE QuestionTagRelation (
-	questionNo	VARCHAR(32)				NOT NULL,
-	tagNo		VARCHAR(32)				NOT NULL,
+	questionNo	VARCHAR(36)				NOT NULL,
+	tagNo		VARCHAR(36)				NOT NULL,
 	CONSTRAINT	pk_questionTagRelation	PRIMARY KEY (questionNo, tagNo),
 	CONSTRAINT	fk_qtrQuestionNo		FOREIGN KEY (questionNo) 	
 		REFERENCES 	Question (questionNo) 
@@ -182,8 +182,8 @@ CREATE TABLE QuestionTagRelation (
 
 
 CREATE TABLE ExerciseQuestionRelation (
-	exerciseNo	VARCHAR(32)				NOT NULL,
-	questionNo	VARCHAR(32)				NOT NULL,
+	exerciseNo	VARCHAR(36)				NOT NULL,
+	questionNo	VARCHAR(36)				NOT NULL,
 	CONSTRAINT	pk_questionTagRelation	PRIMARY KEY (exerciseNo, questionNo),
 	CONSTRAINT	fk_eqrExerciseNo		FOREIGN KEY (exerciseNo) 	
 		REFERENCES 	Exercise (exerciseNo) 

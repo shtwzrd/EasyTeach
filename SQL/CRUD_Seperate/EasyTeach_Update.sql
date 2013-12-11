@@ -43,7 +43,7 @@ DROP PROCEDURE IF EXISTS updateUserQuestionStateHasCompleted;
 /* A concatenated procedure for updating the whole row in the Class table */
 DELIMITER //
 CREATE PROCEDURE updateClassRow (
-	IN classNo 	VARCHAR(32),
+	IN classNo 	VARCHAR(36),
 	IN year 		INTEGER(4),
 	IN className 	VARCHAR(50))
 BEGIN
@@ -58,7 +58,7 @@ DELIMITER ;
 /* Procedure for updating the courseName in a row in the Course table */
 DELIMITER //
 CREATE PROCEDURE updateCourseRow (
-	IN courseNo		VARCHAR(32),
+	IN courseNo		VARCHAR(36),
 	INOUT courseName 	VARCHAR(50))
 BEGIN
 	START TRANSACTION;
@@ -72,7 +72,7 @@ DELIMITER ;
 /* Procedure for updating the password in a row in the User table */
 DELIMITER //
 CREATE PROCEDURE updateUserPassword (
-	IN userNo		VARCHAR(32),
+	IN userNo		VARCHAR(36),
 	INOUT password 	VARCHAR(256))
 BEGIN
 	START TRANSACTION;
@@ -86,7 +86,7 @@ DELIMITER ;
 /* A concatenated procedure for updating the whole row in the Class table */
 DELIMITER //
 CREATE PROCEDURE updateUserRow (
-	IN userNo		VARCHAR(32),
+	IN userNo		VARCHAR(36),
 	IN email 		VARCHAR (40),
 	IN userType 	VARCHAR(30),
 	IN firstName	VARCHAR(50),
@@ -105,7 +105,7 @@ DELIMITER ;
 /* Procedure for updating the whole row in the Question table */
 DELIMITER //
 CREATE PROCEDURE updateQuestionRow (
-	IN questionNo 	VARCHAR(32),
+	IN questionNo 	VARCHAR(36),
 	IN questionType VARCHAR(50),
 	IN question 	TEXT(65535),
 	IN points 		INTEGER(5))
@@ -121,7 +121,7 @@ DELIMITER ;
 /* Procedure for updating the tag in a row in the Tag table */
 DELIMITER //
 CREATE PROCEDURE updateTagRow (
-	IN tagNo	VARCHAR(32),
+	IN tagNo	VARCHAR(36),
 	INOUT tag 	VARCHAR(50))
 BEGIN
 	START TRANSACTION;
@@ -135,8 +135,8 @@ DELIMITER ;
 /* Procedure for updating all content in the the Answer table */
 DELIMITER //
 CREATE PROCEDURE updateAnswerRow (
-	IN questionNo	VARCHAR(32),
-	IN answerNo 	VARCHAR(32),
+	IN questionNo	VARCHAR(36),
+	IN answerNo 	VARCHAR(36),
 	IN answer 		TEXT(65535),
 	IN isCorrect 	BOOLEAN)
 BEGIN
@@ -151,7 +151,7 @@ DELIMITER ;
 /* Procedure for updating all content in the the ExerciseParameter table */
 DELIMITER //
 CREATE PROCEDURE updateExerciseParameterRow (
-	IN exerciseParameterNo 	VARCHAR(32),
+	IN exerciseParameterNo 	VARCHAR(36),
 	IN isTest				BOOLEAN,
 	IN isLocked				BOOLEAN,
 	IN accessBegin 			DATETIME,
@@ -169,9 +169,9 @@ DELIMITER ;
 /* Procedure for updating all content in the the Exercise table */
 DELIMITER //
 CREATE PROCEDURE updateExerciseRow (
-	IN exerciseNo			VARCHAR(32),
-	IN courseNo 			VARCHAR(32),
-	IN exerciseParameterNo 	VARCHAR(32),
+	IN exerciseNo			VARCHAR(36),
+	IN courseNo 			VARCHAR(36),
+	IN exerciseParameterNo 	VARCHAR(36),
 	IN exerciseName			VARCHAR(100),
 	IN password				VARCHAR(256))
 BEGIN
@@ -186,8 +186,8 @@ DELIMITER ;
 /* Procedure for updating the hasCompleted in a row in the UserQuestionState table */
 DELIMITER //
 CREATE PROCEDURE updateUserQuestionStateHasCompleted (
-	IN userNo		VARCHAR(32),
-	IN questionNo	VARCHAR(32),
+	IN userNo		VARCHAR(36),
+	IN questionNo	VARCHAR(36),
 	IN hasCompleted BOOLEAN)
 BEGIN
 	START TRANSACTION;

@@ -29,7 +29,7 @@ DROP PROCEDURE IF EXISTS insertIntoExerciseQuestionRelation;
 /* Procedure for inserting a row into the Class table */
 DELIMITER // 
 CREATE PROCEDURE insertIntoClass(
-	IN classNo				VARCHAR(32),
+	IN classNo				VARCHAR(36),
 	IN year 				INTEGER(4),
 	IN className 			VARCHAR(50))
 BEGIN
@@ -43,7 +43,7 @@ DELIMITER ;
 /* Procedure for inserting a row into the Course table */
 DELIMITER //
 CREATE PROCEDURE insertIntoCourse(
-	IN courseNo				VARCHAR(32),
+	IN courseNo				VARCHAR(36),
 	IN courseName 			VARCHAR(50))
 BEGIN
 	START TRANSACTION;
@@ -56,7 +56,7 @@ DELIMITER ;
 /* Procedure for inserting a row into the User table */
 DELIMITER //
 CREATE PROCEDURE insertIntoUser(
-	IN userNo				VARCHAR(32),
+	IN userNo				VARCHAR(36),
 	IN email 				VARCHAR(40),
 	IN userType 			VARCHAR(30),
 	IN firstName 			VARCHAR(50),
@@ -73,7 +73,7 @@ DELIMITER ;
 /* Procedure for inserting a row into the Question table */
 DELIMITER //
 CREATE PROCEDURE insertIntoQuestion(
-	IN questionNo			VARCHAR(32),
+	IN questionNo			VARCHAR(36),
 	IN questionType			VARCHAR(50),
 	IN question 			TEXT(65535),
 	IN points				INTEGER(5))
@@ -88,7 +88,7 @@ DELIMITER ;
 /* Procedure for inserting a row into the Tag table */
 DELIMITER //
 CREATE PROCEDURE insertIntoTag (
-	IN tagNo				VARCHAR(32),
+	IN tagNo				VARCHAR(36),
 	IN tag					VARCHAR(50))
 BEGIN
 	START TRANSACTION;
@@ -101,8 +101,8 @@ DELIMITER ;
 /* Procedure for inserting a row into the Answer table */
 DELIMITER //
 CREATE PROCEDURE insertIntoAnswer (
-	IN questionNo			VARCHAR(32),
-	IN answerNo				VARCHAR(32),
+	IN questionNo			VARCHAR(36),
+	IN answerNo				VARCHAR(36),
 	IN answer				TEXT(65535),
 	IN isCorrect			BOOLEAN)
 BEGIN
@@ -116,7 +116,7 @@ DELIMITER ;
 /* Procedure for inserting a row into the ExerciseParameter table */
 DELIMITER //
 CREATE PROCEDURE insertIntoExerciseParameter (
-	IN exerciseParameterNo	VARCHAR(32),
+	IN exerciseParameterNo	VARCHAR(36),
 	IN isTest				BOOLEAN,
 	IN isLocked				BOOLEAN,
 	IN accessBegin			DATETIME,
@@ -133,10 +133,10 @@ DELIMITER ;
 /* Procedure for inserting a row into the Exercise table */
 DELIMITER //
 CREATE PROCEDURE insertIntoExercise (
-	IN exerciseNo			VARCHAR(32),
-	IN courseNo				VARCHAR(32),
-	IN author				VARCHAR(32),
-	IN exerciseParameterNo	VARCHAR(32),
+	IN exerciseNo			VARCHAR(36),
+	IN courseNo				VARCHAR(36),
+	IN author				VARCHAR(36),
+	IN exerciseParameterNo	VARCHAR(36),
 	IN exerciseName			VARCHAR(100),
 	IN dateAdded			DATE,
 	IN password				VARCHAR(256))
@@ -151,8 +151,8 @@ DELIMITER ;
 /* Procedure for inserting a row into the ClassCourseRelation table */
 DELIMITER //
 CREATE PROCEDURE insertIntoClassCourseRelation (
-	IN classNo				VARCHAR(32),
-	IN courseNo				VARCHAR(32))
+	IN classNo				VARCHAR(36),
+	IN courseNo				VARCHAR(36))
 BEGIN 
 	START TRANSACTION;
 		INSERT INTO ClassCourseRelation 
@@ -164,8 +164,8 @@ DELIMITER ;
 /* Procedure for inserting a row into the UserTestResult table */
 DELIMITER //
 CREATE PROCEDURE insertIntoUserTestResult (
-	IN userNo				VARCHAR(32),
-	IN exerciseNo			VARCHAR(32),
+	IN userNo				VARCHAR(36),
+	IN exerciseNo			VARCHAR(36),
 	IN score				INTEGER(5))
 BEGIN 
 	START TRANSACTION;
@@ -178,8 +178,8 @@ DELIMITER ;
 /* Procedure for inserting a row into the ClassUserRelation table */
 DELIMITER //
 CREATE PROCEDURE insertIntoClassUserRelation (
-	IN classNo				VARCHAR(32),
-	IN userNo				VARCHAR(32))
+	IN classNo				VARCHAR(36),
+	IN userNo				VARCHAR(36))
 BEGIN 
 	START TRANSACTION;
 		INSERT INTO ClassUserRelation 
@@ -191,8 +191,8 @@ DELIMITER ;
 /* Procedure for inserting a row into the UserQuestionState table */
 DELIMITER //
 CREATE PROCEDURE insertIntoUserQuestionState (
-	IN userNo				VARCHAR(32),
-	IN questionNo			VARCHAR(32),
+	IN userNo				VARCHAR(36),
+	IN questionNo			VARCHAR(36),
 	IN hasCompleted 		BOOLEAN)
 BEGIN
 	START TRANSACTION;
@@ -205,8 +205,8 @@ DELIMITER ;
 /* Procedure for inserting a row into the QuestionTagRelation table */
 DELIMITER //
 CREATE PROCEDURE insertIntoQuestionTagRelation (
-	IN questionNo			VARCHAR(32),
-	IN tagNo				VARCHAR(32))
+	IN questionNo			VARCHAR(36),
+	IN tagNo				VARCHAR(36))
 BEGIN
 	START TRANSACTION;
 		INSERT INTO QuestionTagRelation
@@ -218,8 +218,8 @@ DELIMITER ;
 /* Procedure for inserting a row into the ExerciseQuestionRelation table */
 DELIMITER //
 CREATE PROCEDURE insertIntoExerciseQuestionRelation (
-	IN exerciseNo			VARCHAR(32),
-	IN questionNo			VARCHAR(32))
+	IN exerciseNo			VARCHAR(36),
+	IN questionNo			VARCHAR(36))
 BEGIN
 	START TRANSACTION;
 		INSERT INTO ExerciseQuestionRelation
