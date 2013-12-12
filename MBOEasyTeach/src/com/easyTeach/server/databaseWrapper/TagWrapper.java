@@ -5,6 +5,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLTransientConnectionException;
+import java.sql.SQLTransientException;
 import java.util.HashSet;
 
 import com.easyTeach.common.entity.Tag;
@@ -43,12 +45,13 @@ public class TagWrapper {
             stmt.setString(1, tagEntity.getTagNo());
             stmt.setString(2, tagEntity.getTag());
 
-            int affected = stmt.executeUpdate();
-            if (affected == 1) {
-                return true;
-            } else {
-                return false;
-            }
+            stmt.execute();
+            return true;
+            
+        } catch (SQLTransientConnectionException SQLtce) {
+            return insertIntoTag(tagEntity);
+        } catch (SQLTransientException SQLte) {
+            return updateTagRow(tagEntity);
         } catch (SQLException e) {
             System.err.println(e);
             return false;
@@ -72,12 +75,13 @@ public class TagWrapper {
             stmt.setString(1, tagEntity.getTagNo());
             stmt.setString(2, tagEntity.getTag());
 
-            int affected = stmt.executeUpdate();
-            if (affected == 1) {
-                return true;
-            } else {
-                return false;
-            }
+            stmt.execute();
+            return true;
+            
+        } catch (SQLTransientConnectionException SQLtce) {
+            return updateTagRow(tagEntity);
+        } catch (SQLTransientException SQLte) {
+            return updateTagRow(tagEntity);
         } catch (SQLException e) {
             System.err.println(e);
             return false;
@@ -100,12 +104,13 @@ public class TagWrapper {
         try (CallableStatement stmt = conn.prepareCall(sql);) {
             stmt.setString(1, tagNo);
 
-            int affected = stmt.executeUpdate();
-            if (affected == 1) {
-                return true;
-            } else {
-                return false;
-            }
+            stmt.execute();
+            return true;
+            
+        } catch (SQLTransientConnectionException SQLtce) {
+            return deleteTagRow(tagNo);
+        } catch (SQLTransientException SQLte) {
+            return deleteTagRow(tagNo);
         } catch (SQLException e) {
             System.err.println(e);
             return false;
@@ -135,8 +140,13 @@ public class TagWrapper {
 
                 hashSet.add(tagEntity);
             }
+            
             return hashSet;
-
+            
+        } catch (SQLTransientConnectionException SQLtce) {
+            return getTagRows();
+        } catch (SQLTransientException SQLte) {
+            return getTagRows();
         } catch (SQLException e) {
             System.err.println(e);
             return null;
@@ -158,25 +168,24 @@ public class TagWrapper {
         try (PreparedStatement stmt = conn.prepareStatement(sql);) {
             stmt.setString(1, tagNo);
             rs = stmt.executeQuery();
-            rs.next();
+            
+            if (rs.next()) {
+                Tag tagEntity = new Tag();
+                tagEntity.setTagNo(rs.getString("tagNo"));
+                tagEntity.setTag(rs.getString("tag"));
 
-            Tag tagEntity = new Tag();
-            tagEntity.setTagNo(rs.getString("tagNo"));
-            tagEntity.setTag(rs.getString("tag"));
-
-            return tagEntity;
-
+                return tagEntity;
+            }
+            
+            return null;
+            
+        } catch (SQLTransientConnectionException SQLtce) {
+            return getTagRowWithTagNo(tagNo);
+        } catch (SQLTransientException SQLte) {
+            return getTagRowWithTagNo(tagNo);
         } catch (SQLException e) {
             System.err.println(e);
             return null;
-        } finally {
-            try {
-                if (rs != null) {
-                    rs.close();
-                }
-            } catch (SQLException e) {
-                System.err.println(e);
-            }
         }
     }
 

@@ -5,6 +5,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLTransientConnectionException;
+import java.sql.SQLTransientException;
 import java.util.HashSet;
 
 import com.easyTeach.common.entity.ClassUserRelation;
@@ -45,12 +47,13 @@ public class ClassUserRelationWrapper {
             stmt.setString(1, classUserRelationEntity.getClassNo());
             stmt.setString(2, classUserRelationEntity.getUserNo());
 
-            int affected = stmt.executeUpdate();
-            if (affected == 1) {
-                return true;
-            } else {
-                return false;
-            }
+            stmt.execute();
+            return true;
+            
+        } catch (SQLTransientConnectionException SQLtce) {
+            return insertIntoClassUserRelation(classUserRelationEntity);
+        } catch (SQLTransientException SQLte) {
+            return insertIntoClassUserRelation(classUserRelationEntity);
         } catch (SQLException e) {
             System.err.println(e);
             return false;
@@ -78,12 +81,13 @@ public class ClassUserRelationWrapper {
             stmt.setString(1, classNo);
             stmt.setString(2, userNo);
 
-            int affected = stmt.executeUpdate();
-            if (affected == 1) {
-                return true;
-            } else {
-                return false;
-            }
+            stmt.execute();
+            return true;
+            
+        } catch (SQLTransientConnectionException SQLtce) {
+            return deleteClassUserRelationRow(classNo, userNo);
+        } catch (SQLTransientException SQLte) {
+            return deleteClassUserRelationRow(classNo, userNo);
         } catch (SQLException e) {
             System.err.println(e);
             return false;
@@ -115,7 +119,11 @@ public class ClassUserRelationWrapper {
                 hashSet.add(classUserRelationEntity);
             }
             return hashSet;
-
+            
+        } catch (SQLTransientConnectionException SQLtce) {
+            return getClassUserRelationRows();
+        } catch (SQLTransientException SQLte) {
+            return getClassUserRelationRows();
         } catch (SQLException e) {
             System.err.println(e);
             return null;
@@ -155,17 +163,13 @@ public class ClassUserRelationWrapper {
 
             return hashSet;
 
+        } catch (SQLTransientConnectionException SQLtce) {
+            return getClassUserRelationRowsWithClassNo(classNo);
+        } catch (SQLTransientException SQLte) {
+            return getClassUserRelationRowsWithClassNo(classNo);
         } catch (SQLException e) {
             System.err.println(e);
             return null;
-        } finally {
-            try {
-                if (rs != null) {
-                    rs.close();
-                }
-            } catch (SQLException e) {
-                System.err.println(e);
-            }
         }
     }
 
@@ -202,6 +206,10 @@ public class ClassUserRelationWrapper {
 
             return hashSet;
 
+        } catch (SQLTransientConnectionException SQLtce) {
+            return getClassUserRelationRowsWithUserNo(userNo);
+        } catch (SQLTransientException SQLte) {
+            return getClassUserRelationRowsWithUserNo(userNo);
         } catch (SQLException e) {
             System.err.println(e);
             return null;

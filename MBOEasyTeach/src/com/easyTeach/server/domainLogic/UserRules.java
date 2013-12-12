@@ -124,11 +124,12 @@ public final class UserRules {
 
         return new Response(ResponseStatus.SUCCESS, databaseAdmins);
     }
-    
+
     /**
      * Adds a {@link User} to the database.
      * 
-     * @param user the user that should be added.
+     * @param user
+     *            the user that should be added.
      * @return a Response object with a success status if the User was added.
      *         Otherwise false.
      */
@@ -139,11 +140,12 @@ public final class UserRules {
 
         return new Response(ResponseStatus.FAILURE, "Failed to insert user");
     }
-    
+
     /**
      * Updates a {@link Class} row in the database.
      * 
-     * @param classEntity the class that should be updated.
+     * @param classEntity
+     *            the class that should be updated.
      * @return a Response object with a success status if the Class was updated.
      *         Otherwise false.
      */
@@ -154,11 +156,12 @@ public final class UserRules {
 
         return new Response(ResponseStatus.FAILURE, "Failed to update user");
     }
-    
+
     /**
      * Deletes a {@link User} row in the database.
      * 
-     * @param user the user that should be deleted.
+     * @param user
+     *            the user that should be deleted.
      * @return a Response object with a success status if the User was deleted.
      *         Otherwise false.
      */

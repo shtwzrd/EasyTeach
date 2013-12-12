@@ -5,6 +5,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLTransientConnectionException;
+import java.sql.SQLTransientException;
 import java.util.HashSet;
 
 import com.easyTeach.common.entity.ExerciseParameter;
@@ -50,12 +52,13 @@ public class ExerciseParameterWrapper {
             stmt.setTimestamp(5, exerciseParameterEntity.getAccessEnd());
             stmt.setInt(6, exerciseParameterEntity.getTimeLimit());
 
-            int affected = stmt.executeUpdate();
-            if (affected == 1) {
-                return true;
-            } else {
-                return false;
-            }
+            stmt.execute();
+            return true;
+            
+        } catch (SQLTransientConnectionException SQLtce) {
+            return insertIntoExerciseParameter(exerciseParameterEntity);
+        } catch (SQLTransientException SQLte) {
+            return insertIntoExerciseParameter(exerciseParameterEntity);
         } catch (SQLException e) {
             System.err.println(e);
             return false;
@@ -86,12 +89,13 @@ public class ExerciseParameterWrapper {
             stmt.setTimestamp(5, exerciseParameterEntity.getAccessEnd());
             stmt.setInt(6, exerciseParameterEntity.getTimeLimit());
 
-            int affected = stmt.executeUpdate();
-            if (affected == 1) {
-                return true;
-            } else {
-                return false;
-            }
+            stmt.execute();
+            return true;
+            
+        } catch (SQLTransientConnectionException SQLtce) {
+            return updateExerciseParameterRow(exerciseParameterEntity);
+        } catch (SQLTransientException SQLte) {
+            return updateExerciseParameterRow(exerciseParameterEntity);
         } catch (SQLException e) {
             System.err.println(e);
             return false;
@@ -115,12 +119,13 @@ public class ExerciseParameterWrapper {
         try (CallableStatement stmt = conn.prepareCall(sql);) {
             stmt.setString(1, exerciseParameterNo);
 
-            int affected = stmt.executeUpdate();
-            if (affected == 1) {
-                return true;
-            } else {
-                return false;
-            }
+            stmt.execute();
+            return true;
+            
+        } catch (SQLTransientConnectionException SQLtce) {
+            return deleteExerciseParameterRow(exerciseParameterNo);
+        } catch (SQLTransientException SQLte) {
+            return deleteExerciseParameterRow(exerciseParameterNo);
         } catch (SQLException e) {
             System.err.println(e);
             return false;
@@ -159,6 +164,10 @@ public class ExerciseParameterWrapper {
             }
             return hashSet;
 
+        } catch (SQLTransientConnectionException SQLtce) {
+            return getExerciseParameterRows();
+        } catch (SQLTransientException SQLte) {
+            return getExerciseParameterRows();
         } catch (SQLException e) {
             System.err.println(e);
             return null;
@@ -194,7 +203,11 @@ public class ExerciseParameterWrapper {
             exerciseParameterEntity.setTimeLimit(rs.getInt("timeLimit"));
 
             return exerciseParameterEntity;
-
+            
+        } catch (SQLTransientConnectionException SQLtce) {
+            return getExerciseParameterRowWithExerciseParameterNo(exerciseParameterNo);
+        } catch (SQLTransientException SQLte) {
+            return getExerciseParameterRowWithExerciseParameterNo(exerciseParameterNo);
         } catch (SQLException e) {
             System.err.println(e);
             return null;

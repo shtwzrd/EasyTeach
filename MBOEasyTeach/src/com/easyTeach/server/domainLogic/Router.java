@@ -4,6 +4,7 @@ import com.easyTeach.common.entity.Class;
 import com.easyTeach.common.entity.Resource;
 import com.easyTeach.common.entity.ResourceSet;
 import com.easyTeach.common.entity.User;
+import com.easyTeach.common.entity.UserTestResult;
 import com.easyTeach.common.network.Action;
 import com.easyTeach.common.network.Request;
 import com.easyTeach.common.network.Response;
@@ -28,10 +29,6 @@ public final class Router {
 				switch (action.getType().toString()) {
 				case "CREATE":
 					return ClassRules.addClass((Class) resource);
-				case "DELETE":
-				    return ClassRules.deleteClass((Class) resource);
-				case "UPDATE":
-                    return ClassRules.updateClass((Class) resource);
 				case "READ":
                     switch(action.getAttribute()) {
                     case "all":
@@ -41,6 +38,10 @@ public final class Router {
                     default:
                         return ClassRules.getClass((Class) resource);
                     }
+				case "UPDATE":
+                    return ClassRules.updateClass((Class) resource);
+				case "DELETE":
+				    return ClassRules.deleteClass((Class) resource);
                 }
 				
 			case "User":
@@ -62,7 +63,7 @@ public final class Router {
 			    
 			case "ClassUserRelation":
                 switch (action.getType().toString()) {
-                case "READ":
+                case "CREATE":
                     return ClassUserRelationRules.addRelations((ResourceSet) resource);
                 case "UPDATE":
                     switch(action.getAttribute()) {
@@ -73,7 +74,18 @@ public final class Router {
                     }
                 }
 			   
-                    
+			case "UserTestResult":
+			    switch (action.getType().toString()) {
+			    case "CREATE":
+			        return UserTestResultRules.addUserTestResult((UserTestResult) resource);
+			    }
+			    
+			case "":
+                switch (action.getType().toString()) {
+                case "CREATE":
+//                    return ;
+                }
+                
 			}
 		default: 
 		    return new Response(ResponseStatus.SUCCESS);

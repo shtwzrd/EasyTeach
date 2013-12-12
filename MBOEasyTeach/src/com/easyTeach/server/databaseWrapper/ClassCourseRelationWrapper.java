@@ -5,6 +5,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLTransientConnectionException;
+import java.sql.SQLTransientException;
 import java.util.HashSet;
 
 import com.easyTeach.common.entity.ClassCourseRelation;
@@ -45,12 +47,13 @@ public class ClassCourseRelationWrapper {
             stmt.setString(1, classCourseRelationEntity.getClassNo());
             stmt.setString(2, classCourseRelationEntity.getCourseNo());
 
-            int affected = stmt.executeUpdate();
-            if (affected == 1) {
-                return true;
-            } else {
-                return false;
-            }
+            stmt.execute();
+            return true;
+            
+        } catch (SQLTransientConnectionException SQLtce) {
+            return insertIntoClassCourseRelation(classCourseRelationEntity);
+        } catch (SQLTransientException SQLte) {
+            return insertIntoClassCourseRelation(classCourseRelationEntity);
         } catch (SQLException e) {
             System.err.println(e);
             return false;
@@ -78,12 +81,13 @@ public class ClassCourseRelationWrapper {
             stmt.setString(1, classNo);
             stmt.setString(2, courseNo);
 
-            int affected = stmt.executeUpdate();
-            if (affected == 1) {
-                return true;
-            } else {
-                return false;
-            }
+            stmt.execute();
+            return true;
+            
+        } catch (SQLTransientConnectionException SQLtce) {
+            return deleteClassCourseRelationRow(classNo, courseNo);
+        } catch (SQLTransientException SQLte) {
+            return deleteClassCourseRelationRow(classNo, courseNo);
         } catch (SQLException e) {
             System.err.println(e);
             return false;
@@ -116,6 +120,10 @@ public class ClassCourseRelationWrapper {
             }
             return hashSet;
 
+        } catch (SQLTransientConnectionException SQLtce) {
+            return getClassCourseRelationRows();
+        } catch (SQLTransientException SQLte) {
+            return getClassCourseRelationRows();
         } catch (SQLException e) {
             System.err.println(e);
             return null;
@@ -155,6 +163,10 @@ public class ClassCourseRelationWrapper {
 
             return hashSet;
 
+        } catch (SQLTransientConnectionException SQLtce) {
+            return getClassCourseRelationRowsWithClassNo(classNo);
+        } catch (SQLTransientException SQLte) {
+            return getClassCourseRelationRowsWithClassNo(classNo);
         } catch (SQLException e) {
             System.err.println(e);
             return null;
@@ -202,6 +214,10 @@ public class ClassCourseRelationWrapper {
 
             return hashSet;
 
+        } catch (SQLTransientConnectionException SQLtce) {
+            return getClassCourseRelationRowsWithCourseNo(courseNo);
+        } catch (SQLTransientException SQLte) {
+            return getClassCourseRelationRowsWithCourseNo(courseNo);
         } catch (SQLException e) {
             System.err.println(e);
             return null;

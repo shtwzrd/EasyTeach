@@ -5,6 +5,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLTransientConnectionException;
+import java.sql.SQLTransientException;
 import java.util.HashSet;
 
 import com.easyTeach.common.entity.Course;
@@ -16,9 +18,9 @@ import com.easyTeach.server.databaseConnector.ConnectionManager;
  * the MBO EasyTeach's database.
  * 
  * @author Morten Faarkrog
- * @version 1.0
+ * @version 1.1
  * @see Course
- * @date 30. November, 2013
+ * @date 11. December, 2013
  */
 
 public class CourseWrapper {
@@ -44,14 +46,14 @@ public class CourseWrapper {
             stmt.setString(1, courseEntity.getCourseNo());
             stmt.setString(2, courseEntity.getCourseName());
             
-            int affected = stmt.executeUpdate();
-            if (affected == 1) {
-                return true;
-            } else {
-                return false;
-            }
-        }
-        catch(SQLException e) {
+            stmt.execute();
+            return true;
+            
+        } catch (SQLTransientConnectionException SQLtce) {
+            return insertIntoCourse(courseEntity);
+        } catch (SQLTransientException SQLte) {
+            return insertIntoCourse(courseEntity);
+        } catch (SQLException e) {
             System.err.println(e);
             return false;
         }
@@ -76,17 +78,17 @@ public class CourseWrapper {
             stmt.setString(1, courseEntity.getCourseNo());
             stmt.setString(2, courseEntity.getCourseName());
             
-            int affected = stmt.executeUpdate();
-            if (affected == 1) {
-                return true;
-            } else {
-                return false;
-            }
-        }
-        catch(SQLException e) {
+            stmt.execute();
+            return true;
+            
+        } catch (SQLTransientConnectionException SQLtce) {
+            return updateCourseRow(courseEntity);
+        } catch (SQLTransientException SQLte) {
+            return updateCourseRow(courseEntity);
+        } catch (SQLException e) {
             System.err.println(e);
             return false;
-        } 
+        }
     }
     
     /**
@@ -106,14 +108,14 @@ public class CourseWrapper {
                 ) {
             stmt.setString(1, courseNo);
             
-            int affected = stmt.executeUpdate();
-            if (affected == 1) {
-                return true;
-            } else {
-                return false;
-            }
-        }
-        catch(SQLException e) {
+            stmt.execute();
+            return true;
+            
+        } catch (SQLTransientConnectionException SQLtce) {
+            return deleteCourseRow(courseNo);
+        } catch (SQLTransientException SQLte) {
+            return deleteCourseRow(courseNo);
+        } catch (SQLException e) {
             System.err.println(e);
             return false;
         }
@@ -146,6 +148,10 @@ public class CourseWrapper {
             }
             return hashSet;
             
+        } catch (SQLTransientConnectionException SQLtce) {
+            return getCourseRows();
+        } catch (SQLTransientException SQLte) {
+            return getCourseRows();
         } catch (SQLException e) {
             System.err.println(e);
             return null;
@@ -168,14 +174,20 @@ public class CourseWrapper {
                 ) {
             stmt.setString(1, courseNo);
             rs = stmt.executeQuery();
-            rs.next();
+            if (rs.next()) {
+                Course courseEntity = new Course();
+                courseEntity.setCourseNo(rs.getString("courseNo"));
+                courseEntity.setCourseName(rs.getString("courseName"));
+                
+                return courseEntity;
+            }
             
-            Course courseEntity = new Course();
-            courseEntity.setCourseNo(rs.getString("courseNo"));
-            courseEntity.setCourseName(rs.getString("courseName"));
+            return null;
             
-            return courseEntity;
-            
+        } catch (SQLTransientConnectionException SQLtce) {
+            return getCourseRowWithCourseNo(courseNo);
+        } catch (SQLTransientException SQLte) {
+            return getCourseRowWithCourseNo(courseNo);
         } catch (SQLException e) {
             System.err.println(e);
             return null;
@@ -207,14 +219,20 @@ public class CourseWrapper {
                 ) {
             stmt.setString(1, courseName);
             rs = stmt.executeQuery();
-            rs.next();
+            if (rs.next()) {
+                Course courseEntity = new Course();
+                courseEntity.setCourseNo(rs.getString("courseNo"));
+                courseEntity.setCourseName(rs.getString("courseName"));
+                
+                return courseEntity;
+            }
             
-            Course courseEntity = new Course();
-            courseEntity.setCourseNo(rs.getString("courseNo"));
-            courseEntity.setCourseName(rs.getString("courseName"));
+            return null;
             
-            return courseEntity;
-            
+        } catch (SQLTransientConnectionException SQLtce) {
+            return getCourseRowWithCourseName(courseName);
+        } catch (SQLTransientException SQLte) {
+            return getCourseRowWithCourseName(courseName);
         } catch (SQLException e) {
             System.err.println(e);
             return null;

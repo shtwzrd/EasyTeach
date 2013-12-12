@@ -5,6 +5,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLTransientConnectionException;
+import java.sql.SQLTransientException;
 import java.util.HashSet;
 
 import com.easyTeach.common.entity.UserQuestionState;
@@ -111,12 +113,12 @@ public class UserQuestionStateWrapper {
             stmt.setString(1, userNo);
             stmt.setString(2, questionNo);
 
-            int affected = stmt.executeUpdate();
-            if (affected == 1) {
-                return true;
-            } else {
-                return false;
-            }
+            return true;
+            
+        } catch (SQLTransientConnectionException SQLtce) {
+            return deleteUserQuestionStateRow(userNo, questionNo);
+        } catch (SQLTransientException SQLte) {
+            return deleteUserQuestionStateRow(userNo, questionNo);
         } catch (SQLException e) {
             System.err.println(e);
             return false;
@@ -152,6 +154,10 @@ public class UserQuestionStateWrapper {
             }
             return hashSet;
 
+        } catch (SQLTransientConnectionException SQLtce) {
+            return getUserQuestionStateRows();
+        } catch (SQLTransientException SQLte) {
+            return getUserQuestionStateRows();
         } catch (SQLException e) {
             System.err.println(e);
             return null;
@@ -193,7 +199,11 @@ public class UserQuestionStateWrapper {
             }
 
             return hashSet;
-
+            
+        } catch (SQLTransientConnectionException SQLtce) {
+            return getUserQuestionStateRowsWithUserNo(userNo);
+        } catch (SQLTransientException SQLte) {
+            return getUserQuestionStateRowsWithUserNo(userNo);
         } catch (SQLException e) {
             System.err.println(e);
             return null;
@@ -243,7 +253,11 @@ public class UserQuestionStateWrapper {
             }
 
             return hashSet;
-
+            
+        } catch (SQLTransientConnectionException SQLtce) {
+            return getUserQuestionStateRowsWithQuestionNo(questionNo);
+        } catch (SQLTransientException SQLte) {
+            return getUserQuestionStateRowsWithQuestionNo(questionNo);
         } catch (SQLException e) {
             System.err.println(e);
             return null;

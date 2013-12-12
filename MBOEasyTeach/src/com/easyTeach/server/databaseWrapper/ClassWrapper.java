@@ -5,6 +5,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLTransientConnectionException;
+import java.sql.SQLTransientException;
 import java.util.HashSet;
 
 import com.easyTeach.common.entity.Class;
@@ -44,12 +46,13 @@ public class ClassWrapper {
             stmt.setInt(2, classEntity.getYear());
             stmt.setString(3, classEntity.getClassName());
 
-            int affected = stmt.executeUpdate();
-            if (affected == 1) {
-                return true;
-            } else {
-                return false;
-            }
+            stmt.execute();
+            return true;
+            
+        } catch (SQLTransientConnectionException SQLtce) {
+            return insertIntoClass(classEntity);
+        } catch (SQLTransientException SQLte) {
+            return insertIntoClass(classEntity);
         } catch (SQLException e) {
             System.err.println(e);
             return false;
@@ -74,12 +77,13 @@ public class ClassWrapper {
             stmt.setInt(2, classEntity.getYear());
             stmt.setString(3, classEntity.getClassName());
 
-            int affected = stmt.executeUpdate();
-            if (affected == 1) {
-                return true;
-            } else {
-                return false;
-            }
+            stmt.execute();
+            return true;
+            
+        } catch (SQLTransientConnectionException SQLtce) {
+            return updateClassRow(classEntity);
+        } catch (SQLTransientException SQLte) {
+            return updateClassRow(classEntity);
         } catch (SQLException e) {
             System.err.println(e);
             return false;
@@ -101,13 +105,13 @@ public class ClassWrapper {
 
         try (CallableStatement stmt = conn.prepareCall(sql);) {
             stmt.setString(1, classNo);
-
-            int affected = stmt.executeUpdate();
-            if (affected == 1) {
-                return true;
-            } else {
-                return false;
-            }
+            stmt.execute();
+            return true;
+            
+        } catch (SQLTransientConnectionException SQLtce) {
+            return deleteClassRow(classNo);
+        } catch (SQLTransientException SQLte) {
+            return deleteClassRow(classNo);
         } catch (SQLException e) {
             System.err.println(e);
             return false;
@@ -140,6 +144,10 @@ public class ClassWrapper {
             }
             return hashSet;
 
+        } catch (SQLTransientConnectionException SQLtce) {
+            return getClassRows();
+        } catch (SQLTransientException SQLte) {
+            return getClassRows();
         } catch (SQLException e) {
             System.err.println(e);
             return null;
@@ -161,15 +169,22 @@ public class ClassWrapper {
         try (PreparedStatement stmt = conn.prepareStatement(sql);) {
             stmt.setString(1, classNo);
             rs = stmt.executeQuery();
-            rs.next();
+            
+            if (rs.next()) {
+                Class classEntity = new Class();
+                classEntity.setClassNo(rs.getString("classNo"));
+                classEntity.setYear(rs.getInt("year"));
+                classEntity.setClassName(rs.getString("className"));
+    
+                return classEntity;
+            }
+            
+            return null;
 
-            Class classEntity = new Class();
-            classEntity.setClassNo(rs.getString("classNo"));
-            classEntity.setYear(rs.getInt("year"));
-            classEntity.setClassName(rs.getString("className"));
-
-            return classEntity;
-
+        } catch (SQLTransientConnectionException SQLtce) {
+            return getClassRowByClassNo(classNo);
+        } catch (SQLTransientException SQLte) {
+            return getClassRowByClassNo(classNo);
         } catch (SQLException e) {
             System.err.println(e);
             return null;
@@ -199,15 +214,22 @@ public class ClassWrapper {
         try (PreparedStatement stmt = conn.prepareStatement(sql);) {
             stmt.setString(1, className);
             rs = stmt.executeQuery();
-            rs.next();
+            
+            if (rs.next()) {
+                Class classEntity = new Class();
+                classEntity.setClassNo(rs.getString("classNo"));
+                classEntity.setYear(rs.getInt("year"));
+                classEntity.setClassName(rs.getString("className"));
+                
+                return classEntity;                
+            }
 
-            Class classEntity = new Class();
-            classEntity.setClassNo(rs.getString("classNo"));
-            classEntity.setYear(rs.getInt("year"));
-            classEntity.setClassName(rs.getString("className"));
+            return null;
 
-            return classEntity;
-
+        } catch (SQLTransientConnectionException SQLtce) {
+            return getClassRowByClassName(className);
+        } catch (SQLTransientException SQLte) {
+            return getClassRowByClassName(className);
         } catch (SQLException e) {
             System.err.println(e);
             return null;
@@ -221,5 +243,51 @@ public class ClassWrapper {
             }
         }
     }
+    
+    /**
+     * Returns all the rows from the database's Class table in the form of a
+     * HashSet containing Class entities.
+     * 
+     * @return a HashSet with all the rows in the Class table from the easyTeach
+     *         database. The rows are converted into Class entities.
+     * @see Class
+     */
+    public static HashSet<Class> getClassesWithUserNo(String userNo) {
+        String sql = "{call selectClassWithUserNo(?)}";
 
+        ResultSet rs = null;
+
+        try (PreparedStatement stmt = conn.prepareStatement(sql);) {
+            stmt.setString(1, userNo);
+            rs = stmt.executeQuery();
+            
+            HashSet<Class> hashSet = new HashSet<Class>();
+
+            while (rs.next()) {
+                Class classEntity = new Class();
+                classEntity.setClassNo(rs.getString("classNo"));
+                classEntity.setYear(rs.getInt("year"));
+                classEntity.setClassName(rs.getString("className"));
+
+                hashSet.add(classEntity);
+            }
+            return hashSet;
+
+        } catch (SQLTransientConnectionException SQLtce) {
+            return getClassesWithUserNo(userNo);
+        } catch (SQLTransientException SQLte) {
+            return getClassesWithUserNo(userNo);
+        } catch (SQLException e) {
+            System.err.println(e);
+            return null;
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+            } catch (SQLException e) {
+                System.err.println(e);
+            }
+        }
+    }
 }

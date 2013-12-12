@@ -5,6 +5,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLTransientConnectionException;
+import java.sql.SQLTransientException;
 import java.util.HashSet;
 
 import com.easyTeach.common.entity.ExerciseQuestionRelation;
@@ -46,12 +48,13 @@ public class ExerciseQuestionRelationWrapper {
             stmt.setString(1, exerciseQuestionRelationEntity.getExerciseNo());
             stmt.setString(2, exerciseQuestionRelationEntity.getQuestionNo());
 
-            int affected = stmt.executeUpdate();
-            if (affected == 1) {
-                return true;
-            } else {
-                return false;
-            }
+            stmt.execute();
+            return true;
+
+        } catch (SQLTransientConnectionException SQLtce) {
+            return insertIntoExerciseQuestionRelation(exerciseQuestionRelationEntity);
+        } catch (SQLTransientException SQLte) {
+            return insertIntoExerciseQuestionRelation(exerciseQuestionRelationEntity);
         } catch (SQLException e) {
             System.err.println(e);
             return false;
@@ -82,12 +85,13 @@ public class ExerciseQuestionRelationWrapper {
             stmt.setString(1, exerciseNo);
             stmt.setString(2, questionNo);
 
-            int affected = stmt.executeUpdate();
-            if (affected == 1) {
-                return true;
-            } else {
-                return false;
-            }
+            stmt.execute();
+            return true;
+
+        } catch (SQLTransientConnectionException SQLtce) {
+            return deleteExerciseQuestionRelationRow(exerciseNo, questionNo);
+        } catch (SQLTransientException SQLte) {
+            return deleteExerciseQuestionRelationRow(exerciseNo, questionNo);
         } catch (SQLException e) {
             System.err.println(e);
             return false;
@@ -122,6 +126,10 @@ public class ExerciseQuestionRelationWrapper {
             }
             return hashSet;
 
+        } catch (SQLTransientConnectionException SQLtce) {
+            return getExerciseQuestionRelationRows();
+        } catch (SQLTransientException SQLte) {
+            return getExerciseQuestionRelationRows();
         } catch (SQLException e) {
             System.err.println(e);
             return null;
@@ -164,6 +172,10 @@ public class ExerciseQuestionRelationWrapper {
 
             return hashSet;
 
+        } catch (SQLTransientConnectionException SQLtce) {
+            return getExerciseQuestionRelationRowsWithExerciseNo(exerciseNo);
+        } catch (SQLTransientException SQLte) {
+            return getExerciseQuestionRelationRowsWithExerciseNo(exerciseNo);
         } catch (SQLException e) {
             System.err.println(e);
             return null;
@@ -214,6 +226,10 @@ public class ExerciseQuestionRelationWrapper {
 
             return hashSet;
 
+        } catch (SQLTransientConnectionException SQLtce) {
+            return getExerciseQuestionRelationRowsWithQuestionNo(questionNo);
+        } catch (SQLTransientException SQLte) {
+            return getExerciseQuestionRelationRowsWithQuestionNo(questionNo);
         } catch (SQLException e) {
             System.err.println(e);
             return null;
