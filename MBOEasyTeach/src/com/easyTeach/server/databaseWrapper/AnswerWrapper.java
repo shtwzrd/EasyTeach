@@ -5,6 +5,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLTransientConnectionException;
+import java.sql.SQLTransientException;
 import java.util.HashSet;
 
 import com.easyTeach.common.entity.Answer;
@@ -46,12 +48,13 @@ public class AnswerWrapper {
             stmt.setString(3, answerEntity.getAnswer());
             stmt.setBoolean(4, answerEntity.getIsCorrect());
 
-            int affected = stmt.executeUpdate();
-            if (affected == 1) {
-                return true;
-            } else {
-                return false;
-            }
+            stmt.execute();
+            return true;
+            
+        } catch (SQLTransientConnectionException SQLtce) {
+            return insertIntoAnswer(answerEntity);
+        } catch (SQLTransientException SQLte) {
+            return insertIntoAnswer(answerEntity);
         } catch (SQLException e) {
             System.err.println(e);
             return false;
@@ -78,12 +81,13 @@ public class AnswerWrapper {
             stmt.setString(3, answerEntity.getAnswer());
             stmt.setBoolean(4, answerEntity.getIsCorrect());
 
-            int affected = stmt.executeUpdate();
-            if (affected == 1) {
-                return true;
-            } else {
-                return false;
-            }
+            stmt.execute();
+            return true;
+            
+        } catch (SQLTransientConnectionException SQLtce) {
+            return updateAnswerRow(answerEntity);
+        } catch (SQLTransientException SQLte) {
+            return updateAnswerRow(answerEntity);
         } catch (SQLException e) {
             System.err.println(e);
             return false;
@@ -110,12 +114,13 @@ public class AnswerWrapper {
             stmt.setString(1, questionNo);
             stmt.setString(2, answerNo);
 
-            int affected = stmt.executeUpdate();
-            if (affected == 1) {
-                return true;
-            } else {
-                return false;
-            }
+            stmt.execute();
+            return true;
+            
+        } catch (SQLTransientConnectionException SQLtce) {
+            return deleteAnswerRow(questionNo, answerNo);
+        } catch (SQLTransientException SQLte) {
+            return deleteAnswerRow(questionNo, answerNo);
         } catch (SQLException e) {
             System.err.println(e);
             return false;
@@ -148,7 +153,11 @@ public class AnswerWrapper {
                 hashSet.add(answerEntity);
             }
             return hashSet;
-
+            
+        } catch (SQLTransientConnectionException SQLtce) {
+            return getAnswerRows();
+        } catch (SQLTransientException SQLte) {
+            return getAnswerRows();
         } catch (SQLException e) {
             System.err.println(e);
             return null;
@@ -185,6 +194,10 @@ public class AnswerWrapper {
             }
             return hashSet;
 
+        } catch (SQLTransientConnectionException SQLtce) {
+            return getAnswerRowsWithQuestionNo(questionNo);
+        } catch (SQLTransientException SQLte) {
+            return getAnswerRowsWithQuestionNo(questionNo);
         } catch (SQLException e) {
             System.err.println(e);
             return null;

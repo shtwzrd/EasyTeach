@@ -5,6 +5,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLTransientConnectionException;
+import java.sql.SQLTransientException;
 import java.util.HashSet;
 
 import com.easyTeach.common.entity.ClassCourseRelation;
@@ -47,12 +49,13 @@ public class QuestionWrapper {
             stmt.setString(3, questionEntity.getQuestion());
             stmt.setInt(4, questionEntity.getPoints());
 
-            int affected = stmt.executeUpdate();
-            if (affected == 1) {
-                return true;
-            } else {
-                return false;
-            }
+            stmt.execute();
+            return true;
+
+        } catch (SQLTransientConnectionException SQLtce) {
+            return insertIntoQuestion(questionEntity);
+        } catch (SQLTransientException SQLte) {
+            return insertIntoQuestion(questionEntity);
         } catch (SQLException e) {
             System.err.println(e);
             return false;
@@ -79,12 +82,13 @@ public class QuestionWrapper {
             stmt.setString(3, questionEntity.getQuestion());
             stmt.setInt(4, questionEntity.getPoints());
 
-            int affected = stmt.executeUpdate();
-            if (affected == 1) {
-                return true;
-            } else {
-                return false;
-            }
+            stmt.execute();
+            return true;
+
+        } catch (SQLTransientConnectionException SQLtce) {
+            return updateQuestionRow(questionEntity);
+        } catch (SQLTransientException SQLte) {
+            return updateQuestionRow(questionEntity);
         } catch (SQLException e) {
             System.err.println(e);
             return false;
@@ -108,12 +112,13 @@ public class QuestionWrapper {
         try (CallableStatement stmt = conn.prepareCall(sql);) {
             stmt.setString(1, questionNo);
 
-            int affected = stmt.executeUpdate();
-            if (affected == 1) {
-                return true;
-            } else {
-                return false;
-            }
+            stmt.execute();
+            return true;
+
+        } catch (SQLTransientConnectionException SQLtce) {
+            return deleteQuestionRow(questionNo);
+        } catch (SQLTransientException SQLte) {
+            return deleteQuestionRow(questionNo);
         } catch (SQLException e) {
             System.err.println(e);
             return false;
@@ -135,8 +140,6 @@ public class QuestionWrapper {
         try (PreparedStatement stmt = conn.prepareStatement(sql);
                 ResultSet rs = stmt.executeQuery();) {
 
-            //
-
             HashSet<Question> hashSet = new HashSet<Question>();
 
             while (rs.next()) {
@@ -148,8 +151,13 @@ public class QuestionWrapper {
 
                 hashSet.add(questionEntity);
             }
+
             return hashSet;
 
+        } catch (SQLTransientConnectionException SQLtce) {
+            return getQuestionRows();
+        } catch (SQLTransientException SQLte) {
+            return getQuestionRows();
         } catch (SQLException e) {
             System.err.println(e);
             return null;
@@ -157,7 +165,7 @@ public class QuestionWrapper {
     }
 
     /**
-     * Returns a row from the database's Question table with a specific
+     * Returns a set of rows from the database's Question table with a specific
      * questionNo.
      * 
      * @param questionNo
@@ -173,21 +181,130 @@ public class QuestionWrapper {
         try (PreparedStatement stmt = conn.prepareStatement(sql);) {
             stmt.setString(1, questionNo);
             rs = stmt.executeQuery();
-            rs.next();
+            if (rs.next()) {
+                Question questionEntity = new Question();
+                questionEntity.setQuestionNo(rs.getString("questionNo"));
+                questionEntity.setQuestionType(rs.getString("questionType"));
+                questionEntity.setQuestion(rs.getString("question"));
+                questionEntity.setPoints(rs.getInt("points"));
 
-            Question questionEntity = new Question();
-            questionEntity.setQuestionNo(rs.getString("questionNo"));
-            questionEntity.setQuestionType(rs.getString("questionType"));
-            questionEntity.setQuestion(rs.getString("question"));
-            questionEntity.setPoints(rs.getInt("points"));
+                return questionEntity;
+            }
 
-            return questionEntity;
+            return null;
 
+        } catch (SQLTransientConnectionException SQLtce) {
+            return getQuestionRowWithQuestionNo(questionNo);
+        } catch (SQLTransientException SQLte) {
+            return getQuestionRowWithQuestionNo(questionNo);
         } catch (SQLException e) {
             System.err.println(e);
             return null;
         } finally {
-            rs.close();
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+            } catch (SQLException e) {
+                System.err.println(e);
+            }
+        }
+    }
+
+    /**
+     * Returns a set of rows from the database's Question table with a specific
+     * tagNo.
+     * 
+     * @param tagNo
+     *            is the primary key of the Tag table.
+     * @return A Set of Question with a specific tagNo
+     * @see Question
+     * @see Tag
+     */
+    public static HashSet<Question> getQuestionRowsWithTagNo(String tagNo) {
+        String sql = "{call selectQuestionRowWithTagNo(?)}";
+        ResultSet rs = null;
+
+        try (PreparedStatement stmt = conn.prepareStatement(sql);) {
+            stmt.setString(1, tagNo);
+            rs = stmt.executeQuery();
+
+            HashSet<Question> hashSet = new HashSet<Question>();
+
+            while (rs.next()) {
+                Question questionEntity = new Question();
+                questionEntity.setQuestionNo(rs.getString("questionNo"));
+                questionEntity.setQuestionType(rs.getString("questionType"));
+                questionEntity.setQuestion(rs.getString("question"));
+                questionEntity.setPoints(rs.getInt("points"));
+
+                hashSet.add(questionEntity);
+            }
+            return hashSet;
+
+        } catch (SQLTransientConnectionException SQLtce) {
+            return getQuestionRowsWithTagNo(tagNo);
+        } catch (SQLTransientException SQLte) {
+            return getQuestionRowsWithTagNo(tagNo);
+        } catch (SQLException e) {
+            System.err.println(e);
+            return null;
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+            } catch (SQLException e) {
+                System.err.println(e);
+            }
+        }
+    }
+
+    /**
+     * Returns a row from the database's Question table with a specific tag.
+     * 
+     * @param tag
+     *            unique key of the Tag table
+     * @return A Set of Question with a specific tag
+     * @see Question
+     * @see Tag
+     */
+    public static HashSet<Question> getQuestionRowsWithTag(String tag) {
+        String sql = "{call selectQuestionRowWithTag(?)}";
+        ResultSet rs = null;
+
+        try (PreparedStatement stmt = conn.prepareStatement(sql);) {
+            stmt.setString(1, tag);
+            rs = stmt.executeQuery();
+
+            HashSet<Question> hashSet = new HashSet<Question>();
+
+            while (rs.next()) {
+                Question questionEntity = new Question();
+                questionEntity.setQuestionNo(rs.getString("questionNo"));
+                questionEntity.setQuestionType(rs.getString("questionType"));
+                questionEntity.setQuestion(rs.getString("question"));
+                questionEntity.setPoints(rs.getInt("points"));
+
+                hashSet.add(questionEntity);
+            }
+            return hashSet;
+
+        } catch (SQLTransientConnectionException SQLtce) {
+            return getQuestionRowsWithTag(tag);
+        } catch (SQLTransientException SQLte) {
+            return getQuestionRowsWithTag(tag);
+        } catch (SQLException e) {
+            System.err.println(e);
+            return null;
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+            } catch (SQLException e) {
+                System.err.println(e);
+            }
         }
     }
 

@@ -5,6 +5,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLTransientConnectionException;
+import java.sql.SQLTransientException;
 import java.util.HashSet;
 
 import com.easyTeach.common.entity.User;
@@ -48,12 +50,13 @@ public class UserWrapper {
             stmt.setString(5, userEntity.getLastName());
             stmt.setString(6, userEntity.getPassword());
 
-            int affected = stmt.executeUpdate();
-            if (affected == 1) {
-                return true;
-            } else {
-                return false;
-            }
+            stmt.execute();
+            return true;
+            
+        } catch (SQLTransientConnectionException SQLtce) {
+            return insertIntoUser(userEntity);
+        } catch (SQLTransientException SQLte) {
+            return insertIntoUser(userEntity);
         } catch (SQLException e) {
             System.err.println(e);
             return false;
@@ -82,12 +85,13 @@ public class UserWrapper {
             stmt.setString(5, userEntity.getLastName());
             stmt.setString(6, userEntity.getPassword());
 
-            int affected = stmt.executeUpdate();
-            if (affected == 1) {
-                return true;
-            } else {
-                return false;
-            }
+            stmt.execute();
+            return true;
+            
+        } catch (SQLTransientConnectionException SQLtce) {
+            return updateUserRow(userEntity);
+        } catch (SQLTransientException SQLte) {
+            return updateUserRow(userEntity);
         } catch (SQLException e) {
             System.err.println(e);
             return false;
@@ -114,12 +118,13 @@ public class UserWrapper {
             stmt.setString(1, userNo);
             stmt.setString(2, password);
 
-            int affected = stmt.executeUpdate();
-            if (affected == 1) {
-                return true;
-            } else {
-                return false;
-            }
+            stmt.execute();
+            return true;
+            
+        } catch (SQLTransientConnectionException SQLtce) {
+            return updateUserPassword(userNo, password);
+        } catch (SQLTransientException SQLte) {
+            return updateUserPassword(userNo, password);
         } catch (SQLException e) {
             System.err.println(e);
             return false;
@@ -142,12 +147,13 @@ public class UserWrapper {
         try (CallableStatement stmt = conn.prepareCall(sql);) {
             stmt.setString(1, userNo);
 
-            int affected = stmt.executeUpdate();
-            if (affected == 1) {
-                return true;
-            } else {
-                return false;
-            }
+            stmt.execute();
+            return true;
+            
+        } catch (SQLTransientConnectionException SQLtce) {
+            return deleteUserRow(userNo);
+        } catch (SQLTransientException SQLte) {
+            return deleteUserRow(userNo);
         } catch (SQLException e) {
             System.err.println(e);
             return false;
@@ -184,6 +190,10 @@ public class UserWrapper {
             }
             return hashSet;
 
+        } catch (SQLTransientConnectionException SQLtce) {
+            return getUserRows();
+        } catch (SQLTransientException SQLte) {
+            return getUserRows();
         } catch (SQLException e) {
             System.err.println(e);
             return null;
@@ -223,6 +233,10 @@ public class UserWrapper {
             }
             return hashSet;
 
+        } catch (SQLTransientConnectionException SQLtce) {
+            return getUserRowsWithClassNo(classNo);
+        } catch (SQLTransientException SQLte) {
+            return getUserRowsWithClassNo(classNo);
         } catch (SQLException e) {
             System.err.println(e);
             return null;
@@ -252,19 +266,26 @@ public class UserWrapper {
         try (PreparedStatement stmt = conn.prepareStatement(sql);) {
             stmt.setString(1, userNo);
             rs = stmt.executeQuery();
-            rs.next();
-
-            User userEntity = new User();
-            userEntity.setUserNo(rs.getString("userNo"));
-            userEntity.setEmail(rs.getString("email"));
-            userEntity.setUserType(rs.getString("userType"));
-            userEntity.setFirstName(rs.getString("firstName"));
-            userEntity.setLastName(rs.getString("lastName"));
-            userEntity.setPassword(rs.getString("password"));
-            userEntity.setDateAdded(rs.getDate("dateAdded"));
-
-            return userEntity;
-
+            
+            if (rs.next()) {
+                User userEntity = new User();
+                userEntity.setUserNo(rs.getString("userNo"));
+                userEntity.setEmail(rs.getString("email"));
+                userEntity.setUserType(rs.getString("userType"));
+                userEntity.setFirstName(rs.getString("firstName"));
+                userEntity.setLastName(rs.getString("lastName"));
+                userEntity.setPassword(rs.getString("password"));
+                userEntity.setDateAdded(rs.getDate("dateAdded"));
+    
+                return userEntity;
+            }
+            
+            return null;
+            
+        } catch (SQLTransientConnectionException SQLtce) {
+            return getUserRowWithUserNo(userNo);
+        } catch (SQLTransientException SQLte) {
+            return getUserRowWithUserNo(userNo);
         } catch (SQLException e) {
             System.err.println(e);
             return null;
@@ -296,6 +317,7 @@ public class UserWrapper {
         try (PreparedStatement stmt = conn.prepareStatement(sql);) {
             stmt.setString(1, email);
             rs = stmt.executeQuery();
+            
             if (rs.next()) {
                 User userEntity = new User();
                 userEntity.setUserNo(rs.getString("userNo"));
@@ -311,6 +333,10 @@ public class UserWrapper {
 
             return null;
 
+        } catch (SQLTransientConnectionException SQLtce) {
+            return getUserRowWithEmail(email);
+        } catch (SQLTransientException SQLte) {
+            return getUserRowWithEmail(email);
         } catch (SQLException e) {
             System.err.println(e);
             return null;

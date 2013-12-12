@@ -5,9 +5,12 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLTransientConnectionException;
+import java.sql.SQLTransientException;
 import java.util.HashSet;
 
 import com.easyTeach.common.entity.Exercise;
+import com.easyTeach.common.entity.Tag;
 import com.easyTeach.server.databaseConnector.ConnectionManager;
 
 /**
@@ -50,12 +53,13 @@ public class ExerciseWrapper {
             stmt.setTimestamp(6, exerciseEntity.getDateAdded());
             stmt.setString(7, exerciseEntity.getPassword());
 
-            int affected = stmt.executeUpdate();
-            if (affected == 1) {
-                return true;
-            } else {
-                return false;
-            }
+            stmt.execute();
+            return true;
+
+        } catch (SQLTransientConnectionException SQLtce) {
+            return insertIntoExercise(exerciseEntity);
+        } catch (SQLTransientException SQLte) {
+            return insertIntoExercise(exerciseEntity);
         } catch (SQLException e) {
             System.err.println(e);
             return false;
@@ -84,12 +88,13 @@ public class ExerciseWrapper {
             stmt.setString(4, exerciseEntity.getExerciseName());
             stmt.setString(5, exerciseEntity.getPassword());
 
-            int affected = stmt.executeUpdate();
-            if (affected == 1) {
-                return true;
-            } else {
-                return false;
-            }
+            stmt.execute();
+            return true;
+
+        } catch (SQLTransientConnectionException SQLtce) {
+            return updateExerciseRow(exerciseEntity);
+        } catch (SQLTransientException SQLte) {
+            return updateExerciseRow(exerciseEntity);
         } catch (SQLException e) {
             System.err.println(e);
             return false;
@@ -113,12 +118,13 @@ public class ExerciseWrapper {
         try (CallableStatement stmt = conn.prepareCall(sql);) {
             stmt.setString(1, exerciseNo);
 
-            int affected = stmt.executeUpdate();
-            if (affected == 1) {
-                return true;
-            } else {
-                return false;
-            }
+            stmt.execute();
+            return true;
+
+        } catch (SQLTransientConnectionException SQLtce) {
+            return deleteExerciseRow(exerciseNo);
+        } catch (SQLTransientException SQLte) {
+            return deleteExerciseRow(exerciseNo);
         } catch (SQLException e) {
             System.err.println(e);
             return false;
@@ -157,6 +163,10 @@ public class ExerciseWrapper {
             }
             return hashSet;
 
+        } catch (SQLTransientConnectionException SQLtce) {
+            return getExerciseRows();
+        } catch (SQLTransientException SQLte) {
+            return getExerciseRows();
         } catch (SQLException e) {
             System.err.println(e);
             return null;
@@ -193,6 +203,10 @@ public class ExerciseWrapper {
 
             return exerciseEntity;
 
+        } catch (SQLTransientConnectionException SQLtce) {
+            return getExerciseRowWithExerciseNo(exerciseNo);
+        } catch (SQLTransientException SQLte) {
+            return getExerciseRowWithExerciseNo(exerciseNo);
         } catch (SQLException e) {
             System.err.println(e);
             return null;
@@ -244,6 +258,120 @@ public class ExerciseWrapper {
 
             return hashSet;
 
+        } catch (SQLTransientConnectionException SQLtce) {
+            return getExerciseRowsWithCourseNo(courseNo);
+        } catch (SQLTransientException SQLte) {
+            return getExerciseRowsWithCourseNo(courseNo);
+        } catch (SQLException e) {
+            System.err.println(e);
+            return null;
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+            } catch (SQLException e) {
+                System.err.println(e);
+            }
+        }
+    }
+
+    /**
+     * Returns a set of rows from the database's Question table with a specific
+     * tagNo.
+     * 
+     * @param tagNo
+     *            is the primary key of the Tag table.
+     * @return A Set of Exercises with a specific tagNo in one or more of its
+     *         questions
+     * @see Exercise
+     * @see Tag
+     */
+    public static HashSet<Exercise> getExerciseRowsWithTagNo(String tagNo) {
+        String sql = "{call selectExerciseRowsWithTagNo(?)}";
+        ResultSet rs = null;
+
+        try (PreparedStatement stmt = conn.prepareStatement(sql);) {
+            stmt.setString(0, tagNo);
+            rs = stmt.executeQuery();
+
+            HashSet<Exercise> hashSet = new HashSet<Exercise>();
+
+            while (rs.next()) {
+                Exercise exerciseEntity = new Exercise();
+                exerciseEntity.setExerciseNo(rs.getString("exerciseNo"));
+                exerciseEntity.setCourseNo(rs.getString("courseNo"));
+                exerciseEntity.setAuthor(rs.getString("author"));
+                exerciseEntity.setExerciseParameterNo(rs
+                        .getString("exerciseParameterNo"));
+                exerciseEntity.setExerciseName(rs.getString("exerciseName"));
+                exerciseEntity.setDateAdded(rs.getTimestamp("dateAdded"));
+                exerciseEntity.setPassword(rs.getString("password"));
+
+                hashSet.add(exerciseEntity);
+            }
+
+            return hashSet;
+
+        } catch (SQLTransientConnectionException SQLtce) {
+            return getExerciseRowsWithTagNo(tagNo);
+        } catch (SQLTransientException SQLte) {
+            return getExerciseRowsWithTagNo(tagNo);
+        } catch (SQLException e) {
+            System.err.println(e);
+            return null;
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+            } catch (SQLException e) {
+                System.err.println(e);
+            }
+        }
+    }
+    
+    /**
+     * Returns a set of rows from the database's Question table with a specific
+     * tag.
+     * 
+     * @param tag
+     *            a unique column from the Tag table
+     * @return A Set of Exercises with a specific tag in one or more of its
+     *         questions
+     * @see Exercise
+     * @see Tag
+     */
+    public static HashSet<Exercise> getExerciseRowsWithTag(String tag) {
+        String sql = "{call selectExerciseRowsWithTag(?)}";
+        ResultSet rs = null;
+
+        try (PreparedStatement stmt = conn.prepareStatement(sql);) {
+            stmt.setString(0, tag);
+            rs = stmt.executeQuery();
+
+            HashSet<Exercise> hashSet = new HashSet<Exercise>();
+
+            while (rs.next()) {
+                Exercise exerciseEntity = new Exercise();
+                exerciseEntity.setExerciseNo(rs.getString("exerciseNo"));
+                exerciseEntity.setCourseNo(rs.getString("courseNo"));
+                exerciseEntity.setAuthor(rs.getString("author"));
+                exerciseEntity.setExerciseParameterNo(rs
+                        .getString("exerciseParameterNo"));
+                exerciseEntity.setExerciseName(rs.getString("exerciseName"));
+                exerciseEntity.setDateAdded(rs.getTimestamp("dateAdded"));
+                exerciseEntity.setPassword(rs.getString("password"));
+
+                hashSet.add(exerciseEntity);
+            }
+
+            return hashSet;
+
+        } catch (SQLTransientConnectionException SQLtce) {
+            return getExerciseRowsWithTag(tag);
+        } catch (SQLTransientException SQLte) {
+            return getExerciseRowsWithTag(tag);
         } catch (SQLException e) {
             System.err.println(e);
             return null;

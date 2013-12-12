@@ -5,6 +5,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLTransientConnectionException;
+import java.sql.SQLTransientException;
 import java.util.HashSet;
 
 import com.easyTeach.common.entity.QuestionTagRelation;
@@ -45,12 +47,13 @@ public class QuestionTagRelationWrapper {
             stmt.setString(1, questionTagRelationEntity.getQuestionNo());
             stmt.setString(2, questionTagRelationEntity.getTagNo());
 
-            int affected = stmt.executeUpdate();
-            if (affected == 1) {
-                return true;
-            } else {
-                return false;
-            }
+            stmt.execute();
+            return true;
+            
+        } catch (SQLTransientConnectionException SQLtce) {
+            return insertIntoQuestionTagRelation(questionTagRelationEntity);
+        } catch (SQLTransientException SQLte) {
+            return insertIntoQuestionTagRelation(questionTagRelationEntity);
         } catch (SQLException e) {
             System.err.println(e);
             return false;
@@ -78,12 +81,13 @@ public class QuestionTagRelationWrapper {
             stmt.setString(1, questionNo);
             stmt.setString(2, tagNo);
 
-            int affected = stmt.executeUpdate();
-            if (affected == 1) {
-                return true;
-            } else {
-                return false;
-            }
+            stmt.execute();
+            return true;
+            
+        } catch (SQLTransientConnectionException SQLtce) {
+            return deleteQuestionTagRelationRow(questionNo, tagNo);
+        } catch (SQLTransientException SQLte) {
+            return deleteQuestionTagRelationRow(questionNo, tagNo);
         } catch (SQLException e) {
             System.err.println(e);
             return false;
@@ -116,7 +120,11 @@ public class QuestionTagRelationWrapper {
                 hashSet.add(questionTagRelationEntity);
             }
             return hashSet;
-
+            
+        } catch (SQLTransientConnectionException SQLtce) {
+            return getQuestionTagRelationRows();
+        } catch (SQLTransientException SQLte) {
+            return getQuestionTagRelationRows();
         } catch (SQLException e) {
             System.err.println(e);
             return null;
@@ -157,6 +165,10 @@ public class QuestionTagRelationWrapper {
 
             return hashSet;
 
+        } catch (SQLTransientConnectionException SQLtce) {
+            return getQuestionTagRelationRowsWithQuestionNo(questionNo);
+        } catch (SQLTransientException SQLte) {
+            return getQuestionTagRelationRowsWithQuestionNo(questionNo);
         } catch (SQLException e) {
             System.err.println(e);
             return null;
@@ -205,6 +217,10 @@ public class QuestionTagRelationWrapper {
 
             return hashSet;
 
+        } catch (SQLTransientConnectionException SQLtce) {
+            return getQuestionTagRelationRowsWithTagNo(tagNo);
+        } catch (SQLTransientException SQLte) {
+            return getQuestionTagRelationRowsWithTagNo(tagNo);
         } catch (SQLException e) {
             System.err.println(e);
             return null;

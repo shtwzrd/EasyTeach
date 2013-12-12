@@ -5,6 +5,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLTransientConnectionException;
+import java.sql.SQLTransientException;
 import java.util.HashSet;
 
 import com.easyTeach.common.entity.UserTestResult;
@@ -46,12 +48,13 @@ public class UserTestResultWrapper {
             stmt.setString(2, userTestResultEntity.getExerciseNo());
             stmt.setInt(3, userTestResultEntity.getScore());
 
-            int affected = stmt.executeUpdate();
-            if (affected == 1) {
-                return true;
-            } else {
-                return false;
-            }
+            stmt.execute();
+            return true;
+            
+        } catch (SQLTransientConnectionException SQLtce) {
+            return insertIntoUserTestResult(userTestResultEntity);
+        } catch (SQLTransientException SQLte) {
+            return insertIntoUserTestResult(userTestResultEntity);
         } catch (SQLException e) {
             System.err.println(e);
             return false;
@@ -79,12 +82,13 @@ public class UserTestResultWrapper {
             stmt.setString(1, userNo);
             stmt.setString(2, exerciseNo);
 
-            int affected = stmt.executeUpdate();
-            if (affected == 1) {
-                return true;
-            } else {
-                return false;
-            }
+            stmt.execute();
+            return true;
+            
+        } catch (SQLTransientConnectionException SQLtce) {
+            return deleteUserTestResultRow(userNo, exerciseNo);
+        } catch (SQLTransientException SQLte) {
+            return deleteUserTestResultRow(userNo, exerciseNo);
         } catch (SQLException e) {
             System.err.println(e);
             return false;
@@ -117,7 +121,11 @@ public class UserTestResultWrapper {
                 hashSet.add(userTestResultEntity);
             }
             return hashSet;
-
+            
+        } catch (SQLTransientConnectionException SQLtce) {
+            return getUserTestResultRows();
+        } catch (SQLTransientException SQLte) {
+            return getUserTestResultRows();
         } catch (SQLException e) {
             System.err.println(e);
             return null;
@@ -158,6 +166,10 @@ public class UserTestResultWrapper {
 
             return hashSet;
 
+        } catch (SQLTransientConnectionException SQLtce) {
+            return getUserTestResultRowsWithUserNo(userNo);
+        } catch (SQLTransientException SQLte) {
+            return getUserTestResultRowsWithUserNo(userNo);
         } catch (SQLException e) {
             System.err.println(e);
             return null;
@@ -206,6 +218,10 @@ public class UserTestResultWrapper {
 
             return hashSet;
 
+        } catch (SQLTransientConnectionException SQLtce) {
+            return getUserTestResultRowsWithExerciseNo(exerciseNo);
+        } catch (SQLTransientException SQLte) {
+            return getUserTestResultRowsWithExerciseNo(exerciseNo);
         } catch (SQLException e) {
             System.err.println(e);
             return null;
