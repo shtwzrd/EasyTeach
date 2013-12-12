@@ -26,7 +26,8 @@ public class ExerciseRules {
 
 	/**
 	 * @param exerciseEntity
-	 *            Exercise entity containing a exerciseNo.
+	 *            Exercise entity containing a exerciseNo for the exercise that
+	 *            should be returned.
 	 * @return A Response object with a success status and the exercise
 	 *         associated with the exerciseNo.
 	 */
@@ -43,8 +44,8 @@ public class ExerciseRules {
 	/**
 	 * @param exerciseEntity
 	 *            Exercise entity containing a courseNo.
-	 * @return A Response object with a success status and the exercise
-	 *         associated with the courseNo.
+	 * @return A Response object with a success status and a {@link ResourceSet}
+	 *         of all the all the exercises associated with the courseNo.
 	 */
 	public static Response getExercisesWithCourseNo(Exercise exerciseEntity) {
 		ResourceSet exercises = new ResourceSet();
@@ -56,7 +57,7 @@ public class ExerciseRules {
 
 		return new Response(ResponseStatus.SUCCESS, exercises);
 	}
-	
+
 	/**
 	 * THE REASON WHY IT GIVES ERROR IS BECAUSE THE EXERCISEWRAPPER DOES NOT
 	 * HAVE THE getExercisesWithTagNo METHOD YET!!!
@@ -64,8 +65,8 @@ public class ExerciseRules {
 	/**
 	 * @param tagEntity
 	 *            Tag entity containing a tagNo.
-	 * @return A Response object with a success status and the exercises
-	 *         associated with the tagNo.
+	 * @return A Response object with a success status and a {@link ResourceSet}
+	 *         of all the all the exercises associated with the tagNo.
 	 */
 	public static Response getExercisesWithTagNo(Tag tagEntity) {
 		ResourceSet exercises = new ResourceSet();
@@ -85,8 +86,8 @@ public class ExerciseRules {
 	/**
 	 * @param tagEntity
 	 *            Tag entity containing a tag.
-	 * @return A Response object with a success status and the exercises
-	 *         associated with the tag.
+	 * @return A Response object with a success status and a {@link ResourceSet}
+	 *         of all the all the exercises associated with the tag.
 	 */
 	public static Response getExercisesWithTag(Tag tagEntity) {
 		ResourceSet exercises = new ResourceSet();
@@ -100,21 +101,22 @@ public class ExerciseRules {
 	}
 
 	/**
-	 * @return A Response object with a success status and all the exercises.
+	 * @return A Response object with a success status and a {@link ResourceSet}
+	 *         of all the all the exercises.
 	 */
 	public static Response getExercises() {
 		ResourceSet exercises = new ResourceSet();
-		
+
 		for (Exercise exercise : ExerciseWrapper.getExerciseRows()) {
 			exercises.add(exercise);
 		}
-		
+
 		return new Response(ResponseStatus.SUCCESS, exercises);
 	}
 
 	/**
 	 * @param exerciseEntity
-	 *            Exercise entity
+	 *            Exercise entity.
 	 * @return A Response object with a success status if the Exercise was
 	 *         updated. If not false.
 	 */
@@ -127,7 +129,7 @@ public class ExerciseRules {
 
 	/**
 	 * @param exerciseEntity
-	 *            Exercise entity containing exerciseNo
+	 *            Exercise entity containing exerciseNo.
 	 * @return A Response object with a success status if the Exercise was
 	 *         deleted. If not false.
 	 */
@@ -140,7 +142,7 @@ public class ExerciseRules {
 
 	/**
 	 * @param exerciseEntity
-	 *            Exercise entity
+	 *            Exercise entity.
 	 * @return A Response object with a success status if the Exercise was
 	 *         added. If not false.
 	 */

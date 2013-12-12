@@ -26,7 +26,8 @@ public class ExerciseParameterRules {
 
 	/**
 	 * @param epEntity
-	 *            ExerciseParameter entity containing the exerciseParameterNo.
+	 *            ExerciseParameter entity containing the exerciseParameterNo
+	 *            for the exercise parameter that should be returned.
 	 * @return A Response object with a success status and the exercise
 	 *         parameter associated with the exerciseParameterNo.
 	 */
@@ -42,8 +43,8 @@ public class ExerciseParameterRules {
 	}
 
 	/**
-	 * @return A Response object with a success status and all the exercise
-	 *         parameters.
+	 * @return A Response object with a success status and a {@link ResourceSet}
+	 *         of all the all the exercise parameters.
 	 */
 	public static Response getExerciseParameters() {
 		ResourceSet exerciseParameters = new ResourceSet();

@@ -1,6 +1,7 @@
 package com.easyTeach.server.domainLogic;
 
 import com.easyTeach.common.entity.Answer;
+import com.easyTeach.common.entity.Question;
 import com.easyTeach.common.entity.ResourceSet;
 import com.easyTeach.common.network.Response;
 import com.easyTeach.common.network.Response.ResponseStatus;
@@ -25,18 +26,17 @@ public class AnswerRules {
 	}
 
 	/**
-	 * YOU CAN GET ANSWERS BY QUESTION ENTITY AND ANSWER ENTITY!!!
-	 * 
-	 * @param answerEntity
-	 *            Answer entity containing the questionNo.
-	 * @return A Response object with a success status and all the answers
-	 *         associated with a questionNo.
+	 * @param questionEntity
+	 *            Question entity containing the questionNo for the question
+	 *            that should be returned.
+	 * @return A Response object with a success status and a {@link ResourceSet}
+	 *         of all the answers associated with a questionNo.
 	 */
-	public static Response getAnswers(Answer answerEntity) {
+	public static Response getAnswers(Question questionEntity) {
 		ResourceSet answers = new ResourceSet();
 
 		for (Answer answer : AnswerWrapper
-				.getAnswerRowsWithQuestionNo(answerEntity.getQuestionNo())) {
+				.getAnswerRowsWithQuestionNo(questionEntity.getQuestionNo())) {
 			answers.add(answer);
 		}
 		return new Response(ResponseStatus.SUCCESS, answers);

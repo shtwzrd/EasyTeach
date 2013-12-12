@@ -75,7 +75,11 @@ DROP PROCEDURE IF EXISTS selectExerciseRowsWithTagNo;
 
 DROP PROCEDURE IF EXISTS selectQuestionRowsWithTagNo;
 
-DROP PROCEDURE IF EXISTS selectExericseRowsWithTag;
+DROP PROCEDURE IF EXISTS selectExerciseRowsWithTag;
+
+DROP PROCEDURE IF EXISTS selectQuestionRowsWithTag;
+
+DROP PROCEDURE IF EXISTS selectTagRowWithTag;
 
 /* Returns every user for a class */
 DELIMITER //
@@ -137,7 +141,7 @@ DELIMITER ;
 
 /* Returns every exercise with questions that has a relation to the specific tag */
 DELIMITER //
-CREATE PROCEDURE selectExerciseRowsWithTagNo (
+CREATE PROCEDURE selectExerciseRowsWithTag (
 	IN pTag				VARCHAR(50))
 BEGIN
 	SELECT e.*
@@ -153,6 +157,44 @@ BEGIN
 		WHERE t.tag = pTag;
 END //
 DELIMITER ;
+
+/* Returns every question that has a relation to the specific tag */
+DELIMITER //
+CREATE PROCEDURE selectQuestionRowsWithTag (
+	IN pTag				VARCHAR(50))
+BEGIN
+	SELECT q.*
+		FROM Question q
+		INNER JOIN QuestionTagRelation qtr
+			ON qtr.questionNo = q.questionNo
+		INNER JOIN Tag t
+			ON t.tagNo = qtr.tagNo
+		WHERE t.tag = pTag;
+END //
+DELIMITER ;
+
+/* Returns the tag that has the specific tagNo */
+DELIMITER //
+CREATE PROCEDURE selectTagRowWithTag (
+	IN pTagNo			VARCHAR(36))
+BEGIN
+	SELECT t.*
+		FROM Tag t
+		WHERE t.tagNo = tTagNo;
+END //
+DELIMITER ;
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 /* Returns every class */

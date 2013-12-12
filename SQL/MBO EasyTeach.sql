@@ -59,14 +59,14 @@ CREATE TABLE Question (
 	questionNo		VARCHAR(36)		NOT NULL,
 	questionType 	VARCHAR(50)		NOT NULL,
 	question 		TEXT(65535)		NOT NULL,
-	points			INTEGER(5),
+	points			INTEGER(5)		NOT NULL,
 	CONSTRAINT		pk_question		PRIMARY KEY (questionNo)
 ) 	ENGINE 			InnoDB;
 
 
 CREATE TABLE Tag (
 	tagNo		VARCHAR(36)	NOT NULL,
-	tag			VARCHAR(50),
+	tag			VARCHAR(50) NOT NULL	UNIQUE,
 	CONSTRAINT	pk_tag		PRIMARY KEY (tagNo)
 ) 	ENGINE 		InnoDB;
 

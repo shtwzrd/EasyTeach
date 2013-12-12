@@ -25,7 +25,8 @@ public class CourseRules {
 
 	/**
 	 * @param courseEntity
-	 *            Course entity containing the courseNo.
+	 *            Course entity containing a courseNo for the course that should
+	 *            be returned.
 	 * @return A Response object with a success status and the course associated
 	 *         with the courseNo.
 	 */
@@ -40,7 +41,8 @@ public class CourseRules {
 	}
 
 	/**
-	 * @return A Response object with a success status and all the courses.
+	 * @return A Response object with a success status and a {@link ResourceSet}
+	 *         of all the all the courses.
 	 */
 	public static Response getCourses() {
 		ResourceSet courses = new ResourceSet();
@@ -81,7 +83,7 @@ public class CourseRules {
 
 	/**
 	 * @param courseEntity
-	 *            Course entity should be added.
+	 *            Course entity that should be added.
 	 * @return A Response object with a success status if the Course was added.
 	 *         If not false.
 	 */
