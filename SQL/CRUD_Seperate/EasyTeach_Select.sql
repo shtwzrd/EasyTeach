@@ -69,10 +69,22 @@ DROP PROCEDURE IF EXISTS selectExerciseQuestionRelationRowsWithQuestionNo;
 /* NEW DOMAIN LOGIC PROCEDURES DROPS */
 DROP PROCEDURE IF EXISTS selectUserRowsWithClassNo;
 
+DROP PROCEDURE IF EXISTS selectClassRowsWithUserNo;
+
+DROP PROCEDURE IF EXISTS selectExerciseRowsWithTagNo;
+
+DROP PROCEDURE IF EXISTS selectQuestionRowsWithTagNo;
+
+DROP PROCEDURE IF EXISTS selectExerciseRowsWithTag;
+
+DROP PROCEDURE IF EXISTS selectQuestionRowsWithTag;
+
+DROP PROCEDURE IF EXISTS selectTagRowWithTag;
+
 /* Returns every user for a class */
 DELIMITER //
 CREATE PROCEDURE selectUserRowsWithClassNo (
-	IN pClassNo			VARCHAR(32))
+	IN pClassNo			VARCHAR(36))
 BEGIN
 	SELECT u.*
 		FROM User u
@@ -81,6 +93,107 @@ BEGIN
 		WHERE cur.classNo = pClassNo;
 END //
 DELIMITER ;
+
+/* Returns every class for a user */
+DELIMITER //
+CREATE PROCEDURE selectClassRowsWithUserNo (
+	IN pUserNo			VARCHAR(36))
+BEGIN
+	SELECT c.*
+		FROM Class c
+		INNER JOIN ClassUserRelation cur
+			ON cur.classNo = c.classNo
+		WHERE cur.userNo = pUserNo;
+END //
+DELIMITER ;
+
+/* Returns every exercise with questions that has a relation to the specific tagNo */
+DELIMITER //
+CREATE PROCEDURE selectExerciseRowsWithTagNo (
+	IN pTagNo			VARCHAR(36))
+BEGIN
+	SELECT e.*
+		FROM Exercise e
+		INNER JOIN ExerciseQuestionRelation eqr
+			ON eqr.exerciseNo = e.exerciseNo
+		INNER JOIN Question q
+			ON q.questionNo = eqr.questionNo
+		INNER JOIN QuestionTagRelation qtr
+			ON qtr.questionNo = q.questionNo
+		WHERE qtr.tagNo = pTagNo;
+END //
+DELIMITER ;
+
+/* Returns every question that has a relation to the specific tagNo */
+DELIMITER //
+CREATE PROCEDURE selectQuestionRowsWithTagNo (
+	IN pTagNo			VARCHAR(36))
+BEGIN
+	SELECT q.*
+		FROM Question q
+		INNER JOIN QuestionTagRelation qtr
+			ON qtr.questionNo = q.questionNo
+		WHERE qtr.tagNo = pTagNo;
+END //
+DELIMITER ;
+
+/* RUN THIS!!!! */
+
+/* Returns every exercise with questions that has a relation to the specific tag */
+DELIMITER //
+CREATE PROCEDURE selectExerciseRowsWithTag (
+	IN pTag				VARCHAR(50))
+BEGIN
+	SELECT e.*
+		FROM Exercise e
+		INNER JOIN ExerciseQuestionRelation eqr
+			ON eqr.exerciseNo = e.exerciseNo
+		INNER JOIN Question q
+			ON q.questionNo = eqr.questionNo
+		INNER JOIN QuestionTagRelation qtr
+			ON qtr.questionNo = q.questionNo
+		INNER JOIN Tag t
+			ON t.tagNo = qtr.tagNo
+		WHERE t.tag = pTag;
+END //
+DELIMITER ;
+
+/* Returns every question that has a relation to the specific tag */
+DELIMITER //
+CREATE PROCEDURE selectQuestionRowsWithTag (
+	IN pTag				VARCHAR(50))
+BEGIN
+	SELECT q.*
+		FROM Question q
+		INNER JOIN QuestionTagRelation qtr
+			ON qtr.questionNo = q.questionNo
+		INNER JOIN Tag t
+			ON t.tagNo = qtr.tagNo
+		WHERE t.tag = pTag;
+END //
+DELIMITER ;
+
+/* Returns the tag that has the specific tagNo */
+DELIMITER //
+CREATE PROCEDURE selectTagRowWithTag (
+	IN pTagNo			VARCHAR(36))
+BEGIN
+	SELECT t.*
+		FROM Tag t
+		WHERE t.tagNo = tTagNo;
+END //
+DELIMITER ;
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -96,7 +209,7 @@ DELIMITER ;
 /* Returns the class with the specific classNo */
 DELIMITER //
 CREATE PROCEDURE selectClassRowWithClassNo (
-	IN pClassNo				VARCHAR(32))
+	IN pClassNo				VARCHAR(36))
 BEGIN
 	SELECT c.*
 		FROM Class c
@@ -127,7 +240,7 @@ DELIMITER ;
 /* Returns the course with the specific courseNo */
 DELIMITER //
 CREATE PROCEDURE selectCourseRowWithCourseNo (
-	IN pCourseNo			VARCHAR(32))
+	IN pCourseNo			VARCHAR(36))
 BEGIN
 	SELECT c.*
 		FROM Course c
@@ -158,7 +271,7 @@ DELIMITER ;
 /* Returns the user with the specific userNo */
 DELIMITER //
 CREATE PROCEDURE selectUserRowWithUserNo (
-	IN pUserNo				VARCHAR(32))
+	IN pUserNo				VARCHAR(36))
 BEGIN
 	SELECT u.*
 		FROM User u
@@ -189,7 +302,7 @@ DELIMITER ;
 /* Returns the question with the specific questionNo */
 DELIMITER //
 CREATE PROCEDURE selectQuestionRowWithQuestionNo (
-	IN pQuestionNo			VARCHAR(32))
+	IN pQuestionNo			VARCHAR(36))
 BEGIN
 	SELECT q.*
 		FROM Question q
@@ -209,7 +322,7 @@ DELIMITER ;
 /* Returns the tag with the specific tagNo */
 DELIMITER //
 CREATE PROCEDURE selectTagRowWithTagNo (
-	IN pTagNo				VARCHAR(32))
+	IN pTagNo				VARCHAR(36))
 BEGIN
 	SELECT t.*
 		FROM Tag t
@@ -229,7 +342,7 @@ DELIMITER ;
 /* Returns the answers for the specific questionNo */
 DELIMITER //
 CREATE PROCEDURE selectAnswerRowsWithQuestionNo (
-	IN pQuestionNo			VARCHAR(32))
+	IN pQuestionNo			VARCHAR(36))
 BEGIN
 	SELECT a.*
 		FROM Answer a
@@ -249,7 +362,7 @@ DELIMITER ;
 /* Returns the exercise parameter with the specific exerciseParameterNo */
 DELIMITER //
 CREATE PROCEDURE selectExerciseParameterRowWithExerciseParameterNo (
-	IN pExerciseParameterNo	VARCHAR(32))
+	IN pExerciseParameterNo	VARCHAR(36))
 BEGIN
 	SELECT ep.*
 		FROM ExerciseParameter ep
@@ -269,7 +382,7 @@ DELIMITER ;
 /* Returns the exercise with the specific exerciseNo */
 DELIMITER //
 CREATE PROCEDURE selectExerciseRowWithExerciseNo (
-	IN pExerciseNo			VARCHAR(32))
+	IN pExerciseNo			VARCHAR(36))
 BEGIN
 	SELECT e.*
 		FROM Exercise e
@@ -280,7 +393,7 @@ DELIMITER ;
 /* Returns the exercises for the specific courseNo */
 DELIMITER //
 CREATE PROCEDURE selectExerciseRowsWithCourseNo (
-	IN pCourseNo			VARCHAR(32))
+	IN pCourseNo			VARCHAR(36))
 BEGIN
 	SELECT e.*
 		FROM Exercise e
@@ -300,7 +413,7 @@ DELIMITER ;
 /* Returns the class course relations with the specific classNo */
 DELIMITER //
 CREATE PROCEDURE selectClassCourseRelationRowsWithClassNo (
-	IN pClassNo				VARCHAR(32))
+	IN pClassNo				VARCHAR(36))
 BEGIN
 	SELECT ccr.*
 		FROM ClassCourseRelation ccr
@@ -311,7 +424,7 @@ DELIMITER ;
 /* Returns the class course relations with the specific courseNo */
 DELIMITER //
 CREATE PROCEDURE selectClassCourseRelationRowsWithCourseNo (
-	IN pCourseNo			VARCHAR(32))
+	IN pCourseNo			VARCHAR(36))
 BEGIN
 	SELECT ccr.*
 		FROM ClassCourseRelation ccr
@@ -331,7 +444,7 @@ DELIMITER ;
 /* Returns the user test results for the specific userNo */
 DELIMITER //
 CREATE PROCEDURE selectUserTestResultRowsWithUserNo (
-	IN pUserNo				VARCHAR(32))
+	IN pUserNo				VARCHAR(36))
 BEGIN
 	SELECT utr.*
 		FROM UserTestResult utr
@@ -342,7 +455,7 @@ DELIMITER ;
 /* Returns the user test results with the specific exerciseNo */
 DELIMITER //
 CREATE PROCEDURE selectUserTestResultRowsWithExerciseNo (
-	IN pExerciseNo			VARCHAR(32))
+	IN pExerciseNo			VARCHAR(36))
 BEGIN
 	SELECT utr.*
 		FROM UserTestResult utr
@@ -362,7 +475,7 @@ DELIMITER ;
 /* Returns the class user relations with the specific classNo */
 DELIMITER //
 CREATE PROCEDURE selectClassUserRelationRowsWithClassNo (
-	IN pClassNo				VARCHAR(32))
+	IN pClassNo				VARCHAR(36))
 BEGIN
 	SELECT cur.*
 		FROM ClassUserRelation cur
@@ -373,7 +486,7 @@ DELIMITER ;
 /* Returns the class user relations for the specific UserNo */
 DELIMITER //
 CREATE PROCEDURE selectClassUserRelationRowsWithUserNo (
-	IN pUserNo				VARCHAR(32))
+	IN pUserNo				VARCHAR(36))
 BEGIN
 	SELECT cur.*
 		FROM ClassUserRelation cur
@@ -393,7 +506,7 @@ DELIMITER ;
 /* Returns the user question states for the specific userNo */
 DELIMITER //
 CREATE PROCEDURE selectUserQuestionStateRowsWithUserNo (
-	IN pUserNo				VARCHAR(32))
+	IN pUserNo				VARCHAR(36))
 BEGIN
 	SELECT uqs.*
 		FROM UserQuestionState uqs
@@ -404,7 +517,7 @@ DELIMITER ;
 /* Returns the user question states with the specific questionNo */
 DELIMITER //
 CREATE PROCEDURE selectUserQuestionStateRowsWithQuestionNo (
-	IN pQuestionNo			VARCHAR(32))
+	IN pQuestionNo			VARCHAR(36))
 BEGIN
 	SELECT uqs.*
 		FROM UserQuestionState uqs
@@ -424,7 +537,7 @@ DELIMITER ;
 /* Returns the question tag relations with the specific questionNo */
 DELIMITER //
 CREATE PROCEDURE selectQuestionTagRelationRowsWithQuestionNo (
-	IN pQuestionNo			VARCHAR(32))
+	IN pQuestionNo			VARCHAR(36))
 BEGIN
 	SELECT qtr.*
 		FROM QuestionTagRelation qtr
@@ -435,7 +548,7 @@ DELIMITER ;
 /* Returns the question tag relations with the specific tagNo */
 DELIMITER //
 CREATE PROCEDURE selectQuestionTagRelationRowsWithTagNo (
-	IN pTagNo				VARCHAR(32))
+	IN pTagNo				VARCHAR(36))
 BEGIN
 	SELECT qtr.*
 		FROM QuestionTagRelation qtr
@@ -455,7 +568,7 @@ DELIMITER ;
 /* Returns the exercise question relations with the specific exerciseNo */
 DELIMITER //
 CREATE PROCEDURE selectExerciseQuestionRelationRowsWithExerciseNo (
-	IN pExerciseNo			VARCHAR(32))
+	IN pExerciseNo			VARCHAR(36))
 BEGIN
 	SELECT eqr.*
 		FROM ExerciseQuestionRelation eqr
@@ -466,7 +579,7 @@ DELIMITER ;
 /* Returns the exercise question relations with the specific questionNo */
 DELIMITER //
 CREATE PROCEDURE selectExerciseQuestionRelationRowsWithQuestionNo (
-	IN pQuestionNo			VARCHAR(32))
+	IN pQuestionNo			VARCHAR(36))
 BEGIN
 	SELECT eqr.*
 		FROM ExerciseQuestionRelation eqr

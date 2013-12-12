@@ -21,112 +21,115 @@ import com.easyTeach.common.entity.User;
 
 public final class ClassRules {
 
-    private ClassRules() {
-    }
+	private ClassRules() {
+	}
 
-    /**
-     * Method used for retrieving a single {@link Class} entitiy with a given
-     * classNo.
-     * 
-     * @param classEntity
-     *            the class entity containing the classNo one is trying to
-     *            retrieve.
-     * @return if successful, a Response object with a success status and
-     *         specific class from the the DB. Otherwise, a failure response.
-     */
-    public static Response getClass(Class classEntity) {
-        Class newClassEntity = ClassWrapper.getClassRowByClassNo(classEntity
-                .getClassNo());
-        if (newClassEntity != null) {
-            return new Response(ResponseStatus.SUCCESS, newClassEntity);
-        }
+	/**
+	 * Method used for retrieving a single {@link Class} entity with a given
+	 * classNo.
+	 * 
+	 * @param classEntity
+	 *            the class entity containing the classNo one is trying to
+	 *            retrieve.
+	 * @return if successful, a Response object with a success status and
+	 *         specific class from the the DB. Otherwise, a failure response.
+	 */
+	public static Response getClass(Class classEntity) {
+		Class newClassEntity = ClassWrapper.getClassRowByClassNo(classEntity
+				.getClassNo());
+		if (newClassEntity != null) {
+			return new Response(ResponseStatus.SUCCESS, newClassEntity);
+		}
 
-        return new Response(ResponseStatus.FAILURE, "Failed to find class");
-    }
+		return new Response(ResponseStatus.FAILURE, "Failed to find class");
+	}
 
-    /**
-     * Retrieves and returns a list with all the {@link Class}es from the DB.
-     * 
-     * @return if successful, a Response object with a success status and a list
-     *         of all classes in the DB.
-     * @see Response
-     */
-    public static Response getClasses() {
-        ResourceSet databaseClasses = new ResourceSet();
+	/**
+	 * Retrieves and returns a HashSet with all the {@link Class}es from the DB.
+	 * 
+	 * @return if successful, a Response object with a success status and a list
+	 *         of all classes in the DB.
+	 * @see Response
+	 */
+	public static Response getClasses() {
+		ResourceSet databaseClasses = new ResourceSet();
 
-        for (Class classEntity : ClassWrapper.getClassRows()) {
-            databaseClasses.add(classEntity);
-        }
+		for (Class classEntity : ClassWrapper.getClassRows()) {
+			databaseClasses.add(classEntity);
+		}
 
-        return new Response(ResponseStatus.SUCCESS, databaseClasses);
-    }
+		return new Response(ResponseStatus.SUCCESS, databaseClasses);
+	}
 
-    /**
-     * Method used for retrieving all students that a single class is associated
-     * to.
-     * 
-     * @param classEntity
-     *            entity containing the classNo of the class one is finding
-     *            students for.
-     * @return a Response object with a success status and all the students
-     *         associated to a specific class.
-     */
-    public static Response getStudents(Class classEntity) {
-        ResourceSet students = new ResourceSet();
+	/**
+	 * Method used for retrieving all students that a single class is associated
+	 * to.
+	 * 
+	 * @param classEntity
+	 *            entity containing the classNo of the class one is finding
+	 *            students for.
+	 * @return a Response object with a success status and all the students
+	 *         associated to a specific class.
+	 */
+	public static Response getStudents(Class classEntity) {
+		ResourceSet students = new ResourceSet();
 
-        for (User user : UserWrapper.getUserRowsWithClassNo(classEntity
-                .getClassNo())) {
-            if (user.getUserType().equals("Student")) {
-                students.add(user);
-            }
-        }
+		for (User user : UserWrapper.getUserRowsWithClassNo(classEntity
+				.getClassNo())) {
+			if (user.getUserType().equals("Student")) {
+				students.add(user);
+			}
+		}
 
-        return new Response(ResponseStatus.SUCCESS, students);
-    }
+		return new Response(ResponseStatus.SUCCESS, students);
+	}
 
-    /**
-     * Updates a {@link Class} row in the database.
-     * 
-     * @param classEntity the class that should be updated.
-     * @return a Response object with a success status if the Class was updated.
-     *         Otherwise false.
-     */
-    public static Response updateClass(Class classEntity) {
-        if (ClassWrapper.updateClassRow(classEntity)) {
-            return new Response(ResponseStatus.SUCCESS);
-        }
+	/**
+	 * Updates a {@link Class} row in the database.
+	 * 
+	 * @param classEntity
+	 *            the class that should be updated.
+	 * @return a Response object with a success status if the Class was updated.
+	 *         Otherwise false.
+	 */
+	public static Response updateClass(Class classEntity) {
+		if (ClassWrapper.updateClassRow(classEntity)) {
+			return new Response(ResponseStatus.SUCCESS);
+		}
 
-        return new Response(ResponseStatus.FAILURE, "Failed to update class");
-    }
+		return new Response(ResponseStatus.FAILURE, "Failed to update class");
+	}
 
-    /**
-     * Deletes a {@link Class} row in the database.
-     * 
-     * @param classEntity the class that should be deleted.
-     * @return a Response object with a success status if the Class was deleted.
-     *         Otherwise false.
-     */
-    public static Response deleteClass(Class classEntity) {
-        if (ClassWrapper.deleteClassRow(classEntity.getClassNo())) {
-            return new Response(ResponseStatus.SUCCESS);
-        }
+	/**
+	 * Deletes a {@link Class} row in the database.
+	 * 
+	 * @param classEntity
+	 *            the class that should be deleted.
+	 * @return a Response object with a success status if the Class was deleted.
+	 *         Otherwise false.
+	 */
+	public static Response deleteClass(Class classEntity) {
+		if (ClassWrapper.deleteClassRow(classEntity.getClassNo())) {
+			return new Response(ResponseStatus.SUCCESS);
+		}
 
-        return new Response(ResponseStatus.FAILURE, "Failed to delete class");
-    }
+		return new Response(ResponseStatus.FAILURE, "Failed to delete class");
+	}
 
-    /**
-     * Adds a {@link Class} row to the database.
-     * 
-     * @param classEntity the class that should be added.
-     * @return a Response object with a success status if the Class was added.
-     *         Otherwise false.
-     */
-    public static Response addClass(Class classEntity) {
-        if (ClassWrapper.insertIntoClass(classEntity)) {
-            return new Response(ResponseStatus.SUCCESS);
-        }
+	/**
+	 * Adds a {@link Class} row to the database.
+	 * 
+	 * @param classEntity
+	 *            the class that should be added.
+	 * @return a Response object with a success status if the Class was added.
+	 *         Otherwise false.
+	 */
+	public static Response addClass(Class classEntity) {
+		if (ClassWrapper.insertIntoClass(classEntity)) {
+			return new Response(ResponseStatus.SUCCESS);
+		}
 
-        return new Response(ResponseStatus.FAILURE, "Failed to insert class");
-    }
+		return new Response(ResponseStatus.FAILURE, "Failed to insert class");
+	}
 
 }
