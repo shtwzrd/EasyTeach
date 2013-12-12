@@ -35,8 +35,7 @@ import com.easyTeach.client.presenter.HelpPresenter;
 
 public class ManageCourseUI {
 
-    private final String[] FILTER = { "Class No.", "Class name", "Year",
-            "Date added" };
+    private final String[] FILTER = { "Class No.", "Class name", "Year"};
     private JPanel manageCoursePanel;
     private JButton btnHelp;
     private JButton btnDiscard;
@@ -265,6 +264,8 @@ public class ManageCourseUI {
         btnDiscard.addActionListener(listener);
         btnHelp.addActionListener(listener);
         btnSaveCourse.addActionListener(listener);
+        btnRemoveCourse.addActionListener(listener);
+        btnAddCourse.addActionListener(listener);
     }
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
@@ -296,11 +297,11 @@ public class ManageCourseUI {
             }
 
             else if (e.getSource() == btnSaveCourse) {
-
+            	
             }
 
             else if (e.getSource() == btnAddCourse) {
-
+            	
             }
 
             else if (e.getSource() == btnRemoveCourse) {

@@ -81,6 +81,8 @@ DROP PROCEDURE IF EXISTS selectQuestionRowsWithTag;
 
 DROP PROCEDURE IF EXISTS selectTagRowWithTag;
 
+DROP PROCEDURE IF EXISTS selectClassRowsWithCourseNo;
+
 /* Returns every user for a class */
 DELIMITER //
 CREATE PROCEDURE selectUserRowsWithClassNo (
@@ -184,7 +186,18 @@ BEGIN
 END //
 DELIMITER ;
 
-
+/* Returns the classes associated courseNo */
+DELIMITER //
+CREATE PROCEDURE selectClassRowsWithCourseNo (
+	IN pCourseNo		VARCHAR(36))
+BEGIN
+	SELECT c.*
+		FROM Class c
+		INNER JOIN ClassCourseRelation ccr
+			ON ccr.classNo = c.classNo
+		WHERE ccr.courseNo = pCourseNo;
+END //
+DELIMITER ;
 
 
 

@@ -35,7 +35,8 @@ public class ManageClassPresenter {
 	private ResourceSet studentSelectionSet;
 	private Class currentClass;
 	private ResourceSet studentsEnrolledSet;
-	private ResourceSet filteredStudentsSelection; private ResourceSet relations;
+	private ResourceSet filteredStudentsSelection;
+	private ResourceSet relations;
 	private EasyTeachClient client;
 	private User user;
 	private User currentlySelectedUserInSelection;
@@ -63,7 +64,10 @@ public class ManageClassPresenter {
 	public DisplayTableModel getAllStudentsModel() {
 		return allStudents;
 	}
-
+	
+	/**
+	 * TALK ABOUT THESE SET METHODS!!! OLIVER
+	 */
 	public void setSelectedUserInEnrolled(Object email) {
 		for (Resource r : studentsEnrolledSet) {
 			User u = (User) r;
@@ -163,7 +167,7 @@ public class ManageClassPresenter {
 	}
 
 	public void filter(String column, String by) {
-		if (column == "" && by == "") {
+		if (column.equals("") && by.equals("")) {
 			isFiltered = false;
 			this.refreshStudentTable();
 		} else {
@@ -172,17 +176,17 @@ public class ManageClassPresenter {
 				User u = (User) r;
 				switch (column) {
 				case "Email":
-					if (u.getEmail().equals(by)) {
+					if (u.getEmail().contains(by)) {
 						filteredStudentsSelection.add(u);
 					}
 					break;
 				case "First name":
-					if (u.getFirstName().equals(by)) {
+					if (u.getFirstName().contains(by)) {
 						filteredStudentsSelection.add(u);
 					}
 					break;
 				case "Last name":
-					if (u.getFirstName().equals(by)) {
+					if (u.getLastName().contains(by)) {
 						filteredStudentsSelection.add(u);
 					}
 				}
