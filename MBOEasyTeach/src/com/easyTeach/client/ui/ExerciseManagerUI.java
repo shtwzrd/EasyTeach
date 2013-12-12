@@ -23,7 +23,6 @@ import javax.swing.border.TitledBorder;
 import com.easyTeach.client.presenter.DisplayTableModel;
 import com.easyTeach.client.presenter.ExerciseManagerPresenter;
 import com.easyTeach.client.presenter.HelpPresenter;
-import com.easyTeach.client.presenter.DisplayTableModel;
 
 /**
  * The ExerciseManagerUI class constructs a JPanel with all the different

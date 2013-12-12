@@ -38,8 +38,7 @@ import com.easyTeach.client.presenter.ManageClassPresenter;
 
 public class ManageClassUI {
 
-	private final String[] FILTER = { "Email", "First name", "Last name",
-			"Date added" };
+	private final String[] FILTER = { "Email", "First name", "Last name" };
 	private JPanel manageClassPanel;
 	private JButton btnHelp;
 	private JButton btnDiscard;
@@ -63,7 +62,7 @@ public class ManageClassUI {
 	 * actionListeners to all buttons.
 	 */
 	public ManageClassUI() {
-		presenter = new ManageClassPresenter();
+		this.presenter = new ManageClassPresenter();
 		buildPanel();
 		addActionListeners();
 	}
@@ -74,14 +73,14 @@ public class ManageClassUI {
 	 * @return the JPanel manageClassPanel
 	 */
 	public JPanel getManageClassUI() {
-		return manageClassPanel;
+		return this.manageClassPanel;
 	}
 
 	/**
 	 * Builds the ManageClassPanel with all of the JComponenets within.
 	 */
 	public void buildPanel() {
-		manageClassPanel = new JPanel(new BorderLayout());
+		this.manageClassPanel = new JPanel(new BorderLayout());
 
 		buildNorthPanel();
 		buildCenterPanel();
@@ -100,7 +99,7 @@ public class ManageClassUI {
 		lblManageClassTitle.setFont(new Font("Lucida Grande", Font.BOLD, 24));
 		northPanel.add(lblManageClassTitle);
 
-		manageClassPanel.add(northPanel, BorderLayout.NORTH);
+		this.manageClassPanel.add(northPanel, BorderLayout.NORTH);
 	}
 
 	/**
@@ -108,13 +107,13 @@ public class ManageClassUI {
 	 * class (className, year, and enrolled students in the class).
 	 */
 	private void buildCenterPanel() {
-		centerPanel = new JPanel(new BorderLayout());
-		centerPanel.setBackground(UIColors.lightBlue);
+		this.centerPanel = new JPanel(new BorderLayout());
+		this.centerPanel.setBackground(UIColors.lightBlue);
 
 		buildInfoPanel();
 		buildStudentPanel();
 
-		manageClassPanel.add(centerPanel, BorderLayout.CENTER);
+		this.manageClassPanel.add(this.centerPanel, BorderLayout.CENTER);
 	}
 
 	/**
@@ -130,7 +129,7 @@ public class ManageClassUI {
 				"Students in class", TitledBorder.CENTER, TitledBorder.TOP,
 				new Font("Tahoma", Font.PLAIN, 20)));
 		studentPanel.setBackground(UIColors.lightBlue);
-		centerPanel.add(studentPanel, BorderLayout.CENTER);
+		this.centerPanel.add(studentPanel, BorderLayout.CENTER);
 
 		// The panel showing the students currently in the class
 		JPanel enrolledStudentsPanel = new JPanel(new BorderLayout());
@@ -139,11 +138,12 @@ public class ManageClassUI {
 		enrolledStudentsPanel.setBackground(UIColors.lightBlue);
 
 		// Table showing all enrolled students
-		enrolledClassesTable = new JTable();
-		enrolledClassesTable.setModel(presenter.getEnrolledStudentsModel());
+		this.enrolledClassesTable = new JTable();
+		this.enrolledClassesTable.setModel(this.presenter
+				.getEnrolledStudentsModel());
 
 		JScrollPane enrolledClassesScroll = new JScrollPane(
-				enrolledClassesTable);
+				this.enrolledClassesTable);
 		enrolledClassesScroll.getViewport().setBackground(UIColors.white);
 		enrolledStudentsPanel.add(enrolledClassesScroll, BorderLayout.CENTER);
 
@@ -163,21 +163,21 @@ public class ManageClassUI {
 		addRemovePanel.setBackground(UIColors.lightBlue);
 		addRemovePanel.setLayout(new GridLayout(1, 2));
 
-		btnRemoveStudent = new JButton("Remove Student From Class");
-		btnRemoveStudent.setEnabled(false);
-		addRemovePanel.add(btnRemoveStudent);
+		this.btnRemoveStudent = new JButton("Remove Student From Class");
+		this.btnRemoveStudent.setEnabled(false);
+		addRemovePanel.add(this.btnRemoveStudent);
 
-		btnAddStudent = new JButton("Add Student To Class");
-		btnAddStudent.setEnabled(false);
-		addRemovePanel.add(btnAddStudent);
+		this.btnAddStudent = new JButton("Add Student To Class");
+		this.btnAddStudent.setEnabled(false);
+		addRemovePanel.add(this.btnAddStudent);
 
 		enrolledStudentsPanel.add(addRemovePanel, BorderLayout.SOUTH);
 
 		// Table showing all classes
-		allStudentsTable = new JTable();
-		allStudentsTable.setModel(presenter.getAllStudentsModel());
+		this.allStudentsTable = new JTable();
+		this.allStudentsTable.setModel(this.presenter.getAllStudentsModel());
 
-		JScrollPane allStudentsScroll = new JScrollPane(allStudentsTable);
+		JScrollPane allStudentsScroll = new JScrollPane(this.allStudentsTable);
 		allStudentsScroll.getViewport().setBackground(UIColors.white);
 		allClassesPanel.add(allStudentsScroll, BorderLayout.CENTER);
 
@@ -190,19 +190,19 @@ public class ManageClassUI {
 		JLabel lblFilter = new JLabel("Filter");
 		filterPanel.add(lblFilter);
 
-		filterBox = new JComboBox<String>();
-		filterBox.setModel(new DefaultComboBoxModel<String>(FILTER));
-		filterPanel.add(filterBox);
+		this.filterBox = new JComboBox<>();
+		this.filterBox.setModel(new DefaultComboBoxModel<>(this.FILTER));
+		filterPanel.add(this.filterBox);
 
 		JLabel lblBy = new JLabel("by");
 		filterPanel.add(lblBy);
 
-		txtFilter = new JTextField();
-		filterPanel.add(txtFilter);
-		txtFilter.setColumns(14);
+		this.txtFilter = new JTextField();
+		filterPanel.add(this.txtFilter);
+		this.txtFilter.setColumns(14);
 
-		btnFilter = new JButton("Filter");
-		filterPanel.add(btnFilter);
+		this.btnFilter = new JButton("Filter");
+		filterPanel.add(this.btnFilter);
 		allClassesPanel.add(filterPanel, BorderLayout.SOUTH);
 	}
 
@@ -223,18 +223,18 @@ public class ManageClassUI {
 		lblClassName.setHorizontalAlignment(SwingConstants.CENTER);
 		infoPanel.add(lblClassName);
 
-		txtClassName = new JTextField();
-		infoPanel.add(txtClassName);
+		this.txtClassName = new JTextField();
+		infoPanel.add(this.txtClassName);
 
 		JLabel lblClassYear = new JLabel("Year:");
 		lblClassYear.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
 		lblClassYear.setHorizontalAlignment(SwingConstants.CENTER);
 		infoPanel.add(lblClassYear);
 
-		txtYear = new JTextField();
-		infoPanel.add(txtYear);
+		this.txtYear = new JTextField();
+		infoPanel.add(this.txtYear);
 
-		centerPanel.add(infoPanel, BorderLayout.NORTH);
+		this.centerPanel.add(infoPanel, BorderLayout.NORTH);
 	}
 
 	/**
@@ -245,16 +245,16 @@ public class ManageClassUI {
 		JPanel southPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 		southPanel.setBackground(UIColors.darkBlue);
 
-		btnHelp = new JButton("Help");
-		southPanel.add(btnHelp);
+		this.btnHelp = new JButton("Help");
+		southPanel.add(this.btnHelp);
 
-		btnDiscard = new JButton("Discard");
-		southPanel.add(btnDiscard);
+		this.btnDiscard = new JButton("Discard");
+		southPanel.add(this.btnDiscard);
 
-		btnSaveClass = new JButton("Save Class");
-		southPanel.add(btnSaveClass);
+		this.btnSaveClass = new JButton("Save Class");
+		southPanel.add(this.btnSaveClass);
 
-		manageClassPanel.add(southPanel, BorderLayout.SOUTH);
+		this.manageClassPanel.add(southPanel, BorderLayout.SOUTH);
 	}
 
 	/**
@@ -264,24 +264,28 @@ public class ManageClassUI {
 
 	private void addActionListeners() {
 		ManageClassListener listener = new ManageClassListener();
-		btnDiscard.addActionListener(listener);
-		btnHelp.addActionListener(listener);
-		btnSaveClass.addActionListener(listener);
-		ListSelectionModel lsmEnrolled = enrolledClassesTable
+		this.btnDiscard.addActionListener(listener);
+		this.btnHelp.addActionListener(listener);
+		this.btnSaveClass.addActionListener(listener);
+		ListSelectionModel lsmEnrolled = this.enrolledClassesTable
 				.getSelectionModel();
-		ListSelectionModel lsmSelection = enrolledClassesTable
+		ListSelectionModel lsmSelection = this.enrolledClassesTable
 				.getSelectionModel();
 		lsmEnrolled.addListSelectionListener(listener);
 		lsmSelection.addListSelectionListener(listener);
+		this.enrolledClassesTable.setSelectionModel(lsmEnrolled);
+		this.allStudentsTable.setSelectionModel(lsmSelection);
 	}
 
-	protected void syncWithPresenter() {
-		if (!isSyncing) {
-			isSyncing = true;
+	protected synchronized void syncWithPresenter() {
+		if (!this.isSyncing) {
+			this.isSyncing = true;
 
-			enrolledClassesTable.setModel(presenter.getEnrolledStudentsModel());
-			allStudentsTable.setModel(presenter.getAllStudentsModel());
-			isSyncing = false;
+			this.enrolledClassesTable.setModel(this.presenter
+					.getEnrolledStudentsModel());
+			this.allStudentsTable
+					.setModel(this.presenter.getAllStudentsModel());
+			this.isSyncing = false;
 		}
 	}
 
@@ -303,25 +307,31 @@ public class ManageClassUI {
 		@Override
 		public void valueChanged(ListSelectionEvent e) {
 			if (!e.getValueIsAdjusting()
-					&& e.getSource() == enrolledClassesTable) {
-				boolean rowsAreSelected = enrolledClassesTable
+					&& e.getSource() == ManageClassUI.this.enrolledClassesTable) {
+				boolean rowsAreSelected = ManageClassUI.this.enrolledClassesTable
 						.getSelectedRowCount() > 0;
-				btnRemoveStudent.setEnabled(rowsAreSelected);
-				presenter.setSelectedUserInEnrolled(enrolledClassesTable
-						.getValueAt(enrolledClassesTable.getSelectedRow(), 0));
+				ManageClassUI.this.btnRemoveStudent.setEnabled(rowsAreSelected);
+				ManageClassUI.this.presenter
+						.setSelectedUserInEnrolled(ManageClassUI.this.enrolledClassesTable
+								.getValueAt(
+										ManageClassUI.this.enrolledClassesTable
+												.getSelectedRow(), 0));
 			}
-			if (!e.getValueIsAdjusting() && e.getSource() == allStudentsTable) {
-				boolean rowsAreSelected = allStudentsTable
+			if (!e.getValueIsAdjusting()
+					&& e.getSource() == ManageClassUI.this.allStudentsTable) {
+				boolean rowsAreSelected = ManageClassUI.this.allStudentsTable
 						.getSelectedRowCount() > 0;
-				btnAddStudent.setEnabled(rowsAreSelected);
-				presenter.setSelectedUserInSelection(allStudentsTable
-						.getValueAt(allStudentsTable.getSelectedRow(), 0));
+				ManageClassUI.this.btnAddStudent.setEnabled(rowsAreSelected);
+				ManageClassUI.this.presenter
+						.setSelectedUserInSelection(ManageClassUI.this.allStudentsTable
+								.getValueAt(ManageClassUI.this.allStudentsTable
+										.getSelectedRow(), 0));
 			}
 		}
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			if (e.getSource() == btnDiscard) {
+			if (e.getSource() == ManageClassUI.this.btnDiscard) {
 				int reply = JOptionPane.showConfirmDialog(null,
 						"Are you sure you want discard what you have made?\n"
 								+ "Warning: It will not be saved.",
@@ -333,31 +343,33 @@ public class ManageClassUI {
 				}
 			}
 
-			else if (e.getSource() == btnSaveClass) {
-				presenter.save(txtClassName.getText(),
-						Integer.parseInt(txtYear.getText()));
+			else if (e.getSource() == ManageClassUI.this.btnSaveClass) {
+				ManageClassUI.this.presenter.save(
+						ManageClassUI.this.txtClassName.getText(),
+						Integer.parseInt(ManageClassUI.this.txtYear.getText()));
 				syncWithPresenter();
 			}
 
-			else if (e.getSource() == btnFilter) {
-				String column = filterBox.getSelectedItem().toString();
-				String by = txtFilter.getText();
+			else if (e.getSource() == ManageClassUI.this.btnFilter) {
+				String column = ManageClassUI.this.filterBox.getSelectedItem()
+						.toString();
+				String by = ManageClassUI.this.txtFilter.getText();
 
-				presenter.filter(column, by);
+				ManageClassUI.this.presenter.filter(column, by);
 				syncWithPresenter();
 			}
 
-			else if (e.getSource() == btnAddStudent) {
-				presenter.add();
+			else if (e.getSource() == ManageClassUI.this.btnAddStudent) {
+				ManageClassUI.this.presenter.add();
 				syncWithPresenter();
 			}
 
-			else if (e.getSource() == btnRemoveStudent) {
-				presenter.remove();
+			else if (e.getSource() == ManageClassUI.this.btnRemoveStudent) {
+				ManageClassUI.this.presenter.remove();
 				syncWithPresenter();
 			}
 
-			else if (e.getSource() == btnHelp) {
+			else if (e.getSource() == ManageClassUI.this.btnHelp) {
 				JOptionPane.showMessageDialog(null,
 						HelpPresenter.getManageClassHelp(),
 						HelpPresenter.getManageClassTitle(),

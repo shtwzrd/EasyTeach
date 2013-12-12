@@ -7,6 +7,7 @@ import com.easyTeach.common.network.Request;
 import com.easyTeach.common.network.Response;
 import com.easyTeach.common.network.Session;
 import com.easyTeach.server.domainLogic.RoleResource;
+import com.easyTeach.server.domainLogic.RoleResource.Role;
 
 /**
  * <p>
@@ -23,6 +24,7 @@ import com.easyTeach.server.domainLogic.RoleResource;
  */
 
 public class LoginPresenter {
+	private Role authorizationLevel;
     
     /**
      * Checks if username is of a valid format. This means that
@@ -68,7 +70,11 @@ public class LoginPresenter {
         
         return false;
     }
-    
+
+    public Role getAuthorizationLevel() {
+    	return this.authorizationLevel;
+    }
+
     /**
      * I will be very descriptive once I know how I work...
      * 
@@ -87,10 +93,15 @@ public class LoginPresenter {
     	
     	Response back = client.getResponse();
     	RoleResource role = (RoleResource) back.getResponse();
-    	if(role != null)
+    	if(role != null) {
+    		this.authorizationLevel = role.getRole();
     		System.out.println("[Response to Login]: " + back.getStatus() + ": " + role.getRole().toString());
+    	} else {
+    		if(Session.getInstance() != null) {
+    			Session.getInstance().close();
+    		}
+    	}
     	
         return true;
     }
-    
 }
