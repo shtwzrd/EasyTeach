@@ -93,7 +93,7 @@ public final class Response implements Serializable {
 	}
 
 	public String getResponseMessage() {
-		return responseMessage;
+		return this.responseMessage;
 	}
 
 	public enum ResponseStatus {

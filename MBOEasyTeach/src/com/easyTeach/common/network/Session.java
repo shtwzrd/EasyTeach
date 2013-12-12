@@ -60,6 +60,7 @@ public final class Session implements Serializable {
 		System.out.println("Closing session");
 		this.username = null;
 		this.password = null;
+		Session.instance = null;
 	}
 
 	public String getUsername() {

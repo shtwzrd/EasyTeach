@@ -7,6 +7,8 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -17,12 +19,9 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 
 import com.easyTeach.client.presenter.HelpPresenter;
 import com.easyTeach.client.presenter.ManageClassPresenter;
@@ -164,11 +163,9 @@ public class ManageClassUI {
 		addRemovePanel.setLayout(new GridLayout(1, 2));
 
 		this.btnRemoveStudent = new JButton("Remove Student From Class");
-		this.btnRemoveStudent.setEnabled(false);
 		addRemovePanel.add(this.btnRemoveStudent);
 
 		this.btnAddStudent = new JButton("Add Student To Class");
-		this.btnAddStudent.setEnabled(false);
 		addRemovePanel.add(this.btnAddStudent);
 
 		enrolledStudentsPanel.add(addRemovePanel, BorderLayout.SOUTH);
@@ -267,14 +264,8 @@ public class ManageClassUI {
 		this.btnDiscard.addActionListener(listener);
 		this.btnHelp.addActionListener(listener);
 		this.btnSaveClass.addActionListener(listener);
-		ListSelectionModel lsmEnrolled = this.enrolledClassesTable
-				.getSelectionModel();
-		ListSelectionModel lsmSelection = this.enrolledClassesTable
-				.getSelectionModel();
-		lsmEnrolled.addListSelectionListener(listener);
-		lsmSelection.addListSelectionListener(listener);
-		this.enrolledClassesTable.setSelectionModel(lsmEnrolled);
-		this.allStudentsTable.setSelectionModel(lsmSelection);
+		this.enrolledClassesTable.addMouseListener(listener);
+		this.allStudentsTable.addMouseListener(listener);
 	}
 
 	protected synchronized void syncWithPresenter() {
@@ -302,32 +293,7 @@ public class ManageClassUI {
 	 * @see ActionListener
 	 * @date 6. December, 2013
 	 */
-	private class ManageClassListener implements ActionListener,
-			ListSelectionListener {
-		@Override
-		public void valueChanged(ListSelectionEvent e) {
-			if (!e.getValueIsAdjusting()
-					&& e.getSource() == ManageClassUI.this.enrolledClassesTable) {
-				boolean rowsAreSelected = ManageClassUI.this.enrolledClassesTable
-						.getSelectedRowCount() > 0;
-				ManageClassUI.this.btnRemoveStudent.setEnabled(rowsAreSelected);
-				ManageClassUI.this.presenter
-						.setSelectedUserInEnrolled(ManageClassUI.this.enrolledClassesTable
-								.getValueAt(
-										ManageClassUI.this.enrolledClassesTable
-												.getSelectedRow(), 0));
-			}
-			if (!e.getValueIsAdjusting()
-					&& e.getSource() == ManageClassUI.this.allStudentsTable) {
-				boolean rowsAreSelected = ManageClassUI.this.allStudentsTable
-						.getSelectedRowCount() > 0;
-				ManageClassUI.this.btnAddStudent.setEnabled(rowsAreSelected);
-				ManageClassUI.this.presenter
-						.setSelectedUserInSelection(ManageClassUI.this.allStudentsTable
-								.getValueAt(ManageClassUI.this.allStudentsTable
-										.getSelectedRow(), 0));
-			}
-		}
+	private class ManageClassListener implements ActionListener, MouseListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -375,6 +341,41 @@ public class ManageClassUI {
 						HelpPresenter.getManageClassTitle(),
 						JOptionPane.PLAIN_MESSAGE, HelpPresenter.getHelpIcon());
 			}
+		}
+
+		@Override
+		public void mouseClicked(MouseEvent arg0) {
+			if (arg0.getSource() == ManageClassUI.this.allStudentsTable) {
+				String email = ManageClassUI.this.allStudentsTable
+						.getValueAt(
+								ManageClassUI.this.allStudentsTable.rowAtPoint(arg0
+										.getPoint()), 0).toString();
+				ManageClassUI.this.presenter.setSelectedUserInSelection(email);
+			}
+			if (arg0.getSource() == ManageClassUI.this.enrolledClassesTable) {
+				String email = ManageClassUI.this.enrolledClassesTable
+						.getValueAt(
+								ManageClassUI.this.enrolledClassesTable.rowAtPoint(arg0
+										.getPoint()), 0).toString();
+				ManageClassUI.this.presenter.setSelectedUserInEnrolled(email);
+			}
+
+		}
+
+		@Override
+		public void mouseEntered(MouseEvent arg0) { /* Nothing */
+		}
+
+		@Override
+		public void mouseExited(MouseEvent arg0) { /* Nothing */
+		}
+
+		@Override
+		public void mousePressed(MouseEvent arg0) { /* Nothing */
+		}
+
+		@Override
+		public void mouseReleased(MouseEvent arg0) { /* Nothing */
 		}
 	}
 

@@ -46,88 +46,88 @@ public class ManageClassPresenter {
 			"Date added" };
 
 	public ManageClassPresenter() {
-		enrolledStudents = new DisplayTableModel();
-		allStudents = new DisplayTableModel();
+		this.enrolledStudents = new DisplayTableModel();
+		this.allStudents = new DisplayTableModel();
 
-		allStudents.setColumnIdentifiers(this.tableColumnHeaders);
+		this.allStudents.setColumnIdentifiers(this.tableColumnHeaders);
 
-		enrolledStudents.setColumnIdentifiers(this.tableColumnHeaders);
+		this.enrolledStudents.setColumnIdentifiers(this.tableColumnHeaders);
 
 		refreshStudentTable();
 	}
 
 	public DisplayTableModel getEnrolledStudentsModel() {
-		return enrolledStudents;
+		return this.enrolledStudents;
 	}
 
 	public DisplayTableModel getAllStudentsModel() {
-		return allStudents;
+		return this.allStudents;
 	}
 
 	public void setSelectedUserInEnrolled(Object email) {
-		for (Resource r : studentsEnrolledSet) {
+		for (Resource r : this.studentsEnrolledSet) {
 			User u = (User) r;
 			if (u.getEmail().equals(email)) {
-				currentlySelectedUserInEnrolled = u;
+				this.currentlySelectedUserInEnrolled = u;
 			}
 		}
 	}
 
-	public void setSelectedUserInSelection(Object email) {
-		for (Resource r : studentsEnrolledSet) {
+	public void setSelectedUserInSelection(String email) {
+		for (Resource r : this.studentSelectionSet) {
 			User u = (User) r;
 			if (u.getEmail().equals(email)) {
-				currentlySelectedUserInSelection = u;
-			}
-		}
+				this.currentlySelectedUserInSelection = u;
+			} 
+		} 
 	}
 
 	private void refreshStudentTable() {
 
 		Action toDo = new Action(ActionType.READ, "students");
-		user = new User();
+		this.user = new User();
 
-		Request getStudents = new Request(Session.getInstance(), toDo, user);
-		client = new EasyTeachClient(getStudents);
-		client.run();
-		client.getResponse();
-		if (client.getResponse().getStatus() != ResponseStatus.FAILURE) {
-			studentSelectionSet = (ResourceSet) client.getResponse()
+		Request getStudents = new Request(Session.getInstance(), toDo, this.user);
+		this.client = new EasyTeachClient(getStudents);
+		this.client.run();
+		this.client.getResponse();
+		if (this.client.getResponse().getStatus() != ResponseStatus.FAILURE) {
+			this.studentSelectionSet = (ResourceSet) this.client.getResponse()
 					.getResponse();
-			filteredStudentsSelection = studentSelectionSet;
-			if (isFiltered) {
-				for (Resource r : filteredStudentsSelection) {
+			this.filteredStudentsSelection = this.studentSelectionSet;
+			if (this.isFiltered) {
+				for (Resource r : this.filteredStudentsSelection) {
 					User u = (User) r;
 					Object[] o = new Object[4];
 					o[0] = u.getEmail();
 					o[1] = u.getFirstName();
 					o[2] = u.getLastName();
 					o[3] = u.getDateAdded();
-					allStudents.addRow(o);
+					this.allStudents.addRow(o);
 				}
 			} else {
-				for (Resource r : studentSelectionSet) {
+				for (Resource r : this.studentSelectionSet) {
 					User u = (User) r;
 					Object[] o = new Object[4];
 					o[0] = u.getEmail();
 					o[1] = u.getFirstName();
 					o[2] = u.getLastName();
 					o[3] = u.getDateAdded();
-					allStudents.addRow(o);
+					this.allStudents.addRow(o);
 				}
 			}
 		}
 	}
 
 	private void refreshEnrolledTable() {
-		for (Resource r : studentsEnrolledSet) {
+		for (Resource r : this.studentsEnrolledSet) {
 			User u = (User) r;
 			Object[] o = new Object[4];
 			o[0] = u.getEmail();
 			o[1] = u.getFirstName();
 			o[2] = u.getLastName();
 			o[3] = u.getDateAdded();
-			allStudents.addRow(o);
+			this.allStudents.addRow(o);
 		}
 	}
 
@@ -135,55 +135,55 @@ public class ManageClassPresenter {
 		if (className != null && classYear != 0) {
 			// Make the class...
 			String classId = UUID.randomUUID().toString();
-			currentClass = new Class(classId, classYear, className);
+			this.currentClass = new Class(classId, classYear, className);
 
 			// Send it to the Server
 			Action toDo = new Action(ActionType.CREATE);
-			Request out = new Request(Session.getInstance(), toDo, currentClass);
-			client = new EasyTeachClient(out);
-			client.run();
-			Response in = client.getResponse();
+			Request out = new Request(Session.getInstance(), toDo, this.currentClass);
+			this.client = new EasyTeachClient(out);
+			this.client.run();
+			Response in = this.client.getResponse();
 			System.out.println(in.getStatus() + ": " + in.getResponseMessage());
 
 			// Make all the relations...
-			relations = new ResourceSet();
+			this.relations = new ResourceSet();
 			for (Resource r : this.studentsEnrolledSet) {
 				User u = (User) r;
-				relations.add(new ClassUserRelation(classId, u.getUserNo()));
+				this.relations.add(new ClassUserRelation(classId, u.getUserNo()));
 			}
 
 			// Send those to the server
 			toDo = new Action(ActionType.UPDATE, "class");
-			out = new Request(Session.getInstance(), toDo, relations);
-			client = new EasyTeachClient(out);
-			client.run();
-			in = client.getResponse();
+			out = new Request(Session.getInstance(), toDo, this.relations);
+			this.client = new EasyTeachClient(out);
+			this.client.run();
+			in = this.client.getResponse();
 			System.out.println(in.getStatus() + ": " + in.getResponseMessage());
 		}
 	}
 
 	public void filter(String column, String by) {
 		if (column == "" && by == "") {
-			isFiltered = false;
+			this.isFiltered = false;
 			this.refreshStudentTable();
 		} else {
-			isFiltered = true;
-			for (Resource r : studentSelectionSet) {
+			this.isFiltered = true;
+			for (Resource r : this.studentSelectionSet) {
 				User u = (User) r;
 				switch (column) {
 				case "Email":
 					if (u.getEmail().equals(by)) {
-						filteredStudentsSelection.add(u);
+						this.filteredStudentsSelection.add(u);
 					}
 					break;
 				case "First name":
 					if (u.getFirstName().equals(by)) {
-						filteredStudentsSelection.add(u);
+						this.filteredStudentsSelection.add(u);
 					}
 					break;
 				case "Last name":
 					if (u.getFirstName().equals(by)) {
-						filteredStudentsSelection.add(u);
+						this.filteredStudentsSelection.add(u);
 					}
 				}
 			}
