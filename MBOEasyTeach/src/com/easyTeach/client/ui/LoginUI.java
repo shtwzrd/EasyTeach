@@ -19,7 +19,6 @@ import javax.swing.border.TitledBorder;
 
 import com.easyTeach.client.presenter.HelpPresenter;
 import com.easyTeach.client.presenter.LoginPresenter;
-import com.easyTeach.common.network.Session;
 
 /**
  * <p>
@@ -148,6 +147,11 @@ public class LoginUI {
 		this.btnQuit.addActionListener(listener);
 		this.txtUsername.addActionListener(listener);
 		this.txtPassword.addActionListener(listener);
+		
+	}
+	
+	void dispose() {
+		this.frame.dispose();
 	}
 
 	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
@@ -230,8 +234,7 @@ public class LoginUI {
 								"Are you sure you want to go to quit the \"MBO EasyTeach\" application?",
 								"Quit Message", JOptionPane.YES_NO_OPTION);
 				if (reply == JOptionPane.YES_OPTION) {
-					Session.getInstance().close();
-					System.exit(1);
+					LoginUI.this.dispose();
 				}
 			}
 		}
