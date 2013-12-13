@@ -2,11 +2,13 @@ package com.easyTeach.server.domainLogic;
 
 import java.util.HashSet;
 
+import com.easyTeach.common.entity.ClassUserRelation;
 import com.easyTeach.common.entity.QuestionTagRelation;
 import com.easyTeach.common.entity.Resource;
 import com.easyTeach.common.entity.ResourceSet;
 import com.easyTeach.common.network.Response;
 import com.easyTeach.common.network.Response.ResponseStatus;
+import com.easyTeach.server.databaseWrapper.ClassUserRelationWrapper;
 import com.easyTeach.server.databaseWrapper.QuestionTagRelationWrapper;
 
 public class QuestionTagRelationRules {
@@ -63,6 +65,30 @@ public class QuestionTagRelationRules {
 				"Failed to delete QuestionTagRelation");
 	}
 
+    /**
+     * Updates {@link QuestionTagRelation} rows in the database by a specific
+     * question.
+     * 
+     * @param relations
+     *            HashSet of QuestionTagRelation that should be synchronized with
+     *            the database.
+     * @return a Response object with a success status if the QuestionTagRelation
+     *         was updated.
+     */
+    public static Response updateQuestionTagRelationByQuestionNo(ResourceSet relations) {
+        // Finds out what userNo we are working with
+        QuestionTagRelation entity = (QuestionTagRelation) relations.toArray()[0];
+        String questionNo = entity.getQuestionNo();
+
+        // Gets all the ClassUserRelations with the specific classNo
+        HashSet<QuestionTagRelation> databaseSet = QuestionTagRelationWrapper
+                .getQuestionTagRelationRowsWithQuestionNo(questionNo);
+
+        sync(databaseSet, relations);
+
+        return new Response(ResponseStatus.SUCCESS);
+    }
+	
 	/**
 	 * Synchronizes the {@link QuestionTagRelation} database-rows for a specific
 	 * question or tag with a given set of QuestionTagRelation.

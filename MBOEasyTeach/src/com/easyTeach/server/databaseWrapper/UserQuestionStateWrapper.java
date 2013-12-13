@@ -48,15 +48,22 @@ public class UserQuestionStateWrapper {
             stmt.setString(2, userQuestionStateEntity.getQuestionNo());
             stmt.setBoolean(3, userQuestionStateEntity.getHasCompleted());
 
-            int affected = stmt.executeUpdate();
-            if (affected == 1) {
-                return true;
-            } else {
-                return false;
-            }
+            stmt.execute();
+            return true;
+            
+        } catch (SQLTransientConnectionException SQLtce) {
+            return insertIntoUserQuestionState(userQuestionStateEntity);
+        } catch (SQLTransientException SQLte) {
+            return insertIntoUserQuestionState(userQuestionStateEntity);
         } catch (SQLException e) {
             System.err.println(e);
             return false;
+        } finally {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -80,15 +87,22 @@ public class UserQuestionStateWrapper {
             stmt.setString(2, userQuestionStateEntity.getQuestionNo());
             stmt.setBoolean(3, userQuestionStateEntity.getHasCompleted());
 
-            int affected = stmt.executeUpdate();
-            if (affected == 1) {
-                return true;
-            } else {
-                return false;
-            }
+            stmt.execute();
+            return true;
+            
+        } catch (SQLTransientConnectionException SQLtce) {
+            return updateUserQuestionStateHasCompleted(userQuestionStateEntity);
+        } catch (SQLTransientException SQLte) {
+            return updateUserQuestionStateHasCompleted(userQuestionStateEntity);
         } catch (SQLException e) {
             System.err.println(e);
             return false;
+        } finally {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -122,6 +136,12 @@ public class UserQuestionStateWrapper {
         } catch (SQLException e) {
             System.err.println(e);
             return false;
+        } finally {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -161,6 +181,12 @@ public class UserQuestionStateWrapper {
         } catch (SQLException e) {
             System.err.println(e);
             return null;
+        } finally {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -212,6 +238,7 @@ public class UserQuestionStateWrapper {
                 if (rs != null) {
                     rs.close();
                 }
+                conn.close();
             } catch (SQLException e) {
                 System.err.println(e);
             }
@@ -266,6 +293,7 @@ public class UserQuestionStateWrapper {
                 if (rs != null) {
                     rs.close();
                 }
+                conn.close();
             } catch (SQLException e) {
                 System.err.println(e);
             }

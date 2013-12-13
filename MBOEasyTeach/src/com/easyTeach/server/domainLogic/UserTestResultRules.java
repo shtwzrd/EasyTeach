@@ -1,6 +1,5 @@
 package com.easyTeach.server.domainLogic;
 
-import com.easyTeach.common.entity.User;
 import com.easyTeach.common.entity.UserTestResult;
 import com.easyTeach.common.network.Response;
 import com.easyTeach.common.network.Response.ResponseStatus;
@@ -35,7 +34,7 @@ public class UserTestResultRules {
             return new Response(ResponseStatus.SUCCESS);
         }
 
-        return new Response(ResponseStatus.FAILURE, "Failed to insert user");
+        return new Response(ResponseStatus.FAILURE, "Failed to insert relation");
     }
 
 }

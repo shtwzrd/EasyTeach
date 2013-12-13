@@ -35,6 +35,22 @@ import com.easyTeach.server.databaseWrapper.UserQuestionStateWrapper;
 import com.easyTeach.server.databaseWrapper.UserTestResultWrapper;
 import com.easyTeach.server.databaseWrapper.UserWrapper;
 
+/**
+ * <p>
+ * The ContentDatabaseTest class is the class where we insert information into
+ * all the different tables that we got in the database and creates the relation
+ * between them. This will help the understanding of the program, because of the
+ * data presented while you use the program MBO EasyTeach. All information
+ * inserted are based on real persons and real question and exercises. This
+ * makes it easier for the client to relate to the new system that they are
+ * going to implement, as they can see a real-a-like example.
+ * </p>
+ * 
+ * @author Tonni Hyldgaard
+ * @version 1.0
+ * @date 12. December, 2013
+ */
+
 public class ContentDatabaseTest {
 
 	public static void main(String[] args) {

@@ -56,6 +56,12 @@ public class CourseWrapper {
         } catch (SQLException e) {
             System.err.println(e);
             return false;
+        } finally {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
     
@@ -88,6 +94,12 @@ public class CourseWrapper {
         } catch (SQLException e) {
             System.err.println(e);
             return false;
+        } finally {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
     
@@ -118,6 +130,12 @@ public class CourseWrapper {
         } catch (SQLException e) {
             System.err.println(e);
             return false;
+        } finally {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
     
@@ -155,6 +173,12 @@ public class CourseWrapper {
         } catch (SQLException e) {
             System.err.println(e);
             return null;
+        } finally {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
     
@@ -196,8 +220,8 @@ public class CourseWrapper {
                 if (rs != null) {
                     rs.close();
                 }
-            }
-            catch (SQLException e) {
+                conn.close();
+            } catch (SQLException e) {
                 System.err.println(e);
             }
         }
@@ -241,8 +265,56 @@ public class CourseWrapper {
                 if (rs != null) {
                     rs.close();
                 }
+                conn.close();
+            } catch (SQLException e) {
+                System.err.println(e);
             }
-            catch (SQLException e) {
+        }
+    }
+    
+    /**
+     * Returns a set with the courses a user is part of.
+     * 
+     * @param userNo is the primary key of the User table.
+     * @return A hashset of courses
+     * @see Course
+     * @see User
+     */
+    public static HashSet<Course> getCoursesByUserNo(String userNo) {
+        String sql = "{call selectCoursesByUserNo(?)}";
+        ResultSet rs = null;
+        
+        try (
+                PreparedStatement stmt = conn.prepareStatement(sql);
+                ) {
+            stmt.setString(1, userNo);
+            rs = stmt.executeQuery();
+            
+            HashSet<Course> hashSet = new HashSet<>();
+            
+            while (rs.next()) {
+                Course courseEntity = new Course();
+                courseEntity.setCourseNo(rs.getString("courseNo"));
+                courseEntity.setCourseName(rs.getString("courseName"));
+                
+                hashSet.add(courseEntity);
+            }
+            return hashSet;
+            
+        } catch (SQLTransientConnectionException SQLtce) {
+            return getCoursesByUserNo(userNo);
+        } catch (SQLTransientException SQLte) {
+            return getCoursesByUserNo(userNo);
+        } catch (SQLException e) {
+            System.err.println(e);
+            return null;
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                conn.close();
+            } catch (SQLException e) {
                 System.err.println(e);
             }
         }
