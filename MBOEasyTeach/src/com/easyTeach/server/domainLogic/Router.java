@@ -137,7 +137,6 @@ public final class Router {
                     default:
                         return UserRules.getUser((User) resource);
                     }
-<<<<<<< HEAD
                 case "UPDATE":
                     return UserRules.updateUser((User) resource);
                 case "DELETE":
@@ -146,17 +145,11 @@ public final class Router {
             }
 
             // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
-            // -- -- -- --
             // TEACHER
 
         case "TEACHER":
             switch (resource.getName()) {
             case "Answer":
-=======
-			    }
-			    
-			case "ClassUserRelationSet":
->>>>>>> 23ec6d36580bb361a5d7cca754103a0b858a4b2e
                 switch (action.getType().toString()) {
                 case "CREATE":
                     return AnswerRules.addAnswer((Answer) resource);
@@ -312,6 +305,7 @@ public final class Router {
             }
 
             // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+            // Student
 
         case "STUDENT":
             switch (resource.getName()) {

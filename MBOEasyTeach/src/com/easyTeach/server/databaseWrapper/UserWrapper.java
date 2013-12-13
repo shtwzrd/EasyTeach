@@ -61,19 +61,11 @@ public class UserWrapper {
             System.err.println(e);
             return false;
         } finally {
-<<<<<<< HEAD
             try {
                 conn.close();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-=======
-        	try {
-				conn.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
->>>>>>> 23ec6d36580bb361a5d7cca754103a0b858a4b2e
         }
     }
 

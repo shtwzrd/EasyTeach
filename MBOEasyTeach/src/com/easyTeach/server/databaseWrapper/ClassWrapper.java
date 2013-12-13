@@ -57,19 +57,11 @@ public class ClassWrapper {
             System.err.println(e);
             return false;
         } finally {
-<<<<<<< HEAD
             try {
                 conn.close();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-=======
-        	try {
-				conn.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
->>>>>>> 23ec6d36580bb361a5d7cca754103a0b858a4b2e
         }
     }
 
@@ -294,13 +286,8 @@ public class ClassWrapper {
         try (PreparedStatement stmt = conn.prepareStatement(sql);) {
             stmt.setString(1, userNo);
             rs = stmt.executeQuery();
-<<<<<<< HEAD
 
             HashSet<Class> hashSet = new HashSet<Class>();
-=======
-            
-            HashSet<Class> hashSet = new HashSet<>();
->>>>>>> 23ec6d36580bb361a5d7cca754103a0b858a4b2e
 
             while (rs.next()) {
                 Class classEntity = new Class();
