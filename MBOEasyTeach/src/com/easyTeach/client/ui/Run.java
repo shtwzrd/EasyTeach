@@ -24,15 +24,15 @@ public class Run {
 //        UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
         
         // Start application
-//        new LoginUI();
-        new MainFrame();
+        new LoginUI();
+//        new MainFrame();
 //        MainFrame.updateFrame(new ManageExerciseUI().getManageExerciseUI(), "Title");
 //        MainFrame.updateFrame(new ManageUserUI().getManageUserUI(), "Title");
 //        MainFrame.updateFrame(new UserManagerUI().getUserManagerUI(), "Title");
 //        MainFrame.updateFrame(new ExerciseManagerUI().getExerciseManagerUI(), "Title");
 //        MainFrame.updateFrame(new QuestionManagerUI().getQuestionManagerUI(), "Title");
 //        MainFrame.updateFrame(new ManageClassUI().getManageClassUI(), "Title");
-        MainFrame.updateFrame(new AdminManagerUI().getAdminManagerUI(), "Admin Manager");
+//        MainFrame.updateFrame(new AdminManagerUI().getAdminManagerUI(), "Admin Manager");
 //        MainFrame.updateFrame(new ManageCourseUI().getManageCourseUI(), "Title");
 //        MainFrame.updateFrame(new TeacherManagerUI().getTeacherManagerUI(), "Teacher Manager");
 //        MainFrame.updateFrame(new ManageExerciseInfoUI().getManageExerciseInfoUI(), "Title");

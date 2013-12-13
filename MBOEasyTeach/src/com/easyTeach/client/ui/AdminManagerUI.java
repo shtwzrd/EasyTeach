@@ -86,7 +86,7 @@ public class AdminManagerUI {
      * @return the JPanel, adminManagerPanel. Meant to be used in another frame.
      */
     public JPanel getAdminManagerUI() {
-        return adminManagerPanel;
+        return this.adminManagerPanel;
     }
 
     /**
@@ -95,8 +95,8 @@ public class AdminManagerUI {
      * courses.
      */
     public void buildPanel() {
-        adminManagerPanel = new JPanel(new BorderLayout());
-        adminManagerPanel.setBackground(UIColors.lightBlue);
+        this.adminManagerPanel = new JPanel(new BorderLayout());
+        this.adminManagerPanel.setBackground(UIColors.lightBlue);
 
         buildNorthPanel();
         buildCenterPanel();
@@ -108,9 +108,9 @@ public class AdminManagerUI {
      * classes and courses.
      */
     private void buildCenterPanel() {
-        tabPanel = new JTabbedPane(JTabbedPane.TOP);
-        tabPanel.setBackground(UIColors.lightBlue);
-        adminManagerPanel.add(tabPanel, BorderLayout.CENTER);
+        this.tabPanel = new JTabbedPane(JTabbedPane.TOP);
+        this.tabPanel.setBackground(UIColors.lightBlue);
+        this.adminManagerPanel.add(this.tabPanel, BorderLayout.CENTER);
 
         buildUserPanel();
         buildClassPanel();
@@ -122,31 +122,25 @@ public class AdminManagerUI {
      * JTable with all Courses along with a filtering function for the table.
      */
     private void buildCoursePanel() {
-        coursePanel = new JPanel(new BorderLayout());
-        coursePanel.setBackground(UIColors.lightBlue);
+        this.coursePanel = new JPanel(new BorderLayout());
+        this.coursePanel.setBackground(UIColors.lightBlue);
 
-        courseTable = new JTable();
-        DisplayTableModel courseModel = new DisplayTableModel();
+        this.courseTable = new JTable();
         String[] courseHeads = { "Course name", "No. of Classes" };
-        courseModel.setRowCount(1);
-        courseModel.setColumnIdentifiers(courseHeads);
-        courseModel.setValueAt("Software Design", 0, 0);
-        courseModel.setValueAt("15", 0, 1);
-        courseTable.setModel(courseModel);
 
-        JScrollPane courseScroll = new JScrollPane(courseTable);
+        JScrollPane courseScroll = new JScrollPane(this.courseTable);
         courseScroll.getViewport().setBackground(UIColors.white);
-        coursePanel.add(courseScroll, BorderLayout.CENTER);
+        this.coursePanel.add(courseScroll, BorderLayout.CENTER);
 
-        courseFilter = new JButton("Filter");
-        courseTxt = new JTextField(14);
-        courseCombo = new JComboBox();
-        courseCombo.setModel(new DefaultComboBoxModel(FILTER_COURSE));
+        this.courseFilter = new JButton("Filter");
+        this.courseTxt = new JTextField(14);
+        this.courseCombo = new JComboBox();
+        this.courseCombo.setModel(new DefaultComboBoxModel(this.FILTER_COURSE));
 
-        coursePanel.add(getFilterPanel(courseFilter, courseTxt, courseCombo),
+        this.coursePanel.add(getFilterPanel(this.courseFilter, this.courseTxt, this.courseCombo),
                 BorderLayout.SOUTH);
-        coursePanel.setName("Courses");
-        tabPanel.addTab("Courses", coursePanel);
+        this.coursePanel.setName("Courses");
+        this.tabPanel.addTab("Courses", this.coursePanel);
     }
 
     /**
@@ -154,32 +148,25 @@ public class AdminManagerUI {
      * JTable with all classes along with a filtering function for the table.
      */
     private void buildClassPanel() {
-        classPanel = new JPanel(new BorderLayout());
-        classPanel.setBackground(UIColors.lightBlue);
+        this.classPanel = new JPanel(new BorderLayout());
+        this.classPanel.setBackground(UIColors.lightBlue);
 
-        classTable = new JTable();
-        DisplayTableModel classModel = new DisplayTableModel();
+        this.classTable = new JTable();
         String[] classHeads = { "Class Name", "Year", "No. of Students" };
-        classModel.setRowCount(1);
-        classModel.setColumnIdentifiers(classHeads);
-        classModel.setValueAt("DAT13W", 0, 0);
-        classModel.setValueAt("2013", 0, 1);
-        classModel.setValueAt("14", 0, 2);
-        classTable.setModel(classModel);
 
-        JScrollPane classScroll = new JScrollPane(classTable);
+        JScrollPane classScroll = new JScrollPane(this.classTable);
         classScroll.getViewport().setBackground(UIColors.white);
-        classPanel.add(classScroll, BorderLayout.CENTER);
+        this.classPanel.add(classScroll, BorderLayout.CENTER);
 
-        classFilter = new JButton("Filter");
-        classTxt = new JTextField(14);
-        classCombo = new JComboBox();
-        classCombo.setModel(new DefaultComboBoxModel(FILTER_CLASS));
+        this.classFilter = new JButton("Filter");
+        this.classTxt = new JTextField(14);
+        this.classCombo = new JComboBox();
+        this.classCombo.setModel(new DefaultComboBoxModel(this.FILTER_CLASS));
 
-        classPanel.add(getFilterPanel(classFilter, classTxt, classCombo),
+        this.classPanel.add(getFilterPanel(this.classFilter, this.classTxt, this.classCombo),
                 BorderLayout.SOUTH);
-        classPanel.setName("Classes");
-        tabPanel.addTab("Classes", classPanel);
+        this.classPanel.setName("Classes");
+        this.tabPanel.addTab("Classes", this.classPanel);
     }
 
     /**
@@ -188,15 +175,15 @@ public class AdminManagerUI {
      * filtering function for the tables.
      */
     private void buildUserPanel() {
-        userTabPanel = new JTabbedPane();
-        userTabPanel.setName("Users");
-        userTabPanel.setBackground(UIColors.lightBlue);
+        this.userTabPanel = new JTabbedPane();
+        this.userTabPanel.setName("Users");
+        this.userTabPanel.setBackground(UIColors.lightBlue);
 
         buildStudentPanel();
         buildTeacherPanel();
         buildAdminPanel();
 
-        tabPanel.addTab("Users", userTabPanel);
+        this.tabPanel.addTab("Users", this.userTabPanel);
     }
 
     /**
@@ -208,31 +195,23 @@ public class AdminManagerUI {
         JPanel adminPanel = new JPanel(new BorderLayout());
         adminPanel.setBackground(UIColors.lightBlue);
 
-        adminTable = new JTable();
-        DisplayTableModel adminModel = new DisplayTableModel();
+        this.adminTable = new JTable();
         String[] adminHeads = { "Last name", "First name", "Email",
                 "Date added" };
-        adminModel.setRowCount(1);
-        adminModel.setColumnIdentifiers(adminHeads);
-        adminModel.setValueAt("Doe", 0, 0);
-        adminModel.setValueAt("Johanna", 0, 1);
-        adminModel.setValueAt("joha1234@stud.kea.dk", 0, 2);
-        adminModel.setValueAt("02-24-2000", 0, 3);
-        adminTable.setModel(adminModel);
 
-        JScrollPane adminScroll = new JScrollPane(adminTable);
+        JScrollPane adminScroll = new JScrollPane(this.adminTable);
         adminScroll.getViewport().setBackground(UIColors.white);
         adminPanel.add(adminScroll, BorderLayout.CENTER);
 
-        adminFilter = new JButton("Filter");
-        adminTxt = new JTextField(14);
-        adminCombo = new JComboBox();
-        adminCombo.setModel(new DefaultComboBoxModel(FILTER_USER));
+        this.adminFilter = new JButton("Filter");
+        this.adminTxt = new JTextField(14);
+        this.adminCombo = new JComboBox();
+        this.adminCombo.setModel(new DefaultComboBoxModel(this.FILTER_USER));
 
-        adminPanel.add(getFilterPanel(adminFilter, adminTxt, adminCombo),
+        adminPanel.add(getFilterPanel(this.adminFilter, this.adminTxt, this.adminCombo),
                 BorderLayout.SOUTH);
         adminPanel.setName("Admins");
-        userTabPanel.addTab("Admins", adminPanel);
+        this.userTabPanel.addTab("Admins", adminPanel);
     }
 
     /**
@@ -244,33 +223,24 @@ public class AdminManagerUI {
         JPanel teacherPanel = new JPanel(new BorderLayout());
         teacherPanel.setBackground(UIColors.lightBlue);
 
-        teacherTable = new JTable();
-        DisplayTableModel teacherModel = new DisplayTableModel();
+        this.teacherTable = new JTable();
         String[] teacherHeads = { "Last name", "First name", "Email",
                 "Date added" };
-        teacherModel.setRowCount(1);
-        teacherModel.setColumnIdentifiers(teacherHeads);
-        teacherModel.setValueAt("Doe", 0, 0);
-        teacherModel.setValueAt("John", 0, 1);
-        teacherModel.setValueAt("john9999@stud.kea.dk", 0, 2);
-        teacherModel.setValueAt("05-23-2011", 0, 3);
-        teacherPanel.setLayout(new BorderLayout());
-        teacherTable.setModel(teacherModel);
 
-        JScrollPane teacherScroll = new JScrollPane(teacherTable);
+        JScrollPane teacherScroll = new JScrollPane(this.teacherTable);
         teacherScroll.getViewport().setBackground(UIColors.white);
         teacherPanel.add(teacherScroll, BorderLayout.CENTER);
 
-        teacherFilter = new JButton("Filter");
-        teacherTxt = new JTextField(14);
-        teacherCombo = new JComboBox();
-        teacherCombo.setModel(new DefaultComboBoxModel(FILTER_USER));
+        this.teacherFilter = new JButton("Filter");
+        this.teacherTxt = new JTextField(14);
+        this.teacherCombo = new JComboBox();
+        this.teacherCombo.setModel(new DefaultComboBoxModel(this.FILTER_USER));
 
         teacherPanel.add(
-                getFilterPanel(teacherFilter, teacherTxt, teacherCombo),
+                getFilterPanel(this.teacherFilter, this.teacherTxt, this.teacherCombo),
                 BorderLayout.SOUTH);
         teacherPanel.setName("Teachers");
-        userTabPanel.addTab("Teachers", teacherPanel);
+        this.userTabPanel.addTab("Teachers", teacherPanel);
     }
 
     /**
@@ -282,32 +252,24 @@ public class AdminManagerUI {
         JPanel studentPanel = new JPanel(new BorderLayout());
         studentPanel.setBackground(UIColors.lightBlue);
 
-        studentTable = new JTable();
-        DisplayTableModel studentModel = new DisplayTableModel();
+        this.studentTable = new JTable();
         String[] studentHeads = { "Last name", "First name", "Email",
                 "Date added" };
-        studentModel.setRowCount(1);
-        studentModel.setColumnIdentifiers(studentHeads);
-        studentModel.setValueAt("Smith", 0, 0);
-        studentModel.setValueAt("John", 0, 1);
-        studentModel.setValueAt("john1234@stud.kea.dk", 0, 2);
-        studentModel.setValueAt("01-20-2013", 0, 3);
-        studentTable.setModel(studentModel);
 
-        JScrollPane studentScroll = new JScrollPane(studentTable);
+        JScrollPane studentScroll = new JScrollPane(this.studentTable);
         studentScroll.getViewport().setBackground(UIColors.white);
         studentPanel.add(studentScroll, BorderLayout.CENTER);
 
-        studentFilter = new JButton("Filter");
-        studentTxt = new JTextField(14);
-        studentCombo = new JComboBox();
-        studentCombo.setModel(new DefaultComboBoxModel(FILTER_USER));
+        this.studentFilter = new JButton("Filter");
+        this.studentTxt = new JTextField(14);
+        this.studentCombo = new JComboBox();
+        this.studentCombo.setModel(new DefaultComboBoxModel(this.FILTER_USER));
 
         studentPanel.add(
-                getFilterPanel(studentFilter, studentTxt, studentCombo),
+                getFilterPanel(this.studentFilter, this.studentTxt, this.studentCombo),
                 BorderLayout.SOUTH);
         studentPanel.setName("Students");
-        userTabPanel.addTab("Students", studentPanel);
+        this.userTabPanel.addTab("Students", studentPanel);
     }
 
     /**
@@ -322,7 +284,7 @@ public class AdminManagerUI {
         lblManageUserTitle.setFont(new Font("Lucida Grande", Font.BOLD, 24));
         northPanel.add(lblManageUserTitle);
 
-        adminManagerPanel.add(northPanel, BorderLayout.NORTH);
+        this.adminManagerPanel.add(northPanel, BorderLayout.NORTH);
     }
 
     /**
@@ -363,19 +325,19 @@ public class AdminManagerUI {
         JPanel southButtonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         southButtonPanel.setBackground(UIColors.darkBlue);
 
-        btnHelp = new JButton("Help");
-        southButtonPanel.add(btnHelp);
+        this.btnHelp = new JButton("Help");
+        southButtonPanel.add(this.btnHelp);
 
-        btnEdit = new JButton("Edit");
-        southButtonPanel.add(btnEdit);
+        this.btnEdit = new JButton("Edit");
+        southButtonPanel.add(this.btnEdit);
 
-        btnDelete = new JButton("Delete");
-        southButtonPanel.add(btnDelete);
+        this.btnDelete = new JButton("Delete");
+        southButtonPanel.add(this.btnDelete);
 
-        btnAdd = new JButton("Add");
-        southButtonPanel.add(btnAdd);
+        this.btnAdd = new JButton("Add");
+        southButtonPanel.add(this.btnAdd);
 
-        adminManagerPanel.add(southButtonPanel, BorderLayout.SOUTH);
+        this.adminManagerPanel.add(southButtonPanel, BorderLayout.SOUTH);
     }
 
     /**
@@ -384,15 +346,15 @@ public class AdminManagerUI {
      */
     private void addActionListeners() {
         AdminManagerUIListener listener = new AdminManagerUIListener();
-        btnAdd.addActionListener(listener);
-        btnDelete.addActionListener(listener);
-        btnEdit.addActionListener(listener);
-        btnHelp.addActionListener(listener);
-        studentFilter.addActionListener(listener);
-        teacherFilter.addActionListener(listener);
-        adminFilter.addActionListener(listener);
-        classFilter.addActionListener(listener);
-        courseFilter.addActionListener(listener);
+        this.btnAdd.addActionListener(listener);
+        this.btnDelete.addActionListener(listener);
+        this.btnEdit.addActionListener(listener);
+        this.btnHelp.addActionListener(listener);
+        this.studentFilter.addActionListener(listener);
+        this.teacherFilter.addActionListener(listener);
+        this.adminFilter.addActionListener(listener);
+        this.classFilter.addActionListener(listener);
+        this.courseFilter.addActionListener(listener);
     }
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
@@ -413,8 +375,8 @@ public class AdminManagerUI {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            if (e.getSource() == btnAdd) {
-                String selectedTab = tabPanel.getSelectedComponent().getName();
+            if (e.getSource() == AdminManagerUI.this.btnAdd) {
+                String selectedTab = AdminManagerUI.this.tabPanel.getSelectedComponent().getName();
                 if (selectedTab.equals("Users")) {
                     MainFrame.updateFrame(
                             new ManageUserUI().getManageUserUI(),
@@ -431,40 +393,40 @@ public class AdminManagerUI {
             }
 
             // Finds the selected row and...
-            else if (e.getSource() == btnDelete) {
+            else if (e.getSource() == AdminManagerUI.this.btnDelete) {
 
             }
 
-            else if (e.getSource() == btnEdit) {
+            else if (e.getSource() == AdminManagerUI.this.btnEdit) {
 
             }
 
-            else if (e.getSource() == btnHelp) {
+            else if (e.getSource() == AdminManagerUI.this.btnHelp) {
                 JOptionPane.showMessageDialog(null,
                         HelpPresenter.getAdminManagerHelp(),
                         HelpPresenter.getAdminManagerTitle(),
                         JOptionPane.PLAIN_MESSAGE, HelpPresenter.getHelpIcon());
             }
 
-            else if (e.getSource() == studentFilter) {
-                System.out.println(studentTxt.getText());
+            else if (e.getSource() == AdminManagerUI.this.studentFilter) {
+                System.out.println(AdminManagerUI.this.studentTxt.getText());
             }
 
-            else if (e.getSource() == teacherFilter) {
-                System.out.println(teacherTxt.getText());
-                System.out.println(teacherCombo.getSelectedItem());
+            else if (e.getSource() == AdminManagerUI.this.teacherFilter) {
+                System.out.println(AdminManagerUI.this.teacherTxt.getText());
+                System.out.println(AdminManagerUI.this.teacherCombo.getSelectedItem());
             }
 
-            else if (e.getSource() == adminFilter) {
-                System.out.println(adminTxt.getText());
+            else if (e.getSource() == AdminManagerUI.this.adminFilter) {
+                System.out.println(AdminManagerUI.this.adminTxt.getText());
             }
 
-            else if (e.getSource() == classFilter) {
-                System.out.println(classTxt.getText());
+            else if (e.getSource() == AdminManagerUI.this.classFilter) {
+                System.out.println(AdminManagerUI.this.classTxt.getText());
             }
 
-            else if (e.getSource() == courseFilter) {
-                System.out.println(courseTxt.getText());
+            else if (e.getSource() == AdminManagerUI.this.courseFilter) {
+                System.out.println(AdminManagerUI.this.courseTxt.getText());
             }
         }
         

@@ -42,34 +42,34 @@ public class EasyTeachClient{
 		//Build the Request for closing the connection
 		Action close = new Action(ActionType.CLOSE);
 		this.request = request;
-		closeConnection = new Request(Session.getInstance(), close);
+		this.closeConnection = new Request(Session.getInstance(), close);
 	}
 
 	public void run() {
 		try {
 			//Attempt to open a socket with the given address and port
-			requestSocket = new Socket("localhost", 8111);
+			this.requestSocket = new Socket("localhost", 8111);
 			System.out.println("EasyTeachClient connected to localhost on port 8111...");
 
 			//Set up the streams
-			out = new ObjectOutputStream(requestSocket.getOutputStream());
-			out.flush();
-			in = new ObjectInputStream(requestSocket.getInputStream());
+			this.out = new ObjectOutputStream(this.requestSocket.getOutputStream());
+			this.out.flush();
+			this.in = new ObjectInputStream(this.requestSocket.getInputStream());
 
 			try {
 				//Get and print the initial response - SUCCESS if the server is listening 
-				response = (Response) in.readObject();
-				System.out.println("[Response]: " + response.getStatus().toString());
+				this.response = (Response) this.in.readObject();
+				System.out.println("[Response]: " + this.response.getStatus().toString());
 
 				//Attempt to send our request
-				sendMessage(request);
+				sendMessage(this.request);
 
 				//Read the response and log it
-				response = (Response) in.readObject();
-				System.out.println("[Response]: " + response.getStatus().toString());
+				this.response = (Response) this.in.readObject();
+				System.out.println("[Response]: " + this.response.getStatus().toString());
 
 				//Tell the server we're done
-				sendMessage(closeConnection);
+				sendMessage(this.closeConnection);
 			}
 			catch(ClassNotFoundException classNot) {
 				System.err.println("! [Error]: Data received in an unknown format");
@@ -84,9 +84,9 @@ public class EasyTeachClient{
 		finally {
 			try {
 				//Cleanup
-				in.close();
-				out.close();
-				requestSocket.close();
+				this.in.close();
+				this.out.close();
+				this.requestSocket.close();
 			}
 			catch(IOException ioException) {
 				ioException.printStackTrace();
@@ -94,12 +94,12 @@ public class EasyTeachClient{
 		}
 	}
 
-	private void sendMessage(Request request) {
+	private void sendMessage(Request requestToServer) {
 		try {
-			out.writeObject(request);
-			out.flush();
+			this.out.writeObject(requestToServer);
+			this.out.flush();
 			System.out.println("[Client]: Issuing a " +
-					request.getAction().getType().toString() + " request");
+					requestToServer.getAction().getType().toString() + " request");
 		}
 		catch(IOException ioException){
 			ioException.printStackTrace();

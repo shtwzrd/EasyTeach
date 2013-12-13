@@ -64,13 +64,11 @@ public final class Authenticator {
 						role));
 				// Otherwise, pass the Request to the Router to find out what to
 				// do with it.
-			} else {
-				Request toRouter = new Request(request.getAction(),
-						request.getResource(), role);
-				return Router.getResponse(toRouter);
 			}
-		} else { // We couldn't authenticate that user!
-			return new Response(ResponseStatus.FAILURE);
+			Request toRouter = new Request(request.getAction(),
+					request.getResource(), role);
+			return Router.getResponse(toRouter);
 		}
+		return new Response(ResponseStatus.FAILURE);
 	}
 }
