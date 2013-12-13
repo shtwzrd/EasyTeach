@@ -16,7 +16,8 @@ import com.easyTeach.common.network.Response.ResponseStatus;
 import com.easyTeach.common.network.Session;
 
 /**
- * TODO Link this presenter to the ManageCourseUI.
+ * TODO Link this presenter to the ManageCourseUI and incorporate the filter.
+ * 
  * @author Oliver Nielsen
  */
 public class ManageCoursePresenter {
@@ -70,22 +71,51 @@ public class ManageCoursePresenter {
 			availableClassesSet = (ResourceSet) serverCom.getResponse()
 					.getResponse();
 
-			// All the courses is in a ResourceSet so they have to be
-			// "converted" to courses by typecasting.
-			for (Resource resource : availableClassesSet) {
-				Class classEntity = (Class) resource;
+			// Testing if the filter is on
+			filteredClassesSet = availableClassesSet;
 
-				dtmAvailableClasses.setColumnCount(countAvailableClassesRow);
+			if (isFiltered) {
+				// All the courses is in a ResourceSet (as a Resource) so they
+				// have to be "converted" to courses by typecasting and put into
+				// a DisplayTableModel.
+				// The ResourceSet is filtered.
+				for (Resource resource : filteredClassesSet) {
+					Class classEntity = (Class) resource;
 
-				dtmAvailableClasses.setValueAt(classEntity.getClassNo(),
-						countAvailableClassesRow, 0);
-				dtmAvailableClasses.setValueAt(classEntity.getClassName(),
-						countAvailableClassesRow, 1);
-				dtmAvailableClasses.setValueAt(classEntity.getYear(),
-						countAvailableClassesRow, 2);
+					dtmAvailableClasses
+							.setColumnCount(countAvailableClassesRow);
 
-				countAvailableClassesRow++;
+					dtmAvailableClasses.setValueAt(classEntity.getClassNo(),
+							countAvailableClassesRow, 0);
+					dtmAvailableClasses.setValueAt(classEntity.getClassName(),
+							countAvailableClassesRow, 1);
+					dtmAvailableClasses.setValueAt(classEntity.getYear(),
+							countAvailableClassesRow, 2);
+
+					countAvailableClassesRow++;
+				}
+			} else {
+				// All the courses is in a ResourceSet (as a Resource) so they
+				// have to be "converted" to courses by typecasting and put into
+				// a DisplayTableModel.
+				// The ResourceSet is not filtered.
+				for (Resource resource : availableClassesSet) {
+					Class classEntity = (Class) resource;
+
+					dtmAvailableClasses
+							.setColumnCount(countAvailableClassesRow);
+
+					dtmAvailableClasses.setValueAt(classEntity.getClassNo(),
+							countAvailableClassesRow, 0);
+					dtmAvailableClasses.setValueAt(classEntity.getClassName(),
+							countAvailableClassesRow, 1);
+					dtmAvailableClasses.setValueAt(classEntity.getYear(),
+							countAvailableClassesRow, 2);
+
+					countAvailableClassesRow++;
+				}
 			}
+
 		}
 
 	}
@@ -222,11 +252,11 @@ public class ManageCoursePresenter {
 		refreshAvailableClasses();
 		refreshAssociatedClasses();
 	}
-	
+
 	public DisplayTableModel getDTMAssociatedClasses() {
 		return dtmAssociatedClasses;
 	}
-	
+
 	public DisplayTableModel getDTMAvailableClasses() {
 		return dtmAvailableClasses;
 	}
