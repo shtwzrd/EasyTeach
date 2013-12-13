@@ -3,6 +3,7 @@ package com.easyTeach.server.ui;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -32,13 +33,7 @@ import com.easyTeach.server.network.EasyTeachServer;
 
 public class ServerUI {
 
-    public static void main(String[] args) {
-        new ServerUI();
-    }
-
     private JFrame frame;
-    private JButton btnOpen;
-    private JButton btnClose;
     private JButton btnQuit;
     private JTextArea textArea;
 
@@ -57,7 +52,7 @@ public class ServerUI {
      */
     public void buildUI() {
         this.frame = new JFrame("EasyTeach - Login");
-        this.frame.setSize(400, 300);
+        this.frame.setSize(600, 300);
         JPanel contentPane = new JPanel();
         contentPane.setLayout(new BorderLayout());
         this.frame.setContentPane(contentPane);
@@ -81,12 +76,6 @@ public class ServerUI {
         btnPanel.setBorder(new EtchedBorder(EtchedBorder.LOWERED));
         contentPane.add(btnPanel, BorderLayout.SOUTH);
 
-        this.btnOpen = new JButton("Open");
-        btnPanel.add(this.btnOpen);
-
-        this.btnClose = new JButton("Close");
-        btnPanel.add(this.btnClose);
-
         this.btnQuit = new JButton("Quit");
         btnPanel.add(this.btnQuit);
 
@@ -105,8 +94,6 @@ public class ServerUI {
      */
     private void addActionListeners() {
         ServerUIListener listener = new ServerUIListener();
-        this.btnOpen.addActionListener(listener);
-        this.btnClose.addActionListener(listener);
         this.btnQuit.addActionListener(listener);
     }
 
@@ -128,18 +115,27 @@ public class ServerUI {
         @Override
         public void actionPerformed(ActionEvent e) {
             if (e.getSource() == btnQuit) {
-                System.exit(0);
-            }
-            
-            else if (e.getSource() == btnClose) {
-                System.exit(0);
-            }
-            
-            else if (e.getSource() == btnOpen) {
-                new EasyTeachServer();
+//                try {
+//                    server.setBooleanFlag(false);
+//                    while (server.getIsRunning()) {}                        
+//                    server.getServerSocket().close();
+//                } catch (Exception e1) {
+//                    updateTextArea("[Error] : " + e1.getMessage());
+//                }
+//                frame.dispose();
             }
         }
 
+    }
+
+    /**
+     * Updates the textArea of the ServerUI by concatenation a String to the end
+     * of the messages already appearing in it.
+     * 
+     * @param update the message to be concatenated.
+     */
+    public void updateTextArea(String update) {
+        textArea.setText(textArea.getText() + update + "\n");
     }
 
 }
