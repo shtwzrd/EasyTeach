@@ -60,6 +60,12 @@ public class UserWrapper {
         } catch (SQLException e) {
             System.err.println(e);
             return false;
+        } finally {
+        	try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
         }
     }
 
@@ -174,7 +180,7 @@ public class UserWrapper {
         try (PreparedStatement stmt = conn.prepareStatement(sql);
                 ResultSet rs = stmt.executeQuery();) {
 
-            HashSet<User> hashSet = new HashSet<User>();
+            HashSet<User> hashSet = new HashSet<>();
 
             while (rs.next()) {
                 User userEntity = new User();
@@ -217,7 +223,7 @@ public class UserWrapper {
             stmt.setString(1, classNo);
             rs = stmt.executeQuery();
             
-            HashSet<User> hashSet = new HashSet<User>();
+            HashSet<User> hashSet = new HashSet<>();
 
             while (rs.next()) {
                 User userEntity = new User();

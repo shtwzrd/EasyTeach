@@ -16,7 +16,7 @@ import com.easyTeach.common.network.Response.ResponseStatus;
 import com.easyTeach.common.network.Session;
 
 /**
- * TODO Link this presenter to the ManageCourseUI and incorporate the filter.
+ * TODO Link this presenter to the ManageCourseUI.
  * 
  * @author Oliver Nielsen
  */
@@ -24,8 +24,8 @@ public class ManageCoursePresenter {
 
 	private final String[] tableHead = { "Class No.", "Class Name", "Year" };
 
-	private DisplayTableModel dtmAssociatedClasses;
-	private DisplayTableModel dtmAvailableClasses;
+	private ManageCourseModel manageAssociatedClasses;
+	private ManageCourseModel manageAvailableClasses;
 
 	private int countAssociatedClassesRow;
 	private int countAvailableClassesRow;
@@ -43,11 +43,8 @@ public class ManageCoursePresenter {
 	private Class currentlySelectedClassFromAvailableTable;
 
 	public ManageCoursePresenter() {
-		dtmAssociatedClasses = new DisplayTableModel();
-		dtmAvailableClasses = new DisplayTableModel();
-
-		dtmAssociatedClasses.setColumnIdentifiers(tableHead);
-		dtmAvailableClasses.setColumnIdentifiers(tableHead);
+		manageAssociatedClasses = new ManageCourseModel(associatedClassesSet);
+		manageAvailableClasses = new ManageCourseModel(availableClassesSet);
 
 		countAssociatedClassesRow = 0;
 		countAvailableClassesRow = 0;
@@ -67,74 +64,33 @@ public class ManageCoursePresenter {
 		serverCom.getResponse();
 
 		if (serverCom.getResponse().getStatus() != ResponseStatus.FAILURE) {
-			// Get all the classes as a resources
+			// Get all the classes as a ResourceSet
 			availableClassesSet = (ResourceSet) serverCom.getResponse()
 					.getResponse();
 
 			// Testing if the filter is on
 			filteredClassesSet = availableClassesSet;
 
+			// If the filter is on the filteredClassesSet will put in
+			// association with the manageAvailableClasses table model.
+			// Otherwise the available will be put in association with the table
+			// model.
 			if (isFiltered) {
-				// All the courses is in a ResourceSet (as a Resource) so they
-				// have to be "converted" to courses by typecasting and put into
-				// a DisplayTableModel.
-				// The ResourceSet is filtered.
-				for (Resource resource : filteredClassesSet) {
-					Class classEntity = (Class) resource;
-
-					dtmAvailableClasses
-							.setColumnCount(countAvailableClassesRow);
-
-					dtmAvailableClasses.setValueAt(classEntity.getClassNo(),
-							countAvailableClassesRow, 0);
-					dtmAvailableClasses.setValueAt(classEntity.getClassName(),
-							countAvailableClassesRow, 1);
-					dtmAvailableClasses.setValueAt(classEntity.getYear(),
-							countAvailableClassesRow, 2);
-
-					countAvailableClassesRow++;
-				}
+				manageAvailableClasses.refreshData(filteredClassesSet);
 			} else {
-				// All the courses is in a ResourceSet (as a Resource) so they
-				// have to be "converted" to courses by typecasting and put into
-				// a DisplayTableModel.
-				// The ResourceSet is not filtered.
-				for (Resource resource : availableClassesSet) {
-					Class classEntity = (Class) resource;
-
-					dtmAvailableClasses
-							.setColumnCount(countAvailableClassesRow);
-
-					dtmAvailableClasses.setValueAt(classEntity.getClassNo(),
-							countAvailableClassesRow, 0);
-					dtmAvailableClasses.setValueAt(classEntity.getClassName(),
-							countAvailableClassesRow, 1);
-					dtmAvailableClasses.setValueAt(classEntity.getYear(),
-							countAvailableClassesRow, 2);
-
-					countAvailableClassesRow++;
-				}
+				manageAvailableClasses.refreshData(availableClassesSet);
 			}
 
+			// This method call changes what is in the table model according to
+			// what happened in the if/else statement a few lines above
+			manageAvailableClasses.fireTableDataChanged();
 		}
 
 	}
 
 	private void refreshAssociatedClasses() {
-		for (Resource resource : associatedClassesSet) {
-			Class classEntity = (Class) resource;
-
-			dtmAssociatedClasses.setColumnCount(countAssociatedClassesRow);
-
-			dtmAssociatedClasses.setValueAt(classEntity.getClassNo(),
-					countAssociatedClassesRow, 0);
-			dtmAssociatedClasses.setValueAt(classEntity.getClassName(),
-					countAssociatedClassesRow, 1);
-			dtmAssociatedClasses.setValueAt(classEntity.getYear(),
-					countAssociatedClassesRow, 2);
-
-			countAssociatedClassesRow++;
-		}
+		manageAssociatedClasses.refreshData(associatedClassesSet);
+		manageAssociatedClasses.fireTableDataChanged();
 	}
 
 	public void saveCourse(String courseName) {
@@ -254,11 +210,32 @@ public class ManageCoursePresenter {
 	}
 
 	public DisplayTableModel getDTMAssociatedClasses() {
-		return dtmAssociatedClasses;
+		return manageAssociatedClasses;
 	}
 
 	public DisplayTableModel getDTMAvailableClasses() {
-		return dtmAvailableClasses;
+		return manageAvailableClasses;
+	}
+
+	private class ManageCourseModel extends DisplayTableModel {
+
+		private static final long serialVersionUID = -5132427387930797460L;
+
+		public ManageCourseModel(ResourceSet classesSet) {
+			super(tableHead, classesSet);
+		}
+
+		@Override
+		public Object getValueAt(int row, int column) {
+			// tableData is the table that performs the method call getValueAt
+			// in the UI class
+			Class classEntity = (Class) tableData.get(row);
+			
+			if (isFiltered) {
+				
+			}
+		}
+
 	}
 
 }

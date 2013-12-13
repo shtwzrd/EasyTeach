@@ -33,7 +33,7 @@ public final class Action implements Serializable {
 	 */
 	public Action(ActionType type) {
 		this.type = type;
-		attribute = "";
+		this.attribute = "";
 	}
 
 	/**
@@ -52,11 +52,11 @@ public final class Action implements Serializable {
 	}
 
 	public ActionType getType() {
-		return type;
+		return this.type;
 	}
 
 	public String getAttribute() {
-		return attribute;
+		return this.attribute;
 	}
 
 	/**

@@ -12,9 +12,8 @@ public class ResourceSet extends HashSet<Resource> implements Resource {
 		if (r != null) {
 			Resource t = (Resource) r[0];
 			return t.getName() + "Set";
-		} else {
-			return "ResourceSet";
 		}
+		return "ResourceSet";
 	}
 
 }

@@ -44,10 +44,10 @@ public class EasyTeachServer {
 	private Request request;
 
 	public EasyTeachServer() {
-		response = new Response(ResponseStatus.SUCCESS);
+		this.response = new Response(ResponseStatus.SUCCESS);
 
 		try {
-			providerSocket = new ServerSocket(8111, 10);
+			this.providerSocket = new ServerSocket(8111, 10);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -56,52 +56,51 @@ public class EasyTeachServer {
 	private void run() {
 		try {
 			System.out.println("Waiting for connection");
-			connection = providerSocket.accept();
+			this.connection = this.providerSocket.accept();
 			System.out.println("Connection received from "
-					+ connection.getInetAddress().getHostName());
+					+ this.connection.getInetAddress().getHostName());
 
 			// Initialize the input and output streams in preparation for
 			// communication with the client
-			out = new ObjectOutputStream(connection.getOutputStream());
-			out.flush();
-			in = new ObjectInputStream(connection.getInputStream());
+			this.out = new ObjectOutputStream(this.connection.getOutputStream());
+			this.out.flush();
+			this.in = new ObjectInputStream(this.connection.getInputStream());
 
 			// Acknowledge the client's connection.
-			sendMessage(response);
+			sendMessage(this.response);
 
 			do {
 				try {
 					// Read the Request and log it
-					request = (Request) in.readObject();
+					this.request = (Request) this.in.readObject();
 					System.out.println("[Request]: "
-							+ request.getAction().getType().toString());
+							+ this.request.getAction().getType().toString());
 
-					if (request.getAction().getType() != ActionType.CLOSE) {
+					if (this.request.getAction().getType() != ActionType.CLOSE) {
 
 						// Throw out Requests with no credentials
-						if (request.getSession() != null) {
-							response = Authenticator.authenticateUser(request);
+						if (this.request.getSession() != null) {
+							this.response = Authenticator.authenticateUser(this.request);
 						} else {
-							response = new Response(ResponseStatus.FAILURE);
+							this.response = new Response(ResponseStatus.FAILURE);
 						}
 
-						if (request.getAction().getType() != ActionType.CLOSE) {
-							sendMessage(response);
+						if (this.request.getAction().getType() != ActionType.CLOSE) {
+							sendMessage(this.response);
 						}
-					} else {
+					} 
 
-					}
 				} catch (ClassNotFoundException classnot) {
 					System.err.println("Data received in unknown format");
 				}
-			} while (request.getAction().getType() != ActionType.CLOSE);
+			} while (this.request.getAction().getType() != ActionType.CLOSE);
 		} catch (IOException ioException) {
 			ioException.printStackTrace();
 		} finally {
 			// Cleanup
 			try {
-				in.close();
-				out.close();
+				this.in.close();
+				this.out.close();
 				// providerSocket.close();
 			} catch (IOException ioException) {
 				ioException.printStackTrace();
@@ -111,8 +110,8 @@ public class EasyTeachServer {
 
 	public void sendMessage(Response res) {
 		try {
-			out.writeObject(res);
-			out.flush();
+			this.out.writeObject(res);
+			this.out.flush();
 			System.out.println(res.getResponse());
 		} catch (IOException ioException) {
 			ioException.printStackTrace();
