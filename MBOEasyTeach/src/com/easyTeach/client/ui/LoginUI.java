@@ -40,13 +40,13 @@ import com.easyTeach.common.network.Session;
 
 public class LoginUI {
 
-	private LoginPresenter loginPresenter;
-	private JFrame frame;
-	private JTextField txtUsername;
-	private JPasswordField txtPassword;
-	private JButton btnLogin;
-	private JButton btnHelp;
-	private JButton btnQuit;
+	LoginPresenter loginPresenter;
+	JFrame frame;
+	JTextField txtUsername;
+	JPasswordField txtPassword;
+	JButton btnLogin;
+	JButton btnHelp;
+	JButton btnQuit;
 
 	/**
 	 * Constructor for creating new instances of the Login UI. The constructor
@@ -148,13 +148,6 @@ public class LoginUI {
 		this.btnQuit.addActionListener(listener);
 		this.txtUsername.addActionListener(listener);
 		this.txtPassword.addActionListener(listener);
-	}
-
-	/**
-	 * Explain here
-	 */
-	public synchronized void loadFromPresenter() {
-		// TODO
 	}
 
 	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //

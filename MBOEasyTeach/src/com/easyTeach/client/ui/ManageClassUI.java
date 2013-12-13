@@ -39,9 +39,9 @@ public class ManageClassUI {
 
 	private final String[] FILTER = { "Email", "First name", "Last name" };
 	private JPanel manageClassPanel;
-	private JButton btnHelp;
-	private JButton btnDiscard;
-	private JButton btnSaveClass;
+	JButton btnHelp;
+	JButton btnDiscard;
+	JButton btnSaveClass;
 	protected JTable enrolledClassesTable;
 	protected JTable allStudentsTable;
 	private JPanel centerPanel;
@@ -49,9 +49,9 @@ public class ManageClassUI {
 	protected JButton btnAddStudent;
 	protected JTextField txtYear;
 	protected JTextField txtClassName;
-	private JComboBox<String> filterBox;
-	private JTextField txtFilter;
-	private JButton btnFilter;
+	JComboBox<String> filterBox;
+	JTextField txtFilter;
+	JButton btnFilter;
 	protected ManageClassPresenter presenter;
 	private boolean isSyncing;
 
@@ -262,6 +262,9 @@ public class ManageClassUI {
 	private void addActionListeners() {
 		ManageClassListener listener = new ManageClassListener();
 		this.btnDiscard.addActionListener(listener);
+		this.btnAddStudent.addActionListener(listener);
+		this.btnRemoveStudent.addActionListener(listener);
+		this.btnFilter.addActionListener(listener);
 		this.btnHelp.addActionListener(listener);
 		this.btnSaveClass.addActionListener(listener);
 		this.enrolledClassesTable.addMouseListener(listener);
@@ -294,6 +297,10 @@ public class ManageClassUI {
 	 * @date 6. December, 2013
 	 */
 	private class ManageClassListener implements ActionListener, MouseListener {
+
+		public ManageClassListener() {
+			// Empty
+		}
 
 		@Override
 		public void actionPerformed(ActionEvent e) {

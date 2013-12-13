@@ -61,7 +61,7 @@ public final class Router {
                     }
 			    }
 			    
-			case "ClassUserRelation":
+			case "ClassUserRelationSet":
                 switch (action.getType().toString()) {
                 case "CREATE":
                     return ClassUserRelationRules.addRelations((ResourceSet) resource);
