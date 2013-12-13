@@ -26,9 +26,6 @@ import com.easyTeach.server.databaseConnector.ConnectionManager;
 
 public class QuestionWrapper {
 
-    private static Connection conn = ConnectionManager.getInstance()
-            .getConnection();
-
     /**
      * Inserts a new Question row into the Question table within the easyTeach
      * database. The prepared statement needs the Question's questionNo,
@@ -41,6 +38,8 @@ public class QuestionWrapper {
      * @see Question
      */
     public static boolean insertIntoQuestion(Question questionEntity) {
+        Connection conn = ConnectionManager.getInstance().getConnection();
+        
         String sql = "{call insertIntoQuestion(?,?,?,?)}";
 
         try (CallableStatement stmt = conn.prepareCall(sql);) {
@@ -80,6 +79,8 @@ public class QuestionWrapper {
      * @see Question
      */
     public static boolean updateQuestionRow(Question questionEntity) {
+        Connection conn = ConnectionManager.getInstance().getConnection();
+        
         String sql = "{call updateQuestionRow(?,?,?,?)}";
 
         try (CallableStatement stmt = conn.prepareCall(sql);) {
@@ -119,6 +120,8 @@ public class QuestionWrapper {
      * @see Question
      */
     public static boolean deleteQuestionRow(String questionNo) {
+        Connection conn = ConnectionManager.getInstance().getConnection();
+        
         String sql = "{call deleteQuestionRow(?)}";
 
         try (CallableStatement stmt = conn.prepareCall(sql);) {
@@ -153,6 +156,8 @@ public class QuestionWrapper {
      * @see Question
      */
     public static HashSet<Question> getQuestionRows() {
+        Connection conn = ConnectionManager.getInstance().getConnection();
+        
         String sql = "{call selectQuestionRows()}";
 
         try (PreparedStatement stmt = conn.prepareStatement(sql);
@@ -199,6 +204,8 @@ public class QuestionWrapper {
      */
     public static Question getQuestionRowWithQuestionNo(String questionNo)
             throws SQLException {
+        Connection conn = ConnectionManager.getInstance().getConnection();
+        
         String sql = "{call selectQuestionRowWithQuestionNo(?)}";
         ResultSet rs = null;
 
@@ -247,6 +254,8 @@ public class QuestionWrapper {
      * @see Tag
      */
     public static HashSet<Question> getQuestionRowsWithTagNo(String tagNo) {
+        Connection conn = ConnectionManager.getInstance().getConnection();
+        
         String sql = "{call selectQuestionRowWithTagNo(?)}";
         ResultSet rs = null;
 
@@ -296,6 +305,8 @@ public class QuestionWrapper {
      * @see Tag
      */
     public static HashSet<Question> getQuestionRowsWithTag(String tag) {
+        Connection conn = ConnectionManager.getInstance().getConnection();
+        
         String sql = "{call selectQuestionRowWithTag(?)}";
         ResultSet rs = null;
 

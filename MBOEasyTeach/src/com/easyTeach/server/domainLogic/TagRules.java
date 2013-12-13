@@ -1,11 +1,9 @@
 package com.easyTeach.server.domainLogic;
 
-import com.easyTeach.common.entity.Exercise;
 import com.easyTeach.common.entity.ResourceSet;
 import com.easyTeach.common.entity.Tag;
 import com.easyTeach.common.network.Response;
 import com.easyTeach.common.network.Response.ResponseStatus;
-import com.easyTeach.server.databaseWrapper.ExerciseWrapper;
 import com.easyTeach.server.databaseWrapper.TagWrapper;
 
 public class TagRules {

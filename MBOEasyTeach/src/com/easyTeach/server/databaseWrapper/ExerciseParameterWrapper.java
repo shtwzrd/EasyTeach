@@ -25,9 +25,6 @@ import com.easyTeach.server.databaseConnector.ConnectionManager;
 
 public class ExerciseParameterWrapper {
 
-    private static Connection conn = ConnectionManager.getInstance()
-            .getConnection();
-
     /**
      * Inserts a new ExerciseParameter row into the ExerciseParameter table
      * within the easyTeach database. The prepared statement needs the
@@ -42,6 +39,8 @@ public class ExerciseParameterWrapper {
      */
     public static boolean insertIntoExerciseParameter(
             ExerciseParameter exerciseParameterEntity) {
+        Connection conn = ConnectionManager.getInstance().getConnection();
+        
         String sql = "{call insertIntoExerciseParameter(?,?,?,?,?,?)}";
 
         try (CallableStatement stmt = conn.prepareCall(sql);) {
@@ -85,6 +84,8 @@ public class ExerciseParameterWrapper {
      */
     public static boolean updateExerciseParameterRow(
             ExerciseParameter exerciseParameterEntity) {
+        Connection conn = ConnectionManager.getInstance().getConnection();
+        
         String sql = "{call updateExerciseParameterRow(?,?,?,?,?,?)}";
 
         try (CallableStatement stmt = conn.prepareCall(sql);) {
@@ -126,6 +127,8 @@ public class ExerciseParameterWrapper {
      * @see ExerciseParameter
      */
     public static boolean deleteExerciseParameterRow(String exerciseParameterNo) {
+        Connection conn = ConnectionManager.getInstance().getConnection();
+        
         String sql = "{call deleteExerciseParameterRow(?)}";
 
         try (CallableStatement stmt = conn.prepareCall(sql);) {
@@ -160,6 +163,8 @@ public class ExerciseParameterWrapper {
      * @see ExerciseParameter
      */
     public static HashSet<ExerciseParameter> getExerciseParameterRows() {
+        Connection conn = ConnectionManager.getInstance().getConnection();
+        
         String sql = "{call selectExerciseParameterRows()}";
 
         try (PreparedStatement stmt = conn.prepareStatement(sql);
@@ -209,6 +214,8 @@ public class ExerciseParameterWrapper {
      */
     public static ExerciseParameter getExerciseParameterRowWithExerciseParameterNo(
             String exerciseParameterNo) {
+        Connection conn = ConnectionManager.getInstance().getConnection();
+        
         String sql = "{call selectExerciseParameterRowWithExerciseParameterNo(?)}";
         ResultSet rs = null;
 

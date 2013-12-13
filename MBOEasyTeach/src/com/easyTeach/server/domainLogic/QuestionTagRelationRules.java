@@ -2,13 +2,11 @@ package com.easyTeach.server.domainLogic;
 
 import java.util.HashSet;
 
-import com.easyTeach.common.entity.ClassUserRelation;
 import com.easyTeach.common.entity.QuestionTagRelation;
 import com.easyTeach.common.entity.Resource;
 import com.easyTeach.common.entity.ResourceSet;
 import com.easyTeach.common.network.Response;
 import com.easyTeach.common.network.Response.ResponseStatus;
-import com.easyTeach.server.databaseWrapper.ClassUserRelationWrapper;
 import com.easyTeach.server.databaseWrapper.QuestionTagRelationWrapper;
 
 public class QuestionTagRelationRules {

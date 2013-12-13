@@ -25,9 +25,6 @@ import com.easyTeach.server.databaseConnector.ConnectionManager;
 
 public class UserTestResultWrapper {
 
-    private static Connection conn = ConnectionManager.getInstance()
-            .getConnection();
-
     /**
      * Inserts a new UserTestResult row into the UserTestResult table within the
      * easyTeach database. The prepared statement needs the userTestResult's
@@ -41,6 +38,8 @@ public class UserTestResultWrapper {
      */
     public static boolean insertIntoUserTestResult(
             UserTestResult userTestResultEntity) {
+        Connection conn = ConnectionManager.getInstance().getConnection();
+
         String sql = "{call insertIntoUserTestResult(?,?,?)}";
 
         try (CallableStatement stmt = conn.prepareCall(sql);) {
@@ -50,7 +49,7 @@ public class UserTestResultWrapper {
 
             stmt.execute();
             return true;
-            
+
         } catch (SQLTransientConnectionException SQLtce) {
             return insertIntoUserTestResult(userTestResultEntity);
         } catch (SQLTransientException SQLte) {
@@ -82,6 +81,8 @@ public class UserTestResultWrapper {
      */
     public static boolean deleteUserTestResultRow(String userNo,
             String exerciseNo) {
+        Connection conn = ConnectionManager.getInstance().getConnection();
+
         String sql = "{call deleteUserTestResultRow(?,?)}";
 
         try (CallableStatement stmt = conn.prepareCall(sql);) {
@@ -90,7 +91,7 @@ public class UserTestResultWrapper {
 
             stmt.execute();
             return true;
-            
+
         } catch (SQLTransientConnectionException SQLtce) {
             return deleteUserTestResultRow(userNo, exerciseNo);
         } catch (SQLTransientException SQLte) {
@@ -117,6 +118,8 @@ public class UserTestResultWrapper {
      * @see UserTestResult
      */
     public static HashSet<UserTestResult> getUserTestResultRows() {
+        Connection conn = ConnectionManager.getInstance().getConnection();
+        
         String sql = "{call selectUserTestResultRows()}";
 
         try (PreparedStatement stmt = conn.prepareStatement(sql);
@@ -133,7 +136,7 @@ public class UserTestResultWrapper {
                 hashSet.add(userTestResultEntity);
             }
             return hashSet;
-            
+
         } catch (SQLTransientConnectionException SQLtce) {
             return getUserTestResultRows();
         } catch (SQLTransientException SQLte) {
@@ -164,6 +167,8 @@ public class UserTestResultWrapper {
      */
     public static HashSet<UserTestResult> getUserTestResultRowsWithUserNo(
             String userNo) {
+        Connection conn = ConnectionManager.getInstance().getConnection();
+        
         String sql = "{call selectUserTestResultRowsWithUserNo(?)}";
         ResultSet rs = null;
 
@@ -217,6 +222,8 @@ public class UserTestResultWrapper {
      */
     public static HashSet<UserTestResult> getUserTestResultRowsWithExerciseNo(
             String exerciseNo) {
+        Connection conn = ConnectionManager.getInstance().getConnection();
+        
         String sql = "{call selectUserTestResultRowsWithExerciseNo(?)}";
         ResultSet rs = null;
 

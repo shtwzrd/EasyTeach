@@ -25,9 +25,6 @@ import com.easyTeach.server.databaseConnector.ConnectionManager;
 
 public class TagWrapper {
 
-    private static Connection conn = ConnectionManager.getInstance()
-            .getConnection();
-
     /**
      * Inserts a new Tag row into the Tag table within the easyTeach database.
      * The prepared statement needs the Tag's tagNo and tag.
@@ -39,6 +36,8 @@ public class TagWrapper {
      * @see Tag
      */
     public static boolean insertIntoTag(Tag tagEntity) {
+        Connection conn = ConnectionManager.getInstance().getConnection();
+        
         String sql = "{call insertIntoTag(?,?)}";
 
         try (CallableStatement stmt = conn.prepareCall(sql);) {
@@ -75,6 +74,8 @@ public class TagWrapper {
      * @see Tag
      */
     public static boolean updateTagRow(Tag tagEntity) {
+        Connection conn = ConnectionManager.getInstance().getConnection();
+        
         String sql = "{call updateTagRow(?,?)}";
 
         try (CallableStatement stmt = conn.prepareCall(sql);) {
@@ -111,6 +112,8 @@ public class TagWrapper {
      * @see Tag
      */
     public static boolean deleteTagRow(String tagNo) {
+        Connection conn = ConnectionManager.getInstance().getConnection();
+        
         String sql = "{call deleteTagRow(?)}";
 
         try (CallableStatement stmt = conn.prepareCall(sql);) {
@@ -144,6 +147,8 @@ public class TagWrapper {
      * @see Tag
      */
     public static HashSet<Tag> getTagRows() {
+        Connection conn = ConnectionManager.getInstance().getConnection();
+        
         String sql = "{call selectTagRows()}";
 
         try (PreparedStatement stmt = conn.prepareStatement(sql);
@@ -186,6 +191,8 @@ public class TagWrapper {
      * @see Tag
      */
     public static Tag getTagRowWithTagNo(String tagNo) {
+        Connection conn = ConnectionManager.getInstance().getConnection();
+        
         String sql = "{call selectTagRowWithTagNo(?)}";
         ResultSet rs = null;
 

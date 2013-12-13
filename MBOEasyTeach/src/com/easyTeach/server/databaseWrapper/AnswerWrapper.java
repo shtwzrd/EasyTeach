@@ -25,9 +25,6 @@ import com.easyTeach.server.databaseConnector.ConnectionManager;
 
 public class AnswerWrapper {
 
-    private static Connection conn = ConnectionManager.getInstance()
-            .getConnection();
-
     /**
      * Inserts a new Answer row into the Answer table within the easyTeach
      * database. The prepared statement needs the answer's questionNo, answerNo,
@@ -40,6 +37,8 @@ public class AnswerWrapper {
      * @see Answer
      */
     public static boolean insertIntoAnswer(Answer answerEntity) {
+        Connection conn = ConnectionManager.getInstance().getConnection();
+        
         String sql = "{call insertIntoAnswer(?,?,?,?)}";
 
         try (CallableStatement stmt = conn.prepareCall(sql);) {
@@ -79,6 +78,8 @@ public class AnswerWrapper {
      * @see Answer
      */
     public static boolean updateAnswerRow(Answer answerEntity) {
+        Connection conn = ConnectionManager.getInstance().getConnection();
+        
         String sql = "{call updateAnswerRow(?,?,?,?)}";
 
         try (CallableStatement stmt = conn.prepareCall(sql);) {
@@ -120,6 +121,8 @@ public class AnswerWrapper {
      * @see Answer
      */
     public static boolean deleteAnswerRow(String questionNo, String answerNo) {
+        Connection conn = ConnectionManager.getInstance().getConnection();
+        
         String sql = "{call deleteAnswerRow(?,?)}";
 
         try (CallableStatement stmt = conn.prepareCall(sql);) {
@@ -154,6 +157,8 @@ public class AnswerWrapper {
      * @see Answer
      */
     public static HashSet<Answer> getAnswerRows() {
+        Connection conn = ConnectionManager.getInstance().getConnection();
+        
         String sql = "{call selectAnswerRows()}";
 
         try (PreparedStatement stmt = conn.prepareStatement(sql);
@@ -197,6 +202,8 @@ public class AnswerWrapper {
      * @see Answer
      */
     public static HashSet<Answer> getAnswerRowsWithQuestionNo(String questionNo) {
+        Connection conn = ConnectionManager.getInstance().getConnection();
+        
         String sql = "{call selectAnswerRowsWithQuestionNo(?)}";
         ResultSet rs = null;
 

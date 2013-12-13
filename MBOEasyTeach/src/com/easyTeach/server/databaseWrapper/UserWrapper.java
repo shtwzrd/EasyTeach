@@ -25,9 +25,6 @@ import com.easyTeach.server.databaseConnector.ConnectionManager;
 
 public class UserWrapper {
 
-    private static Connection conn = ConnectionManager.getInstance()
-            .getConnection();
-
     /**
      * Inserts a new User row into the User table within the easyTeach database.
      * The prepared statement needs the user's userNo, email, userType,
@@ -40,6 +37,8 @@ public class UserWrapper {
      * @see User
      */
     public static boolean insertIntoUser(User userEntity) {
+        Connection conn = ConnectionManager.getInstance().getConnection();
+        
         String sql = "{call insertIntoUser(?,?,?,?,?,?)}";
 
         try (CallableStatement stmt = conn.prepareCall(sql);) {
@@ -81,6 +80,8 @@ public class UserWrapper {
      * @see User
      */
     public static boolean updateUserRow(User userEntity) {
+        Connection conn = ConnectionManager.getInstance().getConnection();
+        
         String sql = "{call updateUserRow(?,?,?,?,?,?)}";
 
         try (CallableStatement stmt = conn.prepareCall(sql);) {
@@ -124,6 +125,8 @@ public class UserWrapper {
      * @see User
      */
     public static boolean updateUserPassword(String userNo, String password) {
+        Connection conn = ConnectionManager.getInstance().getConnection();
+        
         String sql = "{call updatePassword(?,?)}";
 
         try (CallableStatement stmt = conn.prepareCall(sql);) {
@@ -160,6 +163,8 @@ public class UserWrapper {
      * @see User
      */
     public static boolean deleteUserRow(String userNo) {
+        Connection conn = ConnectionManager.getInstance().getConnection();
+         
         String sql = "{call deleteUserRow(?)}";
 
         try (CallableStatement stmt = conn.prepareCall(sql);) {
@@ -193,6 +198,8 @@ public class UserWrapper {
      * @see User
      */
     public static HashSet<User> getUserRows() {
+        Connection conn = ConnectionManager.getInstance().getConnection();
+        
         String sql = "{call selectUserRows()}";
 
         try (PreparedStatement stmt = conn.prepareStatement(sql);
@@ -239,6 +246,8 @@ public class UserWrapper {
      * @see User
      */
     public static HashSet<User> getUserRowsWithClassNo(String classNo) {
+        Connection conn = ConnectionManager.getInstance().getConnection();
+        
         String sql = "{call selectUserRowsWithClassNo(?)}";
         ResultSet rs = null;
 
@@ -291,6 +300,8 @@ public class UserWrapper {
      * @see User
      */
     public static User getUserRowWithUserNo(String userNo) {
+        Connection conn = ConnectionManager.getInstance().getConnection();
+        
         String sql = "{call selectUserRowWithUserNo(?)}";
         ResultSet rs = null;
 
@@ -343,6 +354,8 @@ public class UserWrapper {
      * @see User
      */
     public static User getUserRowWithEmail(String email) {
+        Connection conn = ConnectionManager.getInstance().getConnection();
+        
         String sql = "{call selectUserRowWithEmail(?)}";
         ResultSet rs = null;
 

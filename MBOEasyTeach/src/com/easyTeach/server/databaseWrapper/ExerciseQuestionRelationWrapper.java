@@ -25,9 +25,6 @@ import com.easyTeach.server.databaseConnector.ConnectionManager;
 
 public class ExerciseQuestionRelationWrapper {
 
-    private static Connection conn = ConnectionManager.getInstance()
-            .getConnection();
-
     /**
      * Inserts a new ExerciseQuestionRelation row into the
      * ExerciseQuestionRelation table within the easyTeach database. The
@@ -42,6 +39,8 @@ public class ExerciseQuestionRelationWrapper {
      */
     public static boolean insertIntoExerciseQuestionRelation(
             ExerciseQuestionRelation exerciseQuestionRelationEntity) {
+        Connection conn = ConnectionManager.getInstance().getConnection();
+        
         String sql = "{call insertIntoExerciseQuestionRelation(?,?)}";
 
         try (CallableStatement stmt = conn.prepareCall(sql);) {
@@ -85,6 +84,8 @@ public class ExerciseQuestionRelationWrapper {
      */
     public static boolean deleteExerciseQuestionRelationRow(String exerciseNo,
             String questionNo) {
+        Connection conn = ConnectionManager.getInstance().getConnection();
+        
         String sql = "{call deleteExerciseQuestionRelationRow(?,?)}";
 
         try (CallableStatement stmt = conn.prepareCall(sql);) {
@@ -120,6 +121,8 @@ public class ExerciseQuestionRelationWrapper {
      * @see ExerciseQuestionRelation
      */
     public static HashSet<ExerciseQuestionRelation> getExerciseQuestionRelationRows() {
+        Connection conn = ConnectionManager.getInstance().getConnection();
+        
         String sql = "{call selectExerciseQuestionRelationRows()}";
 
         try (PreparedStatement stmt = conn.prepareStatement(sql);
@@ -169,6 +172,8 @@ public class ExerciseQuestionRelationWrapper {
      */
     public static HashSet<ExerciseQuestionRelation> getExerciseQuestionRelationRowsWithExerciseNo(
             String exerciseNo) {
+        Connection conn = ConnectionManager.getInstance().getConnection();
+        
         String sql = "{call selectExerciseQuestionRelationRowsWithExerciseNo(?)}";
         ResultSet rs = null;
 
@@ -224,6 +229,8 @@ public class ExerciseQuestionRelationWrapper {
      */
     public static HashSet<ExerciseQuestionRelation> getExerciseQuestionRelationRowsWithQuestionNo(
             String questionNo) {
+        Connection conn = ConnectionManager.getInstance().getConnection();
+        
         String sql = "{call selectExerciseQuestionRelationRowsWithQuestionNo(?)}";
         ResultSet rs = null;
 

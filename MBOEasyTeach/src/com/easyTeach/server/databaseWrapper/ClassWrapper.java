@@ -25,9 +25,6 @@ import com.easyTeach.server.databaseConnector.ConnectionManager;
 
 public class ClassWrapper {
 
-    private static Connection conn = ConnectionManager.getInstance()
-            .getConnection();
-
     /**
      * Inserts a new Class row into the Class table within the easyTeach
      * database. The prepared statement needs the class' classNo, year and name.
@@ -39,6 +36,8 @@ public class ClassWrapper {
      * @see Class
      */
     public static boolean insertIntoClass(Class classEntity) {
+        Connection conn = ConnectionManager.getInstance().getConnection();
+        
         String sql = "{call insertIntoClass(?,?,?)}";
 
         try (CallableStatement stmt = conn.prepareCall(sql);) {
@@ -76,6 +75,8 @@ public class ClassWrapper {
      * @see Class
      */
     public static boolean updateClassRow(Class classEntity) {
+        Connection conn = ConnectionManager.getInstance().getConnection();
+        
         String sql = "{call updateClassRow(?,?,?)}";
 
         try (CallableStatement stmt = conn.prepareCall(sql);) {
@@ -113,6 +114,8 @@ public class ClassWrapper {
      * @see Class
      */
     public static boolean deleteClassRow(String classNo) {
+        Connection conn = ConnectionManager.getInstance().getConnection();
+        
         String sql = "{call deleteClassRow(?)}";
 
         try (CallableStatement stmt = conn.prepareCall(sql);) {
@@ -145,6 +148,8 @@ public class ClassWrapper {
      * @see Class
      */
     public static HashSet<Class> getClassRows() {
+        Connection conn = ConnectionManager.getInstance().getConnection();
+        
         String sql = "{call selectClassRows()}";
 
         try (PreparedStatement stmt = conn.prepareStatement(sql);
@@ -187,6 +192,8 @@ public class ClassWrapper {
      * @see Class
      */
     public static Class getClassRowByClassNo(String classNo) {
+        Connection conn = ConnectionManager.getInstance().getConnection();
+        
         String sql = "{call selectClassRowWithClassNo(?)}";
         ResultSet rs = null;
 
@@ -233,6 +240,8 @@ public class ClassWrapper {
      * @see Class
      */
     public static Class getClassRowByClassName(String className) {
+        Connection conn = ConnectionManager.getInstance().getConnection();
+        
         String sql = "{call selectClassRowWithClassName(?)}";
         ResultSet rs = null;
 
@@ -279,6 +288,8 @@ public class ClassWrapper {
      * @see Class
      */
     public static HashSet<Class> getClassesWithUserNo(String userNo) {
+        Connection conn = ConnectionManager.getInstance().getConnection();
+        
         String sql = "{call selectClassWithUserNo(?)}";
 
         ResultSet rs = null;
@@ -328,6 +339,8 @@ public class ClassWrapper {
      * @see Course
      */
     public static HashSet<Class> getClassesWithCourseNo(String courseNo) {
+        Connection conn = ConnectionManager.getInstance().getConnection();
+        
         String sql = "{call selectClassesWithCourseNo(?)}";
 
         ResultSet rs = null;
