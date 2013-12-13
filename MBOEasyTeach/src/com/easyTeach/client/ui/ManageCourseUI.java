@@ -52,7 +52,7 @@ public class ManageCourseUI {
 	private JComboBox filterBox;
 	private JTextField txtFilter;
 	private JButton btnFilter;
-	
+
 	private ManageCoursePresenter presenter;
 
 	/**
@@ -62,7 +62,7 @@ public class ManageCourseUI {
 	 */
 	public ManageCourseUI() {
 		presenter = new ManageCoursePresenter();
-		
+
 		buildPanel();
 		addActionListeners();
 	}
@@ -139,14 +139,7 @@ public class ManageCourseUI {
 
 		// Table showing all associated classes
 		associatedClassesTable = new JTable();
-		DisplayTableModel associatedModel = new DisplayTableModel();
-		String[] associatedHeads = { "Class No.", "Class name", "Year" };
-		associatedModel.setRowCount(1);
-		associatedModel.setColumnIdentifiers(associatedHeads);
-		associatedModel.setValueAt("1", 0, 0);
-		associatedModel.setValueAt("DAT13W", 0, 1);
-		associatedModel.setValueAt("2013", 0, 2);
-		associatedClassesTable.setModel(associatedModel);
+		associatedClassesTable.setModel(presenter.getDTMAssociatedClasses());
 
 		JScrollPane associatedClassesScroll = new JScrollPane(
 				associatedClassesTable);
@@ -180,15 +173,7 @@ public class ManageCourseUI {
 
 		// Table showing all classes
 		allClassesTable = new JTable();
-		DisplayTableModel allClassesModel = new DisplayTableModel();
-
-		String[] classHeads = { "Class No.", "Class name", "Year" };
-		allClassesModel.setRowCount(1);
-		allClassesModel.setColumnIdentifiers(classHeads);
-		allClassesModel.setValueAt("1", 0, 0);
-		allClassesModel.setValueAt("DAT13W", 0, 1);
-		allClassesModel.setValueAt("2013", 0, 2);
-		allClassesTable.setModel(allClassesModel);
+		allClassesTable.setModel(presenter.getDTMAvailableClasses());
 
 		JScrollPane allClassesScroll = new JScrollPane(allClassesTable);
 		allClassesScroll.getViewport().setBackground(UIColors.white);
@@ -262,6 +247,11 @@ public class ManageCourseUI {
 		manageCoursePanel.add(southPanel, BorderLayout.SOUTH);
 	}
 
+	private synchronized void syncTables() {
+		allClassesTable.setModel(presenter.getDTMAvailableClasses());
+		associatedClassesTable.setModel(presenter.getDTMAssociatedClasses());
+	}
+
 	/**
 	 * Adds an ActionListener of type ManageCourseListener to all the JButtons
 	 * from the manageCoursePanel.
@@ -273,6 +263,10 @@ public class ManageCourseUI {
 		btnSaveCourse.addActionListener(listener);
 		btnRemoveCourse.addActionListener(listener);
 		btnAddCourse.addActionListener(listener);
+		btnFilter.addActionListener(listener);
+
+		allClassesTable.addMouseListener(listener);
+		associatedClassesTable.addMouseListener(listener);
 	}
 
 	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
@@ -283,8 +277,8 @@ public class ManageCourseUI {
 	 * button). When an event occurs the ManageCourseListener will send a signal
 	 * to the ManageCoursePresenter which will in return act upon the event.
 	 * 
-	 * @author Morten Faarkrog	- btnDiscard and btnHelp
-	 * @author Oliver Nielsen	- Everything else
+	 * @author Morten Faarkrog - btnDiscard and btnHelp
+	 * @author Oliver Nielsen - Everything else
 	 * @version 0.1
 	 * @see ActionListener
 	 * @date 7. December, 2013
@@ -306,19 +300,32 @@ public class ManageCourseUI {
 			}
 
 			else if (e.getSource() == btnSaveCourse) {
-
+				if (txtCourseName.getText().equals("")) {
+					JOptionPane.showMessageDialog(null,
+							"You have to write a course name!");
+				} else {
+					JOptionPane.showMessageDialog(null,
+							"It make take a few seconds!");
+					presenter.saveCourse(txtCourseName.getText());
+				}
 			}
 
 			else if (e.getSource() == btnAddCourse) {
-
+				presenter.add();
+				syncTables();
 			}
 
 			else if (e.getSource() == btnRemoveCourse) {
-
+				presenter.remove();
+				syncTables();
 			}
 
 			else if (e.getSource() == btnFilter) {
+				String comboBoxValue = (String) filterBox.getSelectedItem();
+				String by = txtFilter.getText();
 
+				presenter.filter(comboBoxValue, by);
+				syncTables();
 			}
 
 			else if (e.getSource() == btnHelp) {
@@ -338,12 +345,13 @@ public class ManageCourseUI {
 				// it is zero equivalent.
 				String classNo = (String) associatedClassesTable.getValueAt(
 						associatedClassesTable.rowAtPoint(e.getPoint()), 0);
-				presenter.setCurrentlySelectedClassFromAssociationTable(classNo);
-			}
-			if (e.getSource() == allClassesTable) {
+				presenter
+						.setCurrentlySelectedClassFromAssociationTable(classNo);
+			} else if (e.getSource() == allClassesTable) {
 				// Does the same as the if before this but with another table.
 				String classNo = (String) allClassesTable.getValueAt(
 						allClassesTable.rowAtPoint(e.getPoint()), 0);
+
 				presenter.setCurrectlySelectedClassFromAvailableTable(classNo);
 			}
 		}

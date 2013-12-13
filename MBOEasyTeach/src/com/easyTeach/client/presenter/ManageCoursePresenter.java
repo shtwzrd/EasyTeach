@@ -2,7 +2,13 @@ package com.easyTeach.client.presenter;
 
 import java.util.UUID;
 
+import javax.swing.JOptionPane;
+
+import org.omg.PortableInterceptor.SUCCESSFUL;
+
 import com.easyTeach.client.network.EasyTeachClient;
+import com.easyTeach.client.ui.AdminManagerUI;
+import com.easyTeach.client.ui.MainFrame;
 import com.easyTeach.common.entity.Class;
 import com.easyTeach.common.entity.ClassCourseRelation;
 import com.easyTeach.common.entity.Course;
@@ -16,7 +22,7 @@ import com.easyTeach.common.network.Response.ResponseStatus;
 import com.easyTeach.common.network.Session;
 
 /**
- * TODO Link this presenter to the ManageCourseUI.
+ * TODO Fix filter
  * 
  * @author Oliver Nielsen
  */
@@ -26,9 +32,6 @@ public class ManageCoursePresenter {
 
 	private ManageCourseModel manageAssociatedClasses;
 	private ManageCourseModel manageAvailableClasses;
-
-	private int countAssociatedClassesRow;
-	private int countAvailableClassesRow;
 
 	// The classes that is associated with the course
 	private ResourceSet associatedClassesSet;
@@ -46,11 +49,7 @@ public class ManageCoursePresenter {
 		manageAssociatedClasses = new ManageCourseModel(associatedClassesSet);
 		manageAvailableClasses = new ManageCourseModel(availableClassesSet);
 
-		countAssociatedClassesRow = 0;
-		countAvailableClassesRow = 0;
-
 		refreshAvailableClasses();
-		refreshAssociatedClasses();
 	}
 
 	private void refreshAvailableClasses() {
@@ -69,7 +68,6 @@ public class ManageCoursePresenter {
 					.getResponse();
 
 			// Testing if the filter is on
-			filteredClassesSet = availableClassesSet;
 
 			// If the filter is on the filteredClassesSet will put in
 			// association with the manageAvailableClasses table model.
@@ -85,12 +83,18 @@ public class ManageCoursePresenter {
 			// what happened in the if/else statement a few lines above
 			manageAvailableClasses.fireTableDataChanged();
 		}
-
 	}
 
-	private void refreshAssociatedClasses() {
+	private void refreshTableModels() {
 		manageAssociatedClasses.refreshData(associatedClassesSet);
 		manageAssociatedClasses.fireTableDataChanged();
+
+		if (isFiltered) {
+			manageAvailableClasses.refreshData(filteredClassesSet);
+		} else {
+			manageAvailableClasses.refreshData(availableClassesSet);
+		}
+		manageAvailableClasses.fireTableDataChanged();
 	}
 
 	public void saveCourse(String courseName) {
@@ -130,8 +134,12 @@ public class ManageCoursePresenter {
 		serverCom = new EasyTeachClient(toServer);
 		serverCom.run();
 		responseFromServer = serverCom.getResponse();
-		System.out.println(responseFromServer.getStatus() + ": "
-				+ responseFromServer.getResponseMessage());
+
+		if (responseFromServer.getStatus() == ResponseStatus.SUCCESS) {
+			JOptionPane.showMessageDialog(null, "Saved succesfully!");
+			MainFrame.updateFrame(new AdminManagerUI().getAdminManagerUI(),
+					"Admin Manager");
+		}
 	}
 
 	public void filter(String comboBoxValue, String by) {
@@ -139,6 +147,8 @@ public class ManageCoursePresenter {
 			refreshAvailableClasses();
 		} else {
 			isFiltered = true;
+			
+			filteredClassesSet = new ResourceSet();
 
 			for (Resource resource : availableClassesSet) {
 				Class classEntity = (Class) resource;
@@ -154,10 +164,12 @@ public class ManageCoursePresenter {
 						filteredClassesSet.add(classEntity);
 					}
 				} else if (comboBoxValue.equals("Year")) {
-					if (classEntity.getYear() == Integer.parseInt(by)) {
+					String year = classEntity.getYear() + "";
+					if (year.contains(by)) {
 						filteredClassesSet.add(classEntity);
 					}
 				}
+				refreshAvailableClasses();
 			}
 		}
 	}
@@ -192,21 +204,32 @@ public class ManageCoursePresenter {
 	public void add() {
 		// Adds the select row from the available HashSet to the associated
 		// HashSet
-		associatedClassesSet.add(currentlySelectedClassFromAvailableTable);
-		// Removes the select row from the available table
-		availableClassesSet.remove(currentlySelectedClassFromAvailableTable);
-		refreshAssociatedClasses();
-		refreshAvailableClasses();
+		if (associatedClassesSet == null) {
+			associatedClassesSet = new ResourceSet();
+		}
+
+		if (currentlySelectedClassFromAvailableTable != null) {
+			associatedClassesSet.add(currentlySelectedClassFromAvailableTable);
+			refreshTableModels();
+			currentlySelectedClassFromAvailableTable = null;
+		} else {
+			JOptionPane.showMessageDialog(null,
+					"You have to choose a class to add to the course!");
+		}
 	}
 
 	public void remove() {
 		// Removes the row from the associated HashSet
-		associatedClassesSet.remove(currentlySelectedClassFromAssociatedTable);
-		// Adds the selected row from the associated HashSet to the available
-		// HashSet
-		availableClassesSet.add(currentlySelectedClassFromAssociatedTable);
-		refreshAvailableClasses();
-		refreshAssociatedClasses();
+
+		if (currentlySelectedClassFromAssociatedTable != null) {
+			associatedClassesSet
+					.remove(currentlySelectedClassFromAssociatedTable);
+			refreshTableModels();
+			currentlySelectedClassFromAssociatedTable = null;
+		} else {
+			JOptionPane.showMessageDialog(null,
+					"You have to choose a class to remove from the course!");
+		}
 	}
 
 	public DisplayTableModel getDTMAssociatedClasses() {
@@ -230,9 +253,16 @@ public class ManageCoursePresenter {
 			// tableData is the table that performs the method call getValueAt
 			// in the UI class
 			Class classEntity = (Class) tableData.get(row);
-			
-			if (isFiltered) {
-				
+
+			switch (getColumnName(column)) {
+			case "Class No.":
+				return classEntity.getClassNo();
+			case "Year":
+				return classEntity.getYear();
+			case "Class Name":
+				return classEntity.getClassName();
+			default:
+				return new String();
 			}
 		}
 
