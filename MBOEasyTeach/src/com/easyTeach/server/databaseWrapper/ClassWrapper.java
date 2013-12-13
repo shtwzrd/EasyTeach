@@ -25,9 +25,6 @@ import com.easyTeach.server.databaseConnector.ConnectionManager;
 
 public class ClassWrapper {
 
-    private static Connection conn = ConnectionManager.getInstance()
-            .getConnection();
-
     /**
      * Inserts a new Class row into the Class table within the easyTeach
      * database. The prepared statement needs the class' classNo, year and name.
@@ -39,6 +36,8 @@ public class ClassWrapper {
      * @see Class
      */
     public static boolean insertIntoClass(Class classEntity) {
+        Connection conn = ConnectionManager.getInstance().getConnection();
+        
         String sql = "{call insertIntoClass(?,?,?)}";
 
         try (CallableStatement stmt = conn.prepareCall(sql);) {
@@ -48,7 +47,7 @@ public class ClassWrapper {
 
             stmt.execute();
             return true;
-            
+
         } catch (SQLTransientConnectionException SQLtce) {
             return insertIntoClass(classEntity);
         } catch (SQLTransientException SQLte) {
@@ -57,11 +56,11 @@ public class ClassWrapper {
             System.err.println(e);
             return false;
         } finally {
-        	try {
-				conn.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -76,6 +75,8 @@ public class ClassWrapper {
      * @see Class
      */
     public static boolean updateClassRow(Class classEntity) {
+        Connection conn = ConnectionManager.getInstance().getConnection();
+        
         String sql = "{call updateClassRow(?,?,?)}";
 
         try (CallableStatement stmt = conn.prepareCall(sql);) {
@@ -85,7 +86,7 @@ public class ClassWrapper {
 
             stmt.execute();
             return true;
-            
+
         } catch (SQLTransientConnectionException SQLtce) {
             return updateClassRow(classEntity);
         } catch (SQLTransientException SQLte) {
@@ -93,6 +94,12 @@ public class ClassWrapper {
         } catch (SQLException e) {
             System.err.println(e);
             return false;
+        } finally {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -107,13 +114,15 @@ public class ClassWrapper {
      * @see Class
      */
     public static boolean deleteClassRow(String classNo) {
+        Connection conn = ConnectionManager.getInstance().getConnection();
+        
         String sql = "{call deleteClassRow(?)}";
 
         try (CallableStatement stmt = conn.prepareCall(sql);) {
             stmt.setString(1, classNo);
             stmt.execute();
             return true;
-            
+
         } catch (SQLTransientConnectionException SQLtce) {
             return deleteClassRow(classNo);
         } catch (SQLTransientException SQLte) {
@@ -121,6 +130,12 @@ public class ClassWrapper {
         } catch (SQLException e) {
             System.err.println(e);
             return false;
+        } finally {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -133,6 +148,8 @@ public class ClassWrapper {
      * @see Class
      */
     public static HashSet<Class> getClassRows() {
+        Connection conn = ConnectionManager.getInstance().getConnection();
+        
         String sql = "{call selectClassRows()}";
 
         try (PreparedStatement stmt = conn.prepareStatement(sql);
@@ -157,6 +174,12 @@ public class ClassWrapper {
         } catch (SQLException e) {
             System.err.println(e);
             return null;
+        } finally {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -169,22 +192,24 @@ public class ClassWrapper {
      * @see Class
      */
     public static Class getClassRowByClassNo(String classNo) {
+        Connection conn = ConnectionManager.getInstance().getConnection();
+        
         String sql = "{call selectClassRowWithClassNo(?)}";
         ResultSet rs = null;
 
         try (PreparedStatement stmt = conn.prepareStatement(sql);) {
             stmt.setString(1, classNo);
             rs = stmt.executeQuery();
-            
+
             if (rs.next()) {
                 Class classEntity = new Class();
                 classEntity.setClassNo(rs.getString("classNo"));
                 classEntity.setYear(rs.getInt("year"));
                 classEntity.setClassName(rs.getString("className"));
-    
+
                 return classEntity;
             }
-            
+
             return null;
 
         } catch (SQLTransientConnectionException SQLtce) {
@@ -199,6 +224,7 @@ public class ClassWrapper {
                 if (rs != null) {
                     rs.close();
                 }
+                conn.close();
             } catch (SQLException e) {
                 System.err.println(e);
             }
@@ -214,20 +240,22 @@ public class ClassWrapper {
      * @see Class
      */
     public static Class getClassRowByClassName(String className) {
+        Connection conn = ConnectionManager.getInstance().getConnection();
+        
         String sql = "{call selectClassRowWithClassName(?)}";
         ResultSet rs = null;
 
         try (PreparedStatement stmt = conn.prepareStatement(sql);) {
             stmt.setString(1, className);
             rs = stmt.executeQuery();
-            
+
             if (rs.next()) {
                 Class classEntity = new Class();
                 classEntity.setClassNo(rs.getString("classNo"));
                 classEntity.setYear(rs.getInt("year"));
                 classEntity.setClassName(rs.getString("className"));
-                
-                return classEntity;                
+
+                return classEntity;
             }
 
             return null;
@@ -244,12 +272,13 @@ public class ClassWrapper {
                 if (rs != null) {
                     rs.close();
                 }
+                conn.close();
             } catch (SQLException e) {
                 System.err.println(e);
             }
         }
     }
-    
+
     /**
      * Returns all the rows from the database's Class table in the form of a
      * HashSet containing Class entities.
@@ -259,6 +288,8 @@ public class ClassWrapper {
      * @see Class
      */
     public static HashSet<Class> getClassesWithUserNo(String userNo) {
+        Connection conn = ConnectionManager.getInstance().getConnection();
+        
         String sql = "{call selectClassWithUserNo(?)}";
 
         ResultSet rs = null;
@@ -266,8 +297,8 @@ public class ClassWrapper {
         try (PreparedStatement stmt = conn.prepareStatement(sql);) {
             stmt.setString(1, userNo);
             rs = stmt.executeQuery();
-            
-            HashSet<Class> hashSet = new HashSet<>();
+
+            HashSet<Class> hashSet = new HashSet<Class>();
 
             while (rs.next()) {
                 Class classEntity = new Class();
@@ -291,9 +322,62 @@ public class ClassWrapper {
                 if (rs != null) {
                     rs.close();
                 }
+                conn.close();
             } catch (SQLException e) {
                 System.err.println(e);
             }
         }
     }
+
+    /**
+     * Returns all the classes within a specific course.
+     * 
+     * @param courseNo
+     *            the primary key of the Course table.
+     * @return a HashSet containing all classes within a specific course.
+     * @see Class
+     * @see Course
+     */
+    public static HashSet<Class> getClassesWithCourseNo(String courseNo) {
+        Connection conn = ConnectionManager.getInstance().getConnection();
+        
+        String sql = "{call selectClassesWithCourseNo(?)}";
+
+        ResultSet rs = null;
+
+        try (PreparedStatement stmt = conn.prepareStatement(sql);) {
+            stmt.setString(1, courseNo);
+            rs = stmt.executeQuery();
+
+            HashSet<Class> hashSet = new HashSet<Class>();
+
+            while (rs.next()) {
+                Class classEntity = new Class();
+                classEntity.setClassNo(rs.getString("classNo"));
+                classEntity.setYear(rs.getInt("year"));
+                classEntity.setClassName(rs.getString("className"));
+
+                hashSet.add(classEntity);
+            }
+            return hashSet;
+
+        } catch (SQLTransientConnectionException SQLtce) {
+            return getClassesWithCourseNo(courseNo);
+        } catch (SQLTransientException SQLte) {
+            return getClassesWithCourseNo(courseNo);
+        } catch (SQLException e) {
+            System.err.println(e);
+            return null;
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                conn.close();
+            } catch (SQLException e) {
+                System.err.println(e);
+            }
+        }
+    }
+
 }

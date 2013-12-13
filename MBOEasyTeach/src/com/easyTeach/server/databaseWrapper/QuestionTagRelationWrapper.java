@@ -25,9 +25,6 @@ import com.easyTeach.server.databaseConnector.ConnectionManager;
 
 public class QuestionTagRelationWrapper {
 
-    private static Connection conn = ConnectionManager.getInstance()
-            .getConnection();
-
     /**
      * Inserts a new QuestionTagRelation row into the QuestionTagRelation table
      * within the easyTeach database. The prepared statement needs the
@@ -41,6 +38,8 @@ public class QuestionTagRelationWrapper {
      */
     public static boolean insertIntoQuestionTagRelation(
             QuestionTagRelation questionTagRelationEntity) {
+        Connection conn = ConnectionManager.getInstance().getConnection();
+        
         String sql = "{call insertIntoQuestionTagRelation(?,?)}";
 
         try (CallableStatement stmt = conn.prepareCall(sql);) {
@@ -57,6 +56,12 @@ public class QuestionTagRelationWrapper {
         } catch (SQLException e) {
             System.err.println(e);
             return false;
+        } finally {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -75,6 +80,8 @@ public class QuestionTagRelationWrapper {
      */
     public static boolean deleteQuestionTagRelationRow(String questionNo,
             String tagNo) {
+        Connection conn = ConnectionManager.getInstance().getConnection();
+        
         String sql = "{call deleteQuestionTagRelationRow(?, ?)}";
 
         try (CallableStatement stmt = conn.prepareCall(sql);) {
@@ -91,6 +98,12 @@ public class QuestionTagRelationWrapper {
         } catch (SQLException e) {
             System.err.println(e);
             return false;
+        } finally {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -104,6 +117,8 @@ public class QuestionTagRelationWrapper {
      * @see QuestionTagRelation
      */
     public static HashSet<QuestionTagRelation> getQuestionTagRelationRows() {
+        Connection conn = ConnectionManager.getInstance().getConnection();
+        
         String sql = "{call selectQuestionTagRelationRows()}";
 
         try (PreparedStatement stmt = conn.prepareStatement(sql);
@@ -128,6 +143,12 @@ public class QuestionTagRelationWrapper {
         } catch (SQLException e) {
             System.err.println(e);
             return null;
+        } finally {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -145,6 +166,8 @@ public class QuestionTagRelationWrapper {
      */
     public static HashSet<QuestionTagRelation> getQuestionTagRelationRowsWithQuestionNo(
             String questionNo) {
+        Connection conn = ConnectionManager.getInstance().getConnection();
+        
         String sql = "{call selectQuestionTagRelationRowsWithQuestionNo(?)}";
         ResultSet rs = null;
 
@@ -177,6 +200,7 @@ public class QuestionTagRelationWrapper {
                 if (rs != null) {
                     rs.close();
                 }
+                conn.close();
             } catch (SQLException e) {
                 System.err.println(e);
             }
@@ -197,6 +221,8 @@ public class QuestionTagRelationWrapper {
      */
     public static HashSet<QuestionTagRelation> getQuestionTagRelationRowsWithTagNo(
             String tagNo) {
+        Connection conn = ConnectionManager.getInstance().getConnection();
+        
         String sql = "{call selectQuestionTagRelationRowsWithTagNo(?)}";
         ResultSet rs = null;
 
@@ -229,6 +255,7 @@ public class QuestionTagRelationWrapper {
                 if (rs != null) {
                     rs.close();
                 }
+                conn.close();
             } catch (SQLException e) {
                 System.err.println(e);
             }

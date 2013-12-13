@@ -11,7 +11,7 @@ public class ResourceSet extends HashSet<Resource> implements Resource {
 		Object[] r = this.toArray();
 		if (r != null) {
 			Resource t = (Resource) r[0];
-			return t.getName() + "Set";
+			return t.getName();
 		}
 		return "ResourceSet";
 	}

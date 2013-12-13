@@ -25,9 +25,6 @@ import com.easyTeach.server.databaseConnector.ConnectionManager;
 
 public class UserQuestionStateWrapper {
 
-    private static Connection conn = ConnectionManager.getInstance()
-            .getConnection();
-
     /**
      * Inserts a new UserQuestionState row into the UserQuestionState table
      * within the easyTeach database. The prepared statement needs the
@@ -41,6 +38,8 @@ public class UserQuestionStateWrapper {
      */
     public static boolean insertIntoUserQuestionState(
             UserQuestionState userQuestionStateEntity) {
+        Connection conn = ConnectionManager.getInstance().getConnection();
+        
         String sql = "{call insertIntoUserQuestionState(?,?,?)}";
 
         try (CallableStatement stmt = conn.prepareCall(sql);) {
@@ -48,15 +47,22 @@ public class UserQuestionStateWrapper {
             stmt.setString(2, userQuestionStateEntity.getQuestionNo());
             stmt.setBoolean(3, userQuestionStateEntity.getHasCompleted());
 
-            int affected = stmt.executeUpdate();
-            if (affected == 1) {
-                return true;
-            } else {
-                return false;
-            }
+            stmt.execute();
+            return true;
+            
+        } catch (SQLTransientConnectionException SQLtce) {
+            return insertIntoUserQuestionState(userQuestionStateEntity);
+        } catch (SQLTransientException SQLte) {
+            return insertIntoUserQuestionState(userQuestionStateEntity);
         } catch (SQLException e) {
             System.err.println(e);
             return false;
+        } finally {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -73,6 +79,8 @@ public class UserQuestionStateWrapper {
      */
     public static boolean updateUserQuestionStateHasCompleted(
             UserQuestionState userQuestionStateEntity) {
+        Connection conn = ConnectionManager.getInstance().getConnection();
+        
         String sql = "{call updateUserQuestionStateHasCompleted(?,?,?)}";
 
         try (CallableStatement stmt = conn.prepareCall(sql);) {
@@ -80,15 +88,22 @@ public class UserQuestionStateWrapper {
             stmt.setString(2, userQuestionStateEntity.getQuestionNo());
             stmt.setBoolean(3, userQuestionStateEntity.getHasCompleted());
 
-            int affected = stmt.executeUpdate();
-            if (affected == 1) {
-                return true;
-            } else {
-                return false;
-            }
+            stmt.execute();
+            return true;
+            
+        } catch (SQLTransientConnectionException SQLtce) {
+            return updateUserQuestionStateHasCompleted(userQuestionStateEntity);
+        } catch (SQLTransientException SQLte) {
+            return updateUserQuestionStateHasCompleted(userQuestionStateEntity);
         } catch (SQLException e) {
             System.err.println(e);
             return false;
+        } finally {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -107,6 +122,8 @@ public class UserQuestionStateWrapper {
      */
     public static boolean deleteUserQuestionStateRow(String userNo,
             String questionNo) {
+        Connection conn = ConnectionManager.getInstance().getConnection();
+        
         String sql = "{call deleteUserQuestionStateRow(?, ?)}";
 
         try (CallableStatement stmt = conn.prepareCall(sql);) {
@@ -122,6 +139,12 @@ public class UserQuestionStateWrapper {
         } catch (SQLException e) {
             System.err.println(e);
             return false;
+        } finally {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -135,6 +158,8 @@ public class UserQuestionStateWrapper {
      * @see UserQuestionState
      */
     public static HashSet<UserQuestionState> getUserQuestionStateRows() {
+        Connection conn = ConnectionManager.getInstance().getConnection();
+        
         String sql = "{call selectUserQuestionStateRows()}";
 
         try (PreparedStatement stmt = conn.prepareStatement(sql);
@@ -161,6 +186,12 @@ public class UserQuestionStateWrapper {
         } catch (SQLException e) {
             System.err.println(e);
             return null;
+        } finally {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -178,6 +209,8 @@ public class UserQuestionStateWrapper {
      */
     public static HashSet<UserQuestionState> getUserQuestionStateRowsWithUserNo(
             String userNo) {
+        Connection conn = ConnectionManager.getInstance().getConnection();
+        
         String sql = "{call selectUserQuestionStateRowsWithUserNo(?)}";
         ResultSet rs = null;
 
@@ -212,6 +245,7 @@ public class UserQuestionStateWrapper {
                 if (rs != null) {
                     rs.close();
                 }
+                conn.close();
             } catch (SQLException e) {
                 System.err.println(e);
             }
@@ -232,6 +266,8 @@ public class UserQuestionStateWrapper {
      */
     public static HashSet<UserQuestionState> getUserQuestionStateRowsWithQuestionNo(
             String questionNo) {
+        Connection conn = ConnectionManager.getInstance().getConnection();
+        
         String sql = "{call selectUserQuestionStateRowsWithQuestionNo(?)}";
         ResultSet rs = null;
 
@@ -266,6 +302,7 @@ public class UserQuestionStateWrapper {
                 if (rs != null) {
                     rs.close();
                 }
+                conn.close();
             } catch (SQLException e) {
                 System.err.println(e);
             }

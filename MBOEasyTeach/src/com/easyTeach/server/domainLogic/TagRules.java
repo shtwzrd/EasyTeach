@@ -1,13 +1,9 @@
 package com.easyTeach.server.domainLogic;
 
-import com.easyTeach.common.entity.Exercise;
-import com.easyTeach.common.entity.Question;
 import com.easyTeach.common.entity.ResourceSet;
 import com.easyTeach.common.entity.Tag;
 import com.easyTeach.common.network.Response;
 import com.easyTeach.common.network.Response.ResponseStatus;
-import com.easyTeach.server.databaseWrapper.ExerciseWrapper;
-import com.easyTeach.server.databaseWrapper.QuestionWrapper;
 import com.easyTeach.server.databaseWrapper.TagWrapper;
 
 public class TagRules {
@@ -83,29 +79,6 @@ public class TagRules {
 
         return new Response(ResponseStatus.SUCCESS, newTag);
     }
-	
-
-	/**
-	 * @param Tag
-	 *            entity containing the tagNo of the tag one is finding
-	 *            exercises for.
-	 * @return a Response object with a success status and all the classes
-	 *         associated to a specific exercises.
-	 * @see Tag
-	 * @see TagWrapper
-	 * @see Exericse
-	 * @see ExerciseWrapper
-	 */
-	public static Response getExerciseRowsWithTagNo(Tag tag) {
-		ResourceSet exercises = new ResourceSet();
-
-		for (Exercise exerciseEntity : ExerciseWrapper
-				.getExerciseRowsWithTagNo(tag.getTagNo())) {
-			exercises.add(exerciseEntity);
-		}
-
-		return new Response(ResponseStatus.SUCCESS, exercises);
-	}
 	
 	/**
      * Updates a {@link Tag} row in the database.

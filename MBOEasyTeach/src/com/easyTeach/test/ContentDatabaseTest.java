@@ -55,6 +55,7 @@ public class ContentDatabaseTest {
 
 	public static void main(String[] args) {
 		new ContentDatabaseTest();
+		System.out.println("End of Session");
 	}
 
 	private ContentDatabaseTest() {

@@ -25,9 +25,6 @@ import com.easyTeach.server.databaseConnector.ConnectionManager;
 
 public class ClassCourseRelationWrapper {
 
-    private static Connection conn = ConnectionManager.getInstance()
-            .getConnection();
-
     /**
      * Inserts a new ClassCourseRelation row into the ClassCourseRelation table
      * within the easyTeach database. The prepared statement needs the
@@ -41,6 +38,8 @@ public class ClassCourseRelationWrapper {
      */
     public static boolean insertIntoClassCourseRelation(
             ClassCourseRelation classCourseRelationEntity) {
+        Connection conn = ConnectionManager.getInstance().getConnection();
+        
         String sql = "{call insertIntoClassCourseRelation(?,?)}";
 
         try (CallableStatement stmt = conn.prepareCall(sql);) {
@@ -57,6 +56,12 @@ public class ClassCourseRelationWrapper {
         } catch (SQLException e) {
             System.err.println(e);
             return false;
+        } finally {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -75,6 +80,8 @@ public class ClassCourseRelationWrapper {
      */
     public static boolean deleteClassCourseRelationRow(String classNo,
             String courseNo) {
+        Connection conn = ConnectionManager.getInstance().getConnection();
+        
         String sql = "{call deleteClassCourseRelationRow(?,?)}";
 
         try (CallableStatement stmt = conn.prepareCall(sql);) {
@@ -91,6 +98,12 @@ public class ClassCourseRelationWrapper {
         } catch (SQLException e) {
             System.err.println(e);
             return false;
+        } finally {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -104,6 +117,8 @@ public class ClassCourseRelationWrapper {
      * @see ClassCourseRelation
      */
     public static HashSet<ClassCourseRelation> getClassCourseRelationRows() {
+        Connection conn = ConnectionManager.getInstance().getConnection();
+        
         String sql = "{call selectClassCourseRelationRows()}";
 
         try (PreparedStatement stmt = conn.prepareStatement(sql);
@@ -127,6 +142,12 @@ public class ClassCourseRelationWrapper {
         } catch (SQLException e) {
             System.err.println(e);
             return null;
+        } finally {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -144,6 +165,8 @@ public class ClassCourseRelationWrapper {
      */
     public static HashSet<ClassCourseRelation> getClassCourseRelationRowsWithClassNo(
             String classNo) {
+        Connection conn = ConnectionManager.getInstance().getConnection();
+        
         String sql = "{call selectClassCourseRelationRowsWithClassNo(?)}";
         ResultSet rs = null;
 
@@ -175,6 +198,7 @@ public class ClassCourseRelationWrapper {
                 if (rs != null) {
                     rs.close();
                 }
+                conn.close();
             } catch (SQLException e) {
                 System.err.println(e);
             }
@@ -195,6 +219,8 @@ public class ClassCourseRelationWrapper {
      */
     public static HashSet<ClassCourseRelation> getClassCourseRelationRowsWithCourseNo(
             String courseNo) {
+        Connection conn = ConnectionManager.getInstance().getConnection();
+        
         String sql = "{call selectClassCourseRelationRowsWithCourseNo(?)}";
         ResultSet rs = null;
 
@@ -226,6 +252,7 @@ public class ClassCourseRelationWrapper {
                 if (rs != null) {
                     rs.close();
                 }
+                conn.close();
             } catch (SQLException e) {
                 System.err.println(e);
             }

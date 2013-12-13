@@ -26,9 +26,6 @@ import com.easyTeach.server.databaseConnector.ConnectionManager;
 
 public class ExerciseWrapper {
 
-    private static Connection conn = ConnectionManager.getInstance()
-            .getConnection();
-
     /**
      * Inserts a new Exercise row into the Exercise table within the easyTeach
      * database. The prepared statement needs the Exercise's exerciseNo,
@@ -42,6 +39,8 @@ public class ExerciseWrapper {
      * @see Exercise
      */
     public static boolean insertIntoExercise(Exercise exerciseEntity) {
+        Connection conn = ConnectionManager.getInstance().getConnection();
+        
         String sql = "{call insertIntoExercise(?,?,?,?,?,?,?)}";
 
         try (CallableStatement stmt = conn.prepareCall(sql);) {
@@ -63,6 +62,12 @@ public class ExerciseWrapper {
         } catch (SQLException e) {
             System.err.println(e);
             return false;
+        } finally {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -79,6 +84,8 @@ public class ExerciseWrapper {
      * @see Exercise
      */
     public static boolean updateExerciseRow(Exercise exerciseEntity) {
+        Connection conn = ConnectionManager.getInstance().getConnection();
+        
         String sql = "{call updateExerciseRow(?,?,?,?,?)}";
 
         try (CallableStatement stmt = conn.prepareCall(sql);) {
@@ -98,6 +105,12 @@ public class ExerciseWrapper {
         } catch (SQLException e) {
             System.err.println(e);
             return false;
+        } finally {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -113,6 +126,8 @@ public class ExerciseWrapper {
      * @see Exercise
      */
     public static boolean deleteExerciseRow(String exerciseNo) {
+        Connection conn = ConnectionManager.getInstance().getConnection();
+        
         String sql = "{call deleteExerciseRow(?)}";
 
         try (CallableStatement stmt = conn.prepareCall(sql);) {
@@ -128,6 +143,12 @@ public class ExerciseWrapper {
         } catch (SQLException e) {
             System.err.println(e);
             return false;
+        } finally {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -141,6 +162,8 @@ public class ExerciseWrapper {
      * @see Exercise
      */
     public static HashSet<Exercise> getExerciseRows() {
+        Connection conn = ConnectionManager.getInstance().getConnection();
+        
         String sql = "{call selectExerciseRows()}";
 
         try (PreparedStatement stmt = conn.prepareStatement(sql);
@@ -170,6 +193,12 @@ public class ExerciseWrapper {
         } catch (SQLException e) {
             System.err.println(e);
             return null;
+        } finally {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -183,6 +212,8 @@ public class ExerciseWrapper {
      * @see Exercise
      */
     public static Exercise getExerciseRowWithExerciseNo(String exerciseNo) {
+        Connection conn = ConnectionManager.getInstance().getConnection();
+        
         String sql = "{call selectExerciseRowWithExerciseNo(?)}";
         ResultSet rs = null;
 
@@ -215,6 +246,7 @@ public class ExerciseWrapper {
                 if (rs != null) {
                     rs.close();
                 }
+                conn.close();
             } catch (SQLException e) {
                 System.err.println(e);
             }
@@ -233,6 +265,8 @@ public class ExerciseWrapper {
      * @see Exercise
      */
     public static HashSet<Exercise> getExerciseRowsWithCourseNo(String courseNo) {
+        Connection conn = ConnectionManager.getInstance().getConnection();
+        
         String sql = "{call selectExerciseRowsWithCourseNo(?)}";
         ResultSet rs = null;
 
@@ -270,6 +304,7 @@ public class ExerciseWrapper {
                 if (rs != null) {
                     rs.close();
                 }
+                conn.close();
             } catch (SQLException e) {
                 System.err.println(e);
             }
@@ -288,6 +323,8 @@ public class ExerciseWrapper {
      * @see Tag
      */
     public static HashSet<Exercise> getExerciseRowsWithTagNo(String tagNo) {
+        Connection conn = ConnectionManager.getInstance().getConnection();
+        
         String sql = "{call selectExerciseRowsWithTagNo(?)}";
         ResultSet rs = null;
 
@@ -325,6 +362,7 @@ public class ExerciseWrapper {
                 if (rs != null) {
                     rs.close();
                 }
+                conn.close();
             } catch (SQLException e) {
                 System.err.println(e);
             }
@@ -343,6 +381,8 @@ public class ExerciseWrapper {
      * @see Tag
      */
     public static HashSet<Exercise> getExerciseRowsWithTag(String tag) {
+        Connection conn = ConnectionManager.getInstance().getConnection();
+        
         String sql = "{call selectExerciseRowsWithTag(?)}";
         ResultSet rs = null;
 
@@ -380,6 +420,7 @@ public class ExerciseWrapper {
                 if (rs != null) {
                     rs.close();
                 }
+                conn.close();
             } catch (SQLException e) {
                 System.err.println(e);
             }

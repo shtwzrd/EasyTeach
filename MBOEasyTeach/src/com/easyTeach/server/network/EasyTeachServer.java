@@ -35,6 +35,7 @@ import com.easyTeach.server.domainLogic.Authenticator;
  * @see Session
  * @see EasyTeachClient
  */
+
 public class EasyTeachServer {
 	private ServerSocket providerSocket;
 	private Socket connection;

@@ -25,9 +25,6 @@ import com.easyTeach.server.databaseConnector.ConnectionManager;
 
 public class ClassUserRelationWrapper {
 
-    private static Connection conn = ConnectionManager.getInstance()
-            .getConnection();
-
     /**
      * Inserts a new ClassUserRelation row into the ClassUserRelation table
      * within the easyTeach database. The prepared statement needs the
@@ -41,6 +38,8 @@ public class ClassUserRelationWrapper {
      */
     public static boolean insertIntoClassUserRelation(
             ClassUserRelation classUserRelationEntity) {
+        Connection conn = ConnectionManager.getInstance().getConnection();
+        
         String sql = "{call insertIntoClassUserRelation(?,?)}";
 
         try (CallableStatement stmt = conn.prepareCall(sql);) {
@@ -57,6 +56,12 @@ public class ClassUserRelationWrapper {
         } catch (SQLException e) {
             System.err.println(e);
             return false;
+        } finally {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -75,6 +80,8 @@ public class ClassUserRelationWrapper {
      */
     public static boolean deleteClassUserRelationRow(String classNo,
             String userNo) {
+        Connection conn = ConnectionManager.getInstance().getConnection();
+        
         String sql = "{call deleteClassUserRelationRow(?,?)}";
 
         try (CallableStatement stmt = conn.prepareCall(sql);) {
@@ -91,6 +98,12 @@ public class ClassUserRelationWrapper {
         } catch (SQLException e) {
             System.err.println(e);
             return false;
+        } finally {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -104,6 +117,8 @@ public class ClassUserRelationWrapper {
      * @see ClassUserRelation
      */
     public static HashSet<ClassUserRelation> getClassUserRelationRows() {
+        Connection conn = ConnectionManager.getInstance().getConnection();
+        
         String sql = "{call selectClassUserRelationRows()}";
 
         try (PreparedStatement stmt = conn.prepareStatement(sql);
@@ -127,6 +142,12 @@ public class ClassUserRelationWrapper {
         } catch (SQLException e) {
             System.err.println(e);
             return null;
+        } finally {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -144,6 +165,8 @@ public class ClassUserRelationWrapper {
      */
     public static HashSet<ClassUserRelation> getClassUserRelationRowsWithClassNo(
             String classNo) {
+        Connection conn = ConnectionManager.getInstance().getConnection();
+        
         String sql = "{call selectClassUserRelationRowsWithClassNo(?)}";
         ResultSet rs = null;
 
@@ -170,8 +193,14 @@ public class ClassUserRelationWrapper {
         } catch (SQLException e) {
             System.err.println(e);
             return null;
+        } finally {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
-    }
+    } 
 
     /**
      * Returns all the rows from the database's ClassUserRelation table with a
@@ -187,6 +216,8 @@ public class ClassUserRelationWrapper {
      */
     public static HashSet<ClassUserRelation> getClassUserRelationRowsWithUserNo(
             String userNo) {
+        Connection conn = ConnectionManager.getInstance().getConnection();
+        
         String sql = "{call selectClassUserRelationRowsWithUserNo(?)}";
         ResultSet rs = null;
 
@@ -218,6 +249,7 @@ public class ClassUserRelationWrapper {
                 if (rs != null) {
                     rs.close();
                 }
+                conn.close();
             } catch (SQLException e) {
                 System.err.println(e);
             }

@@ -10,6 +10,7 @@ import java.sql.SQLTransientException;
 import java.util.HashSet;
 
 import com.easyTeach.common.entity.Course;
+import com.easyTeach.common.entity.User;
 import com.easyTeach.server.databaseConnector.ConnectionManager;
 
 /**
@@ -25,9 +26,6 @@ import com.easyTeach.server.databaseConnector.ConnectionManager;
 
 public class CourseWrapper {
 
-    private static Connection conn = 
-            ConnectionManager.getInstance().getConnection();
-    
     /**
      * Inserts a new Course row into the course table within the easyTeach 
      * database. The prepared statement needs the course's courseNo and courseName.
@@ -38,6 +36,8 @@ public class CourseWrapper {
      * @see Course
      */
     public static boolean insertIntoCourse(Course courseEntity) {
+        Connection conn = ConnectionManager.getInstance().getConnection();
+        
         String sql = "{call insertIntoCourse(?,?)}";
 
         try (
@@ -56,6 +56,12 @@ public class CourseWrapper {
         } catch (SQLException e) {
             System.err.println(e);
             return false;
+        } finally {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
     
@@ -70,6 +76,8 @@ public class CourseWrapper {
      * @see Course
      */
     public static boolean updateCourseRow(Course courseEntity) {
+        Connection conn = ConnectionManager.getInstance().getConnection();
+        
         String sql = "{call updateCourseRow(?,?)}";
         
         try (
@@ -88,6 +96,12 @@ public class CourseWrapper {
         } catch (SQLException e) {
             System.err.println(e);
             return false;
+        } finally {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
     
@@ -101,6 +115,8 @@ public class CourseWrapper {
      * @see Course
      */
     public static boolean deleteCourseRow(String courseNo) {
+        Connection conn = ConnectionManager.getInstance().getConnection();
+        
         String sql = "{call deleteCourseRow(?)}";
         
         try (
@@ -118,6 +134,12 @@ public class CourseWrapper {
         } catch (SQLException e) {
             System.err.println(e);
             return false;
+        } finally {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
     
@@ -130,6 +152,8 @@ public class CourseWrapper {
      * @see Course
      */
     public static HashSet<Course> getCourseRows() {
+        Connection conn = ConnectionManager.getInstance().getConnection();
+        
         String sql = "{call selectCourseRows()}";
 
         try (
@@ -155,6 +179,12 @@ public class CourseWrapper {
         } catch (SQLException e) {
             System.err.println(e);
             return null;
+        } finally {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
     
@@ -166,6 +196,8 @@ public class CourseWrapper {
      * @see Course
      */
     public static Course getCourseRowWithCourseNo(String courseNo) {
+        Connection conn = ConnectionManager.getInstance().getConnection();
+        
         String sql = "{call selectCourseRowWithCourseNo(?)}";
         ResultSet rs = null;
         
@@ -196,8 +228,8 @@ public class CourseWrapper {
                 if (rs != null) {
                     rs.close();
                 }
-            }
-            catch (SQLException e) {
+                conn.close();
+            } catch (SQLException e) {
                 System.err.println(e);
             }
         }
@@ -211,6 +243,8 @@ public class CourseWrapper {
      * @see Course
      */
     public static Course getCourseRowWithCourseName(String courseName) {
+        Connection conn = ConnectionManager.getInstance().getConnection();
+        
         String sql = "{call selectCourseRowWithCourseName(?)}";
         ResultSet rs = null;
         
@@ -241,8 +275,58 @@ public class CourseWrapper {
                 if (rs != null) {
                     rs.close();
                 }
+                conn.close();
+            } catch (SQLException e) {
+                System.err.println(e);
             }
-            catch (SQLException e) {
+        }
+    }
+    
+    /**
+     * Returns a set with the courses a user is part of.
+     * 
+     * @param userNo is the primary key of the User table.
+     * @return A hashset of courses
+     * @see Course
+     * @see User
+     */
+    public static HashSet<Course> getCoursesByUserNo(String userNo) {
+        Connection conn = ConnectionManager.getInstance().getConnection();
+        
+        String sql = "{call selectCoursesByUserNo(?)}";
+        ResultSet rs = null;
+        
+        try (
+                PreparedStatement stmt = conn.prepareStatement(sql);
+                ) {
+            stmt.setString(1, userNo);
+            rs = stmt.executeQuery();
+            
+            HashSet<Course> hashSet = new HashSet<>();
+            
+            while (rs.next()) {
+                Course courseEntity = new Course();
+                courseEntity.setCourseNo(rs.getString("courseNo"));
+                courseEntity.setCourseName(rs.getString("courseName"));
+                
+                hashSet.add(courseEntity);
+            }
+            return hashSet;
+            
+        } catch (SQLTransientConnectionException SQLtce) {
+            return getCoursesByUserNo(userNo);
+        } catch (SQLTransientException SQLte) {
+            return getCoursesByUserNo(userNo);
+        } catch (SQLException e) {
+            System.err.println(e);
+            return null;
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                conn.close();
+            } catch (SQLException e) {
                 System.err.println(e);
             }
         }

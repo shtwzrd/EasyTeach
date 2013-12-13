@@ -1,5 +1,6 @@
 package com.easyTeach.server.domainLogic;
 
+import com.easyTeach.common.entity.Course;
 import com.easyTeach.common.entity.Exercise;
 import com.easyTeach.common.entity.ResourceSet;
 import com.easyTeach.common.entity.Tag;
@@ -14,7 +15,7 @@ import com.easyTeach.server.databaseWrapper.ExerciseWrapper;
  * created an instance of the ExerciseRules class itself.
  * 
  * @author Oliver Nielsen
- * @version 0.1
+ * @version 1.0
  * @date 12. December, 2013
  */
 
@@ -47,42 +48,17 @@ public class ExerciseRules {
 	 * @return A Response object with a success status and a {@link ResourceSet}
 	 *         of all the all the exercises associated with the courseNo.
 	 */
-	public static Response getExercisesWithCourseNo(Exercise exerciseEntity) {
+	public static Response getExercisesWithCourseNo(Course courseEntity) {
 		ResourceSet exercises = new ResourceSet();
 
 		for (Exercise exercise : ExerciseWrapper
-				.getExerciseRowsWithCourseNo(exerciseEntity.getCourseNo())) {
+				.getExerciseRowsWithCourseNo(courseEntity.getCourseNo())) {
 			exercises.add(exercise);
 		}
 
 		return new Response(ResponseStatus.SUCCESS, exercises);
 	}
 
-	/**
-	 * THE REASON WHY IT GIVES ERROR IS BECAUSE THE EXERCISEWRAPPER DOES NOT
-	 * HAVE THE getExercisesWithTagNo METHOD YET!!!
-	 */
-	/**
-	 * @param tagEntity
-	 *            Tag entity containing a tagNo.
-	 * @return A Response object with a success status and a {@link ResourceSet}
-	 *         of all the all the exercises associated with the tagNo.
-	 */
-	public static Response getExercisesWithTagNo(Tag tagEntity) {
-		ResourceSet exercises = new ResourceSet();
-
-		for (Exercise exercise : ExerciseWrapper
-				.getExerciseRowsWithtagNo(tagEntity.getTagNo())) {
-			exercises.add(exercise);
-		}
-
-		return new Response(ResponseStatus.SUCCESS, exercises);
-	}
-
-	/**
-	 * THE REASON WHY IT GIVES ERROR IS BECAUSE THE EXERCISEWRAPPER DOES NOT
-	 * HAVE THE getExerciseRowsWithTag METHOD YET!!!
-	 */
 	/**
 	 * @param tagEntity
 	 *            Tag entity containing a tag.

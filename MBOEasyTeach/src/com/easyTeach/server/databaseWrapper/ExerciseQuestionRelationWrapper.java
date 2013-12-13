@@ -25,9 +25,6 @@ import com.easyTeach.server.databaseConnector.ConnectionManager;
 
 public class ExerciseQuestionRelationWrapper {
 
-    private static Connection conn = ConnectionManager.getInstance()
-            .getConnection();
-
     /**
      * Inserts a new ExerciseQuestionRelation row into the
      * ExerciseQuestionRelation table within the easyTeach database. The
@@ -42,6 +39,8 @@ public class ExerciseQuestionRelationWrapper {
      */
     public static boolean insertIntoExerciseQuestionRelation(
             ExerciseQuestionRelation exerciseQuestionRelationEntity) {
+        Connection conn = ConnectionManager.getInstance().getConnection();
+        
         String sql = "{call insertIntoExerciseQuestionRelation(?,?)}";
 
         try (CallableStatement stmt = conn.prepareCall(sql);) {
@@ -58,6 +57,12 @@ public class ExerciseQuestionRelationWrapper {
         } catch (SQLException e) {
             System.err.println(e);
             return false;
+        } finally {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -79,6 +84,8 @@ public class ExerciseQuestionRelationWrapper {
      */
     public static boolean deleteExerciseQuestionRelationRow(String exerciseNo,
             String questionNo) {
+        Connection conn = ConnectionManager.getInstance().getConnection();
+        
         String sql = "{call deleteExerciseQuestionRelationRow(?,?)}";
 
         try (CallableStatement stmt = conn.prepareCall(sql);) {
@@ -95,6 +102,12 @@ public class ExerciseQuestionRelationWrapper {
         } catch (SQLException e) {
             System.err.println(e);
             return false;
+        } finally {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -108,6 +121,8 @@ public class ExerciseQuestionRelationWrapper {
      * @see ExerciseQuestionRelation
      */
     public static HashSet<ExerciseQuestionRelation> getExerciseQuestionRelationRows() {
+        Connection conn = ConnectionManager.getInstance().getConnection();
+        
         String sql = "{call selectExerciseQuestionRelationRows()}";
 
         try (PreparedStatement stmt = conn.prepareStatement(sql);
@@ -133,6 +148,12 @@ public class ExerciseQuestionRelationWrapper {
         } catch (SQLException e) {
             System.err.println(e);
             return null;
+        } finally {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -151,6 +172,8 @@ public class ExerciseQuestionRelationWrapper {
      */
     public static HashSet<ExerciseQuestionRelation> getExerciseQuestionRelationRowsWithExerciseNo(
             String exerciseNo) {
+        Connection conn = ConnectionManager.getInstance().getConnection();
+        
         String sql = "{call selectExerciseQuestionRelationRowsWithExerciseNo(?)}";
         ResultSet rs = null;
 
@@ -184,6 +207,7 @@ public class ExerciseQuestionRelationWrapper {
                 if (rs != null) {
                     rs.close();
                 }
+                conn.close();
             } catch (SQLException e) {
                 System.err.println(e);
             }
@@ -205,6 +229,8 @@ public class ExerciseQuestionRelationWrapper {
      */
     public static HashSet<ExerciseQuestionRelation> getExerciseQuestionRelationRowsWithQuestionNo(
             String questionNo) {
+        Connection conn = ConnectionManager.getInstance().getConnection();
+        
         String sql = "{call selectExerciseQuestionRelationRowsWithQuestionNo(?)}";
         ResultSet rs = null;
 
@@ -238,6 +264,7 @@ public class ExerciseQuestionRelationWrapper {
                 if (rs != null) {
                     rs.close();
                 }
+                conn.close();
             } catch (SQLException e) {
                 System.err.println(e);
             }
