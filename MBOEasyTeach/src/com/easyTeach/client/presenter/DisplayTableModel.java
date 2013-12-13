@@ -59,6 +59,10 @@ public abstract class DisplayTableModel extends AbstractTableModel {
 	public void refreshData(ResourceSet resources) {
 		this.tableData = new ArrayList<>(resources);
 	}
+	
+	public Resource getResourceAtRow(int row) {
+		return this.tableData.get(row);
+	}
 
 	@Override
 	public abstract Object getValueAt(int row, int column);
