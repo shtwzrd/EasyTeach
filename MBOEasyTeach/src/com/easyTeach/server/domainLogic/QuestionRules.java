@@ -56,7 +56,7 @@ public class QuestionRules {
 	 * @see Question
 	 * @see QuestionWrapper
 	 */
-	public static Response getQuestionWithQuestionNo(Question question) {
+	public static Response getQuestion(Question question) {
 		Question newQuestion = null;
 		try {
 			newQuestion = QuestionWrapper
@@ -104,7 +104,7 @@ public class QuestionRules {
      * @see Question
      * @see QuestionWrapper
      */
-    public static Response getAllQuestions() {
+    public static Response getQuestions() {
         ResourceSet newQuestion = new ResourceSet();
 
         for (Question question : QuestionWrapper.getQuestionRows()) {

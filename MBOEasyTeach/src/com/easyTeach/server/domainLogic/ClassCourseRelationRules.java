@@ -106,7 +106,7 @@ public class ClassCourseRelationRules {
 	}
 
 	/**
-	 * Synchronises the {@link ClassUserRelation} database-rows for a specific
+	 * Synchronizes the {@link ClassUserRelation} database-rows for a specific
 	 * user or class with a given set of ClassUserRelations.
 	 * 
 	 * @author Morten Faarkrog. Changes to work with ClassCourseRelations is

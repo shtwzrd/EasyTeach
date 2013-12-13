@@ -25,8 +25,8 @@ public final class UserRules {
     }
 
     /**
-     * TODO Create a procedure for getClassesWithUserNo Method used for
-     * retrieving all classes that a single user is associated to.
+     * Method used for retrieving all classes that a single user is associated
+     * to.
      * 
      * @param user
      *            entity containing the userNo of the user one is finding
@@ -46,7 +46,7 @@ public final class UserRules {
     }
 
     /**
-     * Method used for retrieving a single {@link User} entitiy with a given
+     * Method used for retrieving a single {@link User} entity with a given
      * userNo.
      * 
      * @param user
@@ -83,6 +83,23 @@ public final class UserRules {
         }
 
         return new Response(ResponseStatus.SUCCESS, databaseStudents);
+    }
+    
+    /**
+     * Retrieves and returns a HashSet with all the {@link User}s in a class.
+     * 
+     * @return if successful, a Response object with a success status and a list
+     *         of all students in the DB that are in a specific class.
+     * @see Response
+     */
+    public static Response getStudents(Class resource) {
+        ResourceSet databaseClasses = new ResourceSet();
+
+        for (User userEntity : UserWrapper.getUserRowsWithClassNo(resource.getClassNo())) {
+            databaseClasses.add(userEntity);
+        }
+
+        return new Response(ResponseStatus.SUCCESS, databaseClasses);
     }
 
     /**

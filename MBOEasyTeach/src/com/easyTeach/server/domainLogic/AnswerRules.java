@@ -8,7 +8,6 @@ import com.easyTeach.common.network.Response.ResponseStatus;
 import com.easyTeach.server.databaseWrapper.AnswerWrapper;
 
 /**
- * 
  * Class used for manipulating with {@link Answer} entities. It contains, among
  * other things, the logic for calling the CRUD procedures from the
  * {@link AnswerWrapper}. The constructor is private as there should never be
@@ -48,11 +47,11 @@ public class AnswerRules {
 	 * @return A Response object with a success status and the correct answer
 	 *         for a specific questionNo.
 	 */
-	public static Response getCorrectAnswer(Answer answerEntity) {
+	public static Response getCorrectAnswer(Question questionEntity) {
 		Answer correctAnswer = new Answer();
 
 		for (Answer answer : AnswerWrapper
-				.getAnswerRowsWithQuestionNo(answerEntity.getQuestionNo())) {
+				.getAnswerRowsWithQuestionNo(questionEntity.getQuestionNo())) {
 			if (answer.getIsCorrect()) {
 				correctAnswer = answer;
 				break;

@@ -2,6 +2,7 @@ package com.easyTeach.server.domainLogic;
 
 import com.easyTeach.common.entity.Course;
 import com.easyTeach.common.entity.ResourceSet;
+import com.easyTeach.common.entity.User;
 import com.easyTeach.common.network.Response;
 import com.easyTeach.common.network.Response.ResponseStatus;
 import com.easyTeach.server.databaseWrapper.CourseWrapper;
@@ -12,7 +13,7 @@ import com.easyTeach.server.databaseWrapper.CourseWrapper;
  * {@link CourseWrapper}. The constructor is private as there should never be
  * created an instance of the CourseRules class itself.
  * 
- * @author Oliver Nielsen
+ * @author Oliver Nielsen, Morten Faarkrog
  * @version 0.1
  * @date 12. December, 2013
  */
@@ -38,6 +39,22 @@ public class CourseRules {
 			return new Response(ResponseStatus.SUCCESS, getCourse);
 		}
 		return new Response(ResponseStatus.FAILURE);
+	}
+	
+	/**
+	 * @param courseEntity
+	 *            Course entity containing a courseNo for the course that should
+	 *            be returned.
+	 * @return A Response object with a success status and the course associated
+	 *         with the courseNo.
+	 */
+	public static Response getCoursesWithUserNo(User userEntity) {
+	    ResourceSet courses = new ResourceSet();
+	    
+	    for (Course course : CourseWrapper.getCoursesByUserNo(userEntity.getUserNo())) {
+            courses.add(course);
+        }
+        return new Response(ResponseStatus.SUCCESS, courses);
 	}
 
 	/**
