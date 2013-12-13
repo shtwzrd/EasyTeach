@@ -6,11 +6,15 @@ import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import com.easyTeach.client.network.EasyTeachClient;
+import com.easyTeach.common.entity.Resource;
 import com.easyTeach.common.network.Action.ActionType;
 import com.easyTeach.common.network.Request;
 import com.easyTeach.common.network.Response;
 import com.easyTeach.common.network.Response.ResponseStatus;
+import com.easyTeach.common.network.Session;
 import com.easyTeach.server.domainLogic.Authenticator;
+import com.easyTeach.server.ui.ServerUI;
 
 /**
  * Application server, implemented with Sockets sending serialized Java objects
@@ -25,9 +29,9 @@ import com.easyTeach.server.domainLogic.Authenticator;
  * communication.
  * </p>
  * 
- * @author Brandon Lucas
- * @version 1.1
- * @date 3. December, 2013
+ * @author Brandon Lucas, Morten Faarkrog
+ * @version 1.5
+ * @date 13. December, 2013
  * 
  * @see Request
  * @see Response
@@ -43,23 +47,25 @@ public class EasyTeachServer {
 	private ObjectInputStream in;
 	private Response response;
 	private Request request;
+	private ServerUI serverUI;
 
 	public EasyTeachServer() {
+	    serverUI = new ServerUI();
+	    
 		this.response = new Response(ResponseStatus.SUCCESS);
 
 		try {
 			this.providerSocket = new ServerSocket(8111, 10);
 		} catch (IOException e) {
-			e.printStackTrace();
+		    serverUI.updateTextArea("[Error] : " + e.getMessage());
 		}
 	}
 
 	private void run() {
 		try {
-			System.out.println("Waiting for connection");
+		    serverUI.updateTextArea("[Waiting for connection]");
 			this.connection = this.providerSocket.accept();
-			System.out.println("Connection received from "
-					+ this.connection.getInetAddress().getHostName());
+			serverUI.updateTextArea("[Connection Received] : " + this.connection.getInetAddress().getHostAddress());
 
 			// Initialize the input and output streams in preparation for
 			// communication with the client
@@ -74,11 +80,9 @@ public class EasyTeachServer {
 				try {
 					// Read the Request and log it
 					this.request = (Request) this.in.readObject();
-					System.out.println("[Request]: "
-							+ this.request.getAction().getType().toString());
+					serverUI.updateTextArea("[Request] : " + this.request.getAction().getType().toString());
 
 					if (this.request.getAction().getType() != ActionType.CLOSE) {
-
 						// Throw out Requests with no credentials
 						if (this.request.getSession() != null) {
 							this.response = Authenticator.authenticateUser(this.request);
@@ -92,7 +96,7 @@ public class EasyTeachServer {
 					} 
 
 				} catch (ClassNotFoundException classnot) {
-					System.err.println("Data received in unknown format");
+				    serverUI.updateTextArea("[Error] : " + "Data received in unknown format");
 				}
 			} while (this.request.getAction().getType() != ActionType.CLOSE);
 		} catch (IOException ioException) {
@@ -102,9 +106,8 @@ public class EasyTeachServer {
 			try {
 				this.in.close();
 				this.out.close();
-				// providerSocket.close();
 			} catch (IOException ioException) {
-				ioException.printStackTrace();
+			    serverUI.updateTextArea("[Error] : " + ioException.getMessage());
 			}
 		}
 	}
@@ -113,9 +116,12 @@ public class EasyTeachServer {
 		try {
 			this.out.writeObject(res);
 			this.out.flush();
-			System.out.println(res.getResponse());
+			Resource responseResource = res.getResponse();
+			if (responseResource != null) {
+			    serverUI.updateTextArea("[Response] : " + responseResource.getName());			    
+			}
 		} catch (IOException ioException) {
-			ioException.printStackTrace();
+		    serverUI.updateTextArea("[Error] : " + ioException.getMessage());
 		}
 	}
 
