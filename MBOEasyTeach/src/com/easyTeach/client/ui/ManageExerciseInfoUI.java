@@ -16,10 +16,12 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
 import com.easyTeach.client.presenter.HelpPresenter;
+import com.easyTeach.common.ui.UIColors;
 
 /**
  * The ManageExerciseInfoUI class constructs a JPanel with all the different
@@ -34,21 +36,21 @@ public class ManageExerciseInfoUI {
 
     private final String[] TRUE_FALSE = { "True", "False" };
     private JPanel manageExerciseInfoPanel;
-    private JButton btnHelp;
-    private JButton btnDiscard;
+    JButton btnHelp;
+    JButton btnDiscard;
     private JPanel centerPanel;
-    private JButton btnFilter;
-    private JButton btnContinue;
-    private JTextField txtExerciseName;
-    private JTextField txtIsTest;
-    private JTextField txtIsLocked;
-    private JPasswordField txtPassword;
-    private JTextField txtTimelimit;
-    private JTextField txtAccessStart;
-    private JTextField txtAccessEnd;
-    private JComboBox isTextBox;
-    private JComboBox isLockedBox;
-    private JComboBox courseBox;
+    JButton btnFilter;
+    JButton btnContinue;
+    JTextField txtExerciseName;
+    JTextField txtIsTest;
+    JTextField txtIsLocked;
+    JPasswordField txtPassword;
+    JTextField txtTimelimit;
+    JTextField txtAccessStart;
+    JTextField txtAccessEnd;
+    JComboBox<String> isTextBox;
+    JComboBox<String> isLockedBox;
+    JComboBox<String> courseBox;
 
     /**
      * Constructor for building the manageExerciseInfoPanel. The panel is built
@@ -66,14 +68,14 @@ public class ManageExerciseInfoUI {
      * @return the JPanel manageExerciseInfoPanel
      */
     public JPanel getManageExerciseInfoUI() {
-        return manageExerciseInfoPanel;
+        return this.manageExerciseInfoPanel;
     }
 
     /**
      * Builds the ManageExercisePanel with all of the JComponenets within.
      */
     public void buildPanel() {
-        manageExerciseInfoPanel = new JPanel(new BorderLayout());
+        this.manageExerciseInfoPanel = new JPanel(new BorderLayout());
 
         buildNorthPanel();
         buildCenterPanel();
@@ -92,7 +94,7 @@ public class ManageExerciseInfoUI {
         lblMangeExerciseInfo.setFont(new Font("Lucida Grande", Font.BOLD, 24));
         northPanel.add(lblMangeExerciseInfo);
 
-        manageExerciseInfoPanel.add(northPanel, BorderLayout.NORTH);
+        this.manageExerciseInfoPanel.add(northPanel, BorderLayout.NORTH);
     }
 
     /**
@@ -100,83 +102,83 @@ public class ManageExerciseInfoUI {
      * information about an exercise.
      */
     private void buildCenterPanel() {
-        centerPanel = new JPanel(new GridLayout(9, 2, 1, 40));
-        centerPanel.setBackground(UIColors.lightBlue);
+        this.centerPanel = new JPanel(new GridLayout(9, 2, 1, 40));
+        this.centerPanel.setBackground(UIColors.lightBlue);
 
-        manageExerciseInfoPanel.add(centerPanel, BorderLayout.CENTER);
+        this.manageExerciseInfoPanel.add(this.centerPanel, BorderLayout.CENTER);
 
-        centerPanel.setBackground(UIColors.lightBlue);
-        centerPanel.setBorder(new TitledBorder(new EtchedBorder(
+        this.centerPanel.setBackground(UIColors.lightBlue);
+        this.centerPanel.setBorder(new TitledBorder(new EtchedBorder(
                 EtchedBorder.LOWERED, new Color(0, 0, 0), null),
                 "Exercise Information", TitledBorder.CENTER, TitledBorder.TOP,
                 new Font("Tahoma", Font.PLAIN, 20)));
 
-        JLabel lblExerciseName = new JLabel("Exercise Name:", JLabel.CENTER);
+        JLabel lblExerciseName = new JLabel("Exercise Name:", SwingConstants.CENTER);
         lblExerciseName.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
-        centerPanel.add(lblExerciseName);
+        this.centerPanel.add(lblExerciseName);
 
-        txtExerciseName = new JTextField();
-        centerPanel.add(txtExerciseName);
+        this.txtExerciseName = new JTextField();
+        this.centerPanel.add(this.txtExerciseName);
         
-        JLabel lblCourse = new JLabel("Course:", JLabel.CENTER);
+        JLabel lblCourse = new JLabel("Course:", SwingConstants.CENTER);
         lblCourse.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
-        centerPanel.add(lblCourse);
+        this.centerPanel.add(lblCourse);
 
-        courseBox = new JComboBox();
-        courseBox.setModel(new DefaultComboBoxModel(new String[]{"A", "B"}));
-        centerPanel.add(courseBox);
+        this.courseBox = new JComboBox<>();
+        this.courseBox.setModel(new DefaultComboBoxModel<>(new String[]{"A", "B"}));
+        this.centerPanel.add(this.courseBox);
 
-        JLabel lblIsText = new JLabel("Is a Test:", JLabel.CENTER);
+        JLabel lblIsText = new JLabel("Is a Test:", SwingConstants.CENTER);
         lblIsText.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
-        centerPanel.add(lblIsText);
+        this.centerPanel.add(lblIsText);
 
-        isTextBox = new JComboBox();
-        isTextBox.setModel(new DefaultComboBoxModel(TRUE_FALSE));
-        centerPanel.add(isTextBox);
+        this.isTextBox = new JComboBox<>();
+        this.isTextBox.setModel(new DefaultComboBoxModel<>(this.TRUE_FALSE));
+        this.centerPanel.add(this.isTextBox);
 
-        JLabel lblOptionalFields = new JLabel("Optional Fields (Tests only)", JLabel.CENTER);
+        JLabel lblOptionalFields = new JLabel("Optional Fields (Tests only)", SwingConstants.CENTER);
         lblOptionalFields.setFont(new Font("Lucida Grande", Font.ITALIC
                 + Font.BOLD, 14));
-        centerPanel.add(lblOptionalFields);
-        centerPanel.add(new JLabel(
+        this.centerPanel.add(lblOptionalFields);
+        this.centerPanel.add(new JLabel(
                 "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -",
-                        JLabel.CENTER));
+                        SwingConstants.CENTER));
 
-        JLabel lblIsLocked = new JLabel("Is Locked:", JLabel.CENTER);
+        JLabel lblIsLocked = new JLabel("Is Locked:", SwingConstants.CENTER);
         lblIsLocked.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
-        centerPanel.add(lblIsLocked);
+        this.centerPanel.add(lblIsLocked);
 
-        isLockedBox = new JComboBox();
-        isLockedBox.setModel(new DefaultComboBoxModel(TRUE_FALSE));
-        centerPanel.add(isLockedBox);
+        this.isLockedBox = new JComboBox<>();
+        this.isLockedBox.setModel(new DefaultComboBoxModel<>(this.TRUE_FALSE));
+        this.centerPanel.add(this.isLockedBox);
 
-        JLabel lblPassword = new JLabel("Password:", JLabel.CENTER);
+        JLabel lblPassword = new JLabel("Password:", SwingConstants.CENTER);
         lblPassword.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
-        centerPanel.add(lblPassword);
+        this.centerPanel.add(lblPassword);
 
-        txtPassword = new JPasswordField();
-        centerPanel.add(txtPassword);
+        this.txtPassword = new JPasswordField();
+        this.centerPanel.add(this.txtPassword);
 
-        JLabel lblTimelimit = new JLabel("Time Limit (min):", JLabel.CENTER);
+        JLabel lblTimelimit = new JLabel("Time Limit (min):", SwingConstants.CENTER);
         lblTimelimit.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
-        centerPanel.add(lblTimelimit);
+        this.centerPanel.add(lblTimelimit);
 
-        txtTimelimit = new JTextField();
-        centerPanel.add(txtTimelimit);
+        this.txtTimelimit = new JTextField();
+        this.centerPanel.add(this.txtTimelimit);
 
-        JLabel lblAccessStart = new JLabel("Access Start (YYYY/MM/DD hh:mm):", JLabel.CENTER);
+        JLabel lblAccessStart = new JLabel("Access Start (YYYY/MM/DD hh:mm):", SwingConstants.CENTER);
         lblAccessStart.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
-        centerPanel.add(lblAccessStart);
+        this.centerPanel.add(lblAccessStart);
 
-        txtAccessStart = new JTextField();
-        centerPanel.add(txtAccessStart);
+        this.txtAccessStart = new JTextField();
+        this.centerPanel.add(this.txtAccessStart);
 
-        JLabel lblAccessEnd = new JLabel("Access End (YYYY/MM/DD hh:mm):", JLabel.CENTER);
+        JLabel lblAccessEnd = new JLabel("Access End (YYYY/MM/DD hh:mm):", SwingConstants.CENTER);
         lblAccessEnd.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
-        centerPanel.add(lblAccessEnd);
+        this.centerPanel.add(lblAccessEnd);
 
-        txtAccessEnd = new JTextField();
-        centerPanel.add(txtAccessEnd);
+        this.txtAccessEnd = new JTextField();
+        this.centerPanel.add(this.txtAccessEnd);
     }
 
     /**
@@ -188,16 +190,16 @@ public class ManageExerciseInfoUI {
         JPanel southPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         southPanel.setBackground(UIColors.darkBlue);
 
-        btnHelp = new JButton("Help");
-        southPanel.add(btnHelp);
+        this.btnHelp = new JButton("Help");
+        southPanel.add(this.btnHelp);
 
-        btnDiscard = new JButton("Discard");
-        southPanel.add(btnDiscard);
+        this.btnDiscard = new JButton("Discard");
+        southPanel.add(this.btnDiscard);
 
-        btnContinue = new JButton("Continue");
-        southPanel.add(btnContinue);
+        this.btnContinue = new JButton("Continue");
+        southPanel.add(this.btnContinue);
 
-        manageExerciseInfoPanel.add(southPanel, BorderLayout.SOUTH);
+        this.manageExerciseInfoPanel.add(southPanel, BorderLayout.SOUTH);
     }
 
     /**
@@ -206,9 +208,9 @@ public class ManageExerciseInfoUI {
      */
     private void addActionListeners() {
         ManageExerciseInfoListener listener = new ManageExerciseInfoListener();
-        btnDiscard.addActionListener(listener);
-        btnHelp.addActionListener(listener);
-        btnContinue.addActionListener(listener);
+        this.btnDiscard.addActionListener(listener);
+        this.btnHelp.addActionListener(listener);
+        this.btnContinue.addActionListener(listener);
     }
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
@@ -227,9 +229,13 @@ public class ManageExerciseInfoUI {
      */
     private class ManageExerciseInfoListener implements ActionListener {
 
-        @Override
+        public ManageExerciseInfoListener() {
+        	//Empty Constructor
+		}
+
+		@Override
         public void actionPerformed(ActionEvent e) {
-            if (e.getSource() == btnDiscard) {
+            if (e.getSource() == ManageExerciseInfoUI.this.btnDiscard) {
                 int reply = JOptionPane.showConfirmDialog(null,
                         "Are you sure you want discard what you have made?\n"
                                 + "Warning: It will not be saved.",
@@ -241,17 +247,17 @@ public class ManageExerciseInfoUI {
                 }
             }
 
-            else if (e.getSource() == btnContinue) {
+            else if (e.getSource() == ManageExerciseInfoUI.this.btnContinue) {
                 MainFrame.updateFrame(
                         new ManageExerciseUI().getManageExerciseUI(),
                         "Manage Exercise");
             }
 
-            else if (e.getSource() == btnFilter) {
+            else if (e.getSource() == ManageExerciseInfoUI.this.btnFilter) {
 
             }
 
-            else if (e.getSource() == btnHelp) {
+            else if (e.getSource() == ManageExerciseInfoUI.this.btnHelp) {
                 JOptionPane.showMessageDialog(null,
                         HelpPresenter.getManageClassHelp(),
                         HelpPresenter.getManageClassTitle(),

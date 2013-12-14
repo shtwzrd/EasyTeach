@@ -21,6 +21,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
 import com.easyTeach.client.presenter.DisplayTableModel;
@@ -46,27 +47,27 @@ public class ManageExerciseUI {
     private final String[] QUESTION_TYPES = { "Multiple Choice", "True/False",
             "Missing Word" };
     private JTextArea questionArea;
-    private JComboBox questionTypeBox;
-    private JComboBox comboBox;
-    private JTextField txtNewTag;
-    private JTextField txtExistingTag;
-    private JButton btnSave;
-    private JButton btnHelp;
-    private JButton btnDiscard;
-    private JButton btnResetQuestion;
-    private JButton btnAddExistingQuestion;
-    private JButton btnAddQuestion;
-    private JButton btnToggleCorrect;
-    private JButton btnRemoveAnswer;
-    private JButton btnAddAnswer;
-    private JButton btnRemoveTag;
-    private JButton btnAddExistingTag;
-    private JButton btnPrevQuestion;
-    private JButton btnNextQuestion;
-    private JButton btnNewTag;
-    private JButton btnFindExistingTag;
-    private JButton btnRemoveQuestion;
-    private JSlider slider;
+    JComboBox questionTypeBox;
+    JComboBox comboBox;
+    JTextField txtNewTag;
+    JTextField txtExistingTag;
+    JButton btnSave;
+    JButton btnHelp;
+    JButton btnDiscard;
+    JButton btnResetQuestion;
+    JButton btnAddExistingQuestion;
+    JButton btnAddQuestion;
+    JButton btnToggleCorrect;
+    JButton btnRemoveAnswer;
+    JButton btnAddAnswer;
+    JButton btnRemoveTag;
+    JButton btnAddExistingTag;
+    JButton btnPrevQuestion;
+    JButton btnNextQuestion;
+    JButton btnNewTag;
+    JButton btnFindExistingTag;
+    JButton btnRemoveQuestion;
+    JSlider slider;
 
     /**
      * Constructor for building the manageExercisePanel. The panel is built by
@@ -86,15 +87,15 @@ public class ManageExerciseUI {
      *         frame.
      */
     public JPanel getManageExerciseUI() {
-        return manageExercisePanel;
+        return this.manageExercisePanel;
     }
 
     /**
      * The method responsible for building the manageExercisePanel.
      */
     private void buildPanel() {
-        manageExercisePanel = new JPanel();
-        manageExercisePanel.setLayout(new BorderLayout());
+        this.manageExercisePanel = new JPanel();
+        this.manageExercisePanel.setLayout(new BorderLayout());
 
         buildNorthPanel();
         buildCenterPanel();
@@ -113,16 +114,16 @@ public class ManageExerciseUI {
                 EtchedBorder.LOWERED, new Color(0, 0, 0), null), "Navigation",
                 TitledBorder.CENTER, TitledBorder.TOP, new Font("Tahoma",
                         Font.PLAIN, 20)));
-        centerPanel.add(questionNavPanel, BorderLayout.NORTH);
+        this.centerPanel.add(questionNavPanel, BorderLayout.NORTH);
         questionNavPanel.setLayout(new GridLayout(1, 2));
 
-        btnPrevQuestion = new JButton("<< Previous Question <<");
-        btnPrevQuestion.setFont(new Font("Arial", Font.BOLD, 16));
-        questionNavPanel.add(btnPrevQuestion);
+        this.btnPrevQuestion = new JButton("<< Previous Question <<");
+        this.btnPrevQuestion.setFont(new Font("Arial", Font.BOLD, 16));
+        questionNavPanel.add(this.btnPrevQuestion);
 
-        btnNextQuestion = new JButton(">> Next Question >>");
-        btnNextQuestion.setFont(new Font("Arial", Font.BOLD, 16));
-        questionNavPanel.add(btnNextQuestion);
+        this.btnNextQuestion = new JButton(">> Next Question >>");
+        this.btnNextQuestion.setFont(new Font("Arial", Font.BOLD, 16));
+        questionNavPanel.add(this.btnNextQuestion);
     }
 
     /**
@@ -130,9 +131,9 @@ public class ManageExerciseUI {
      * where the question's type and tags are defined.
      */
     private void buildInfoPanel() {
-        infoPanel = new JPanel();
-        centerPanel.add(infoPanel, BorderLayout.WEST);
-        infoPanel.setLayout(new BorderLayout());
+        this.infoPanel = new JPanel();
+        this.centerPanel.add(this.infoPanel, BorderLayout.WEST);
+        this.infoPanel.setLayout(new BorderLayout());
 
         buildQuestionTypePanel();
         buildTagPanel();
@@ -149,14 +150,14 @@ public class ManageExerciseUI {
                 EtchedBorder.LOWERED, new Color(0, 0, 0), null),
                 "Question Type", TitledBorder.CENTER, TitledBorder.TOP,
                 new Font("Tahoma", Font.PLAIN, 20)));
-        infoPanel.add(questionTypePanel, BorderLayout.NORTH);
+        this.infoPanel.add(questionTypePanel, BorderLayout.NORTH);
 
         // JComboBox with the various question types one can pick
-        questionTypeBox = new JComboBox();
-        questionTypeBox.setModel(new DefaultComboBoxModel(QUESTION_TYPES));
-        questionTypePanel.add(questionTypeBox);
+        this.questionTypeBox = new JComboBox();
+        this.questionTypeBox.setModel(new DefaultComboBoxModel(this.QUESTION_TYPES));
+        questionTypePanel.add(this.questionTypeBox);
 
-        infoPanel.add(questionTypePanel, BorderLayout.NORTH);
+        this.infoPanel.add(questionTypePanel, BorderLayout.NORTH);
     }
 
     /**
@@ -171,7 +172,7 @@ public class ManageExerciseUI {
                 EtchedBorder.LOWERED, new Color(0, 0, 0), null), "Tags",
                 TitledBorder.CENTER, TitledBorder.TOP, new Font("Tahoma",
                         Font.PLAIN, 20)));
-        infoPanel.add(tagPanel, BorderLayout.CENTER);
+        this.infoPanel.add(tagPanel, BorderLayout.CENTER);
         tagPanel.setLayout(new GridLayout(3, 1));
 
         // Panel for browsing the tags for the question one is working on
@@ -183,11 +184,11 @@ public class ManageExerciseUI {
         questionTagPanel.setLayout(new GridLayout(5, 1));
 
         // JComboBox with all the current tags for a question
-        comboBox = new JComboBox();
-        questionTagPanel.add(comboBox);
+        this.comboBox = new JComboBox();
+        questionTagPanel.add(this.comboBox);
 
-        btnRemoveTag = new JButton("Remove Tag");
-        questionTagPanel.add(btnRemoveTag);
+        this.btnRemoveTag = new JButton("Remove Tag");
+        questionTagPanel.add(this.btnRemoveTag);
 
         // Panel for selecting tags previously used in other questions
         JPanel existingTagPanel = new JPanel();
@@ -197,16 +198,16 @@ public class ManageExerciseUI {
         tagPanel.add(existingTagPanel);
         existingTagPanel.setLayout(new GridLayout(5, 1));
 
-        btnFindExistingTag = new JButton("Find Existing Tag");
-        existingTagPanel.add(btnFindExistingTag);
+        this.btnFindExistingTag = new JButton("Find Existing Tag");
+        existingTagPanel.add(this.btnFindExistingTag);
 
-        txtExistingTag = new JTextField();
-        txtExistingTag.setEditable(false);
-        existingTagPanel.add(txtExistingTag);
-        txtExistingTag.setColumns(10);
+        this.txtExistingTag = new JTextField();
+        this.txtExistingTag.setEditable(false);
+        existingTagPanel.add(this.txtExistingTag);
+        this.txtExistingTag.setColumns(10);
 
-        btnAddExistingTag = new JButton("Add Existing Tag");
-        existingTagPanel.add(btnAddExistingTag);
+        this.btnAddExistingTag = new JButton("Add Existing Tag");
+        existingTagPanel.add(this.btnAddExistingTag);
 
         // Panel for creating new tags to the question
         JPanel newTagPanel = new JPanel();
@@ -216,12 +217,12 @@ public class ManageExerciseUI {
         tagPanel.add(newTagPanel);
         newTagPanel.setLayout(new GridLayout(5, 1));
 
-        txtNewTag = new JTextField();
-        newTagPanel.add(txtNewTag);
-        txtNewTag.setColumns(10);
+        this.txtNewTag = new JTextField();
+        newTagPanel.add(this.txtNewTag);
+        this.txtNewTag.setColumns(10);
 
-        btnNewTag = new JButton("Add New Tag");
-        newTagPanel.add(btnNewTag);
+        this.btnNewTag = new JButton("Add New Tag");
+        newTagPanel.add(this.btnNewTag);
     }
 
     /**
@@ -232,12 +233,12 @@ public class ManageExerciseUI {
         JPanel northPanel = new JPanel();
         northPanel.setBackground(UIColors.darkBlue);
         northPanel.setBorder(new EtchedBorder(EtchedBorder.LOWERED));
-        manageExercisePanel.add(northPanel, BorderLayout.NORTH);
+        this.manageExercisePanel.add(northPanel, BorderLayout.NORTH);
 
-        lblExerciseTitle = new JLabel("Exercise - Name Goes Here - Question #1");
-        lblExerciseTitle.setForeground(UIColors.white);
-        lblExerciseTitle.setFont(new Font("Lucida Grande", Font.BOLD, 24));
-        northPanel.add(lblExerciseTitle);
+        this.lblExerciseTitle = new JLabel("Exercise - Name Goes Here - Question #1");
+        this.lblExerciseTitle.setForeground(UIColors.white);
+        this.lblExerciseTitle.setFont(new Font("Lucida Grande", Font.BOLD, 24));
+        northPanel.add(this.lblExerciseTitle);
     }
 
     /**
@@ -248,16 +249,16 @@ public class ManageExerciseUI {
         JPanel southPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         southPanel.setBackground(UIColors.darkBlue);
         southPanel.setBorder(new EtchedBorder(EtchedBorder.LOWERED));
-        manageExercisePanel.add(southPanel, BorderLayout.SOUTH);
+        this.manageExercisePanel.add(southPanel, BorderLayout.SOUTH);
 
-        btnSave = new JButton("Save");
+        this.btnSave = new JButton("Save");
 
-        btnHelp = new JButton("Help");
-        southPanel.add(btnHelp);
+        this.btnHelp = new JButton("Help");
+        southPanel.add(this.btnHelp);
 
-        btnDiscard = new JButton("Discard");
-        southPanel.add(btnDiscard);
-        southPanel.add(btnSave);
+        this.btnDiscard = new JButton("Discard");
+        southPanel.add(this.btnDiscard);
+        southPanel.add(this.btnSave);
     }
 
     /**
@@ -268,9 +269,9 @@ public class ManageExerciseUI {
      */
     private void buildCenterPanel() {
         // Center panel with panels for Question Type, Tags and Question
-        centerPanel = new JPanel();
-        manageExercisePanel.add(centerPanel, BorderLayout.CENTER);
-        centerPanel.setLayout(new BorderLayout());
+        this.centerPanel = new JPanel();
+        this.manageExercisePanel.add(this.centerPanel, BorderLayout.CENTER);
+        this.centerPanel.setLayout(new BorderLayout());
 
         buildQuestionNavPanel();
         buildInfoPanel();
@@ -289,7 +290,7 @@ public class ManageExerciseUI {
                 EtchedBorder.LOWERED, new Color(0, 0, 0), null), "Question",
                 TitledBorder.CENTER, TitledBorder.TOP, new Font("Tahoma",
                         Font.PLAIN, 20)));
-        centerPanel.add(questionPanel, BorderLayout.CENTER);
+        this.centerPanel.add(questionPanel, BorderLayout.CENTER);
         questionPanel.setLayout(new BorderLayout());
 
         // The questionTextPanel contains the JTextArea for the actual question
@@ -300,21 +301,21 @@ public class ManageExerciseUI {
         questionPanel.add(questionTextPanel, BorderLayout.NORTH);
         questionTextPanel.setLayout(new BorderLayout());
 
-        questionArea = new JTextArea();
-        questionTextPanel.add(new JScrollPane(questionArea));
-        questionArea.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
-        questionArea.setWrapStyleWord(true);
-        questionArea.setLineWrap(true);
-        questionArea.setRows(5);
+        this.questionArea = new JTextArea();
+        questionTextPanel.add(new JScrollPane(this.questionArea));
+        this.questionArea.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
+        this.questionArea.setWrapStyleWord(true);
+        this.questionArea.setLineWrap(true);
+        this.questionArea.setRows(5);
 
         JPanel pointsPanel = new JPanel();
-        slider = new JSlider();
-        slider.setPaintLabels(true);
-        slider.setMajorTickSpacing(1);
-        slider.setValue(5);
-        slider.setMinimum(1);
-        slider.setMaximum(10);
-        pointsPanel.add(slider);
+        this.slider = new JSlider();
+        this.slider.setPaintLabels(true);
+        this.slider.setMajorTickSpacing(1);
+        this.slider.setValue(5);
+        this.slider.setMinimum(1);
+        this.slider.setMaximum(10);
+        pointsPanel.add(this.slider);
         pointsPanel.setBackground(UIColors.lightBrown);
         pointsPanel.setBorder(new TitledBorder(null, "Points",
                 TitledBorder.CENTER, TitledBorder.TOP));
@@ -334,8 +335,8 @@ public class ManageExerciseUI {
         // JTable with all the answers
         // Random data. Will work differently at some point.. * * * * * * * * *
         // * * * *
-        table = new JTable();
-        DisplayTableModel model = new DisplayTableModel();
+        this.table = new JTable();
+        DefaultTableModel model = new DefaultTableModel();
         String[] heads = { "Correct", "Choice" };
         model.setRowCount(4);
         model.setColumnIdentifiers(heads);
@@ -348,25 +349,25 @@ public class ManageExerciseUI {
         model.setValueAt("", 3, 0);
         model.setValueAt("Unsatisfactory Process", 3, 1);
 
-        table.setModel(model);
-        table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-        TableColumnModel columnModel = table.getColumnModel();
+        this.table.setModel(model);
+        this.table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        TableColumnModel columnModel = this.table.getColumnModel();
         columnModel.getColumn(0).setPreferredWidth(30);
         columnModel.getColumn(1).setPreferredWidth(500);
-        table.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
-        answerPanel.add(new JScrollPane(table));
+        this.table.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
+        answerPanel.add(new JScrollPane(this.table));
 
         // Panel with buttons to manipulate answers.
         JPanel answerButtonPanel = new JPanel();
         answerButtonPanel.setBackground(UIColors.lightBrown);
         answerButtonPanel.setLayout(new GridLayout(1, 3));
 
-        btnToggleCorrect = new JButton("Toggle Correct");
-        answerButtonPanel.add(btnToggleCorrect);
-        btnRemoveAnswer = new JButton("Remove Answer");
-        answerButtonPanel.add(btnRemoveAnswer);
-        btnAddAnswer = new JButton("Add Answer");
-        answerButtonPanel.add(btnAddAnswer);
+        this.btnToggleCorrect = new JButton("Toggle Correct");
+        answerButtonPanel.add(this.btnToggleCorrect);
+        this.btnRemoveAnswer = new JButton("Remove Answer");
+        answerButtonPanel.add(this.btnRemoveAnswer);
+        this.btnAddAnswer = new JButton("Add Answer");
+        answerButtonPanel.add(this.btnAddAnswer);
 
         answerPanel.add(answerButtonPanel, BorderLayout.SOUTH);
 
@@ -381,17 +382,17 @@ public class ManageExerciseUI {
         questionPanel.add(questionButtonPanel, BorderLayout.SOUTH);
         questionButtonPanel.setLayout(new GridLayout(1, 3));
 
-        btnResetQuestion = new JButton("Reset Question");
-        questionButtonPanel.add(btnResetQuestion);
+        this.btnResetQuestion = new JButton("Reset Question");
+        questionButtonPanel.add(this.btnResetQuestion);
 
-        btnRemoveQuestion = new JButton("Remove Question");
-        questionButtonPanel.add(btnRemoveQuestion);
+        this.btnRemoveQuestion = new JButton("Remove Question");
+        questionButtonPanel.add(this.btnRemoveQuestion);
 
-        btnAddExistingQuestion = new JButton("Add Existing Question");
-        questionButtonPanel.add(btnAddExistingQuestion);
+        this.btnAddExistingQuestion = new JButton("Add Existing Question");
+        questionButtonPanel.add(this.btnAddExistingQuestion);
 
-        btnAddQuestion = new JButton("Add Question");
-        questionButtonPanel.add(btnAddQuestion);
+        this.btnAddQuestion = new JButton("Add Question");
+        questionButtonPanel.add(this.btnAddQuestion);
     }
 
     /**
@@ -400,22 +401,22 @@ public class ManageExerciseUI {
      */
     private void addActionListeners() {
         ManageExerciseUIListener listener = new ManageExerciseUIListener();
-        btnSave.addActionListener(listener);
-        btnHelp.addActionListener(listener);
-        btnDiscard.addActionListener(listener);
-        btnResetQuestion.addActionListener(listener);
-        btnAddExistingQuestion.addActionListener(listener);
-        btnAddQuestion.addActionListener(listener);
-        btnToggleCorrect.addActionListener(listener);
-        btnRemoveAnswer.addActionListener(listener);
-        btnAddAnswer.addActionListener(listener);
-        btnRemoveTag.addActionListener(listener);
-        btnAddExistingTag.addActionListener(listener);
-        btnPrevQuestion.addActionListener(listener);
-        btnNextQuestion.addActionListener(listener);
-        btnNewTag.addActionListener(listener);
-        btnFindExistingTag.addActionListener(listener);
-        btnRemoveQuestion.addActionListener(listener);
+        this.btnSave.addActionListener(listener);
+        this.btnHelp.addActionListener(listener);
+        this.btnDiscard.addActionListener(listener);
+        this.btnResetQuestion.addActionListener(listener);
+        this.btnAddExistingQuestion.addActionListener(listener);
+        this.btnAddQuestion.addActionListener(listener);
+        this.btnToggleCorrect.addActionListener(listener);
+        this.btnRemoveAnswer.addActionListener(listener);
+        this.btnAddAnswer.addActionListener(listener);
+        this.btnRemoveTag.addActionListener(listener);
+        this.btnAddExistingTag.addActionListener(listener);
+        this.btnPrevQuestion.addActionListener(listener);
+        this.btnNextQuestion.addActionListener(listener);
+        this.btnNewTag.addActionListener(listener);
+        this.btnFindExistingTag.addActionListener(listener);
+        this.btnRemoveQuestion.addActionListener(listener);
     }
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
@@ -434,69 +435,73 @@ public class ManageExerciseUI {
      */
     private class ManageExerciseUIListener implements ActionListener {
 
-        @Override
+        public ManageExerciseUIListener() {
+			// Empty Constructor 
+		}
+
+		@Override
         public void actionPerformed(ActionEvent e) {
-            if (e.getSource() == btnSave) {
+            if (e.getSource() == ManageExerciseUI.this.btnSave) {
 
             }
 
-            else if (e.getSource() == btnDiscard) {
+            else if (e.getSource() == ManageExerciseUI.this.btnDiscard) {
 
             }
 
-            else if (e.getSource() == btnResetQuestion) {
+            else if (e.getSource() == ManageExerciseUI.this.btnResetQuestion) {
 
             }
 
-            else if (e.getSource() == btnAddExistingQuestion) {
+            else if (e.getSource() == ManageExerciseUI.this.btnAddExistingQuestion) {
 
             }
 
-            else if (e.getSource() == btnRemoveQuestion) {
+            else if (e.getSource() == ManageExerciseUI.this.btnRemoveQuestion) {
 
             }
 
-            else if (e.getSource() == btnAddQuestion) {
+            else if (e.getSource() == ManageExerciseUI.this.btnAddQuestion) {
 
             }
 
-            else if (e.getSource() == btnToggleCorrect) {
+            else if (e.getSource() == ManageExerciseUI.this.btnToggleCorrect) {
 
             }
 
-            else if (e.getSource() == btnRemoveAnswer) {
+            else if (e.getSource() == ManageExerciseUI.this.btnRemoveAnswer) {
 
             }
 
-            else if (e.getSource() == btnAddAnswer) {
+            else if (e.getSource() == ManageExerciseUI.this.btnAddAnswer) {
 
             }
 
-            else if (e.getSource() == btnNewTag) {
+            else if (e.getSource() == ManageExerciseUI.this.btnNewTag) {
 
             }
 
-            else if (e.getSource() == btnFindExistingTag) {
+            else if (e.getSource() == ManageExerciseUI.this.btnFindExistingTag) {
 
             }
 
-            else if (e.getSource() == btnRemoveTag) {
+            else if (e.getSource() == ManageExerciseUI.this.btnRemoveTag) {
 
             }
 
-            else if (e.getSource() == btnAddExistingTag) {
+            else if (e.getSource() == ManageExerciseUI.this.btnAddExistingTag) {
 
             }
 
-            else if (e.getSource() == btnPrevQuestion) {
+            else if (e.getSource() == ManageExerciseUI.this.btnPrevQuestion) {
 
             }
 
-            else if (e.getSource() == btnNextQuestion) {
+            else if (e.getSource() == ManageExerciseUI.this.btnNextQuestion) {
 
             }
 
-            else if (e.getSource() == btnHelp) {
+            else if (e.getSource() == ManageExerciseUI.this.btnHelp) {
                 JOptionPane.showMessageDialog(null,
                         HelpPresenter.getManageExerciseHelp(),
                         HelpPresenter.getManageExerciseTitle(),

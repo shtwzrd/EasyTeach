@@ -19,6 +19,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.table.DefaultTableModel;
 
 import com.easyTeach.client.presenter.DisplayTableModel;
 import com.easyTeach.client.presenter.HelpPresenter;
@@ -39,19 +40,19 @@ public class QuestionManagerUI  {
 
     private final String[] FILTER = {"Tag", "Points", "Question"};
     private JPanel questionManagerPanel;
-    private JButton btnHelp;
-    private JButton btnEditQuestion;
-    private JButton btnDeleteQuestion;
-    private JButton btnAddQuestion;
+    JButton btnHelp;
+    JButton btnEditQuestion;
+    JButton btnDeleteQuestion;
+    JButton btnAddQuestion;
     private JPanel centerPanel;
     private JPanel lowerCenterPanel;
-    private JTable answerTable;
-    private JTable questionTable;
+    JTable answerTable;
+    JTable questionTable;
     private JPanel filterPanel;
-    private JComboBox filterBox;
-    private JButton btnFilter;
+    JComboBox<String> filterBox;
+    JButton btnFilter;
     private JPanel answerTablePanel;
-    private JTextField txtFilter;
+    JTextField txtFilter;
     
     /**
      * Constructor for building the questionManagerPanel. The panel is built 
@@ -71,7 +72,7 @@ public class QuestionManagerUI  {
      * another frame.
      */
     public JPanel getQuestionManagerUI() {
-        return questionManagerPanel;
+        return this.questionManagerPanel;
     }
     
     /**
@@ -79,8 +80,8 @@ public class QuestionManagerUI  {
      * consists of all the JComponenets needed to maintain questions.
      */
     public void buildPanel() {
-        questionManagerPanel = new JPanel(new BorderLayout());
-        questionManagerPanel.setBackground(UIColors.lightBlue);
+        this.questionManagerPanel = new JPanel(new BorderLayout());
+        this.questionManagerPanel.setBackground(UIColors.lightBlue);
         
         buildCenterPanel();
         buildSouthPanel();               
@@ -94,19 +95,19 @@ public class QuestionManagerUI  {
         JPanel southButtonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         southButtonPanel.setBackground(UIColors.darkBlue);
         
-        btnHelp = new JButton("Help");
-        southButtonPanel.add(btnHelp);
+        this.btnHelp = new JButton("Help");
+        southButtonPanel.add(this.btnHelp);
         
-        btnEditQuestion = new JButton("Edit Question");
-        southButtonPanel.add(btnEditQuestion);
+        this.btnEditQuestion = new JButton("Edit Question");
+        southButtonPanel.add(this.btnEditQuestion);
         
-        btnDeleteQuestion = new JButton("Delete Question");
-        southButtonPanel.add(btnDeleteQuestion);
+        this.btnDeleteQuestion = new JButton("Delete Question");
+        southButtonPanel.add(this.btnDeleteQuestion);
         
-        btnAddQuestion = new JButton("Add Question");
-        southButtonPanel.add(btnAddQuestion);
+        this.btnAddQuestion = new JButton("Add Question");
+        southButtonPanel.add(this.btnAddQuestion);
 
-        questionManagerPanel.add(southButtonPanel, BorderLayout.SOUTH);
+        this.questionManagerPanel.add(southButtonPanel, BorderLayout.SOUTH);
     }
     
     /**
@@ -115,73 +116,73 @@ public class QuestionManagerUI  {
      * and another containing a panel to filter questions.
      */
     private void buildCenterPanel() {
-        centerPanel = new JPanel(new GridLayout(2, 1));
-        questionManagerPanel.add(centerPanel, BorderLayout.CENTER);
+        this.centerPanel = new JPanel(new GridLayout(2, 1));
+        this.questionManagerPanel.add(this.centerPanel, BorderLayout.CENTER);
         
         buildUpperCenterPanel();
         
-        lowerCenterPanel = new JPanel(new BorderLayout());
+        this.lowerCenterPanel = new JPanel(new BorderLayout());
         buildFilterPanel();
         buildAnswerTablePanel();
         
-        centerPanel.add(lowerCenterPanel);
+        this.centerPanel.add(this.lowerCenterPanel);
     }
     
     /**
      * Builds a panel with a table for answers for a selected question.
      */
     private void buildAnswerTablePanel() {
-        answerTablePanel = new JPanel(new BorderLayout());
-        answerTable = new JTable();
+        this.answerTablePanel = new JPanel(new BorderLayout());
+        this.answerTable = new JTable();
 
-        answerTablePanel.setBackground(UIColors.lightBrown);
-        answerTablePanel.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, 
+        this.answerTablePanel.setBackground(UIColors.lightBrown);
+        this.answerTablePanel.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, 
                 new Color(0, 0, 0), null), "Question's Answers", TitledBorder.CENTER, 
                 TitledBorder.TOP, new Font("Tahoma", Font.PLAIN, 20)));     
-        lowerCenterPanel.add(answerTablePanel, BorderLayout.CENTER);
+        this.lowerCenterPanel.add(this.answerTablePanel, BorderLayout.CENTER);
         
-        DisplayTableModel answerModel = new DisplayTableModel();
+        DefaultTableModel answerModel = new DefaultTableModel();
         String[] answerHeads = {"Correct", "Answer"};
         answerModel.setRowCount(1);
         answerModel.setColumnIdentifiers(answerHeads);
         answerModel.setValueAt("X", 0, 0);
         answerModel.setValueAt("42", 0, 1);
         
-        answerTable.setModel(answerModel);
+        this.answerTable.setModel(answerModel);
         
-        JScrollPane answerScroll = new JScrollPane(answerTable);
+        JScrollPane answerScroll = new JScrollPane(this.answerTable);
         answerScroll.getViewport().setBackground(UIColors.white);
 
-        answerTablePanel.add(answerScroll);
+        this.answerTablePanel.add(answerScroll);
     }
     
     /**
      * Builds the filter panel for filtering questions.
      */
     private void buildFilterPanel() {
-        filterPanel = new JPanel();
-        filterPanel.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, 
+        this.filterPanel = new JPanel();
+        this.filterPanel.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, 
                 new Color(0, 0, 0), null), "Filter Questions", TitledBorder.CENTER, 
                 TitledBorder.TOP, new Font("Tahoma", Font.PLAIN, 20)));
-        filterPanel.setBackground(UIColors.lightBlue);
+        this.filterPanel.setBackground(UIColors.lightBlue);
         
         JLabel lblFilter = new JLabel("Filter");
-        filterPanel.add(lblFilter);
+        this.filterPanel.add(lblFilter);
         
-        filterBox = new JComboBox();
-        filterBox.setModel(new DefaultComboBoxModel(FILTER));
-        filterPanel.add(filterBox);
+        this.filterBox = new JComboBox<>();
+        this.filterBox.setModel(new DefaultComboBoxModel<>(this.FILTER));
+        this.filterPanel.add(this.filterBox);
         
         JLabel lblBy = new JLabel("by");
-        filterPanel.add(lblBy);
+        this.filterPanel.add(lblBy);
         
-        txtFilter = new JTextField();
-        filterPanel.add(txtFilter);
-        txtFilter.setColumns(14);
+        this.txtFilter = new JTextField();
+        this.filterPanel.add(this.txtFilter);
+        this.txtFilter.setColumns(14);
         
-        btnFilter = new JButton("Filter");
-        filterPanel.add(btnFilter);
-        lowerCenterPanel.add(filterPanel, BorderLayout.NORTH);
+        this.btnFilter = new JButton("Filter");
+        this.filterPanel.add(this.btnFilter);
+        this.lowerCenterPanel.add(this.filterPanel, BorderLayout.NORTH);
     }
     
     /**
@@ -194,8 +195,8 @@ public class QuestionManagerUI  {
                 new Color(0, 0, 0), null), "Questions", TitledBorder.CENTER, 
                 TitledBorder.TOP, new Font("Tahoma", Font.PLAIN, 20)));
         
-        questionTable = new JTable();
-        DisplayTableModel questionModel = new DisplayTableModel();
+        this.questionTable = new JTable();
+        DefaultTableModel questionModel = new DefaultTableModel();
         String[] questionHeads = {"Question No", "Question Type", "Question", "Points", "Tags"};
         questionModel.setRowCount(1);
         questionModel.setColumnIdentifiers(questionHeads);
@@ -204,13 +205,13 @@ public class QuestionManagerUI  {
         questionModel.setValueAt("What is the meaning of life?", 0, 2);
         questionModel.setValueAt("1337", 0, 3);
         questionModel.setValueAt("meaning, life", 0, 4);
-        questionTable.setModel(questionModel);
+        this.questionTable.setModel(questionModel);
         
-        JScrollPane questionScroll = new JScrollPane(questionTable);
+        JScrollPane questionScroll = new JScrollPane(this.questionTable);
         questionScroll.getViewport().setBackground(UIColors.white);
         upperCenterPanel.add(questionScroll, BorderLayout.CENTER);
 
-        centerPanel.add(upperCenterPanel);
+        this.centerPanel.add(upperCenterPanel);
     }
     
     /**
@@ -219,11 +220,11 @@ public class QuestionManagerUI  {
      */
     private void addActionListeners() {
         QuestionManagerUIListener listener = new QuestionManagerUIListener();
-        btnAddQuestion.addActionListener(listener);
-        btnDeleteQuestion.addActionListener(listener);
-        btnEditQuestion.addActionListener(listener);
-        btnHelp.addActionListener(listener);
-        btnFilter.addActionListener(listener);
+        this.btnAddQuestion.addActionListener(listener);
+        this.btnDeleteQuestion.addActionListener(listener);
+        this.btnEditQuestion.addActionListener(listener);
+        this.btnHelp.addActionListener(listener);
+        this.btnFilter.addActionListener(listener);
     }
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
@@ -243,27 +244,31 @@ public class QuestionManagerUI  {
      */
     private class QuestionManagerUIListener implements ActionListener {
 
-        @Override
+        public QuestionManagerUIListener() {
+			// Empty Constructor 
+		}
+
+		@Override
         public void actionPerformed(ActionEvent e) {
-            if (e.getSource() == btnAddQuestion) {
+            if (e.getSource() == QuestionManagerUI.this.btnAddQuestion) {
                 
             }
             
-            else if (e.getSource() == btnDeleteQuestion) {
+            else if (e.getSource() == QuestionManagerUI.this.btnDeleteQuestion) {
                 
             }
             
-            else if (e.getSource() == btnEditQuestion) {
+            else if (e.getSource() == QuestionManagerUI.this.btnEditQuestion) {
                 
             }
             
-            else if (e.getSource() == btnHelp) {
+            else if (e.getSource() == QuestionManagerUI.this.btnHelp) {
                 JOptionPane.showMessageDialog(null, HelpPresenter.getQuestionManagerHelp(), 
                         HelpPresenter.getQuestionManagerTitle(), JOptionPane.PLAIN_MESSAGE, 
                         HelpPresenter.getHelpIcon());
             }
             
-            else if (e.getSource() == btnFilter) {
+            else if (e.getSource() == QuestionManagerUI.this.btnFilter) {
                 
             }
         }

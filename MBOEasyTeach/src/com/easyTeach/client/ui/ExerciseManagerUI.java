@@ -19,6 +19,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.table.DefaultTableModel;
 
 import com.easyTeach.client.presenter.DisplayTableModel;
 import com.easyTeach.client.presenter.ExerciseManagerPresenter;
@@ -39,20 +40,20 @@ public class ExerciseManagerUI {
     private final String[] FILTER = { "Author", "Exercise Name",
             "Question Tag", "Is Test", "Course" };
     private JPanel exerciseManagerPanel;
-    private JButton btnHelp;
-    private JButton btnEditExercise;
-    private JButton btnDeleteExercise;
-    private JButton btnAddExercise;
-    private JPanel centerPanel;
-    private JPanel lowerCenterPanel;
-    private JTable questionTable;
-    private JTable exerciseTable;
-    private JPanel filterPanel;
-    private JComboBox filterBox;
-    private JButton btnFilter;
-    private JPanel questionTablePanel;
-    private JTextField txtFilter;
-    private JButton btnDuplicateExercise;
+    JButton btnHelp;
+    JButton btnEditExercise;
+    JButton btnDeleteExercise;
+    JButton btnAddExercise;
+    JPanel centerPanel;
+    JPanel lowerCenterPanel;
+    JTable questionTable;
+    JTable exerciseTable;
+    JPanel filterPanel;
+    JComboBox<String> filterBox;
+    JButton btnFilter;
+    JPanel questionTablePanel;
+    JTextField txtFilter;
+    JButton btnDuplicateExercise;
 
     /**
      * Constructor for building the exerciseManagerPanel. The panel is built by
@@ -72,7 +73,7 @@ public class ExerciseManagerUI {
      *         frame.
      */
     public JPanel getExerciseManagerUI() {
-        return exerciseManagerPanel;
+        return this.exerciseManagerPanel;
     }
 
     /**
@@ -80,8 +81,8 @@ public class ExerciseManagerUI {
      * consists of all the JComponenets needed to maintain exercises.
      */
     public void buildPanel() {
-        exerciseManagerPanel = new JPanel(new BorderLayout());
-        exerciseManagerPanel.setBackground(UIColors.lightBlue);
+        this.exerciseManagerPanel = new JPanel(new BorderLayout());
+        this.exerciseManagerPanel.setBackground(UIColors.lightBlue);
 
         buildCenterPanel();
         buildSouthPanel();
@@ -95,22 +96,22 @@ public class ExerciseManagerUI {
         JPanel southButtonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         southButtonPanel.setBackground(UIColors.darkBlue);
 
-        btnHelp = new JButton("Help");
-        southButtonPanel.add(btnHelp);
+        this.btnHelp = new JButton("Help");
+        southButtonPanel.add(this.btnHelp);
 
-        btnEditExercise = new JButton("Edit Exercise");
-        southButtonPanel.add(btnEditExercise);
+        this.btnEditExercise = new JButton("Edit Exercise");
+        southButtonPanel.add(this.btnEditExercise);
 
-        btnDuplicateExercise = new JButton("Duplicate Exercise");
-        southButtonPanel.add(btnDuplicateExercise);
+        this.btnDuplicateExercise = new JButton("Duplicate Exercise");
+        southButtonPanel.add(this.btnDuplicateExercise);
         
-        btnDeleteExercise = new JButton("Delete Exercise");
-        southButtonPanel.add(btnDeleteExercise);
+        this.btnDeleteExercise = new JButton("Delete Exercise");
+        southButtonPanel.add(this.btnDeleteExercise);
 
-        btnAddExercise = new JButton("Add Exercise");
-        southButtonPanel.add(btnAddExercise);
+        this.btnAddExercise = new JButton("Add Exercise");
+        southButtonPanel.add(this.btnAddExercise);
 
-        exerciseManagerPanel.add(southButtonPanel, BorderLayout.SOUTH);
+        this.exerciseManagerPanel.add(southButtonPanel, BorderLayout.SOUTH);
     }
 
     /**
@@ -119,33 +120,33 @@ public class ExerciseManagerUI {
      * containing a panel to filter exercises.
      */
     private void buildCenterPanel() {
-        centerPanel = new JPanel(new GridLayout(2, 1));
-        exerciseManagerPanel.add(centerPanel, BorderLayout.CENTER);
+        this.centerPanel = new JPanel(new GridLayout(2, 1));
+        this.exerciseManagerPanel.add(this.centerPanel, BorderLayout.CENTER);
 
         buildUpperCenterPanel();
 
-        lowerCenterPanel = new JPanel(new BorderLayout());
+        this.lowerCenterPanel = new JPanel(new BorderLayout());
         buildFilterPanel();
         buildQuestionTablePanel();
 
-        centerPanel.add(lowerCenterPanel);
+        this.centerPanel.add(this.lowerCenterPanel);
     }
 
     /**
      * Builds a panel with a table for questions for a selected exercise.
      */
     private void buildQuestionTablePanel() {
-        questionTablePanel = new JPanel(new BorderLayout());
-        questionTable = new JTable();
+        this.questionTablePanel = new JPanel(new BorderLayout());
+        this.questionTable = new JTable();
 
-        questionTablePanel.setBackground(UIColors.lightBrown);
-        questionTablePanel.setBorder(new TitledBorder(new EtchedBorder(
+        this.questionTablePanel.setBackground(UIColors.lightBrown);
+        this.questionTablePanel.setBorder(new TitledBorder(new EtchedBorder(
                 EtchedBorder.LOWERED, new Color(0, 0, 0), null),
                 "Exercise's Questions", TitledBorder.CENTER, TitledBorder.TOP,
                 new Font("Tahoma", Font.PLAIN, 20)));
-        lowerCenterPanel.add(questionTablePanel, BorderLayout.CENTER);
+        this.lowerCenterPanel.add(this.questionTablePanel, BorderLayout.CENTER);
 
-        DisplayTableModel questionModel = new DisplayTableModel();
+        DefaultTableModel questionModel = new DefaultTableModel();
         String[] questionHeads = { "Question Type", "Question", "Tags" };
         questionModel.setRowCount(1);
         questionModel.setColumnIdentifiers(questionHeads);
@@ -153,42 +154,42 @@ public class ExerciseManagerUI {
         questionModel.setValueAt("What is the square root of -1?", 0, 1);
         questionModel.setValueAt("square-root, math", 0, 2);
 
-        questionTable.setModel(questionModel);
+        this.questionTable.setModel(questionModel);
 
-        JScrollPane questionScroll = new JScrollPane(questionTable);
+        JScrollPane questionScroll = new JScrollPane(this.questionTable);
         questionScroll.getViewport().setBackground(UIColors.white);
 
-        questionTablePanel.add(questionScroll);
+        this.questionTablePanel.add(questionScroll);
     }
 
     /**
      * Builds the filter panel for filtering exercises.
      */
     private void buildFilterPanel() {
-        filterPanel = new JPanel();
-        filterPanel.setBorder(new TitledBorder(new EtchedBorder(
+        this.filterPanel = new JPanel();
+        this.filterPanel.setBorder(new TitledBorder(new EtchedBorder(
                 EtchedBorder.LOWERED, new Color(0, 0, 0), null),
                 "Filter Exercises", TitledBorder.CENTER, TitledBorder.TOP,
                 new Font("Tahoma", Font.PLAIN, 20)));
-        filterPanel.setBackground(UIColors.lightBlue);
+        this.filterPanel.setBackground(UIColors.lightBlue);
 
         JLabel lblFilter = new JLabel("Filter");
-        filterPanel.add(lblFilter);
+        this.filterPanel.add(lblFilter);
 
-        filterBox = new JComboBox();
-        filterBox.setModel(new DefaultComboBoxModel(FILTER));
-        filterPanel.add(filterBox);
+        this.filterBox = new JComboBox<>();
+        this.filterBox.setModel(new DefaultComboBoxModel<>(this.FILTER));
+        this.filterPanel.add(this.filterBox);
 
         JLabel lblBy = new JLabel("by");
-        filterPanel.add(lblBy);
+        this.filterPanel.add(lblBy);
 
-        txtFilter = new JTextField();
-        filterPanel.add(txtFilter);
-        txtFilter.setColumns(14);
+        this.txtFilter = new JTextField();
+        this.filterPanel.add(this.txtFilter);
+        this.txtFilter.setColumns(14);
 
-        btnFilter = new JButton("Filter");
-        filterPanel.add(btnFilter);
-        lowerCenterPanel.add(filterPanel, BorderLayout.NORTH);
+        this.btnFilter = new JButton("Filter");
+        this.filterPanel.add(this.btnFilter);
+        this.lowerCenterPanel.add(this.filterPanel, BorderLayout.NORTH);
     }
 
     /**
@@ -202,8 +203,8 @@ public class ExerciseManagerUI {
                 TitledBorder.CENTER, TitledBorder.TOP, new Font("Tahoma",
                         Font.PLAIN, 20)));
 
-        exerciseTable = new JTable();
-        DisplayTableModel exerciseModel = new DisplayTableModel();
+        this.exerciseTable = new JTable();
+        DefaultTableModel exerciseModel = new DefaultTableModel();
         String[] exerciseHeads = { "Course", "Author", "Exercise Name",
                 "Is Test" };
         exerciseModel.setRowCount(1);
@@ -213,13 +214,13 @@ public class ExerciseManagerUI {
         exerciseModel.setValueAt("Discrete Mathematics in Computer Science", 0,
                 2);
         exerciseModel.setValueAt("X", 0, 3);
-        exerciseTable.setModel(exerciseModel);
+        this.exerciseTable.setModel(exerciseModel);
 
-        JScrollPane exerciseScroll = new JScrollPane(exerciseTable);
+        JScrollPane exerciseScroll = new JScrollPane(this.exerciseTable);
         exerciseScroll.getViewport().setBackground(UIColors.white);
         upperCenterPanel.add(exerciseScroll, BorderLayout.CENTER);
 
-        centerPanel.add(upperCenterPanel);
+        this.centerPanel.add(upperCenterPanel);
     }
 
     /**
@@ -228,12 +229,12 @@ public class ExerciseManagerUI {
      */
     private void addActionListeners() {
         ExerciseManagerUIListener listener = new ExerciseManagerUIListener();
-        btnAddExercise.addActionListener(listener);
-        btnDeleteExercise.addActionListener(listener);
-        btnEditExercise.addActionListener(listener);
-        btnHelp.addActionListener(listener);
-        btnFilter.addActionListener(listener);
-        btnDuplicateExercise.addActionListener(listener);
+        this.btnAddExercise.addActionListener(listener);
+        this.btnDeleteExercise.addActionListener(listener);
+        this.btnEditExercise.addActionListener(listener);
+        this.btnHelp.addActionListener(listener);
+        this.btnFilter.addActionListener(listener);
+        this.btnDuplicateExercise.addActionListener(listener);
     }
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
@@ -253,34 +254,38 @@ public class ExerciseManagerUI {
      */
     private class ExerciseManagerUIListener implements ActionListener {
 
-        @Override
+        public ExerciseManagerUIListener() {
+			// Empty Constructor 
+		}
+
+		@Override
         public void actionPerformed(ActionEvent e) {
-            if (e.getSource() == btnAddExercise) {
+            if (e.getSource() == ExerciseManagerUI.this.btnAddExercise) {
                 MainFrame.updateFrame(
                         new ManageExerciseInfoUI().getManageExerciseInfoUI(),
                         "Manage Exercise Info");
             }
 
-            else if (e.getSource() == btnDeleteExercise) {
+            else if (e.getSource() == ExerciseManagerUI.this.btnDeleteExercise) {
 
             }
 
-            else if (e.getSource() == btnEditExercise) {
+            else if (e.getSource() == ExerciseManagerUI.this.btnEditExercise) {
 
             }
 
-            else if (e.getSource() == btnHelp) {
+            else if (e.getSource() == ExerciseManagerUI.this.btnHelp) {
                 JOptionPane.showMessageDialog(null,
                         HelpPresenter.getExerciseManagerHelp(),
                         HelpPresenter.getExerciseManagerTitle(),
                         JOptionPane.PLAIN_MESSAGE, HelpPresenter.getHelpIcon());
             }
 
-            else if (e.getSource() == btnFilter) {
+            else if (e.getSource() == ExerciseManagerUI.this.btnFilter) {
 
             }
             
-            else if (e.getSource() == btnDuplicateExercise) {
+            else if (e.getSource() == ExerciseManagerUI.this.btnDuplicateExercise) {
                 
             }
         }

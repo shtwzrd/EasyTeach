@@ -19,8 +19,8 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.table.DefaultTableModel;
 
-import com.easyTeach.client.presenter.DisplayTableModel;
 import com.easyTeach.client.presenter.HelpPresenter;
 import com.easyTeach.common.ui.UIColors;
 
@@ -46,8 +46,8 @@ public class StudentManagerUI {
     private JTable availableTestsTable;
     private JButton quizzesFilter;
     private JTextField quizzesTxt;
-    private JComboBox quizzesCombo;
-    private JComboBox courseQuizzesCombo;
+    private JComboBox<String> quizzesCombo;
+    private JComboBox<String> courseQuizzesCombo;
     private JButton btnHelp;
     private JButton btnTakeExercise;
     private JTable lockedTestsTable;
@@ -68,7 +68,7 @@ public class StudentManagerUI {
      * @return the JPanel, StudentManagerUI. Meant to be used in another frame.
      */
     public JPanel getStudentManagerUI() {
-        return studentManagerPanel;
+        return this.studentManagerPanel;
     }
 
     /**
@@ -77,8 +77,8 @@ public class StudentManagerUI {
      * and review their progress.
      */
     public void buildPanel() {
-        studentManagerPanel = new JPanel(new BorderLayout());
-        studentManagerPanel.setBackground(UIColors.lightBlue);
+        this.studentManagerPanel = new JPanel(new BorderLayout());
+        this.studentManagerPanel.setBackground(UIColors.lightBlue);
 
         buildNorthPanel();
         buildCenterPanel();
@@ -89,35 +89,35 @@ public class StudentManagerUI {
      * quizzes and reviewing classes' and users' progress.
      */
     private void buildCenterPanel() {
-        tabPanel = new JTabbedPane(JTabbedPane.TOP);
+        this.tabPanel = new JTabbedPane(JTabbedPane.TOP);
 
         JPanel exercisePanel = new JPanel(new BorderLayout());
         exercisePanel.setBackground(UIColors.lightBlue);
-        exerciseTabPanel = new JTabbedPane(JTabbedPane.TOP);
+        this.exerciseTabPanel = new JTabbedPane(JTabbedPane.TOP);
 
         // Adding tabs to the exerciseTabPanel
         buildQuizzesPanel();
         buildAvailableTestsPanel();
         buildLockedTestsPanel();
 
-        exercisePanel.add(exerciseTabPanel, BorderLayout.CENTER);
+        exercisePanel.add(this.exerciseTabPanel, BorderLayout.CENTER);
 
         JPanel southButtonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         southButtonPanel.setBackground(UIColors.darkBlue);
 
-        btnHelp = new JButton("Help");
-        southButtonPanel.add(btnHelp);
+        this.btnHelp = new JButton("Help");
+        southButtonPanel.add(this.btnHelp);
 
-        btnTakeExercise = new JButton("Take Exercise");
-        southButtonPanel.add(btnTakeExercise);
+        this.btnTakeExercise = new JButton("Take Exercise");
+        southButtonPanel.add(this.btnTakeExercise);
 
         exercisePanel.add(southButtonPanel, BorderLayout.SOUTH);
 
-        tabPanel.add("Exercises", exercisePanel);
-        tabPanel.add("Progress", new JPanel());
+        this.tabPanel.add("Exercises", exercisePanel);
+        this.tabPanel.add("Progress", new JPanel());
 
-        studentManagerPanel.add(tabPanel, BorderLayout.CENTER);
-        studentManagerPanel.setBackground(UIColors.darkBlue);
+        this.studentManagerPanel.add(this.tabPanel, BorderLayout.CENTER);
+        this.studentManagerPanel.setBackground(UIColors.darkBlue);
     }
 
     /**
@@ -133,7 +133,7 @@ public class StudentManagerUI {
                 .setFont(new Font("Lucida Grande", Font.BOLD, 24));
         northPanel.add(lblStudentManagerTitle);
 
-        studentManagerPanel.add(northPanel, BorderLayout.NORTH);
+        this.studentManagerPanel.add(northPanel, BorderLayout.NORTH);
     }
 
     /**
@@ -145,8 +145,8 @@ public class StudentManagerUI {
         JPanel quizzesPanel = new JPanel(new BorderLayout());
         quizzesPanel.setBackground(UIColors.lightBlue);
 
-        availableTestsTable = new JTable();
-        DisplayTableModel quizzesModel = new DisplayTableModel();
+        this.availableTestsTable = new JTable();
+        DefaultTableModel quizzesModel = new DefaultTableModel();
         String[] quizzesHeads = { "Exercise Name", "Tags", "Completed",
                 "Date Added" };
         quizzesModel.setRowCount(1);
@@ -156,9 +156,9 @@ public class StudentManagerUI {
                 "superclass, subclass, polymorphism, inheritance", 0, 1);
         quizzesModel.setValueAt("X", 0, 2);
         quizzesModel.setValueAt("01-20-2013", 0, 3);
-        availableTestsTable.setModel(quizzesModel);
+        this.availableTestsTable.setModel(quizzesModel);
 
-        JScrollPane quizzesScroll = new JScrollPane(availableTestsTable);
+        JScrollPane quizzesScroll = new JScrollPane(this.availableTestsTable);
         quizzesScroll.getViewport().setBackground(UIColors.white);
         quizzesPanel.add(quizzesScroll, BorderLayout.CENTER);
 
@@ -172,24 +172,24 @@ public class StudentManagerUI {
                 EtchedBorder.LOWERED, new Color(0, 0, 0), null), "Courses",
                 TitledBorder.CENTER, TitledBorder.TOP, new Font("Tahoma",
                         Font.PLAIN, 20)));
-        courseQuizzesCombo = new JComboBox();
-        courseQuizzesCombo.setModel(new DefaultComboBoxModel(FILTER_COURSES));
-        courseFilterPanel.add(courseQuizzesCombo);
+        this.courseQuizzesCombo = new JComboBox<>();
+        this.courseQuizzesCombo.setModel(new DefaultComboBoxModel(FILTER_COURSES));
+        courseFilterPanel.add(this.courseQuizzesCombo);
         filterPanel.add(courseFilterPanel, BorderLayout.WEST);
 
         // Table filter (minus course filter)
         JPanel tableFilterPanel = new JPanel();
         tableFilterPanel.setBackground(UIColors.lightBlue);
-        quizzesFilter = new JButton("Filter");
-        quizzesTxt = new JTextField(14);
-        quizzesCombo = new JComboBox();
-        quizzesCombo.setModel(new DefaultComboBoxModel(FILTER_QUIZZES));
+        this.quizzesFilter = new JButton("Filter");
+        this.quizzesTxt = new JTextField(14);
+        this.quizzesCombo = new JComboBox<>();
+        this.quizzesCombo.setModel(new DefaultComboBoxModel(FILTER_QUIZZES));
 
         tableFilterPanel.add(new JLabel("Filer"));
-        tableFilterPanel.add(quizzesCombo);
+        tableFilterPanel.add(this.quizzesCombo);
         tableFilterPanel.add(new JLabel("by"));
-        tableFilterPanel.add(quizzesTxt);
-        tableFilterPanel.add(quizzesFilter);
+        tableFilterPanel.add(this.quizzesTxt);
+        tableFilterPanel.add(this.quizzesFilter);
 
         tableFilterPanel.setBorder(new TitledBorder(new EtchedBorder(
                 EtchedBorder.LOWERED, new Color(0, 0, 0), null), "Filter",
@@ -199,7 +199,7 @@ public class StudentManagerUI {
 
         quizzesPanel.add(filterPanel, BorderLayout.SOUTH);
 
-        exerciseTabPanel.add("Quizzes", quizzesPanel);
+        this.exerciseTabPanel.add("Quizzes", quizzesPanel);
     }
 
     /**
@@ -210,8 +210,8 @@ public class StudentManagerUI {
         JPanel availableTestsPanel = new JPanel(new BorderLayout());
         availableTestsPanel.setBackground(UIColors.lightBlue);
 
-        availableTestsTable = new JTable();
-        DisplayTableModel availableTestsModel = new DisplayTableModel();
+        this.availableTestsTable = new JTable();
+        DefaultTableModel availableTestsModel = new DefaultTableModel();
         String[] availableTestsHeads = { "Exercise Name", "Tags", "Completed",
                 "Date Added" };
         availableTestsModel.setRowCount(1);
@@ -221,13 +221,13 @@ public class StudentManagerUI {
                 "superclass, subclass, polymorphism, inheritance", 0, 1);
         availableTestsModel.setValueAt("X", 0, 2);
         availableTestsModel.setValueAt("01-20-2013", 0, 3);
-        availableTestsTable.setModel(availableTestsModel);
+        this.availableTestsTable.setModel(availableTestsModel);
 
-        JScrollPane availableTestsScroll = new JScrollPane(availableTestsTable);
+        JScrollPane availableTestsScroll = new JScrollPane(this.availableTestsTable);
         availableTestsScroll.getViewport().setBackground(UIColors.white);
         availableTestsPanel.add(availableTestsScroll, BorderLayout.CENTER);
 
-        exerciseTabPanel.add("Available Tests", availableTestsPanel);
+        this.exerciseTabPanel.add("Available Tests", availableTestsPanel);
     }
 
     /**
@@ -238,8 +238,8 @@ public class StudentManagerUI {
         JPanel lockedTestsPanel = new JPanel(new BorderLayout());
         lockedTestsPanel.setBackground(UIColors.lightBlue);
 
-        lockedTestsTable = new JTable();
-        DisplayTableModel lockedTestsModel = new DisplayTableModel();
+        this.lockedTestsTable = new JTable();
+        DefaultTableModel lockedTestsModel = new DefaultTableModel();
         String[] lockedTestsHeads = { "Exercise Name", "Tags", "Completed",
                 "Date Added" };
         lockedTestsModel.setRowCount(1);
@@ -249,13 +249,13 @@ public class StudentManagerUI {
                 "superclass, subclass, polymorphism, inheritance", 0, 1);
         lockedTestsModel.setValueAt("X", 0, 2);
         lockedTestsModel.setValueAt("01-20-2013", 0, 3);
-        lockedTestsTable.setModel(lockedTestsModel);
+        this.lockedTestsTable.setModel(lockedTestsModel);
 
-        JScrollPane lockedTestsScroll = new JScrollPane(lockedTestsTable);
+        JScrollPane lockedTestsScroll = new JScrollPane(this.lockedTestsTable);
         lockedTestsScroll.getViewport().setBackground(UIColors.white);
         lockedTestsPanel.add(lockedTestsScroll, BorderLayout.CENTER);
 
-        exerciseTabPanel.add("Locked Tests", lockedTestsPanel);
+        this.exerciseTabPanel.add("Locked Tests", lockedTestsPanel);
     }
 
     /**
@@ -264,10 +264,10 @@ public class StudentManagerUI {
      */
     private void addActionListeners() {
         StudentManagerUIListener listener = new StudentManagerUIListener();
-        quizzesFilter.addActionListener(listener);
-        btnTakeExercise.addActionListener(listener);
-        btnHelp.addActionListener(listener);
-        courseQuizzesCombo.addActionListener(listener);;
+        this.quizzesFilter.addActionListener(listener);
+        this.btnTakeExercise.addActionListener(listener);
+        this.btnHelp.addActionListener(listener);
+        this.courseQuizzesCombo.addActionListener(listener);;
     }
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
@@ -286,24 +286,28 @@ public class StudentManagerUI {
      */
     private class StudentManagerUIListener implements ActionListener {
 
-        @Override
+        public StudentManagerUIListener() {
+			// Empty Constructor 
+		}
+
+		@Override
         public void actionPerformed(ActionEvent e) {
-            if (e.getSource() == btnTakeExercise) {
+            if (e.getSource() == StudentManagerUI.this.btnTakeExercise) {
 
             }
 
-            else if (e.getSource() == courseQuizzesCombo) {
+            else if (e.getSource() == StudentManagerUI.this.courseQuizzesCombo) {
 
             }
 
-            else if (e.getSource() == btnHelp) {
+            else if (e.getSource() == StudentManagerUI.this.btnHelp) {
                 JOptionPane.showMessageDialog(null,
                         HelpPresenter.getStudentManagerHelp(),
                         HelpPresenter.getStudentManagerTitle(),
                         JOptionPane.PLAIN_MESSAGE, HelpPresenter.getHelpIcon());
             }
 
-            else if (e.getSource() == quizzesFilter) {
+            else if (e.getSource() == StudentManagerUI.this.quizzesFilter) {
             }
         }
 
