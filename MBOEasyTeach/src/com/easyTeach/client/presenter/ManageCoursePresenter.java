@@ -4,8 +4,6 @@ import java.util.UUID;
 
 import javax.swing.JOptionPane;
 
-import org.omg.PortableInterceptor.SUCCESSFUL;
-
 import com.easyTeach.client.network.EasyTeachClient;
 import com.easyTeach.client.ui.AdminManagerUI;
 import com.easyTeach.client.ui.MainFrame;
@@ -22,7 +20,7 @@ import com.easyTeach.common.network.Response.ResponseStatus;
 import com.easyTeach.common.network.Session;
 
 /**
- * TODO Fix filter
+ * TODO Create the edit button.O
  * 
  * @author Oliver Nielsen
  */
@@ -265,7 +263,6 @@ public class ManageCoursePresenter {
 				return new String();
 			}
 		}
-
 	}
 
 }
