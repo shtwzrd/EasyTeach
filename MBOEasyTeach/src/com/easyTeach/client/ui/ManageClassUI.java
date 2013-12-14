@@ -67,7 +67,7 @@ public class ManageClassUI {
 		buildPanel();
 		addActionListeners();
 	}
-	
+
 	public ManageClassUI(Class toEdit) {
 		this.presenter = new ManageClassPresenter(toEdit);
 		buildPanel();
@@ -283,10 +283,10 @@ public class ManageClassUI {
 	protected synchronized void syncWithPresenter() {
 		if (!this.isSyncing) {
 			this.isSyncing = true;
-			if(this.txtClassName.getText().equals("")) {
+			if (this.txtClassName.getText().equals("")) {
 				this.txtClassName.setText(this.presenter.getClassName());
 			}
-			if(this.txtYear.getText().equals("")) {
+			if (this.txtYear.getText().equals("")) {
 				this.txtYear.setText(this.presenter.getYear());
 			}
 
@@ -321,7 +321,7 @@ public class ManageClassUI {
 		public void actionPerformed(ActionEvent e) {
 			if (e.getSource() == ManageClassUI.this.btnDiscard) {
 				int reply = JOptionPane.showConfirmDialog(null,
-						"Are you sure you want discard what you have made?\n"
+						"Are you sure you want to discard what you have made?\n"
 								+ "Warning: It will not be saved.",
 						"Discard Message", JOptionPane.YES_NO_OPTION);
 				if (reply == JOptionPane.YES_OPTION) {
@@ -332,10 +332,16 @@ public class ManageClassUI {
 			}
 
 			else if (e.getSource() == ManageClassUI.this.btnSaveClass) {
-				ManageClassUI.this.presenter.save(
-						ManageClassUI.this.txtClassName.getText(),
-						Integer.parseInt(ManageClassUI.this.txtYear.getText()));
-				syncWithPresenter();
+				int reply = JOptionPane.showConfirmDialog(null,
+						"Are you sure you want to commit these changes?", 
+						"Confirm Save", JOptionPane.YES_NO_OPTION);
+				if (reply == JOptionPane.YES_OPTION) {
+					ManageClassUI.this.presenter.save(
+							ManageClassUI.this.txtClassName.getText(), Integer
+									.parseInt(ManageClassUI.this.txtYear
+											.getText()));
+					syncWithPresenter();
+				}
 			}
 
 			else if (e.getSource() == ManageClassUI.this.btnFilter) {
@@ -368,10 +374,9 @@ public class ManageClassUI {
 		@Override
 		public void mouseClicked(MouseEvent arg0) {
 			if (arg0.getSource() == ManageClassUI.this.allStudentsTable) {
-				String email = ManageClassUI.this.allStudentsTable
-						.getValueAt(
-								ManageClassUI.this.allStudentsTable.rowAtPoint(arg0
-										.getPoint()), 0).toString();
+				String email = ManageClassUI.this.allStudentsTable.getValueAt(
+						ManageClassUI.this.allStudentsTable.rowAtPoint(arg0
+								.getPoint()), 0).toString();
 				ManageClassUI.this.presenter.setSelectedUserInSelection(email);
 			}
 			if (arg0.getSource() == ManageClassUI.this.enrolledClassesTable) {

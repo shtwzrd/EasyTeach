@@ -389,7 +389,7 @@ public class AdminManagerUI {
 			MouseListener {
 
 		public AdminManagerUIListener() {
-			// Empty Constructor 
+			// Empty Constructor
 		}
 
 		@Override
@@ -415,52 +415,57 @@ public class AdminManagerUI {
 			}
 
 			// Finds the selected row and...
+
 			else if (e.getSource() == AdminManagerUI.this.btnDelete) {
-				if (selectedTab.equals("Classes")) {
-					AdminManagerUI.this.classPresenter
-							.removeCurrrentlySelected();
-				} else if (selectedTab.equals("Courses")) {
-					AdminManagerUI.this.coursePresenter
-							.removeCurrrentlySelected();
-				} else {
-					if (selectedUserTab.equals("Students")) {
-						AdminManagerUI.this.studentPresenter
+				int reply = JOptionPane.showConfirmDialog(null,
+						"Are you sure you want to perform a Delete?",
+						"Delete Confirmation", JOptionPane.YES_NO_OPTION);
+				if (reply == JOptionPane.YES_OPTION) {
+					if (selectedTab.equals("Classes")) {
+						AdminManagerUI.this.classPresenter
 								.removeCurrrentlySelected();
-					} else if (selectedUserTab.equals("Teachers")) {
-						AdminManagerUI.this.teacherPresenter
+					} else if (selectedTab.equals("Courses")) {
+						AdminManagerUI.this.coursePresenter
 								.removeCurrrentlySelected();
 					} else {
-						AdminManagerUI.this.adminPresenter
-								.removeCurrrentlySelected();
+						if (selectedUserTab.equals("Students")) {
+							AdminManagerUI.this.studentPresenter
+									.removeCurrrentlySelected();
+						} else if (selectedUserTab.equals("Teachers")) {
+							AdminManagerUI.this.teacherPresenter
+									.removeCurrrentlySelected();
+						} else {
+							AdminManagerUI.this.adminPresenter
+									.removeCurrrentlySelected();
+						}
 					}
 				}
-
 			}
 
-			//Edit Button
+			// Edit Button
 			else if (e.getSource() == AdminManagerUI.this.btnEdit) {
 				if (selectedTab.equals("Users")) {
-					if(selectedUserTab.equals("Students")) {
+					if (selectedUserTab.equals("Students")) {
 						MainFrame.updateFrame(
-							new ManageUserUI(
-									AdminManagerUI.this.studentPresenter
-											.getSelectedUser())
-									.getManageUserUI(),
-							"EasyTeach - Edit User");
+								new ManageUserUI(
+										AdminManagerUI.this.studentPresenter
+												.getSelectedUser())
+										.getManageUserUI(),
+								"EasyTeach - Edit User");
 					} else if (selectedUserTab.equals("Teachers")) {
 						MainFrame.updateFrame(
-							new ManageUserUI(
-									AdminManagerUI.this.teacherPresenter
-											.getSelectedUser())
-									.getManageUserUI(),
-							"EasyTeach - Edit User");
+								new ManageUserUI(
+										AdminManagerUI.this.teacherPresenter
+												.getSelectedUser())
+										.getManageUserUI(),
+								"EasyTeach - Edit User");
 					} else {
-							MainFrame.updateFrame(
-							new ManageUserUI(
-									AdminManagerUI.this.adminPresenter
-											.getSelectedUser())
-									.getManageUserUI(),
-							"EasyTeach - Edit User");					
+						MainFrame.updateFrame(
+								new ManageUserUI(
+										AdminManagerUI.this.adminPresenter
+												.getSelectedUser())
+										.getManageUserUI(),
+								"EasyTeach - Edit User");
 					}
 				} else if (selectedTab.equals("Classes")) {
 					MainFrame.updateFrame(
