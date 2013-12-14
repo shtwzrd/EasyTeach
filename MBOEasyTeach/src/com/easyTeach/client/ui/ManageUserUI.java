@@ -265,6 +265,8 @@ public class ManageUserUI {
 		this.btnGeneratePassword.addActionListener(listener);
 		this.btnHelp.addActionListener(listener);
 		this.btnSaveUser.addActionListener(listener);
+		this.enrolledClassesTable.addMouseListener(listener);
+		this.allClassesTable.addMouseListener(listener);
 	}
 
 	protected synchronized void syncWithPresenter() {
