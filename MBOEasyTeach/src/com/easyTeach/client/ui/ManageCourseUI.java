@@ -25,6 +25,7 @@ import javax.swing.border.TitledBorder;
 
 import com.easyTeach.client.presenter.HelpPresenter;
 import com.easyTeach.client.presenter.ManageCoursePresenter;
+import com.easyTeach.common.entity.Course;
 import com.easyTeach.common.ui.UIColors;
 
 /**
@@ -65,6 +66,10 @@ public class ManageCourseUI {
 
 		buildPanel();
 		addActionListeners();
+	}
+
+	public ManageCourseUI(Course selectedCourse) {
+		// TODO Auto-generated constructor stub
 	}
 
 	/**
