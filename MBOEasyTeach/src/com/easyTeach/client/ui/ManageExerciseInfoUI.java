@@ -16,7 +16,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
-import javax.swing.SwingConstants;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
@@ -49,6 +48,7 @@ public class ManageExerciseInfoUI {
     private JTextField txtAccessEnd;
     private JComboBox isTextBox;
     private JComboBox isLockedBox;
+    private JComboBox courseBox;
 
     /**
      * Constructor for building the manageExerciseInfoPanel. The panel is built
@@ -100,7 +100,7 @@ public class ManageExerciseInfoUI {
      * information about an exercise.
      */
     private void buildCenterPanel() {
-        centerPanel = new JPanel(new GridLayout(8, 2, 1, 50));
+        centerPanel = new JPanel(new GridLayout(9, 2, 1, 40));
         centerPanel.setBackground(UIColors.lightBlue);
 
         manageExerciseInfoPanel.add(centerPanel, BorderLayout.CENTER);
@@ -117,6 +117,14 @@ public class ManageExerciseInfoUI {
 
         txtExerciseName = new JTextField();
         centerPanel.add(txtExerciseName);
+        
+        JLabel lblCourse = new JLabel("Course:", JLabel.CENTER);
+        lblCourse.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
+        centerPanel.add(lblCourse);
+
+        courseBox = new JComboBox();
+        courseBox.setModel(new DefaultComboBoxModel(new String[]{"A", "B"}));
+        centerPanel.add(courseBox);
 
         JLabel lblIsText = new JLabel("Is a Test:", JLabel.CENTER);
         lblIsText.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
