@@ -1,6 +1,5 @@
 package com.easyTeach.client.ui;
 
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
@@ -25,6 +24,7 @@ import javax.swing.border.TitledBorder;
 import com.easyTeach.client.presenter.DisplayTableModel;
 import com.easyTeach.client.presenter.HelpPresenter;
 import com.easyTeach.client.presenter.ManageUserPresenter;
+import com.easyTeach.common.entity.User;
 
 /**
  * The ManageUserUI class constructs a JPanel with all the different JComponents
@@ -62,6 +62,12 @@ public class ManageUserUI {
 	 */
 	public ManageUserUI() {
 		this.presenter = new ManageUserPresenter();
+		buildPanel();
+		addActionListeners();
+	}
+
+	public ManageUserUI(User selectedUser) {
+		this.presenter = new ManageUserPresenter(selectedUser);
 		buildPanel();
 		addActionListeners();
 	}
@@ -125,8 +131,8 @@ public class ManageUserUI {
 		JPanel classPanel = new JPanel(new GridLayout(2, 1));
 		classPanel.setBorder(new TitledBorder(new EtchedBorder(
 				EtchedBorder.LOWERED, new Color(0, 0, 0), null), "Classes",
-				TitledBorder.CENTER, TitledBorder.TOP, 
-				new Font("Tahoma", Font.PLAIN, 20)));
+				TitledBorder.CENTER, TitledBorder.TOP, new Font("Tahoma",
+						Font.PLAIN, 20)));
 		classPanel.setBackground(UIColors.lightBlue);
 		this.centerPanel.add(classPanel, BorderLayout.CENTER);
 
@@ -288,7 +294,7 @@ public class ManageUserUI {
 		public ManageUserListener() {
 			// Empty
 		}
-		
+
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			if (e.getSource() == ManageUserUI.this.btnDiscard) {

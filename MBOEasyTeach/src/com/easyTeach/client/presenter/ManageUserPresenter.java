@@ -65,6 +65,10 @@ public class ManageUserPresenter {
 		refreshClassTable();
 	}
 
+	public ManageUserPresenter(User selectedUser) {
+		// TODO Auto-generated constructor stub
+	}
+
 	public UserTableModel getEnrolledClassesModel() {
 		return this.enrolledClasses;
 	}
