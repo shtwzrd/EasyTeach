@@ -7,6 +7,8 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -21,10 +23,10 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
-import com.easyTeach.client.presenter.DisplayTableModel;
 import com.easyTeach.client.presenter.HelpPresenter;
 import com.easyTeach.client.presenter.ManageUserPresenter;
 import com.easyTeach.common.entity.User;
+import com.easyTeach.common.ui.UIColors;
 
 /**
  * The ManageUserUI class constructs a JPanel with all the different JComponents
@@ -289,7 +291,7 @@ public class ManageUserUI {
 	 * @see ActionListener
 	 * @date 13. December, 2013
 	 */
-	private class ManageUserListener implements ActionListener {
+	private class ManageUserListener implements ActionListener, MouseListener {
 
 		public ManageUserListener() {
 			// Empty
@@ -338,6 +340,39 @@ public class ManageUserUI {
 						HelpPresenter.getManageUserTitle(),
 						JOptionPane.PLAIN_MESSAGE, HelpPresenter.getHelpIcon());
 			}
+		}
+
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			if (e.getSource() == ManageUserUI.this.allClassesTable) {
+				String email = ManageUserUI.this.allClassesTable.getValueAt(
+						ManageUserUI.this.allClassesTable.rowAtPoint(e
+								.getPoint()), 0).toString();
+				ManageUserUI.this.presenter.setSelectedClassInSelection(email);
+			}
+			if (e.getSource() == ManageUserUI.this.enrolledClassesTable) {
+				String email = ManageUserUI.this.enrolledClassesTable
+						.getValueAt(
+								ManageUserUI.this.enrolledClassesTable.rowAtPoint(e
+										.getPoint()), 0).toString();
+				ManageUserUI.this.presenter.setSelectedClassInEnrolled(email);
+			}
+		}
+
+		@Override
+		public void mousePressed(MouseEvent e) {
+		}
+
+		@Override
+		public void mouseReleased(MouseEvent e) {
+		}
+
+		@Override
+		public void mouseEntered(MouseEvent e) {
+		}
+
+		@Override
+		public void mouseExited(MouseEvent e) {
 		}
 	}
 
