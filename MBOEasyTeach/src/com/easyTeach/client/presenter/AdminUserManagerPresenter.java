@@ -1,15 +1,14 @@
 package com.easyTeach.client.presenter;
 
-import java.util.HashMap;
-
 import com.easyTeach.client.network.EasyTeachClient;
-import com.easyTeach.common.entity.Class;
+import com.easyTeach.common.entity.User;
 import com.easyTeach.common.entity.ResourceSet;
 import com.easyTeach.common.network.Action;
 import com.easyTeach.common.network.Action.ActionType;
 import com.easyTeach.common.network.Request;
 import com.easyTeach.common.network.Response.ResponseStatus;
 import com.easyTeach.common.network.Session;
+import com.easyTeach.server.domainLogic.RoleResource.Role;
 
 /**
  * 
@@ -18,55 +17,56 @@ import com.easyTeach.common.network.Session;
  * @date 12. December, 2013
  */
 
-public class AdminClassManagerPresenter {
-	private ClassTableModel classesModel;
-	protected ResourceSet classesSet;
-	protected ResourceSet filteredClassesSet;
+public class AdminUserManagerPresenter {
+	private UserTableModel userModel;
+	protected ResourceSet userSet;
+	protected ResourceSet filteredUserSet;
 	private EasyTeachClient client;
-	private Class currentlySelectedClass;
+	private User currentlySelectedUser;
 	private boolean isFiltered;
-	HashMap<String, Integer> classesOfCourse;
+	private Role role;
 
-	String[] tableColumnHeaders = { "Class name", "Year" };
+	String[] tableColumnHeaders = { "Email", "First name", "Last name", "Date added" };
 
 	/**
 	 * Initializes sets and table models
 	 */
-	public AdminClassManagerPresenter() {
-		this.classesModel = new ClassTableModel(this.tableColumnHeaders,
-				this.classesSet);
-		this.classesOfCourse = new HashMap<>();
-		refreshCourseTable();
+	public AdminUserManagerPresenter(Role role) {
+		this.role = role;
+		this.userModel = new UserTableModel(this.tableColumnHeaders,
+				this.userSet);
+		this.userSet = new ResourceSet();
+		refreshUserTable();
 	}
 
-	public ClassTableModel getClassesModel() {
-		return this.classesModel;
+	public UserTableModel getUserModel() {
+		return this.userModel;
 	}
 
-	public void setSelectedClass(int row) {
-		this.currentlySelectedClass =
-				(Class) this.classesModel.getResourceAtRow(row);
+	public void setSelectedUser(int row) {
+		this.currentlySelectedUser =
+				(User) this.userModel.getResourceAtRow(row);
 	}
 
-	public Class getSelectedClass() {
-		return this.currentlySelectedClass;
+	public User getSelectedUser() {
+		return this.currentlySelectedUser;
 	}
 
 	public void removeCurrrentlySelected() {
-		if (this.currentlySelectedClass != null) {
-			this.classesSet.remove(this.currentlySelectedClass);
+		if (this.currentlySelectedUser != null) {
+			this.userSet.remove(this.currentlySelectedUser);
 			Action rm = new Action(ActionType.DELETE);
 			Request remove = new Request(Session.getInstance(), rm, 
-					this.currentlySelectedClass);
+					this.currentlySelectedUser);
 			this.client = new EasyTeachClient(remove);
 			this.client.run();
 		}
 		if (this.isFiltered) {
-			this.classesModel.refreshData(this.filteredClassesSet);
+			this.userModel.refreshData(this.filteredUserSet);
 		} else {
-			this.classesModel.refreshData(this.classesSet);
+			this.userModel.refreshData(this.userSet);
 		}
-		this.classesModel.fireTableDataChanged();
+		this.userModel.fireTableDataChanged();
 	}
 
 	/**
@@ -79,24 +79,35 @@ public class AdminClassManagerPresenter {
 	 * the table in the UI to update.
 	 * </p>
 	 */
-	private void refreshCourseTable() {
+	private void refreshUserTable() {
 
-		Action toDo = new Action(ActionType.READ, "all");
+		String attrib;
+		switch(this.role) {
+		case ADMIN :
+			attrib = "admins";
+			break;
+		case TEACHER :
+			attrib = "teachers";
+			break;
+		default :
+			attrib = "students";
+		}
+		Action toDo = new Action(ActionType.READ, attrib);
 
-		Request getClasses = new Request(Session.getInstance(), toDo,
-				new Class());
-		this.client = new EasyTeachClient(getClasses);
+		Request getUsers = new Request(Session.getInstance(), toDo,
+				new User());
+		this.client = new EasyTeachClient(getUsers);
 		this.client.run();
 		this.client.getResponse();
 		if (this.client.getResponse().getStatus() != ResponseStatus.FAILURE) {
-			this.classesSet = (ResourceSet) this.client.getResponse()
+			this.userSet = (ResourceSet) this.client.getResponse()
 					.getResponse();
 		}
 
 		if (this.isFiltered) {
-			this.classesModel.refreshData(this.filteredClassesSet);
+			this.userModel.refreshData(this.filteredUserSet);
 		} else {
-			this.classesModel.refreshData(this.classesSet);
+			this.userModel.refreshData(this.userSet);
 		}
 
 	}
@@ -117,8 +128,8 @@ public class AdminClassManagerPresenter {
 	 *       </p>
 	 * 
 	 */
-	private class ClassTableModel extends DisplayTableModel {
-		public ClassTableModel(String[] columnHeaders, ResourceSet resources) {
+	private class UserTableModel extends DisplayTableModel {
+		public UserTableModel(String[] columnHeaders, ResourceSet resources) {
 			super(columnHeaders, resources);
 		}
 
@@ -126,17 +137,19 @@ public class AdminClassManagerPresenter {
 
 		@Override
 		public String getValueAt(int row, int column) {
-			Class c = (Class) this.tableData.get(row);
+			User u = (User) this.tableData.get(row);
 			switch (this.getColumnName(column)) {
-			case "Class name" :
-				return c.getClassName();
-			case "Year" :
-				return Integer.toString(c.getYear());
+			case "Email" :
+				return u.getEmail();
+			case "First name" :
+				return u.getFirstName();
+			case "Last name" :
+				return u.getLastName();
+			case "Date added" :
+				return u.getDateAdded().toString();
 			default:
 				return new String();
 			}
 		}
 	}
 }
-
-

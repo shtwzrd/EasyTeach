@@ -25,6 +25,7 @@ import javax.swing.border.TitledBorder;
 
 import com.easyTeach.client.presenter.HelpPresenter;
 import com.easyTeach.client.presenter.ManageClassPresenter;
+import com.easyTeach.common.entity.Class;
 
 /**
  * The ManageClassUI class constructs a JPanel with all the different
@@ -62,6 +63,12 @@ public class ManageClassUI {
 	 */
 	public ManageClassUI() {
 		this.presenter = new ManageClassPresenter();
+		buildPanel();
+		addActionListeners();
+	}
+	
+	public ManageClassUI(Class toEdit) {
+		this.presenter = new ManageClassPresenter(toEdit);
 		buildPanel();
 		addActionListeners();
 	}
@@ -274,6 +281,12 @@ public class ManageClassUI {
 	protected synchronized void syncWithPresenter() {
 		if (!this.isSyncing) {
 			this.isSyncing = true;
+			if(this.txtClassName.equals("")) {
+				this.txtClassName.setText(this.presenter.getClassName());
+			}
+			if(this.txtYear.equals("")) {
+				this.txtYear.setText(this.presenter.getYear());
+			}
 
 			this.enrolledClassesTable.setModel(this.presenter
 					.getEnrolledStudentsModel());

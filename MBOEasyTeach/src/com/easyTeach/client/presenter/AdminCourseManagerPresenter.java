@@ -4,7 +4,6 @@ import java.util.HashMap;
 
 import com.easyTeach.client.network.EasyTeachClient;
 import com.easyTeach.common.entity.Course;
-import com.easyTeach.common.entity.Resource;
 import com.easyTeach.common.entity.ResourceSet;
 import com.easyTeach.common.network.Action;
 import com.easyTeach.common.network.Action.ActionType;
@@ -25,7 +24,6 @@ public class AdminCourseManagerPresenter {
 	protected ResourceSet filteredCoursesSet;
 	private EasyTeachClient client;
 	private Course currentlySelectedCourse;
-	private boolean isFiltered;
 	HashMap<String, Integer> classesOfCourse;
 
 	String[] tableColumnHeaders = { "Course name" };
@@ -61,10 +59,6 @@ public class AdminCourseManagerPresenter {
 					this.currentlySelectedCourse);
 			this.client = new EasyTeachClient(remove);
 			this.client.run();
-		}
-		if (this.isFiltered) {
-			this.coursesModel.refreshData(this.filteredCoursesSet);
-		} else {
 			this.coursesModel.refreshData(this.coursesSet);
 		}
 		this.coursesModel.fireTableDataChanged();
@@ -92,11 +86,6 @@ public class AdminCourseManagerPresenter {
 		if (this.client.getResponse().getStatus() != ResponseStatus.FAILURE) {
 			this.coursesSet = (ResourceSet) this.client.getResponse()
 					.getResponse();
-		}
-
-		if (this.isFiltered) {
-			this.coursesModel.refreshData(this.filteredCoursesSet);
-		} else {
 			this.coursesModel.refreshData(this.coursesSet);
 		}
 

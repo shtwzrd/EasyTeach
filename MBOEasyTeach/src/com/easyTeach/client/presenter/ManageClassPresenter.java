@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import com.easyTeach.client.network.EasyTeachClient;
 import com.easyTeach.common.entity.Class;
+import com.easyTeach.common.entity.ClassCourseRelation;
 import com.easyTeach.common.entity.ClassUserRelation;
 import com.easyTeach.common.entity.Resource;
 import com.easyTeach.common.entity.ResourceSet;
@@ -42,6 +43,7 @@ public class ManageClassPresenter {
 	private User currentlySelectedUserInSelection;
 	private User currentlySelectedUserInEnrolled;
 	private boolean isFiltered;
+	private Class classToEdit;
 
 	private String[] tableColumnHeaders = { "Email", "First Name", "Last Name",
 			"Date added" };
@@ -50,6 +52,18 @@ public class ManageClassPresenter {
 	 * Initializes sets and table models
 	 */
 	public ManageClassPresenter() {
+		this.studentsEnrolledSet = new ResourceSet();
+
+		this.enrolledStudents = new ClassTableModel(this.tableColumnHeaders,
+				this.studentsEnrolledSet);
+		this.allStudents = new ClassTableModel(this.tableColumnHeaders,
+				this.studentsEnrolledSet);
+
+		refreshStudentTable();
+	}
+
+	public ManageClassPresenter(Class toEdit) {
+		this.classToEdit = toEdit;
 		this.studentsEnrolledSet = new ResourceSet();
 
 		this.enrolledStudents = new ClassTableModel(this.tableColumnHeaders,
@@ -86,6 +100,20 @@ public class ManageClassPresenter {
 		}
 	}
 
+	public String getClassName() {
+		if (this.classToEdit != null) {
+			return this.classToEdit.getClassNo();
+		}
+		return "";
+	}
+
+	public String getYear() {
+		if (this.classToEdit != null) {
+			return Integer.toString(this.classToEdit.getYear());
+		}
+		return "";
+	}
+
 	/**
 	 * Sends a {@link Request} to the Server, updating the Presenter's set of
 	 * available Users.
@@ -116,6 +144,21 @@ public class ManageClassPresenter {
 			this.allStudents.refreshData(this.studentSelectionSet);
 		}
 
+		if (this.classToEdit != null) {
+			Action readRelations = new Action(ActionType.READ, "students");
+			Request getRelations = new Request(Session.getInstance(), readRelations,
+					this.classToEdit);
+			this.client = new EasyTeachClient(getRelations);
+			this.client.run();
+			this.client.getResponse();
+			if (this.client.getResponse().getStatus() != ResponseStatus.FAILURE) {
+				this.studentsEnrolledSet = (ResourceSet) this.client
+						.getResponse().getResponse();
+			}
+			this.enrolledStudents.refreshData(this.studentsEnrolledSet);
+			this.enrolledStudents.fireTableDataChanged();
+		}
+
 		this.allStudents.fireTableDataChanged();
 	}
 
@@ -142,7 +185,13 @@ public class ManageClassPresenter {
 			this.currentClass = new Class(classId, classYear, className);
 
 			// Send it to the Server
-			Action toDo = new Action(ActionType.CREATE);
+			Action toDo;
+			if(this.classToEdit != null) {
+				toDo = new Action(ActionType.UPDATE);
+			} else {
+				toDo = new Action(ActionType.CREATE);
+			}
+
 			Request out = new Request(Session.getInstance(), toDo,
 					this.currentClass);
 			this.client = new EasyTeachClient(out);
@@ -255,14 +304,15 @@ public class ManageClassPresenter {
 	 * @version 1.0
 	 * @date 12 December, 2013
 	 * 
-	 * Presenter-specific implementation of the abstract DisplayTableModel.
+	 *       Presenter-specific implementation of the abstract
+	 *       DisplayTableModel.
 	 * 
-	 * <p>
-	 * Implementation of the DisplayTableModel on a per-Presenter basis allows
-	 * us to interact rows in the table model as actual domain objects, specific
-	 * to the demands of the particular user-interface.
-	 * </p>
-	 *
+	 *       <p>
+	 *       Implementation of the DisplayTableModel on a per-Presenter basis
+	 *       allows us to interact rows in the table model as actual domain
+	 *       objects, specific to the demands of the particular user-interface.
+	 *       </p>
+	 * 
 	 */
 	private class ClassTableModel extends DisplayTableModel {
 		public ClassTableModel(String[] columnHeaders, ResourceSet resources) {

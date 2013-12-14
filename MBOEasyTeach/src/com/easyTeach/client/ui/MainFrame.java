@@ -42,11 +42,11 @@ import com.easyTeach.server.domainLogic.RoleResource;
 
 public class MainFrame {
 
-	private static JFrame frame;
+	static JFrame frame;
 	private static JPanel contentPanel;
-	private JMenuItem mntmLogOut;
-	private JMenuItem mntmQuit;
-	private JMenuItem mntmHome;
+	JMenuItem mntmLogOut;
+	JMenuItem mntmQuit;
+	JMenuItem mntmHome;
 
 	/**
 	 * Constructor for creating a new instance of the MainFrame. The constructor
@@ -168,18 +168,18 @@ public class MainFrame {
 					c.run();
 					Response whatAmI = c.getResponse();
 					RoleResource role = (RoleResource) whatAmI.getResponse();
-					switch (role.toString()) {
-					case "ADMIN":
-						updateFrame(new AdminManagerUI().getAdminManagerUI(),
+					switch (role.getRole()) {
+					case ADMIN :
+						MainFrame.updateFrame(new AdminManagerUI().getAdminManagerUI(),
 								"Admin Manager");
 						break;
-					case "TEACHER":
-						updateFrame(
+					case TEACHER :
+						MainFrame.updateFrame(
 								new TeacherManagerUI().getTeacherManagerUI(),
 								"Teacher Manager");
 						break;
-					case "STUDENT":
-						updateFrame(
+					case STUDENT :
+						MainFrame.updateFrame(
 								new StudentManagerUI().getStudentManagerUI(),
 								"Student Manager");
 						break;
