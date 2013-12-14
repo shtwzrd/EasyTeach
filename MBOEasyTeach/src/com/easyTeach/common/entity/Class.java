@@ -36,7 +36,7 @@ public class Class implements Resource {
 	}
     
     public String getClassNo() {
-        return classNo;
+        return this.classNo;
     }
     
     public void setClassNo(String classNo) {
@@ -44,7 +44,7 @@ public class Class implements Resource {
     }
     
     public int getYear() {
-        return year;
+        return this.year;
     }
     
     public void setYear(int year) {
@@ -52,7 +52,7 @@ public class Class implements Resource {
     }
     
     public String getClassName() {
-        return className;
+        return this.className;
     }
     
     public void setClassName(String className) {

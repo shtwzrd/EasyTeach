@@ -34,7 +34,7 @@ public class Tag implements Resource {
 	}
 
 	public String getTagNo() {
-		return tagNo;
+		return this.tagNo;
 	}
 
 	public void setTagNo(String tagNo) {
@@ -42,7 +42,7 @@ public class Tag implements Resource {
 	}
 
 	public String getTag() {
-		return tag;
+		return this.tag;
 	}
 
 	public void setTag(String tag) {

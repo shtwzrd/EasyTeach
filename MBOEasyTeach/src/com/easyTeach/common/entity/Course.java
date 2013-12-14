@@ -35,7 +35,7 @@ public class Course implements Resource {
 	}
 
     public String getCourseNo() {
-        return courseNo;
+        return this.courseNo;
     }
     
     public void setCourseNo(String courseNo) {
@@ -43,7 +43,7 @@ public class Course implements Resource {
     }
     
     public String getCourseName() {
-        return courseName;
+        return this.courseName;
     }
     
     public void setCourseName(String courseName) {

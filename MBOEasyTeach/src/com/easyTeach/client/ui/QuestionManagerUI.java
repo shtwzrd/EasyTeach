@@ -23,6 +23,7 @@ import javax.swing.border.TitledBorder;
 import com.easyTeach.client.presenter.DisplayTableModel;
 import com.easyTeach.client.presenter.HelpPresenter;
 import com.easyTeach.client.presenter.QuestionManagerPresenter;
+import com.easyTeach.common.ui.UIColors;
 
 /**
  * The QuestionManagerUI class constructs a JPanel with all the different 

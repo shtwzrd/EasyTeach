@@ -4,7 +4,6 @@ import java.util.UUID;
 
 import com.easyTeach.client.network.EasyTeachClient;
 import com.easyTeach.common.entity.Class;
-import com.easyTeach.common.entity.ClassCourseRelation;
 import com.easyTeach.common.entity.ClassUserRelation;
 import com.easyTeach.common.entity.Resource;
 import com.easyTeach.common.entity.ResourceSet;
@@ -102,7 +101,7 @@ public class ManageClassPresenter {
 
 	public String getClassName() {
 		if (this.classToEdit != null) {
-			return this.classToEdit.getClassNo();
+			return this.classToEdit.getClassName();
 		}
 		return "";
 	}
@@ -246,7 +245,7 @@ public class ManageClassPresenter {
 			case "Email":
 				for (Resource r : this.studentSelectionSet) {
 					User u = (User) r;
-					if (u.getEmail().equals(by)) {
+					if (u.getEmail().contains(by)) {
 						this.filteredSelectionSet.add(u);
 					}
 				}
@@ -254,7 +253,7 @@ public class ManageClassPresenter {
 			case "First name":
 				for (Resource r : this.studentSelectionSet) {
 					User u = (User) r;
-					if (u.getFirstName().equals(by)) {
+					if (u.getFirstName().contains(by)) {
 						this.filteredSelectionSet.add(u);
 					}
 				}
@@ -262,7 +261,7 @@ public class ManageClassPresenter {
 			case "Last name":
 				for (Resource r : this.studentSelectionSet) {
 					User u = (User) r;
-					if (u.getLastName().equals(by)) {
+					if (u.getLastName().contains(by)) {
 						this.filteredSelectionSet.add(u);
 					}
 				}

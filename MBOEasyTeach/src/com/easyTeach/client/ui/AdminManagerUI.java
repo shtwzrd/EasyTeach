@@ -25,6 +25,7 @@ import com.easyTeach.client.presenter.AdminClassManagerPresenter;
 import com.easyTeach.client.presenter.AdminCourseManagerPresenter;
 import com.easyTeach.client.presenter.AdminUserManagerPresenter;
 import com.easyTeach.client.presenter.HelpPresenter;
+import com.easyTeach.common.ui.UIColors;
 import com.easyTeach.server.domainLogic.RoleResource.Role;
 
 /**
@@ -51,7 +52,6 @@ public class AdminManagerUI {
 	JTabbedPane tabPanel;
 	private JPanel classPanel;
 	private JPanel coursePanel;
-	private JTextField txtFilter;
 	JTable classTable;
 	JTable courseTable;
 	JTable adminTable;
@@ -62,16 +62,16 @@ public class AdminManagerUI {
 	JTextField courseTxt;
 	JButton classFilter;
 	JTextField classTxt;
-	private JComboBox<String> classCombo;
+	JComboBox<String> classCombo;
 	JButton studentFilter;
 	JTextField studentTxt;
-	private JComboBox<String> studentCombo;
+	JComboBox<String> studentCombo;
 	JButton teacherFilter;
 	JTextField teacherTxt;
 	JComboBox<String> teacherCombo;
 	JButton adminFilter;
 	JTextField adminTxt;
-	private JComboBox<String> adminCombo;
+	JComboBox<String> adminCombo;
 	AdminCourseManagerPresenter coursePresenter;
 	AdminClassManagerPresenter classPresenter;
 	AdminUserManagerPresenter adminPresenter;
@@ -380,13 +380,17 @@ public class AdminManagerUI {
 	 * signal to the AdminManagerPresenter which will in return act upon the
 	 * event.
 	 * 
-	 * @author Morten Faarkrog
-	 * @version 0.1
+	 * @author Morten Faarkrog, Brandon Lucas
+	 * @version 1.0
 	 * @see ActionListener
 	 * @date 7. December, 2013
 	 */
 	private class AdminManagerUIListener implements ActionListener,
 			MouseListener {
+
+		public AdminManagerUIListener() {
+			// Empty Constructor 
+		}
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -433,10 +437,31 @@ public class AdminManagerUI {
 
 			}
 
+			//Edit Button
 			else if (e.getSource() == AdminManagerUI.this.btnEdit) {
 				if (selectedTab.equals("Users")) {
-					MainFrame.updateFrame(new ManageUserUI().getManageUserUI(),
-							"EasyTeach - Add New User");
+					if(selectedUserTab.equals("Students")) {
+						MainFrame.updateFrame(
+							new ManageUserUI(
+									AdminManagerUI.this.studentPresenter
+											.getSelectedUser())
+									.getManageUserUI(),
+							"EasyTeach - Edit User");
+					} else if (selectedUserTab.equals("Teachers")) {
+						MainFrame.updateFrame(
+							new ManageUserUI(
+									AdminManagerUI.this.teacherPresenter
+											.getSelectedUser())
+									.getManageUserUI(),
+							"EasyTeach - Edit User");
+					} else {
+							MainFrame.updateFrame(
+							new ManageUserUI(
+									AdminManagerUI.this.adminPresenter
+											.getSelectedUser())
+									.getManageUserUI(),
+							"EasyTeach - Edit User");					
+					}
 				} else if (selectedTab.equals("Classes")) {
 					MainFrame.updateFrame(
 							new ManageClassUI(
@@ -446,8 +471,11 @@ public class AdminManagerUI {
 							"EasyTeach - Edit Class");
 				} else if (selectedTab.equals("Courses")) {
 					MainFrame.updateFrame(
-							new ManageCourseUI().getManageCourseUI(),
-							"EasyTeach - Add New Course");
+							new ManageCourseUI(
+									AdminManagerUI.this.coursePresenter
+											.getSelectedCourse())
+									.getManageCourseUI(),
+							"EasyTeach - Edit Course");
 				}
 			}
 
@@ -459,21 +487,35 @@ public class AdminManagerUI {
 			}
 
 			else if (e.getSource() == AdminManagerUI.this.studentFilter) {
-				System.out.println(AdminManagerUI.this.studentTxt.getText());
+				String column = AdminManagerUI.this.studentCombo
+						.getSelectedItem().toString();
+				String by = AdminManagerUI.this.studentTxt.getText();
+
+				AdminManagerUI.this.studentPresenter.filter(column, by);
 			}
 
 			else if (e.getSource() == AdminManagerUI.this.teacherFilter) {
-				System.out.println(AdminManagerUI.this.teacherTxt.getText());
-				System.out.println(AdminManagerUI.this.teacherCombo
-						.getSelectedItem());
+				String column = AdminManagerUI.this.teacherCombo
+						.getSelectedItem().toString();
+				String by = AdminManagerUI.this.teacherTxt.getText();
+
+				AdminManagerUI.this.teacherPresenter.filter(column, by);
 			}
 
 			else if (e.getSource() == AdminManagerUI.this.adminFilter) {
-				System.out.println(AdminManagerUI.this.adminTxt.getText());
+				String column = AdminManagerUI.this.adminCombo
+						.getSelectedItem().toString();
+				String by = AdminManagerUI.this.adminTxt.getText();
+
+				AdminManagerUI.this.adminPresenter.filter(column, by);
 			}
 
 			else if (e.getSource() == AdminManagerUI.this.classFilter) {
-				System.out.println(AdminManagerUI.this.classTxt.getText());
+				String column = AdminManagerUI.this.classCombo
+						.getSelectedItem().toString();
+				String by = AdminManagerUI.this.classTxt.getText();
+
+				AdminManagerUI.this.classPresenter.filter(column, by);
 			}
 
 		}
@@ -506,7 +548,7 @@ public class AdminManagerUI {
 				// Student
 			} else if (arg0.getSource() == AdminManagerUI.this.studentTable) {
 				AdminManagerUI.this.studentPresenter
-						.setSelectedUser(AdminManagerUI.this.courseTable
+						.setSelectedUser(AdminManagerUI.this.studentTable
 								.rowAtPoint(arg0.getPoint()));
 			}
 

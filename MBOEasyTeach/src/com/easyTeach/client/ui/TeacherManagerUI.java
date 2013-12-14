@@ -6,6 +6,9 @@ import java.awt.Font;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
+import javax.swing.SwingConstants;
+
+import com.easyTeach.common.ui.UIColors;
 
 /**
  * The TeacherManagerUI class constructs a JPanel with all the different
@@ -39,7 +42,7 @@ public class TeacherManagerUI {
      *         frame.
      */
     public JPanel getTeacherManagerUI() {
-        return teacherManagerPanel;
+        return this.teacherManagerPanel;
     }
 
     /**
@@ -48,8 +51,8 @@ public class TeacherManagerUI {
      * courses.
      */
     public void buildPanel() {
-        teacherManagerPanel = new JPanel(new BorderLayout());
-        teacherManagerPanel.setBackground(UIColors.lightBlue);
+        this.teacherManagerPanel = new JPanel(new BorderLayout());
+        this.teacherManagerPanel.setBackground(UIColors.lightBlue);
 
         buildNorthPanel();
         buildCenterPanel();
@@ -63,15 +66,15 @@ public class TeacherManagerUI {
      * @see QuestionManagerUI
      */
     private void buildCenterPanel() {
-        tabPanel = new JTabbedPane(JTabbedPane.TOP);
-        tabPanel.add("Exercises",
+        this.tabPanel = new JTabbedPane(SwingConstants.TOP);
+        this.tabPanel.add("Exercises",
                 new ExerciseManagerUI().getExerciseManagerUI());
-        tabPanel.add("Questions",
+        this.tabPanel.add("Questions",
                 new QuestionManagerUI().getQuestionManagerUI());
-        tabPanel.add("Progress", new JPanel());
+        this.tabPanel.add("Progress", new JPanel());
 
-        teacherManagerPanel.add(tabPanel, BorderLayout.CENTER);
-        teacherManagerPanel.setBackground(UIColors.darkBlue);
+        this.teacherManagerPanel.add(this.tabPanel, BorderLayout.CENTER);
+        this.teacherManagerPanel.setBackground(UIColors.darkBlue);
     }
 
     /**
@@ -87,7 +90,7 @@ public class TeacherManagerUI {
         lblTeacherManagerTitle.setFont(new Font("Lucida Grande", Font.BOLD, 24));
         northPanel.add(lblTeacherManagerTitle);
 
-        teacherManagerPanel.add(northPanel, BorderLayout.NORTH);
+        this.teacherManagerPanel.add(northPanel, BorderLayout.NORTH);
     }
 
 }

@@ -42,7 +42,7 @@ public class ExerciseQuestionRelation implements Resource {
 	}
 
     public String getExerciseNo() {
-        return exerciseNo;
+        return this.exerciseNo;
     }
     
     public void setExerciseNo(String exerciseNo) {
@@ -50,7 +50,7 @@ public class ExerciseQuestionRelation implements Resource {
     }
     
     public String getQuestionNo() {
-        return questionNo;
+        return this.questionNo;
     }
     
     public void setQuestionNo(String questionNo) {

@@ -50,22 +50,22 @@ public class EasyTeachServer {
 	private ServerUI serverUI;
 
 	public EasyTeachServer() {
-	    serverUI = new ServerUI();
+	    this.serverUI = new ServerUI();
 	    
 		this.response = new Response(ResponseStatus.SUCCESS);
 
 		try {
 			this.providerSocket = new ServerSocket(8111, 10);
 		} catch (IOException e) {
-		    serverUI.updateTextArea("[Error] : " + e.getMessage());
+		    this.serverUI.updateTextArea("[Error] : " + e.getMessage());
 		}
 	}
 
 	private void run() {
 		try {
-		    serverUI.updateTextArea("[Waiting for connection]");
+		    this.serverUI.updateTextArea("[Waiting for connection]");
 			this.connection = this.providerSocket.accept();
-			serverUI.updateTextArea("[Connection Received] : " + this.connection.getInetAddress().getHostAddress());
+			this.serverUI.updateTextArea("[Connection Received] : " + this.connection.getInetAddress().getHostAddress());
 
 			// Initialize the input and output streams in preparation for
 			// communication with the client
@@ -80,7 +80,7 @@ public class EasyTeachServer {
 				try {
 					// Read the Request and log it
 					this.request = (Request) this.in.readObject();
-					serverUI.updateTextArea("[Request] : " + this.request.getAction().getType().toString());
+					this.serverUI.updateTextArea("[Request] : " + this.request.getAction().getType().toString());
 
 					if (this.request.getAction().getType() != ActionType.CLOSE) {
 						// Throw out Requests with no credentials
@@ -96,7 +96,7 @@ public class EasyTeachServer {
 					} 
 
 				} catch (ClassNotFoundException classnot) {
-				    serverUI.updateTextArea("[Error] : " + "Data received in unknown format");
+				    this.serverUI.updateTextArea("[Error] : " + "Data received in unknown format");
 				}
 			} while (this.request.getAction().getType() != ActionType.CLOSE);
 		} catch (IOException ioException) {
@@ -107,7 +107,7 @@ public class EasyTeachServer {
 				this.in.close();
 				this.out.close();
 			} catch (IOException ioException) {
-			    serverUI.updateTextArea("[Error] : " + ioException.getMessage());
+			    this.serverUI.updateTextArea("[Error] : " + ioException.getMessage());
 			}
 		}
 	}
@@ -118,10 +118,10 @@ public class EasyTeachServer {
 			this.out.flush();
 			Resource responseResource = res.getResponse();
 			if (responseResource != null) {
-			    serverUI.updateTextArea("[Response] : " + responseResource.getName());			    
+			    this.serverUI.updateTextArea("[Response] : " + responseResource.getName());			    
 			}
 		} catch (IOException ioException) {
-		    serverUI.updateTextArea("[Error] : " + ioException.getMessage());
+		    this.serverUI.updateTextArea("[Error] : " + ioException.getMessage());
 		}
 	}
 

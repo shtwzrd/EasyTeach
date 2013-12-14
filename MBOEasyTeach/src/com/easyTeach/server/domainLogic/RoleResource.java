@@ -12,7 +12,7 @@ public class RoleResource implements Resource {
 	}
 
 	public Role getRole() {
-		return role;
+		return this.role;
 	}
 
 	public enum Role {

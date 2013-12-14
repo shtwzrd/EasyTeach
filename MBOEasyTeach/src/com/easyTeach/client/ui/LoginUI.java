@@ -19,6 +19,7 @@ import javax.swing.border.TitledBorder;
 
 import com.easyTeach.client.presenter.HelpPresenter;
 import com.easyTeach.client.presenter.LoginPresenter;
+import com.easyTeach.common.ui.UIColors;
 
 /**
  * <p>

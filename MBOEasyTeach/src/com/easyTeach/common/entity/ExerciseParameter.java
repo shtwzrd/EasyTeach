@@ -50,7 +50,7 @@ public class ExerciseParameter implements Resource {
 	}
 
     public String getExerciseParameterNo() {
-        return exerciseParameterNo;
+        return this.exerciseParameterNo;
     }
     
     public void setExerciseParameterNo(String exerciseParameterNo) {
@@ -58,7 +58,7 @@ public class ExerciseParameter implements Resource {
     }
     
     public boolean getIsTest() {
-        return isTest;
+        return this.isTest;
     }
     
     public void setIsTest(boolean isTest) {
@@ -66,7 +66,7 @@ public class ExerciseParameter implements Resource {
     }
     
     public boolean getIsLocked() {
-        return isLocked;
+        return this.isLocked;
     }
     
     public void setIsLocked(boolean isLocked) {
@@ -74,7 +74,7 @@ public class ExerciseParameter implements Resource {
     }
     
     public java.sql.Timestamp getAccessBegin() {
-        return accessBegin;
+        return this.accessBegin;
     }
     
     public void setAccessBegin(java.sql.Timestamp accessBegin) {
@@ -82,7 +82,7 @@ public class ExerciseParameter implements Resource {
     }
     
     public java.sql.Timestamp getAccessEnd() {
-        return accessEnd;
+        return this.accessEnd;
     }
     
     public void setAccessEnd(java.sql.Timestamp accessEnd) {
@@ -90,7 +90,7 @@ public class ExerciseParameter implements Resource {
     }
     
     public int getTimeLimit() {
-        return timeLimit;
+        return this.timeLimit;
     }
     
     public void setTimeLimit(int timeLimit) {

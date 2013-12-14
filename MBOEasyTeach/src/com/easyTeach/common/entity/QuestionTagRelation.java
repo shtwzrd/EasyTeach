@@ -44,7 +44,7 @@ public class QuestionTagRelation implements Resource {
 	}
 
     public String getQuestionNo() {
-        return questionNo;
+        return this.questionNo;
     }
 
     public void setQuestionNo(String questionNo) {
@@ -52,7 +52,7 @@ public class QuestionTagRelation implements Resource {
     }
     
     public String getTagNo() {
-        return tagNo;
+        return this.tagNo;
     }
     
     public void setTagNo(String tagNo) {

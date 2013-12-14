@@ -43,7 +43,7 @@ public class ClassCourseRelation implements Resource {
     }
     
     public String getClassNo() {
-        return classNo;
+        return this.classNo;
     }
     
     public void setClassNo(String classNo) {
@@ -51,7 +51,7 @@ public class ClassCourseRelation implements Resource {
     }
     
     public String getCourseNo() {
-        return courseNo;
+        return this.courseNo;
     }
     
     public void setCourseNo(String courseNo) {

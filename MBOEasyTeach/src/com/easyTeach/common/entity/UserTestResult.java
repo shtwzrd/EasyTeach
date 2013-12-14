@@ -43,7 +43,7 @@ public class UserTestResult implements Resource {
 	}
 
     public String getUserNo() {
-        return userNo;
+        return this.userNo;
     }
     
     public void setUserNo(String userNo) {
@@ -51,7 +51,7 @@ public class UserTestResult implements Resource {
     }
     
     public String getExerciseNo() {
-        return exerciseNo;
+        return this.exerciseNo;
     }
     
     public void setExerciseNo(String exerciseNo) {
@@ -59,7 +59,7 @@ public class UserTestResult implements Resource {
     }
     
     public int getScore() {
-        return score;
+        return this.score;
     }
     
     public void setScore(int score) {

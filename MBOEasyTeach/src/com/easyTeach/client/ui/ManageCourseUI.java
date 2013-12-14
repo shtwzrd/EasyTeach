@@ -23,6 +23,8 @@ import javax.swing.border.TitledBorder;
 
 import com.easyTeach.client.presenter.DisplayTableModel;
 import com.easyTeach.client.presenter.HelpPresenter;
+import com.easyTeach.common.entity.Course;
+import com.easyTeach.common.ui.UIColors;
 
 /**
  * The ManageCourseUI class constructs a JPanel with all the different
@@ -61,7 +63,11 @@ public class ManageCourseUI {
         addActionListeners();
     }
 
-    /**
+    public ManageCourseUI(Course selectedCourse) {
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
      * Returns the ManageCoursePanel with all of the JComponents within.
      * 
      * @return the JPanel manageCoursePanel

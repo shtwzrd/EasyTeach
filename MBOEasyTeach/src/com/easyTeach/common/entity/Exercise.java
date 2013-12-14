@@ -56,7 +56,7 @@ public class Exercise implements Resource {
 	}
     
     public String getExerciseNo() {
-        return exerciseNo;
+        return this.exerciseNo;
     }
     
     public void setExerciseNo(String exerciseNo) {
@@ -64,7 +64,7 @@ public class Exercise implements Resource {
     }
     
     public String getCourseNo() {
-        return courseNo;
+        return this.courseNo;
     }
     
     public void setCourseNo(String courseNo) {
@@ -72,7 +72,7 @@ public class Exercise implements Resource {
     }
     
     public String getAuthor() {
-        return author;
+        return this.author;
     }
     
     public void setAuthor(String author) {
@@ -80,7 +80,7 @@ public class Exercise implements Resource {
     }
     
     public String getExerciseParameterNo() {
-        return exerciseParameterNo;
+        return this.exerciseParameterNo;
     }
     
     public void setExerciseParameterNo(String exerciseParameterNo) {
@@ -88,7 +88,7 @@ public class Exercise implements Resource {
     }
     
     public String getExerciseName() {
-        return exerciseName;
+        return this.exerciseName;
     }
     
     public void setExerciseName(String exerciseName) {
@@ -96,7 +96,7 @@ public class Exercise implements Resource {
     }
     
     public java.sql.Timestamp getDateAdded() {
-        return dateAdded;
+        return this.dateAdded;
     }
     
     public void setDateAdded(java.sql.Timestamp dateAdded) {
@@ -104,7 +104,7 @@ public class Exercise implements Resource {
     }
     
     public String getPassword() {
-        return password;
+        return this.password;
     }
     
     public void setPassword(String password) {

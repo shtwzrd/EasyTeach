@@ -1,4 +1,4 @@
-package com.easyTeach.client.ui;
+package com.easyTeach.common.ui;
 
 import java.awt.Color;
 

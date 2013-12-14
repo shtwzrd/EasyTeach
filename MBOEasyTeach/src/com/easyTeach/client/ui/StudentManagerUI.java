@@ -22,6 +22,7 @@ import javax.swing.border.TitledBorder;
 
 import com.easyTeach.client.presenter.DisplayTableModel;
 import com.easyTeach.client.presenter.HelpPresenter;
+import com.easyTeach.common.ui.UIColors;
 
 /**
  * The StudentManagerUI class constructs a JPanel with all the different

@@ -1,9 +1,8 @@
 package com.easyTeach.client.presenter;
 
-import java.util.HashMap;
-
 import com.easyTeach.client.network.EasyTeachClient;
 import com.easyTeach.common.entity.Class;
+import com.easyTeach.common.entity.Resource;
 import com.easyTeach.common.entity.ResourceSet;
 import com.easyTeach.common.network.Action;
 import com.easyTeach.common.network.Action.ActionType;
@@ -25,7 +24,6 @@ public class AdminClassManagerPresenter {
 	private EasyTeachClient client;
 	private Class currentlySelectedClass;
 	private boolean isFiltered;
-	HashMap<String, Integer> classesOfCourse;
 
 	String[] tableColumnHeaders = { "Class name", "Year" };
 
@@ -35,8 +33,7 @@ public class AdminClassManagerPresenter {
 	public AdminClassManagerPresenter() {
 		this.classesModel = new ClassTableModel(this.tableColumnHeaders,
 				this.classesSet);
-		this.classesOfCourse = new HashMap<>();
-		refreshCourseTable();
+		refreshClassTable();
 	}
 
 	public ClassTableModel getClassesModel() {
@@ -44,8 +41,8 @@ public class AdminClassManagerPresenter {
 	}
 
 	public void setSelectedClass(int row) {
-		this.currentlySelectedClass =
-				(Class) this.classesModel.getResourceAtRow(row);
+		this.currentlySelectedClass = (Class) this.classesModel
+				.getResourceAtRow(row);
 	}
 
 	public Class getSelectedClass() {
@@ -56,7 +53,7 @@ public class AdminClassManagerPresenter {
 		if (this.currentlySelectedClass != null) {
 			this.classesSet.remove(this.currentlySelectedClass);
 			Action rm = new Action(ActionType.DELETE);
-			Request remove = new Request(Session.getInstance(), rm, 
+			Request remove = new Request(Session.getInstance(), rm,
 					this.currentlySelectedClass);
 			this.client = new EasyTeachClient(remove);
 			this.client.run();
@@ -71,7 +68,7 @@ public class AdminClassManagerPresenter {
 
 	/**
 	 * Sends a {@link Request} to the Server, updating the Presenter's set of
-	 * available Users.
+	 * available Classs.
 	 * 
 	 * <p>
 	 * It checks if the data in the table should be filtered, and updates the
@@ -79,7 +76,7 @@ public class AdminClassManagerPresenter {
 	 * the table in the UI to update.
 	 * </p>
 	 */
-	private void refreshCourseTable() {
+	private void refreshClassTable() {
 
 		Action toDo = new Action(ActionType.READ, "all");
 
@@ -99,6 +96,51 @@ public class AdminClassManagerPresenter {
 			this.classesModel.refreshData(this.classesSet);
 		}
 
+	}
+
+	/**
+	 * Logic for filtering the table containing the selection of lasses by a
+	 * particular string, in a particular column.
+	 * 
+	 * <p>
+	 * Right now, this consists of maintaining a separate, filtered set. This is
+	 * somewhat slow. Later, new logic should be added, using RowFilter.
+	 * </p>
+	 * 
+	 * @param column
+	 *            The column in the table which should be considered for
+	 *            filtering
+	 * @param by
+	 *            The string by which the aforementioned column should be
+	 *            filtered.
+	 */
+	public void filter(String column, String by) {
+		if (by.equals("")) {
+			this.isFiltered = false;
+		} else {
+			this.isFiltered = true;
+			this.filteredClassesSet = new ResourceSet();
+			switch (column) {
+			case "Class Name":
+				for (Resource r : this.classesSet) {
+					Class c = (Class) r;
+					if (c.getClassName().contains(by)) {
+						this.filteredClassesSet.add(c);
+					}
+				}
+				break;
+			case "Year":
+				for (Resource r : this.classesSet) {
+					Class c = (Class) r;
+					if (Integer.toString(c.getYear()).equals(by)) {
+						this.filteredClassesSet.add(c);
+					}
+				}
+				break;
+			}
+		}
+		this.refreshClassTable();
+		this.classesModel.fireTableDataChanged();
 	}
 
 	/**
@@ -128,9 +170,9 @@ public class AdminClassManagerPresenter {
 		public String getValueAt(int row, int column) {
 			Class c = (Class) this.tableData.get(row);
 			switch (this.getColumnName(column)) {
-			case "Class name" :
+			case "Class name":
 				return c.getClassName();
-			case "Year" :
+			case "Year":
 				return Integer.toString(c.getYear());
 			default:
 				return new String();
@@ -138,5 +180,3 @@ public class AdminClassManagerPresenter {
 		}
 	}
 }
-
-

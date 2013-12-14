@@ -1,6 +1,7 @@
 package com.easyTeach.client.presenter;
 
 import com.easyTeach.client.network.EasyTeachClient;
+import com.easyTeach.common.entity.Resource;
 import com.easyTeach.common.entity.User;
 import com.easyTeach.common.entity.ResourceSet;
 import com.easyTeach.common.network.Action;
@@ -69,6 +70,42 @@ public class AdminUserManagerPresenter {
 		this.userModel.fireTableDataChanged();
 	}
 
+	public void filter(String column, String by) {
+		if (by.equals("")) {
+			this.isFiltered = false;
+		} else {
+			this.isFiltered = true;
+			this.filteredUserSet = new ResourceSet();
+			switch (column) {
+			case "Email":
+				for (Resource r : this.userSet) {
+					User u = (User) r;
+					if (u.getEmail().contains(by)) {
+						this.filteredUserSet.add(u);
+					}
+				}
+				break;
+			case "First name":
+				for (Resource r : this.userSet) {
+					User u = (User) r;
+					if (u.getFirstName().contains(by)) {
+						this.filteredUserSet.add(u);
+					}
+				}
+				break;
+			case "Last name":
+				for (Resource r : this.userSet) {
+					User u = (User) r;
+					if (u.getLastName().contains(by)) {
+						this.filteredUserSet.add(u);
+					}
+				}
+				break;
+			}
+		}
+		this.refreshUserTable();
+		this.userModel.fireTableDataChanged();
+	}
 	/**
 	 * Sends a {@link Request} to the Server, updating the Presenter's set of
 	 * available Users.

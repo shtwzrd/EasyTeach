@@ -44,7 +44,7 @@ public class UserQuestionState implements Resource {
 	}
 
 	public String getUserNo() {
-		return userNo;
+		return this.userNo;
 	}
 
 	public void setUserNo(String userNo) {
@@ -52,7 +52,7 @@ public class UserQuestionState implements Resource {
 	}
 
 	public String getQuestionNo() {
-		return questionNo;
+		return this.questionNo;
 	}
 
 	public void setQuestionNo(String questionNo) {
@@ -60,7 +60,7 @@ public class UserQuestionState implements Resource {
 	}
 
 	public boolean getHasCompleted() {
-		return hasCompleted;
+		return this.hasCompleted;
 	}
 
 	public void setHasCompleted(boolean hasCompleted) {

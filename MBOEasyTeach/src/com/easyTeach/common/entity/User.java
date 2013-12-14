@@ -50,7 +50,7 @@ public class User implements Resource {
 	}
 
 	public String getUserNo() {
-		return userNo;
+		return this.userNo;
 	}
 
 	public void setUserNo(String userNo) {
@@ -58,7 +58,7 @@ public class User implements Resource {
 	}
 
 	public String getEmail() {
-		return email;
+		return this.email;
 	}
 
 	public void setEmail(String email) {
@@ -66,7 +66,7 @@ public class User implements Resource {
 	}
 
 	public String getUserType() {
-		return userType;
+		return this.userType;
 	}
 
 	public void setUserType(String userType) {
@@ -74,7 +74,7 @@ public class User implements Resource {
 	}
 
 	public String getFirstName() {
-		return firstName;
+		return this.firstName;
 	}
 
 	public void setFirstName(String firstName) {
@@ -82,7 +82,7 @@ public class User implements Resource {
 	}
 
 	public String getLastName() {
-		return lastName;
+		return this.lastName;
 	}
 
 	public void setLastName(String lastName) {
@@ -90,7 +90,7 @@ public class User implements Resource {
 	}
 
 	public String getPassword() {
-		return password;
+		return this.password;
 	}
 
 	public void setPassword(String password) {
@@ -98,7 +98,7 @@ public class User implements Resource {
 	}
 
 	public java.sql.Date getDateAdded() {
-		return dateAdded;
+		return this.dateAdded;
 	}
 
 	public void setDateAdded(java.sql.Date dateAdded) {

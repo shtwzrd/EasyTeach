@@ -43,7 +43,7 @@ public class ClassUserRelation implements Resource {
 
 	
     public String getClassNo() {
-        return classNo;
+        return this.classNo;
     }
     
     public void setClassNo(String classNo) {
@@ -51,7 +51,7 @@ public class ClassUserRelation implements Resource {
     }
     
     public String getUserNo() {
-        return userNo;
+        return this.userNo;
     }
     
     public void setUserNo(String userNo) {

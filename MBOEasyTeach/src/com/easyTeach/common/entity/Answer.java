@@ -49,7 +49,7 @@ public class Answer implements Resource {
 	}
 
     public String getQuestionNo() {
-        return questionNo;
+        return this.questionNo;
     }
     
     public void setQuestionNo(String questionNo) {
@@ -57,7 +57,7 @@ public class Answer implements Resource {
     }
     
     public String getAnswerNo() {
-        return answerNo;
+        return this.answerNo;
     }
     
     public void setAnswerNo(String answerNo) {
@@ -65,7 +65,7 @@ public class Answer implements Resource {
     }
     
     public String getAnswer() {
-        return answer;
+        return this.answer;
     }
     
     public void setAnswer(String answer) {
@@ -73,7 +73,7 @@ public class Answer implements Resource {
     }
     
     public boolean getIsCorrect() {
-        return isCorrect;
+        return this.isCorrect;
     }
     
     public void setIsCorrect(boolean isCorrect) {

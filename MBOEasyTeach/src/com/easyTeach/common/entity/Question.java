@@ -41,7 +41,7 @@ public class Question implements Resource {
 	}
 
 	public String getQuestionNo() {
-		return questionNo;
+		return this.questionNo;
 	}
 
 	public void setQuestionNo(String questionNo) {
@@ -49,7 +49,7 @@ public class Question implements Resource {
 	}
 
 	public String getQuestionType() {
-		return questionType;
+		return this.questionType;
 	}
 
 	public void setQuestionType(String questionType) {
@@ -57,7 +57,7 @@ public class Question implements Resource {
 	}
 
 	public String getQuestion() {
-		return question;
+		return this.question;
 	}
 
 	public void setQuestion(String question) {
@@ -65,7 +65,7 @@ public class Question implements Resource {
 	}
 
 	public int getPoints() {
-		return points;
+		return this.points;
 	}
 
 	public void setPoints(int points) {

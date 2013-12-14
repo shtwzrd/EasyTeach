@@ -9,6 +9,7 @@ import javax.swing.JTextArea;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
+import com.easyTeach.common.ui.UIColors;
 /**
  * <p>
  * The ServerUI class is one of the User Interface (UI) class for the Server. It
@@ -51,11 +52,11 @@ public class ServerUI {
 
         // Center panel
         JPanel centerPanel = new JPanel(new BorderLayout());
-        textArea = new JTextArea();
-        textArea.setWrapStyleWord(true);
-        textArea.setLineWrap(true);
-        textArea.setEditable(false);
-        centerPanel.add(new JScrollPane(textArea));
+        this.textArea = new JTextArea();
+        this.textArea.setWrapStyleWord(true);
+        this.textArea.setLineWrap(true);
+        this.textArea.setEditable(false);
+        centerPanel.add(new JScrollPane(this.textArea));
         centerPanel.setBackground(UIColors.lightBlue);
         centerPanel.setBorder(new TitledBorder(null, "Server Communication",
                 TitledBorder.CENTER, TitledBorder.TOP));
@@ -82,7 +83,7 @@ public class ServerUI {
      * @param update the message to be concatenated.
      */
     public void updateTextArea(String update) {
-        textArea.setText(textArea.getText() + update + "\n");
+        this.textArea.setText(this.textArea.getText() + update + "\n");
     }
 
 }

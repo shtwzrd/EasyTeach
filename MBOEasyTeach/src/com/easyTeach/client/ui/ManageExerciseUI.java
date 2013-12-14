@@ -25,6 +25,7 @@ import javax.swing.table.TableColumnModel;
 
 import com.easyTeach.client.presenter.DisplayTableModel;
 import com.easyTeach.client.presenter.HelpPresenter;
+import com.easyTeach.common.ui.UIColors;
 
 /**
  * The ManageExerciseUI class constructs a JPanel with all the different
