@@ -107,7 +107,7 @@ public class ManageUserPresenter {
 	 */
 	private void refreshClassTable() {
 
-		Action toDo = new Action(ActionType.READ, "classes");
+		Action toDo = new Action(ActionType.READ, "all");
 		this.curClass = new Class();
 
 		Request getClasses = new Request(Session.getInstance(), toDo,
@@ -120,10 +120,11 @@ public class ManageUserPresenter {
 					.getResponse();
 		}
 //		if (this.isFiltered) {
+		
 //			this.allClasses.refreshData(this.filteredSelectionSet);
 //		} 
 //		else {
-//			this.allClasses.refreshData(this.classSelectionSet);
+			this.allClasses.refreshData(this.classSelectionSet);
 //		}
 
 		this.allClasses.fireTableDataChanged();
