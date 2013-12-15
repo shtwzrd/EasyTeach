@@ -205,7 +205,7 @@ public final class Router {
 					case "all":
 						return ExerciseRules.getExercises();
 					case "questions":
-					    return QuestionsRules.getQuestionsWithExerciseNo((Exercise) resource);
+					    return QuestionRules.getQuestionRowsWithExerciseNo((Exercise) resource);
 					default:
 						return ExerciseRules.getExercise((Exercise) resource);
 					}
