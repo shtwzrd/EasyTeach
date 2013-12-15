@@ -9,7 +9,7 @@ public class ResourceSet extends HashSet<Resource> implements Resource {
 	@Override
 	public String getName() {
 		Object[] r = this.toArray();
-		if (r != null) {
+		if (r != null && r.length != 0) {
 			Resource t = (Resource) r[0];
 			return t.getName();
 		}

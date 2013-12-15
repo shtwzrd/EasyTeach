@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -52,6 +53,7 @@ public class ExerciseManagerUI {
 	JPanel questionTablePanel;
 	JTextField txtFilter;
 	JButton btnDuplicateExercise;
+	JTable questionTable;
 
 	/**
 	 * Constructor for building the exerciseManagerPanel. The panel is built by
@@ -114,6 +116,46 @@ public class ExerciseManagerUI {
 	}
 
 	/**
+	 * Builds the center panel consisting of two inner panels. One for an
+	 * question table showing which exercises relate to questions and another
+	 * containing a panel to filter exercises.
+	 */
+	private void buildCenterPanel() {
+		this.centerPanel = new JPanel(new GridLayout(2, 1));
+		this.exerciseManagerPanel.add(this.centerPanel, BorderLayout.CENTER);
+
+		buildUpperCenterPanel();
+
+		this.lowerCenterPanel = new JPanel(new BorderLayout());
+		buildFilterPanel();
+		buildQuestionTablePanel();
+
+		this.centerPanel.add(this.lowerCenterPanel);
+	}
+
+	/**
+	 * Builds a panel with a table for questions for a selected exercise.
+	 */
+	private void buildQuestionTablePanel() {
+		this.questionTablePanel = new JPanel(new BorderLayout());
+		this.questionTable = new JTable();
+
+		this.questionTablePanel.setBackground(UIColors.lightBrown);
+		this.questionTablePanel.setBorder(new TitledBorder(new EtchedBorder(
+				EtchedBorder.LOWERED, new Color(0, 0, 0), null),
+				"Exercise's Questions", TitledBorder.CENTER, TitledBorder.TOP,
+				new Font("Tahoma", Font.PLAIN, 20)));
+		this.lowerCenterPanel.add(this.questionTablePanel, BorderLayout.CENTER);
+
+		this.questionTable.setModel(this.presenter.getQuestionTableModel());
+
+		JScrollPane questionScroll = new JScrollPane(this.questionTable);
+		questionScroll.getViewport().setBackground(UIColors.white);
+
+		this.questionTablePanel.add(questionScroll);
+	}
+
+	/**
 	 * Builds the filter panel for filtering exercises.
 	 */
 	private void buildFilterPanel() {
@@ -140,16 +182,16 @@ public class ExerciseManagerUI {
 
 		this.btnFilter = new JButton("Filter");
 		this.filterPanel.add(this.btnFilter);
-		this.centerPanel.add(this.filterPanel, BorderLayout.SOUTH);
+		this.lowerCenterPanel.add(this.filterPanel, BorderLayout.NORTH);
 	}
 
 	/**
-	 * Builds the center panel with a JTable for all exercises.
+	 * Builds the upper center panel with a JTable for all exercises.
 	 */
-	private void buildCenterPanel() {
-		this.centerPanel = new JPanel(new BorderLayout());
-		this.centerPanel.setBackground(UIColors.lightBlue);
-		this.centerPanel.setBorder(new TitledBorder(new EtchedBorder(
+	private void buildUpperCenterPanel() {
+		JPanel upperCenterPanel = new JPanel(new BorderLayout());
+		upperCenterPanel.setBackground(UIColors.lightBlue);
+		upperCenterPanel.setBorder(new TitledBorder(new EtchedBorder(
 				EtchedBorder.LOWERED, new Color(0, 0, 0), null), "Exercises",
 				TitledBorder.CENTER, TitledBorder.TOP, new Font("Tahoma",
 						Font.PLAIN, 20)));
@@ -157,13 +199,11 @@ public class ExerciseManagerUI {
 		this.exerciseTable = new JTable();
 		this.exerciseTable.setModel(this.presenter.getExerciseTableModel());
 
-		buildFilterPanel();
-
 		JScrollPane exerciseScroll = new JScrollPane(this.exerciseTable);
 		exerciseScroll.getViewport().setBackground(UIColors.white);
-		this.centerPanel.add(exerciseScroll, BorderLayout.CENTER);
+		upperCenterPanel.add(exerciseScroll, BorderLayout.CENTER);
 
-		this.exerciseManagerPanel.add(this.centerPanel);
+		this.centerPanel.add(upperCenterPanel);
 	}
 
 	/**
@@ -246,10 +286,10 @@ public class ExerciseManagerUI {
 
 		@Override
 		public void mouseClicked(MouseEvent arg0) {
-			if(arg0.getSource() == ExerciseManagerUI.this.exerciseTable) {
-			ExerciseManagerUI.this.presenter
-					.setSelectedExercise(ExerciseManagerUI.this.exerciseTable
-							.rowAtPoint(arg0.getPoint()));
+			if (arg0.getSource() == ExerciseManagerUI.this.exerciseTable) {
+				ExerciseManagerUI.this.presenter
+						.setSelectedExercise(ExerciseManagerUI.this.exerciseTable
+								.rowAtPoint(arg0.getPoint()));
 			}
 		}
 

@@ -8,11 +8,14 @@ import java.util.UUID;
 
 import com.easyTeach.client.network.EasyTeachClient;
 import com.easyTeach.common.entity.Exercise;
+import com.easyTeach.common.entity.ExerciseQuestionRelation;
+import com.easyTeach.common.entity.Question;
 import com.easyTeach.common.entity.Resource;
 import com.easyTeach.common.entity.ResourceSet;
 import com.easyTeach.common.network.Action;
 import com.easyTeach.common.network.Action.ActionType;
 import com.easyTeach.common.network.Request;
+import com.easyTeach.common.network.Response;
 import com.easyTeach.common.network.Response.ResponseStatus;
 import com.easyTeach.common.network.Session;
 
@@ -32,22 +35,28 @@ import com.easyTeach.common.network.Session;
 public class ExerciseManagerPresenter {
 
 	private ExerciseTableModel exerciseTable;
+	private QuestionTableModel questionTable;
 	protected ResourceSet filteredSelectionSet;
 	protected ResourceSet exerciseSet;
+	protected ResourceSet questions;
 	private EasyTeachClient client;
 	private Exercise currentlySelectedExercise;
 	private boolean isFiltered;
 
 	private String[] exerciseColumnHeaders = { "Exercise Name", "Date added" };
+	private String[] questionColumnHeaders = { "Question Type", "Question" };
 
 	/**
 	 * Initializes sets and table models
 	 */
 	public ExerciseManagerPresenter() {
 		this.exerciseSet = new ResourceSet();
-
+		this.questions = new ResourceSet();
 		this.exerciseTable = new ExerciseTableModel(this.exerciseColumnHeaders,
 				this.exerciseSet);
+
+		this.questionTable = new QuestionTableModel(this.questionColumnHeaders,
+				this.questions);
 
 		refreshTable();
 	}
@@ -56,9 +65,30 @@ public class ExerciseManagerPresenter {
 		return this.exerciseTable;
 	}
 
+	public QuestionTableModel getQuestionTableModel() {
+		return this.questionTable;
+	}
+
 	public void setSelectedExercise(int row) {
 		this.currentlySelectedExercise = (Exercise) this.exerciseTable
 				.getResourceAtRow(row);
+		getQuestions(this.currentlySelectedExercise);
+	}
+
+	private ResourceSet getQuestions(Exercise exercise) {
+		Action readQuestions = new Action(ActionType.READ, "questions");
+		Request getQuestions = new Request(Session.getInstance(),
+				readQuestions, exercise);
+
+		this.client = new EasyTeachClient(getQuestions);
+		this.client.run();
+		ResourceSet question = (ResourceSet) this.client.getResponse()
+				.getResponse();
+
+		this.questionTable.refreshData(question);
+		this.questionTable.fireTableDataChanged();
+
+		return question;
 	}
 
 	/**
@@ -142,10 +172,19 @@ public class ExerciseManagerPresenter {
 	public void duplicate() {
 		if (this.currentlySelectedExercise != null) {
 			String newCourseId = UUID.randomUUID().toString();
-			Exercise newExercise = this.currentlySelectedExercise;
+			Exercise newExercise = new Exercise();
 			newExercise.setExerciseNo(newCourseId);
+			newExercise.setAuthor(this.currentlySelectedExercise.getAuthor());
+			newExercise.setCourseNo(this.currentlySelectedExercise
+					.getCourseNo());
+			newExercise.setExerciseName(this.currentlySelectedExercise
+					.getExerciseName());
+			newExercise.setExerciseParameterNo(this.currentlySelectedExercise
+					.getExerciseParameterNo());
+			newExercise.setPassword(this.currentlySelectedExercise.getPassword());
+
 			GregorianCalendar cal = new GregorianCalendar();
-			newExercise.setDateAdded(new Timestamp(cal.getTimeInMillis()));
+			newExercise.setDateAdded(new Timestamp(cal.getTimeInMillis())); 
 
 			Action createExercise = new Action(ActionType.CREATE);
 			Request dupeExercise = new Request(Session.getInstance(),
@@ -153,6 +192,24 @@ public class ExerciseManagerPresenter {
 
 			this.client = new EasyTeachClient(dupeExercise);
 			this.client.run();
+
+			ResourceSet questionsToDupe = getQuestions(this.currentlySelectedExercise);
+			ResourceSet exerciseQuestionRelations = new ResourceSet();
+			for (Resource r : questionsToDupe) {
+				Question q = (Question) r;
+				ExerciseQuestionRelation eq = new ExerciseQuestionRelation(
+						newCourseId, q.getQuestionNo());
+				System.out.println(newCourseId + " " + q.getQuestionNo());
+				exerciseQuestionRelations.add(eq);
+			}
+
+			Action dupe = new Action(ActionType.CREATE);
+			for (Resource r : exerciseQuestionRelations) {
+				Request dupeRelation = new Request(Session.getInstance(), dupe,
+						r);
+				this.client = new EasyTeachClient(dupeRelation);
+				this.client.run();
+			}
 
 			this.refreshTable();
 			this.exerciseTable.refreshData(this.exerciseSet);
@@ -166,8 +223,8 @@ public class ExerciseManagerPresenter {
 	public void delete() {
 		if (this.currentlySelectedExercise != null) {
 			Action rm = new Action(ActionType.DELETE);
-			Request rmExercise = new Request(Session.getInstance(),
-					rm, this.currentlySelectedExercise);
+			Request rmExercise = new Request(Session.getInstance(), rm,
+					this.currentlySelectedExercise);
 
 			this.client = new EasyTeachClient(rmExercise);
 			this.client.run();
@@ -208,6 +265,43 @@ public class ExerciseManagerPresenter {
 				return e.getExerciseName();
 			case "Date added":
 				return e.getDateAdded().toString();
+			default:
+				return new String();
+			}
+		}
+	}
+
+	/**
+	 * 
+	 * @author Brandon Lucas
+	 * @version 1.0
+	 * @date 14 December, 2013
+	 * 
+	 *       Presenter-specific implementation of the abstract
+	 *       DisplayTableModel.
+	 * 
+	 *       <p>
+	 *       Implementation of the DisplayTableModel on a per-Presenter basis
+	 *       allows us to interact rows in the table model as actual domain
+	 *       objects, specific to the demands of the particular user-interface.
+	 *       </p>
+	 * 
+	 */
+	private class QuestionTableModel extends DisplayTableModel {
+		public QuestionTableModel(String[] columnHeaders, ResourceSet resources) {
+			super(columnHeaders, resources);
+		}
+
+		private static final long serialVersionUID = -2996998684634631118L;
+
+		@Override
+		public String getValueAt(int row, int column) {
+			Question q = (Question) this.tableData.get(row);
+			switch (this.getColumnName(column)) {
+			case "Question Type":
+				return q.getQuestionType();
+			case "Question":
+				return q.getQuestion().toString();
 			default:
 				return new String();
 			}
