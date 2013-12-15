@@ -256,7 +256,7 @@ public class QuestionWrapper {
     public static HashSet<Question> getQuestionRowsWithTagNo(String tagNo) {
         Connection conn = ConnectionManager.getInstance().getConnection();
         
-        String sql = "{call selectQuestionRowWithTagNo(?)}";
+        String sql = "{call selectQuestionRowsWithTagNo(?)}";
         ResultSet rs = null;
 
         try (PreparedStatement stmt = conn.prepareStatement(sql);) {
@@ -280,6 +280,58 @@ public class QuestionWrapper {
             return getQuestionRowsWithTagNo(tagNo);
         } catch (SQLTransientException SQLte) {
             return getQuestionRowsWithTagNo(tagNo);
+        } catch (SQLException e) {
+            System.err.println(e);
+            return null;
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                conn.close();
+            } catch (SQLException e) {
+                System.err.println(e);
+            }
+        }
+    }
+    
+    /**
+     * Returns a set of rows from the database's Question table with a specific
+     * exerciseNo.
+     * 
+     * @param exericseNo
+     *            is the primary key of the Exercise table.
+     * @return A Set of Question with a specific exerciseNo
+     * @see Question
+     * @see Exercise
+     */
+    public static HashSet<Question> getQuestionRowsWithExerciseNo(String exerciseNo) {
+        Connection conn = ConnectionManager.getInstance().getConnection();
+        
+        String sql = "{call selectQuestionRowsWithExerciseNo(?)}";
+        ResultSet rs = null;
+
+        try (PreparedStatement stmt = conn.prepareStatement(sql);) {
+            stmt.setString(1, exerciseNo);
+            rs = stmt.executeQuery();
+
+            HashSet<Question> hashSet = new HashSet<Question>();
+
+            while (rs.next()) {
+                Question questionEntity = new Question();
+                questionEntity.setQuestionNo(rs.getString("questionNo"));
+                questionEntity.setQuestionType(rs.getString("questionType"));
+                questionEntity.setQuestion(rs.getString("question"));
+                questionEntity.setPoints(rs.getInt("points"));
+
+                hashSet.add(questionEntity);
+            }
+            return hashSet;
+
+        } catch (SQLTransientConnectionException SQLtce) {
+            return getQuestionRowsWithExerciseNo(exerciseNo);
+        } catch (SQLTransientException SQLte) {
+            return getQuestionRowsWithExerciseNo(exerciseNo);
         } catch (SQLException e) {
             System.err.println(e);
             return null;

@@ -204,6 +204,8 @@ public final class Router {
 					switch (action.getAttribute()) {
 					case "all":
 						return ExerciseRules.getExercises();
+					case "questions":
+					    return QuestionsRules.getQuestionsWithExerciseNo((Exercise) resource);
 					default:
 						return ExerciseRules.getExercise((Exercise) resource);
 					}
