@@ -290,7 +290,7 @@ public class ClassWrapper {
     public static HashSet<Class> getClassesWithUserNo(String userNo) {
         Connection conn = ConnectionManager.getInstance().getConnection();
         
-        String sql = "{call selectClassWithUserNo(?)}";
+        String sql = "{call selectClassRowsWithUserNo(?)}";
 
         ResultSet rs = null;
 
@@ -341,7 +341,7 @@ public class ClassWrapper {
     public static HashSet<Class> getClassesWithCourseNo(String courseNo) {
         Connection conn = ConnectionManager.getInstance().getConnection();
         
-        String sql = "{call selectClassesWithCourseNo(?)}";
+        String sql = "{call selectClassRowsWithCourseNo(?)}";
 
         ResultSet rs = null;
 

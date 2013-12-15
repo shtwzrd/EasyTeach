@@ -69,7 +69,12 @@ public class ManageCourseUI {
 	}
 
 	public ManageCourseUI(Course selectedCourse) {
-		// TODO Auto-generated constructor stub
+		presenter = new ManageCoursePresenter(selectedCourse);
+		
+		buildPanel();
+		addActionListeners();
+		
+		syncTables();
 	}
 
 	/**
@@ -253,6 +258,10 @@ public class ManageCourseUI {
 	}
 
 	synchronized void syncTables() {
+		if (txtCourseName.getText().equals("")) {
+			txtCourseName.setText(presenter.getEditCourseName());
+		}
+		
 		this.allClassesTable.setModel(this.presenter.getDTMAvailableClasses());
 		this.associatedClassesTable.setModel(this.presenter.getDTMAssociatedClasses());
 	}
@@ -313,8 +322,6 @@ public class ManageCourseUI {
 					JOptionPane.showMessageDialog(null,
 							"You have to write a course name!");
 				} else {
-					JOptionPane.showMessageDialog(null,
-							"It make take a few seconds!");
 					ManageCourseUI.this.presenter.saveCourse(ManageCourseUI.this.txtCourseName.getText());
 				}
 			}
