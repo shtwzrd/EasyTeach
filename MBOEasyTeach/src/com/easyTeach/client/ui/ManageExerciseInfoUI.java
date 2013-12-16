@@ -7,8 +7,11 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
+import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -52,6 +55,7 @@ public class ManageExerciseInfoUI {
     JCheckBox isTextBox;
     JCheckBox isLockedBox;
     JComboBox<String> courseBox;
+    ComboBoxModel<String> courseBoxModel;
     ManageExerciseInfoPresenter presenter;
 
     /**
@@ -130,7 +134,11 @@ public class ManageExerciseInfoUI {
         this.centerPanel.add(lblCourse);
 
         this.courseBox = new JComboBox<>();
-        this.courseBox.setModel(new DefaultComboBoxModel<>(new String[]{"A", "B"}));
+        ArrayList<String> courseSelections = this.presenter.getAvailableCourses();
+        this.courseBoxModel = new DefaultComboBoxModel<>();
+        for(String s: courseSelections) {
+        }
+        this.courseBox.setModel((ComboBoxModel<String>) this.courseBoxModel);
         this.centerPanel.add(this.courseBox);
 
         JLabel lblIsText = new JLabel("Is a Test:", SwingConstants.CENTER);
@@ -218,7 +226,7 @@ public class ManageExerciseInfoUI {
     
     private void loadFromPresenter() {
     	this.txtExerciseName.setText(this.presenter.getExerciseName());
-    	this.txtIsTest.setSelected(this.presenter.getIsTest());
+    	this.isTextBox.setSelected(this.presenter.getIsTest());
     }
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
