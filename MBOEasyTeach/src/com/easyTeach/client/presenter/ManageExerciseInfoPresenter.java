@@ -25,12 +25,14 @@ public class ManageExerciseInfoPresenter {
 	private Exercise exercise;
 	private ExerciseParameter parameters;
 	private ResourceSet courses;
+	private ArrayList<String> courseSelection;
 	private String currentlySelectedCourse;
 	private String timeLimit;
 
 	public ManageExerciseInfoPresenter() {
 		this.exercise = new Exercise();
 		this.parameters = new ExerciseParameter();
+		this.courseSelection = getAvailableCourses();
 		this.courses = getCourses();
 		this.timeLimit = new String();
 	}
@@ -38,6 +40,7 @@ public class ManageExerciseInfoPresenter {
 	public ManageExerciseInfoPresenter(Exercise exercise) {
 		this.parameters = getParameters(exercise.getExerciseParameterNo());
 		this.courses = getCourses();
+		this.courseSelection = getAvailableCourses();
 		this.timeLimit = new String();
 		this.exercise = exercise;
 	}
