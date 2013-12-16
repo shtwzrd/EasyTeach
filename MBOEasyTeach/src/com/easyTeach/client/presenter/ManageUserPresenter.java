@@ -2,9 +2,13 @@ package com.easyTeach.client.presenter;
 
 import java.util.UUID;
 
+import javax.swing.JOptionPane;
+
 import org.jasypt.util.password.StrongPasswordEncryptor;
 
 import com.easyTeach.client.network.EasyTeachClient;
+import com.easyTeach.client.ui.AdminManagerUI;
+import com.easyTeach.client.ui.MainFrame;
 import com.easyTeach.common.entity.Class;
 import com.easyTeach.common.entity.ClassUserRelation;
 import com.easyTeach.common.entity.Resource;
@@ -18,15 +22,15 @@ import com.easyTeach.common.network.Response.ResponseStatus;
 import com.easyTeach.common.network.Session;
 
 /**
- * The ManageUserPresenter communicates with the domain logic on behalf of
- * the ManageUserUI, providing all of its logic.
+ * The ManageUserPresenter communicates with the domain logic on behalf of the
+ * ManageUserUI, providing all of its logic.
  * <p>
- * The Listeners in the UI class call the relevant methods in the Presenter
- * in order to update and retrieve information from the domain logic. This
- * is an implementation of the Model View Presenter pattern.
+ * The Listeners in the UI class call the relevant methods in the Presenter in
+ * order to update and retrieve information from the domain logic. This is an
+ * implementation of the Model View Presenter pattern.
  * </p>
  * 
- * @author Tonni Hyldgaard
+ * @author Tonni Hyldgaard, Oliver Nielsen
  * @version 1.0
  * @date 13. December, 2013
  */
@@ -48,6 +52,8 @@ public class ManageUserPresenter {
 
 	private String[] tableColumnHeaders = { "Class", "Year" };
 
+	private User editUser;
+
 	/**
 	 * Initializes sets and table models
 	 */
@@ -60,13 +66,23 @@ public class ManageUserPresenter {
 
 		this.allClasses = new UserTableModel(this.tableColumnHeaders,
 				this.classesEnrolledSet);
-		
 
 		refreshClassTable();
 	}
 
 	public ManageUserPresenter(User selectedUser) {
-		// TODO Auto-generated constructor stub
+		editUser = selectedUser;
+
+		this.classesEnrolledSet = new ResourceSet();
+		this.classSelectionSet = new ResourceSet();
+
+		this.enrolledClasses = new UserTableModel(this.tableColumnHeaders,
+				this.classesEnrolledSet);
+
+		this.allClasses = new UserTableModel(this.tableColumnHeaders,
+				this.classesEnrolledSet);
+
+		refreshClassTable();
 	}
 
 	public UserTableModel getEnrolledClassesModel() {
@@ -119,13 +135,25 @@ public class ManageUserPresenter {
 			this.classSelectionSet = (ResourceSet) this.client.getResponse()
 					.getResponse();
 		}
-//		if (this.isFiltered) {
-		
-//			this.allClasses.refreshData(this.filteredSelectionSet);
-//		} 
-//		else {
-			this.allClasses.refreshData(this.classSelectionSet);
-//		}
+
+		if (editUser != null) {
+			Action readRelations = new Action(ActionType.READ, "classes");
+			Request getRelations = new Request(Session.getInstance(),
+					readRelations, editUser);
+
+			client = new EasyTeachClient(getRelations);
+			client.run();
+			client.getResponse();
+
+			if (client.getResponse().getStatus() != ResponseStatus.FAILURE) {
+				classesEnrolledSet = (ResourceSet) client.getResponse()
+						.getResponse();
+			}
+			enrolledClasses.refreshData(classesEnrolledSet);
+			enrolledClasses.fireTableDataChanged();
+
+		}
+		this.allClasses.refreshData(this.classSelectionSet);
 
 		this.allClasses.fireTableDataChanged();
 	}
@@ -149,8 +177,7 @@ public class ManageUserPresenter {
 			String userLastName, String email) {
 		// pEncrypt creates a random generated password which is encrypted
 		StrongPasswordEncryptor pEncrypt = new StrongPasswordEncryptor();
-		if (userType != null && userFirstName != null && userLastName != null
-				&& email != null) {
+		if (!userFirstName.equals("") && !userLastName.equals("") && email.contains("@")) {
 			// Make the user...
 			String userNo = UUID.randomUUID().toString();
 			String password = pEncrypt.encryptPassword(UUID.randomUUID()
@@ -159,7 +186,14 @@ public class ManageUserPresenter {
 					userLastName, password, getCurrentDate());
 
 			// Send it to the Server
-			Action toDo = new Action(ActionType.CREATE);
+			Action toDo;
+			
+			if (editUser != null) {
+				toDo = new Action(ActionType.UPDATE);
+			} else {
+				toDo = new Action(ActionType.CREATE);
+			}
+			
 			Request out = new Request(Session.getInstance(), toDo, this.user);
 			this.client = new EasyTeachClient(out);
 			this.client.run();
@@ -175,16 +209,30 @@ public class ManageUserPresenter {
 			}
 
 			// Send those to the server
-			toDo = new Action(ActionType.UPDATE, "user");
+			toDo = new Action(ActionType.UPDATE, "class");
 			out = new Request(Session.getInstance(), toDo, this.relations);
 			this.client = new EasyTeachClient(out);
 			this.client.run();
 			in = this.client.getResponse();
 			System.out.println(in.getStatus() + ": " + in.getResponseMessage());
 
-			this.allClasses.refreshData(this.classSelectionSet);
-			this.enrolledClasses.refreshData(this.classesEnrolledSet);
+			if (in.getStatus() == ResponseStatus.SUCCESS) {
+				JOptionPane.showMessageDialog(null, "Saved succesfully!");
+				MainFrame.updateFrame(new AdminManagerUI().getAdminManagerUI(),
+						"Admin Manager");
+			} else {
+				JOptionPane.showMessageDialog(null, "Something went wrong. Try again!");
+			}
+		} else {
+			if (userFirstName.equals("")) {
+				JOptionPane.showMessageDialog(null, "Invalid first name!");
+			} else if (userLastName.equals("")) {
+				JOptionPane.showMessageDialog(null, "Invalid last name!");
+			} else if (!email.contains("@")) {
+				JOptionPane.showMessageDialog(null, "Invalid email!");
+			}
 		}
+		
 	}
 
 	/**
@@ -211,20 +259,49 @@ public class ManageUserPresenter {
 	 * Adds a {@link Class} from the SelectionTable to the EnrolledTable.
 	 */
 	public void add() {
-		this.classesEnrolledSet.add(this.currentlySelectedClassInSelection);
-		this.enrolledClasses.refreshData(this.classesEnrolledSet);
-		this.enrolledClasses.fireTableDataChanged();
+		if (currentlySelectedClassInSelection != null) {
+			this.classesEnrolledSet.add(this.currentlySelectedClassInSelection);
+			this.enrolledClasses.refreshData(this.classesEnrolledSet);
+			this.enrolledClasses.fireTableDataChanged();			
+		} else {
+			JOptionPane.showMessageDialog(null, "Select a class to add!");
+		}
 	}
 
 	/**
 	 * Removes a {@link Class} from the EnrolledTable.
 	 */
 	public void remove() {
-		this.classesEnrolledSet.remove(this.currentlySelectedClassInEnrolled);
-		this.enrolledClasses.refreshData(this.classesEnrolledSet);
-		this.enrolledClasses.fireTableDataChanged();
+		if (currentlySelectedClassInEnrolled != null) {
+			this.classesEnrolledSet.remove(this.currentlySelectedClassInEnrolled);
+			this.enrolledClasses.refreshData(this.classesEnrolledSet);
+			this.enrolledClasses.fireTableDataChanged();			
+		} else {
+			JOptionPane.showMessageDialog(null, "Select a class to remove!");
+		}
 	}
 
+	public String getEditUserFirstName() {
+		if (editUser != null) {
+			return editUser.getFirstName();
+		}
+		return "";
+	}
+
+	public String getEditUserLastName() {
+		if (editUser != null) {
+			return editUser.getLastName();
+		}
+		return "";
+	}
+	
+	
+	public String getEditUserEmail() {
+		if (editUser != null) {
+			return editUser.getEmail();
+		}
+		return "";
+	}
 	/**
 	 * 
 	 * @author Tonni Hyldgaard
@@ -263,5 +340,6 @@ public class ManageUserPresenter {
 			}
 		}
 	}
+
 
 }

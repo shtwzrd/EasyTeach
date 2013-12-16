@@ -446,41 +446,61 @@ public class AdminManagerUI {
 			else if (e.getSource() == AdminManagerUI.this.btnEdit) {
 				if (selectedTab.equals("Users")) {
 					if (selectedUserTab.equals("Students")) {
-						MainFrame.updateFrame(
-								new ManageUserUI(
-										AdminManagerUI.this.studentPresenter
-												.getSelectedUser())
-										.getManageUserUI(),
-								"EasyTeach - Edit User");
+						if (studentPresenter.getSelectedUser() != null) {
+							MainFrame.updateFrame(
+									new ManageUserUI(
+											AdminManagerUI.this.studentPresenter
+											.getSelectedUser())
+									.getManageUserUI(),
+									"EasyTeach - Edit User");							
+						} else {
+							JOptionPane.showMessageDialog(null, "Please select a student!");
+						}
 					} else if (selectedUserTab.equals("Teachers")) {
-						MainFrame.updateFrame(
-								new ManageUserUI(
-										AdminManagerUI.this.teacherPresenter
-												.getSelectedUser())
-										.getManageUserUI(),
-								"EasyTeach - Edit User");
+						if (teacherPresenter.getSelectedUser() != null) {
+							MainFrame.updateFrame(
+									new ManageUserUI(
+											AdminManagerUI.this.teacherPresenter
+											.getSelectedUser())
+									.getManageUserUI(),
+									"EasyTeach - Edit User");
+						} else {
+							JOptionPane.showMessageDialog(null, "Please select a teacher!");
+						}
 					} else {
-						MainFrame.updateFrame(
-								new ManageUserUI(
-										AdminManagerUI.this.adminPresenter
-												.getSelectedUser())
-										.getManageUserUI(),
-								"EasyTeach - Edit User");
+						if (adminPresenter.getSelectedUser() != null) {
+							MainFrame.updateFrame(
+									new ManageUserUI(
+											AdminManagerUI.this.adminPresenter
+											.getSelectedUser())
+									.getManageUserUI(),
+									"EasyTeach - Edit User");							
+						} else {
+							JOptionPane.showMessageDialog(null, "Please select a admin!");
+						}
 					}
 				} else if (selectedTab.equals("Classes")) {
-					MainFrame.updateFrame(
-							new ManageClassUI(
-									AdminManagerUI.this.classPresenter
-											.getSelectedClass())
-									.getManageClassUI(),
-							"EasyTeach - Edit Class");
+					if (classPresenter.getSelectedClass() != null) {
+						MainFrame.updateFrame(
+								new ManageClassUI(
+										AdminManagerUI.this.classPresenter
+										.getSelectedClass())
+								.getManageClassUI(),
+								"EasyTeach - Edit Class");						
+					}  else {
+						JOptionPane.showMessageDialog(null, "Please select a class!");
+					}
 				} else if (selectedTab.equals("Courses")) {
-					MainFrame.updateFrame(
-							new ManageCourseUI(
-									AdminManagerUI.this.coursePresenter
-											.getSelectedCourse())
-									.getManageCourseUI(),
-							"EasyTeach - Edit Course");
+					if (coursePresenter.getSelectedCourse() != null) {
+						MainFrame.updateFrame(
+								new ManageCourseUI(
+										AdminManagerUI.this.coursePresenter
+										.getSelectedCourse())
+								.getManageCourseUI(),
+								"EasyTeach - Edit Course");						
+					} else {
+						JOptionPane.showMessageDialog(null, "Please select a course!");
+					}
 				}
 			}
 

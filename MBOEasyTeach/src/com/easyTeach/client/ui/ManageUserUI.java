@@ -72,6 +72,8 @@ public class ManageUserUI {
 		this.presenter = new ManageUserPresenter(selectedUser);
 		buildPanel();
 		addActionListeners();
+		
+		syncWithPresenter();
 	}
 
 	/**
@@ -157,10 +159,10 @@ public class ManageUserUI {
 		addRemovePanel.setBackground(UIColors.lightBlue);
 		addRemovePanel.setLayout(new GridLayout(1, 2));
 
-		JButton btnRemoveClass = new JButton("Remove User From Class");
+		btnRemoveClass = new JButton("Remove User From Class");
 		addRemovePanel.add(btnRemoveClass);
 
-		JButton btnAddClass = new JButton("Add User To Class");
+		btnAddClass = new JButton("Add User To Class");
 		addRemovePanel.add(btnAddClass);
 
 		enrolledClassesPanel.add(addRemovePanel, BorderLayout.SOUTH);
@@ -265,14 +267,32 @@ public class ManageUserUI {
 		this.btnGeneratePassword.addActionListener(listener);
 		this.btnHelp.addActionListener(listener);
 		this.btnSaveUser.addActionListener(listener);
-		this.enrolledClassesTable.addMouseListener(listener);
-		this.allClassesTable.addMouseListener(listener);
+		
+		// Oliver Nielsen start
+		btnAddClass.addActionListener(listener);
+		btnRemoveClass.addActionListener(listener);
+		
+		enrolledClassesTable.addMouseListener(listener);
+		allClassesTable.addMouseListener(listener);
+		// Oliver Nielsen end
 	}
 
 	protected synchronized void syncWithPresenter() {
 		if (!this.isSyncing) {
 			this.isSyncing = true;
-
+			
+			// Oliver Nielsen start
+			if (txtFirstName.getText().equals("")) {
+				txtFirstName.setText(presenter.getEditUserFirstName());
+			}
+			if (txtLastname.getText().equals("")) {
+				txtLastname.setText(presenter.getEditUserLastName());
+			}
+			if (txtEmail.getText().equals("")) {
+				txtEmail.setText(presenter.getEditUserEmail());
+			}
+			// Oliver Nielsen end
+			
 			this.enrolledClassesTable.setModel(this.presenter
 					.getEnrolledClassesModel());
 			this.allClassesTable.setModel(this.presenter.getAllClassesModel());
@@ -288,7 +308,7 @@ public class ManageUserUI {
 	 * button). When an event occurs the ManageUserListener will send a signal
 	 * to the ManageUserPresenter which will in return act upon the event.
 	 * 
-	 * @author Tonni Hyldgaard
+	 * @author Tonni Hyldgaard, Oliver Nielsen
 	 * @version 0.9
 	 * @see ActionListener
 	 * @date 13. December, 2013
@@ -314,6 +334,7 @@ public class ManageUserUI {
 			}
 
 			else if (e.getSource() == ManageUserUI.this.btnGeneratePassword) {
+				JOptionPane.showMessageDialog(null, "Feature under development!");
 			}
 
 			else if (e.getSource() == ManageUserUI.this.btnSaveUser) {
