@@ -64,11 +64,11 @@ public class ContentDatabaseTest {
 
 		// Creates an instance of the {@link User} entity
 		User u1 = new User(UUID.randomUUID().toString(), "admi1234@kea.dk",
-				"Administrator", "Douglas", "Beaver",
+				"Admin", "Douglas", "Beaver",
 				pEncrypt.encryptPassword("admi1234"), new Date(2013 - 1900,
 						12 - 1, 12));
 		User u2 = new User(UUID.randomUUID().toString(), "admi5678@kea.dk",
-				"Administrator", "Admin", "Admin",
+				"Admin", "Admin", "Admin",
 				pEncrypt.encryptPassword("admi5678"), new Date(2013 - 1900,
 						12 - 1, 12));
 		User u3 = new User(UUID.randomUUID().toString(), "cayh1234@kea.dk",
