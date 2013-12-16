@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -21,6 +22,7 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
 import com.easyTeach.client.presenter.HelpPresenter;
+import com.easyTeach.client.presenter.ManageExerciseInfoPresenter;
 import com.easyTeach.common.ui.UIColors;
 
 /**
@@ -34,7 +36,6 @@ import com.easyTeach.common.ui.UIColors;
 
 public class ManageExerciseInfoUI {
 
-    private final String[] TRUE_FALSE = { "True", "False" };
     private JPanel manageExerciseInfoPanel;
     JButton btnHelp;
     JButton btnDiscard;
@@ -42,15 +43,16 @@ public class ManageExerciseInfoUI {
     JButton btnFilter;
     JButton btnContinue;
     JTextField txtExerciseName;
-    JTextField txtIsTest;
+    JCheckBox txtIsTest;
     JTextField txtIsLocked;
     JPasswordField txtPassword;
     JTextField txtTimelimit;
     JTextField txtAccessStart;
     JTextField txtAccessEnd;
-    JComboBox<String> isTextBox;
-    JComboBox<String> isLockedBox;
+    JCheckBox isTextBox;
+    JCheckBox isLockedBox;
     JComboBox<String> courseBox;
+    ManageExerciseInfoPresenter presenter;
 
     /**
      * Constructor for building the manageExerciseInfoPanel. The panel is built
@@ -58,8 +60,11 @@ public class ManageExerciseInfoUI {
      * adding actionListeners to all buttons.
      */
     public ManageExerciseInfoUI() {
+    	this.presenter = new ManageExerciseInfoPresenter();
         buildPanel();
         addActionListeners();
+        loadFromPresenter();
+
     }
 
     /**
@@ -132,8 +137,7 @@ public class ManageExerciseInfoUI {
         lblIsText.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
         this.centerPanel.add(lblIsText);
 
-        this.isTextBox = new JComboBox<>();
-        this.isTextBox.setModel(new DefaultComboBoxModel<>(this.TRUE_FALSE));
+        this.isTextBox = new JCheckBox();
         this.centerPanel.add(this.isTextBox);
 
         JLabel lblOptionalFields = new JLabel("Optional Fields (Tests only)", SwingConstants.CENTER);
@@ -148,8 +152,7 @@ public class ManageExerciseInfoUI {
         lblIsLocked.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
         this.centerPanel.add(lblIsLocked);
 
-        this.isLockedBox = new JComboBox<>();
-        this.isLockedBox.setModel(new DefaultComboBoxModel<>(this.TRUE_FALSE));
+        this.isLockedBox = new JCheckBox();
         this.centerPanel.add(this.isLockedBox);
 
         JLabel lblPassword = new JLabel("Password:", SwingConstants.CENTER);
@@ -212,6 +215,11 @@ public class ManageExerciseInfoUI {
         this.btnHelp.addActionListener(listener);
         this.btnContinue.addActionListener(listener);
     }
+    
+    private void loadFromPresenter() {
+    	this.txtExerciseName.setText(this.presenter.getExerciseName());
+    	this.txtIsTest.setSelected(this.presenter.getIsTest());
+    }
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
 
@@ -251,10 +259,6 @@ public class ManageExerciseInfoUI {
                 MainFrame.updateFrame(
                         new ManageExerciseUI().getManageExerciseUI(),
                         "Manage Exercise");
-            }
-
-            else if (e.getSource() == ManageExerciseInfoUI.this.btnFilter) {
-
             }
 
             else if (e.getSource() == ManageExerciseInfoUI.this.btnHelp) {

@@ -1,8 +1,6 @@
 package com.easyTeach.client.presenter;
 
 import java.sql.Timestamp;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.UUID;
 
@@ -15,7 +13,6 @@ import com.easyTeach.common.entity.ResourceSet;
 import com.easyTeach.common.network.Action;
 import com.easyTeach.common.network.Action.ActionType;
 import com.easyTeach.common.network.Request;
-import com.easyTeach.common.network.Response;
 import com.easyTeach.common.network.Response.ResponseStatus;
 import com.easyTeach.common.network.Session;
 
