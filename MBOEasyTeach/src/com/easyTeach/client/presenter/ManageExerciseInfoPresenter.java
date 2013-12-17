@@ -9,6 +9,8 @@ import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.UUID;
 
+import javax.swing.DefaultComboBoxModel;
+
 import com.easyTeach.client.network.EasyTeachClient;
 import com.easyTeach.common.entity.Course;
 import com.easyTeach.common.entity.Exercise;
@@ -24,25 +26,39 @@ import com.easyTeach.common.network.Session;
 public class ManageExerciseInfoPresenter {
 	private Exercise exercise;
 	private ExerciseParameter parameters;
-	private ResourceSet courses;
-	private ArrayList<String> courseSelection;
+	private ArrayList<Course> courses;
+	private DefaultComboBoxModel<String> courseSelection;
 	private String currentlySelectedCourse;
 	private String timeLimit;
 
 	public ManageExerciseInfoPresenter() {
 		this.exercise = new Exercise();
 		this.parameters = new ExerciseParameter();
-		this.courseSelection = getAvailableCourses();
 		this.courses = getCourses();
+		this.courseSelection = new DefaultComboBoxModel<>();
+
+		ArrayList<String> cs = getAvailableCourses();
+		for (String c : cs) {
+			this.courseSelection.addElement(c);
+		}
 		this.timeLimit = new String();
 	}
 
 	public ManageExerciseInfoPresenter(Exercise exercise) {
 		this.parameters = getParameters(exercise.getExerciseParameterNo());
 		this.courses = getCourses();
-		this.courseSelection = getAvailableCourses();
+
+		this.courseSelection = new DefaultComboBoxModel<>();
+		ArrayList<String> cs = getAvailableCourses();
+		for (String c : cs) {
+			this.courseSelection.addElement(c);
+		}
 		this.timeLimit = new String();
 		this.exercise = exercise;
+	}
+
+	public DefaultComboBoxModel<String> getCourseSelectionModel() {
+		return this.courseSelection;
 	}
 
 	private static ExerciseParameter getParameters(String parameterNo) {
@@ -70,54 +86,68 @@ public class ManageExerciseInfoPresenter {
 		return "";
 	}
 
-	private static ResourceSet getCourses() {
+	public void toggleIsTest() {
+		if (this.parameters.getIsTest()) {
+			this.parameters.setIsTest(false);
+		} else {
+			this.parameters.setIsTest(true);
+		}
+	}
+
+	public String getPassword() {
+		if (this.exercise.getPassword() != null) {
+			return this.exercise.getPassword();
+		}
+		return "";
+	}
+
+	private static ArrayList<Course> getCourses() {
 		Action fetchCourses = new Action(ActionType.READ, "all");
 		Request getCourses = new Request(Session.getInstance(), fetchCourses,
 				new Course());
 		EasyTeachClient client = new EasyTeachClient(getCourses);
 		client.run();
-		return (ResourceSet) client.getResponse().getResponse();
+		ResourceSet courses = (ResourceSet) client.getResponse().getResponse();
+		ArrayList<Course> out = new ArrayList<>();
+		for (Resource r : courses) {
+			Course c = (Course) r;
+			out.add(c);
+		}
+		return out;
 	}
 
 	private static String getCurrentAuthor() {
-		Action fetchTeachers = new Action(ActionType.READ, "teachers");
-		Request getCourses = new Request(Session.getInstance(), fetchTeachers,
-				new User());
-		EasyTeachClient client = new EasyTeachClient(getCourses);
-		client.run();
-
-		ResourceSet teachers = (ResourceSet) client.getResponse().getResponse();
-		for (Resource r : teachers) {
-			User u = (User) r;
-			if (u.getEmail().equals(Session.getInstance().getUsername())) {
-				return u.getUserNo();
-			}
-		}
-		// This should never happen...
-		return UUID.randomUUID().toString();
+		// Problem - no way to get authorNo when authorized as Teacher.
+		// authorNo is a foreign key and cannot be null.
+		// Hardcoding test@test.com's UserNo for now, for testing purposes.
+		return "180430aa-8cae-4f2c-b8b2-6d5b12933793";
 	}
 
 	public boolean getIsTest() {
-		//if(this.parameters != null) {
-		//	return this.parameters.getIsTest();
-		//}
+		if (this.parameters != null) {
+			return this.parameters.getIsTest();
+		}
 		return false;
 	}
 
 	public boolean getIsLocked() {
-		if(this.parameters != null) {
+		if (this.parameters != null) {
 			return this.parameters.getIsTest();
 		}
 		return false;
 	}
 
 	public ArrayList<String> getAvailableCourses() {
-		ArrayList<String> output = new ArrayList<>();
-		for (Resource r : this.courses) {
-			Course c = (Course) r;
-			output.add(c.getCourseName());
+		if (this.courses != null) {
+			ArrayList<String> output = new ArrayList<>();
+			for (Resource r : this.courses) {
+				Course c = (Course) r;
+				output.add(c.getCourseName());
+			}
+
+			return output;
 		}
-		return output;
+		return new ArrayList<>();
 	}
 
 	public void setCurrentlySelectedCourse(String courseName) {
@@ -130,13 +160,21 @@ public class ManageExerciseInfoPresenter {
 		}
 	}
 
-	public void save(String name, boolean test) {
-		save(name, test, false, null, null, null, null, getCurrentAuthor());
+	public int getIndexOfCurrentlySelectedCourse() {
+		for (int i = 0; i < this.courses.size(); i++) {
+			if (this.courses.get(i).equals(this.currentlySelectedCourse)) {
+				return i;
+			}
+		}
+		return 0;
 	}
 
-	public void save(String name, boolean test, boolean locked,
-			String accessBegin, String accessEnd, String time, String pwd,
-			String author) {
+	public void save(String name) {
+		save(name, false, null, null, null, null);
+	}
+
+	public void save(String name, boolean locked, String accessBegin,
+			String accessEnd, String time, String pwd) {
 
 		EasyTeachClient client;
 		boolean parameterUpdate = false;
@@ -155,10 +193,10 @@ public class ManageExerciseInfoPresenter {
 
 		ExerciseParameter pOut = new ExerciseParameter();
 		pOut.setExerciseParameterNo(paramId); // Required
-		pOut.setIsTest(test); // Required
+		pOut.setIsTest(this.parameters.getIsTest()); // Required
 		pOut.setIsLocked(locked);
 
-		if (accessEnd != null || accessBegin != null) {
+		if (accessEnd != "" || accessBegin != "") {
 
 			try {
 				Date beginDate = parser.parse(accessBegin);
@@ -201,7 +239,7 @@ public class ManageExerciseInfoPresenter {
 		Exercise exOut = new Exercise();
 		exOut.setExerciseNo(exerciseId);
 		exOut.setExerciseParameterNo(paramId);
-		exOut.setAuthor(author);
+		exOut.setAuthor(getCurrentAuthor());
 		exOut.setPassword(pwd);
 		exOut.setCourseNo(this.currentlySelectedCourse);
 		exOut.setExerciseName(name);

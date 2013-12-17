@@ -71,6 +71,10 @@ public class ExerciseManagerPresenter {
 				.getResourceAtRow(row);
 		getQuestions(this.currentlySelectedExercise);
 	}
+	
+	public Exercise getSelectedExercise() {
+		return this.currentlySelectedExercise;
+	}
 
 	private ResourceSet getQuestions(Exercise exercise) {
 		Action readQuestions = new Action(ActionType.READ, "questions");

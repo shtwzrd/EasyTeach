@@ -261,7 +261,9 @@ public class ExerciseManagerUI {
 			}
 
 			else if (e.getSource() == ExerciseManagerUI.this.btnEditExercise) {
-				// TODO
+				MainFrame.updateFrame(new ManageExerciseInfoUI(
+						ExerciseManagerUI.this.presenter.getSelectedExercise())
+						.getManageExerciseInfoUI(), "Manage Exercise Info");
 			}
 
 			else if (e.getSource() == ExerciseManagerUI.this.btnHelp) {
