@@ -258,7 +258,7 @@ public class ManageExerciseInfoPresenter {
 				pOut.setAccessEnd(end);
 
 			} catch (ParseException e) {
-				e.printStackTrace();
+				//
 			}
 
 			if (time != null) {
