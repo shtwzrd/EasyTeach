@@ -12,6 +12,14 @@ import com.easyTeach.common.network.Session;
 import com.easyTeach.server.domainLogic.RoleResource.Role;
 
 /**
+ * Handles the logic necessary for communicating with the EasyTeachClient/Server
+ * on behalf of the AdminUserManagerUI.
+ * 
+ * <p>
+ * The Listeners in the UI class call the relevant methods in the Presenter in
+ * order to update and retrieve information from the domain logic. This is an
+ * implementation of the Model View Presenter pattern.
+ * </p>
  * 
  * @author Brandon Lucas
  * @version 1.0
@@ -27,7 +35,8 @@ public class AdminUserManagerPresenter {
 	private boolean isFiltered;
 	private Role role;
 
-	String[] tableColumnHeaders = { "Email", "First name", "Last name", "Date added" };
+	String[] tableColumnHeaders = { "Email", "First name", "Last name",
+			"Date added" };
 
 	/**
 	 * Initializes sets and table models
@@ -45,19 +54,23 @@ public class AdminUserManagerPresenter {
 	}
 
 	public void setSelectedUser(int row) {
-		this.currentlySelectedUser =
-				(User) this.userModel.getResourceAtRow(row);
+		this.currentlySelectedUser = (User) this.userModel
+				.getResourceAtRow(row);
 	}
 
 	public User getSelectedUser() {
 		return this.currentlySelectedUser;
 	}
 
+	/**
+	 * Gets the currently selected user and removes it from the database, then
+	 * fires an event to the table model to inform it of the change in data
+	 */
 	public void removeCurrrentlySelected() {
 		if (this.currentlySelectedUser != null) {
 			this.userSet.remove(this.currentlySelectedUser);
 			Action rm = new Action(ActionType.DELETE);
-			Request remove = new Request(Session.getInstance(), rm, 
+			Request remove = new Request(Session.getInstance(), rm,
 					this.currentlySelectedUser);
 			this.client = new EasyTeachClient(remove);
 			this.client.run();
@@ -70,6 +83,22 @@ public class AdminUserManagerPresenter {
 		this.userModel.fireTableDataChanged();
 	}
 
+/**
+	 * Logic for filtering the table containing the selection of lasses by a
+	 * particular string, in a particular column.
+	 * 
+	 * <p>
+	 * Right now, this consists of maintaining a separate, filtered set. This is
+	 * somewhat slow. Later, new logic should be added, using RowFilter.
+	 * </p>
+	 * 
+	 * @param column
+	 *            The column in the table which should be considered for
+	 *            filtering
+	 * @param by
+	 *            The string by which the aforementioned column should be
+	 *            filtered.
+	 */
 	public void filter(String column, String by) {
 		if (by.equals("")) {
 			this.isFiltered = false;
@@ -106,6 +135,7 @@ public class AdminUserManagerPresenter {
 		this.refreshUserTable();
 		this.userModel.fireTableDataChanged();
 	}
+
 	/**
 	 * Sends a {@link Request} to the Server, updating the Presenter's set of
 	 * available Users.
@@ -119,20 +149,19 @@ public class AdminUserManagerPresenter {
 	private void refreshUserTable() {
 
 		String attrib;
-		switch(this.role) {
-		case ADMIN :
+		switch (this.role) {
+		case ADMIN:
 			attrib = "admins";
 			break;
-		case TEACHER :
+		case TEACHER:
 			attrib = "teachers";
 			break;
-		default :
+		default:
 			attrib = "students";
 		}
 		Action toDo = new Action(ActionType.READ, attrib);
 
-		Request getUsers = new Request(Session.getInstance(), toDo,
-				new User());
+		Request getUsers = new Request(Session.getInstance(), toDo, new User());
 		this.client = new EasyTeachClient(getUsers);
 		this.client.run();
 		this.client.getResponse();
@@ -176,13 +205,13 @@ public class AdminUserManagerPresenter {
 		public String getValueAt(int row, int column) {
 			User u = (User) this.tableData.get(row);
 			switch (this.getColumnName(column)) {
-			case "Email" :
+			case "Email":
 				return u.getEmail();
-			case "First name" :
+			case "First name":
 				return u.getFirstName();
-			case "Last name" :
+			case "Last name":
 				return u.getLastName();
-			case "Date added" :
+			case "Date added":
 				return u.getDateAdded().toString();
 			default:
 				return new String();

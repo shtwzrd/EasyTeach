@@ -71,7 +71,7 @@ public class ManageUserPresenter {
 	}
 
 	public ManageUserPresenter(User selectedUser) {
-		editUser = selectedUser;
+		this.editUser = selectedUser;
 
 		this.classesEnrolledSet = new ResourceSet();
 		this.classSelectionSet = new ResourceSet();
@@ -136,21 +136,21 @@ public class ManageUserPresenter {
 					.getResponse();
 		}
 
-		if (editUser != null) {
+		if (this.editUser != null) {
 			Action readRelations = new Action(ActionType.READ, "classes");
 			Request getRelations = new Request(Session.getInstance(),
-					readRelations, editUser);
+					readRelations, this.editUser);
 
-			client = new EasyTeachClient(getRelations);
-			client.run();
-			client.getResponse();
+			this.client = new EasyTeachClient(getRelations);
+			this.client.run();
+			this.client.getResponse();
 
-			if (client.getResponse().getStatus() != ResponseStatus.FAILURE) {
-				classesEnrolledSet = (ResourceSet) client.getResponse()
+			if (this.client.getResponse().getStatus() != ResponseStatus.FAILURE) {
+				this.classesEnrolledSet = (ResourceSet) this.client.getResponse()
 						.getResponse();
 			}
-			enrolledClasses.refreshData(classesEnrolledSet);
-			enrolledClasses.fireTableDataChanged();
+			this.enrolledClasses.refreshData(this.classesEnrolledSet);
+			this.enrolledClasses.fireTableDataChanged();
 
 		}
 		this.allClasses.refreshData(this.classSelectionSet);
@@ -188,7 +188,7 @@ public class ManageUserPresenter {
 			// Send it to the Server
 			Action toDo;
 			
-			if (editUser != null) {
+			if (this.editUser != null) {
 				toDo = new Action(ActionType.UPDATE);
 			} else {
 				toDo = new Action(ActionType.CREATE);
@@ -259,7 +259,7 @@ public class ManageUserPresenter {
 	 * Adds a {@link Class} from the SelectionTable to the EnrolledTable.
 	 */
 	public void add() {
-		if (currentlySelectedClassInSelection != null) {
+		if (this.currentlySelectedClassInSelection != null) {
 			this.classesEnrolledSet.add(this.currentlySelectedClassInSelection);
 			this.enrolledClasses.refreshData(this.classesEnrolledSet);
 			this.enrolledClasses.fireTableDataChanged();			
@@ -272,7 +272,7 @@ public class ManageUserPresenter {
 	 * Removes a {@link Class} from the EnrolledTable.
 	 */
 	public void remove() {
-		if (currentlySelectedClassInEnrolled != null) {
+		if (this.currentlySelectedClassInEnrolled != null) {
 			this.classesEnrolledSet.remove(this.currentlySelectedClassInEnrolled);
 			this.enrolledClasses.refreshData(this.classesEnrolledSet);
 			this.enrolledClasses.fireTableDataChanged();			
@@ -282,23 +282,23 @@ public class ManageUserPresenter {
 	}
 
 	public String getEditUserFirstName() {
-		if (editUser != null) {
-			return editUser.getFirstName();
+		if (this.editUser != null) {
+			return this.editUser.getFirstName();
 		}
 		return "";
 	}
 
 	public String getEditUserLastName() {
-		if (editUser != null) {
-			return editUser.getLastName();
+		if (this.editUser != null) {
+			return this.editUser.getLastName();
 		}
 		return "";
 	}
 	
 	
 	public String getEditUserEmail() {
-		if (editUser != null) {
-			return editUser.getEmail();
+		if (this.editUser != null) {
+			return this.editUser.getEmail();
 		}
 		return "";
 	}

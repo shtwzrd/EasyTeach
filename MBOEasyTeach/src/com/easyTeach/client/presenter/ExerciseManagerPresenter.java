@@ -19,6 +19,7 @@ import com.easyTeach.common.network.Session;
 /**
  * The ExerciseManagerPresenter communicates with the domain logic on behalf of
  * the ExerciseManagerUI, providing all of its logic.
+ * 
  * <p>
  * The Listeners in the UI class call the relevant methods in the Presenter in
  * order to update and retrieve information from the domain logic. This is an
@@ -71,7 +72,7 @@ public class ExerciseManagerPresenter {
 				.getResourceAtRow(row);
 		getQuestions(this.currentlySelectedExercise);
 	}
-	
+
 	public Exercise getSelectedExercise() {
 		return this.currentlySelectedExercise;
 	}
@@ -170,6 +171,12 @@ public class ExerciseManagerPresenter {
 		this.exerciseTable.fireTableDataChanged();
 	}
 
+	/**
+	 * Method for creating a duplicate of the the currently selected exercise in
+	 * the ExerciseManagerUI. All relations are also duplicated, so that the
+	 * newly created exercise also points to the same questions. The only
+	 * publically visible field which changes is the date created.
+	 */
 	public void duplicate() {
 		if (this.currentlySelectedExercise != null) {
 			String newCourseId = UUID.randomUUID().toString();
@@ -182,10 +189,11 @@ public class ExerciseManagerPresenter {
 					.getExerciseName());
 			newExercise.setExerciseParameterNo(this.currentlySelectedExercise
 					.getExerciseParameterNo());
-			newExercise.setPassword(this.currentlySelectedExercise.getPassword());
+			newExercise.setPassword(this.currentlySelectedExercise
+					.getPassword());
 
 			GregorianCalendar cal = new GregorianCalendar();
-			newExercise.setDateAdded(new Timestamp(cal.getTimeInMillis())); 
+			newExercise.setDateAdded(new Timestamp(cal.getTimeInMillis()));
 
 			Action createExercise = new Action(ActionType.CREATE);
 			Request dupeExercise = new Request(Session.getInstance(),

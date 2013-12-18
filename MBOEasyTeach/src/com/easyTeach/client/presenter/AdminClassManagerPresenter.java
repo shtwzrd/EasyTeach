@@ -11,6 +11,14 @@ import com.easyTeach.common.network.Response.ResponseStatus;
 import com.easyTeach.common.network.Session;
 
 /**
+ * Presenter handling the logic and interaction between the AdminClassManagerUI
+ * and the EasyTeachClient/Server.
+ * 
+ * <p>
+ * The Listeners in the UI class call the relevant methods in the Presenter in
+ * order to update and retrieve information from the domain logic. This is an
+ * implementation of the Model View Presenter pattern.
+ * </p>
  * 
  * @author Brandon Lucas
  * @version 1.0
@@ -49,6 +57,10 @@ public class AdminClassManagerPresenter {
 		return this.currentlySelectedClass;
 	}
 
+	/**
+	 * Gets the currently selected class, removes it from the database,
+	 * and alerts the table model of the change.
+	 */
 	public void removeCurrrentlySelected() {
 		if (this.currentlySelectedClass != null) {
 			this.classesSet.remove(this.currentlySelectedClass);

@@ -17,12 +17,26 @@ import com.easyTeach.common.entity.Exercise;
 import com.easyTeach.common.entity.ExerciseParameter;
 import com.easyTeach.common.entity.Resource;
 import com.easyTeach.common.entity.ResourceSet;
-import com.easyTeach.common.entity.User;
 import com.easyTeach.common.network.Action;
 import com.easyTeach.common.network.Action.ActionType;
 import com.easyTeach.common.network.Request;
 import com.easyTeach.common.network.Session;
 
+/**
+ * Presenter handling the communication between the ManageExerciseInfoUI and the
+ * EasyTeachClient/Server.
+ * 
+ * <p>
+ * The Listeners in the UI class call the relevant methods in the Presenter in
+ * order to update and retrieve information from the domain logic. This is an
+ * implementation of the Model View Presenter pattern.
+ * </p>
+ * 
+ * @author Brandon Lucas
+ * @version 1.0
+ * @date 15 December, 2013
+ * 
+ */
 public class ManageExerciseInfoPresenter {
 	private Exercise exercise;
 	private ExerciseParameter parameters;
@@ -44,6 +58,12 @@ public class ManageExerciseInfoPresenter {
 		this.timeLimit = new String();
 	}
 
+	/**
+	 * Constructor used when passing an existing Exercise to Edit
+	 * 
+	 * @param exercise
+	 *            Exercise to edit.
+	 */
 	public ManageExerciseInfoPresenter(Exercise exercise) {
 		this.parameters = getParameters(exercise.getExerciseParameterNo());
 		this.courses = getCourses();
@@ -86,6 +106,10 @@ public class ManageExerciseInfoPresenter {
 		return "";
 	}
 
+	/**
+	 * If the isTest flag is set to true, it becomes false. If it is false, it
+	 * becomes true.
+	 */
 	public void toggleIsTest() {
 		if (this.parameters.getIsTest()) {
 			this.parameters.setIsTest(false);
@@ -119,8 +143,8 @@ public class ManageExerciseInfoPresenter {
 	private static String getCurrentAuthor() {
 		// Problem - no way to get authorNo when authorized as Teacher.
 		// authorNo is a foreign key and cannot be null.
-		// Hardcoding test@test.com's UserNo for now, for testing purposes.
-		return "180430aa-8cae-4f2c-b8b2-6d5b12933793";
+		// Hardcoding admi5678@kea.dk's UserNo for now, for testing purposes.
+		return "f9a20868-5361-491b-8192-e221d83f9163";
 	}
 
 	public boolean getIsTest() {
@@ -169,10 +193,37 @@ public class ManageExerciseInfoPresenter {
 		return 0;
 	}
 
+	/**
+	 * Simplified procedure for saving, with only the single required parameter
+	 * to be fulfilled.
+	 * 
+	 * @param name
+	 *            The name to provide the Exercise
+	 */
 	public void save(String name) {
 		save(name, false, null, null, null, null);
 	}
 
+	/**
+	 * Procedure for saving an Exercise and its associated ExerciseParameter to
+	 * the database
+	 * 
+	 * @param name
+	 *            The name to provide the exercise
+	 * @param locked
+	 *            flag stating whether or not the exercise is locked
+	 * @param accessBegin
+	 *            date specifying the time at which the exercise becomes
+	 *            available to take
+	 * @param accessEnd
+	 *            date specifying the time at which the exercise is no longer
+	 *            available
+	 * @param time
+	 *            amount of time in minutes a student is alloted to complete the
+	 *            exercise
+	 * @param pwd
+	 *            the password required to access the exercise, if any
+	 */
 	public void save(String name, boolean locked, String accessBegin,
 			String accessEnd, String time, String pwd) {
 

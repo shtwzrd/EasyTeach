@@ -17,6 +17,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
@@ -43,14 +44,14 @@ public class StudentManagerUI {
     private JPanel studentManagerPanel;
     private JTabbedPane tabPanel;
     private JTabbedPane exerciseTabPanel;
-    private JTable availableTestsTable;
-    private JButton quizzesFilter;
-    private JTextField quizzesTxt;
-    private JComboBox<String> quizzesCombo;
-    private JComboBox<String> courseQuizzesCombo;
-    private JButton btnHelp;
-    private JButton btnTakeExercise;
-    private JTable lockedTestsTable;
+    JTable availableTestsTable;
+    JButton quizzesFilter;
+    JTextField quizzesTxt;
+    JComboBox<String> quizzesCombo;
+    JComboBox<String> courseQuizzesCombo;
+    JButton btnHelp;
+    JButton btnTakeExercise;
+    JTable lockedTestsTable;
 
     /**
      * Constructor for building the StudentManagerUI. The panel is built by
@@ -89,11 +90,11 @@ public class StudentManagerUI {
      * quizzes and reviewing classes' and users' progress.
      */
     private void buildCenterPanel() {
-        this.tabPanel = new JTabbedPane(JTabbedPane.TOP);
+        this.tabPanel = new JTabbedPane(SwingConstants.TOP);
 
         JPanel exercisePanel = new JPanel(new BorderLayout());
         exercisePanel.setBackground(UIColors.lightBlue);
-        this.exerciseTabPanel = new JTabbedPane(JTabbedPane.TOP);
+        this.exerciseTabPanel = new JTabbedPane(SwingConstants.TOP);
 
         // Adding tabs to the exerciseTabPanel
         buildQuizzesPanel();
@@ -267,7 +268,7 @@ public class StudentManagerUI {
         this.quizzesFilter.addActionListener(listener);
         this.btnTakeExercise.addActionListener(listener);
         this.btnHelp.addActionListener(listener);
-        this.courseQuizzesCombo.addActionListener(listener);;
+        this.courseQuizzesCombo.addActionListener(listener);
     }
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //

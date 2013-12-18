@@ -40,20 +40,20 @@ import com.easyTeach.common.ui.UIColors;
 public class ManageUserUI {
 
 	private JPanel manageUserPanel;
-	private JComboBox userTypeBox;
+	JComboBox<String> userTypeBox;
 	private final String[] USER_TYPES = { "Student", "Teacher", "Admin" };
-	private JButton btnHelp;
-	private JButton btnDiscard;
-	private JButton btnGeneratePassword;
-	private JButton btnSaveUser;
-	private JTextField txtFirstName;
-	private JTextField txtLastname;
-	private JTextField txtEmail;
-	private JTable enrolledClassesTable;
-	private JTable allClassesTable;
+	JButton btnHelp;
+	JButton btnDiscard;
+	JButton btnGeneratePassword;
+	JButton btnSaveUser;
+	JTextField txtFirstName;
+	JTextField txtLastname;
+	JTextField txtEmail;
+	JTable enrolledClassesTable;
+	JTable allClassesTable;
 	private JPanel centerPanel;
-	private JButton btnAddClass;
-	private JButton btnRemoveClass;
+	JButton btnAddClass;
+	JButton btnRemoveClass;
 	protected ManageUserPresenter presenter;
 	private boolean isSyncing;
 
@@ -122,7 +122,7 @@ public class ManageUserUI {
 		buildInfoPanel();
 		buildClassPanel();
 
-		this.manageUserPanel.add(centerPanel, BorderLayout.CENTER);
+		this.manageUserPanel.add(this.centerPanel, BorderLayout.CENTER);
 	}
 
 	/**
@@ -148,7 +148,7 @@ public class ManageUserUI {
 
 		// Table showing all enrolled classes
 		this.enrolledClassesTable = new JTable();
-		this.enrolledClassesTable.setModel(presenter.getEnrolledClassesModel());
+		this.enrolledClassesTable.setModel(this.presenter.getEnrolledClassesModel());
 
 		JScrollPane enrolledClassesScroll = new JScrollPane(
 				this.enrolledClassesTable);
@@ -159,11 +159,11 @@ public class ManageUserUI {
 		addRemovePanel.setBackground(UIColors.lightBlue);
 		addRemovePanel.setLayout(new GridLayout(1, 2));
 
-		btnRemoveClass = new JButton("Remove User From Class");
-		addRemovePanel.add(btnRemoveClass);
+		this.btnRemoveClass = new JButton("Remove User From Class");
+		addRemovePanel.add(this.btnRemoveClass);
 
-		btnAddClass = new JButton("Add User To Class");
-		addRemovePanel.add(btnAddClass);
+		this.btnAddClass = new JButton("Add User To Class");
+		addRemovePanel.add(this.btnAddClass);
 
 		enrolledClassesPanel.add(addRemovePanel, BorderLayout.SOUTH);
 
@@ -178,9 +178,9 @@ public class ManageUserUI {
 
 		// Table showing all classes
 		this.allClassesTable = new JTable();
-		this.allClassesTable.setModel(presenter.getAllClassesModel());
+		this.allClassesTable.setModel(this.presenter.getAllClassesModel());
 
-		JScrollPane allClassesScroll = new JScrollPane(allClassesTable);
+		JScrollPane allClassesScroll = new JScrollPane(this.allClassesTable);
 		allClassesScroll.getViewport().setBackground(UIColors.white);
 		allClassesPanel.add(allClassesScroll, BorderLayout.CENTER);
 	}
@@ -203,9 +203,9 @@ public class ManageUserUI {
 		lblUserType.setHorizontalAlignment(SwingConstants.CENTER);
 		infoPanel.add(lblUserType);
 
-		this.userTypeBox = new JComboBox();
-		this.userTypeBox.setModel(new DefaultComboBoxModel(USER_TYPES));
-		infoPanel.add(userTypeBox);
+		this.userTypeBox = new JComboBox<>();
+		this.userTypeBox.setModel(new DefaultComboBoxModel<>(this.USER_TYPES));
+		infoPanel.add(this.userTypeBox);
 
 		JLabel lblFirstName = new JLabel("First name:");
 		lblFirstName.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
@@ -213,7 +213,7 @@ public class ManageUserUI {
 		infoPanel.add(lblFirstName);
 
 		this.txtFirstName = new JTextField();
-		infoPanel.add(txtFirstName);
+		infoPanel.add(this.txtFirstName);
 
 		JLabel lblLastName = new JLabel("Last name:");
 		lblLastName.setHorizontalAlignment(SwingConstants.CENTER);
@@ -221,7 +221,7 @@ public class ManageUserUI {
 		infoPanel.add(lblLastName);
 
 		this.txtLastname = new JTextField();
-		infoPanel.add(txtLastname);
+		infoPanel.add(this.txtLastname);
 
 		JLabel lblEmail = new JLabel("Email:");
 		lblEmail.setHorizontalAlignment(SwingConstants.CENTER);
@@ -229,7 +229,7 @@ public class ManageUserUI {
 		infoPanel.add(lblEmail);
 
 		this.txtEmail = new JTextField();
-		infoPanel.add(txtEmail);
+		infoPanel.add(this.txtEmail);
 
 		this.centerPanel.add(infoPanel, BorderLayout.NORTH);
 	}
@@ -269,11 +269,11 @@ public class ManageUserUI {
 		this.btnSaveUser.addActionListener(listener);
 		
 		// Oliver Nielsen start
-		btnAddClass.addActionListener(listener);
-		btnRemoveClass.addActionListener(listener);
+		this.btnAddClass.addActionListener(listener);
+		this.btnRemoveClass.addActionListener(listener);
 		
-		enrolledClassesTable.addMouseListener(listener);
-		allClassesTable.addMouseListener(listener);
+		this.enrolledClassesTable.addMouseListener(listener);
+		this.allClassesTable.addMouseListener(listener);
 		// Oliver Nielsen end
 	}
 
@@ -282,14 +282,14 @@ public class ManageUserUI {
 			this.isSyncing = true;
 			
 			// Oliver Nielsen start
-			if (txtFirstName.getText().equals("")) {
-				txtFirstName.setText(presenter.getEditUserFirstName());
+			if (this.txtFirstName.getText().equals("")) {
+				this.txtFirstName.setText(this.presenter.getEditUserFirstName());
 			}
-			if (txtLastname.getText().equals("")) {
-				txtLastname.setText(presenter.getEditUserLastName());
+			if (this.txtLastname.getText().equals("")) {
+				this.txtLastname.setText(this.presenter.getEditUserLastName());
 			}
-			if (txtEmail.getText().equals("")) {
-				txtEmail.setText(presenter.getEditUserEmail());
+			if (this.txtEmail.getText().equals("")) {
+				this.txtEmail.setText(this.presenter.getEditUserEmail());
 			}
 			// Oliver Nielsen end
 			

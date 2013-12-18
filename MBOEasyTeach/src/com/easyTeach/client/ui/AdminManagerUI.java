@@ -446,7 +446,7 @@ public class AdminManagerUI {
 			else if (e.getSource() == AdminManagerUI.this.btnEdit) {
 				if (selectedTab.equals("Users")) {
 					if (selectedUserTab.equals("Students")) {
-						if (studentPresenter.getSelectedUser() != null) {
+						if (AdminManagerUI.this.studentPresenter.getSelectedUser() != null) {
 							MainFrame.updateFrame(
 									new ManageUserUI(
 											AdminManagerUI.this.studentPresenter
@@ -457,7 +457,7 @@ public class AdminManagerUI {
 							JOptionPane.showMessageDialog(null, "Please select a student!");
 						}
 					} else if (selectedUserTab.equals("Teachers")) {
-						if (teacherPresenter.getSelectedUser() != null) {
+						if (AdminManagerUI.this.teacherPresenter.getSelectedUser() != null) {
 							MainFrame.updateFrame(
 									new ManageUserUI(
 											AdminManagerUI.this.teacherPresenter
@@ -468,7 +468,7 @@ public class AdminManagerUI {
 							JOptionPane.showMessageDialog(null, "Please select a teacher!");
 						}
 					} else {
-						if (adminPresenter.getSelectedUser() != null) {
+						if (AdminManagerUI.this.adminPresenter.getSelectedUser() != null) {
 							MainFrame.updateFrame(
 									new ManageUserUI(
 											AdminManagerUI.this.adminPresenter
@@ -480,7 +480,7 @@ public class AdminManagerUI {
 						}
 					}
 				} else if (selectedTab.equals("Classes")) {
-					if (classPresenter.getSelectedClass() != null) {
+					if (AdminManagerUI.this.classPresenter.getSelectedClass() != null) {
 						MainFrame.updateFrame(
 								new ManageClassUI(
 										AdminManagerUI.this.classPresenter
@@ -491,7 +491,7 @@ public class AdminManagerUI {
 						JOptionPane.showMessageDialog(null, "Please select a class!");
 					}
 				} else if (selectedTab.equals("Courses")) {
-					if (coursePresenter.getSelectedCourse() != null) {
+					if (AdminManagerUI.this.coursePresenter.getSelectedCourse() != null) {
 						MainFrame.updateFrame(
 								new ManageCourseUI(
 										AdminManagerUI.this.coursePresenter

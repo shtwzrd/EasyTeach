@@ -50,8 +50,8 @@ public class ManageCoursePresenter {
 	 * Constructor for ManageCoursePresenter. Used to adding new courses.
 	 */
 	public ManageCoursePresenter() {
-		manageAssociatedClasses = new ManageCourseModel(associatedClassesSet);
-		manageAvailableClasses = new ManageCourseModel(availableClassesSet);
+		this.manageAssociatedClasses = new ManageCourseModel(this.associatedClassesSet);
+		this.manageAvailableClasses = new ManageCourseModel(this.availableClassesSet);
 
 		refreshAvailableClasses();
 	}
@@ -65,8 +65,8 @@ public class ManageCoursePresenter {
 	public ManageCoursePresenter(Course editCourse) {
 		this.editCourse = editCourse;
 
-		manageAssociatedClasses = new ManageCourseModel(associatedClassesSet);
-		manageAvailableClasses = new ManageCourseModel(availableClassesSet);
+		this.manageAssociatedClasses = new ManageCourseModel(this.associatedClassesSet);
+		this.manageAvailableClasses = new ManageCourseModel(this.availableClassesSet);
 
 		refreshAvailableClasses();
 	}
@@ -86,7 +86,7 @@ public class ManageCoursePresenter {
 
 		if (serverCom.getResponse().getStatus() != ResponseStatus.FAILURE) {
 			// Get all the classes as a ResourceSet
-			availableClassesSet = (ResourceSet) serverCom.getResponse()
+			this.availableClassesSet = (ResourceSet) serverCom.getResponse()
 					.getResponse();
 
 			// Testing if the filter is on
@@ -95,32 +95,32 @@ public class ManageCoursePresenter {
 			// association with the manageAvailableClasses table model.
 			// Otherwise the available will be put in association with the table
 			// model.
-			if (isFiltered) {
-				manageAvailableClasses.refreshData(filteredClassesSet);
+			if (this.isFiltered) {
+				this.manageAvailableClasses.refreshData(this.filteredClassesSet);
 			} else {
-				manageAvailableClasses.refreshData(availableClassesSet);
+				this.manageAvailableClasses.refreshData(this.availableClassesSet);
 			}
 
-			if (editCourse != null) {
+			if (this.editCourse != null) {
 				Action readRelations = new Action(ActionType.READ, "classes");
 				Request getRelations = new Request(Session.getInstance(),
-						readRelations, editCourse);
+						readRelations, this.editCourse);
 
 				serverCom = new EasyTeachClient(getRelations);
 				serverCom.run();
 				serverCom.getResponse();
 
 				if (serverCom.getResponse().getStatus() != ResponseStatus.FAILURE) {
-					associatedClassesSet = (ResourceSet) serverCom
+					this.associatedClassesSet = (ResourceSet) serverCom
 							.getResponse().getResponse();
 				}
-				manageAssociatedClasses.refreshData(associatedClassesSet);
-				manageAssociatedClasses.fireTableDataChanged();
+				this.manageAssociatedClasses.refreshData(this.associatedClassesSet);
+				this.manageAssociatedClasses.fireTableDataChanged();
 			}
 
 			// This method call changes what is in the table model according to
 			// what happened in the if/else statement a few lines above
-			manageAvailableClasses.fireTableDataChanged();
+			this.manageAvailableClasses.fireTableDataChanged();
 		}
 	}
 
@@ -129,15 +129,15 @@ public class ManageCoursePresenter {
 	 * the new information.
 	 */
 	private void refreshTableModels() {
-		manageAssociatedClasses.refreshData(associatedClassesSet);
-		manageAssociatedClasses.fireTableDataChanged();
+		this.manageAssociatedClasses.refreshData(this.associatedClassesSet);
+		this.manageAssociatedClasses.fireTableDataChanged();
 
-		if (isFiltered) {
-			manageAvailableClasses.refreshData(filteredClassesSet);
+		if (this.isFiltered) {
+			this.manageAvailableClasses.refreshData(this.filteredClassesSet);
 		} else {
-			manageAvailableClasses.refreshData(availableClassesSet);
+			this.manageAvailableClasses.refreshData(this.availableClassesSet);
 		}
-		manageAvailableClasses.fireTableDataChanged();
+		this.manageAvailableClasses.fireTableDataChanged();
 	}
 
 	/**
@@ -154,7 +154,7 @@ public class ManageCoursePresenter {
 			// Sending the new course to the server
 			Action toDo;
 
-			if (editCourse != null) {
+			if (this.editCourse != null) {
 				toDo = new Action(ActionType.UPDATE);
 			} else {
 				toDo = new Action(ActionType.CREATE);
@@ -175,7 +175,7 @@ public class ManageCoursePresenter {
 			// Create the new relation(s)
 			ResourceSet newClassCourseRelation = new ResourceSet();
 
-			for (Resource resource : associatedClassesSet) {
+			for (Resource resource : this.associatedClassesSet) {
 				Class classEntity = (Class) resource;
 				newClassCourseRelation.add(new ClassCourseRelation(classEntity
 						.getClassNo(), courseNo));
@@ -218,27 +218,27 @@ public class ManageCoursePresenter {
 		if (comboBoxValue.equals("") && by.equals("")) {
 			refreshAvailableClasses();
 		} else {
-			isFiltered = true;
+			this.isFiltered = true;
 
-			filteredClassesSet = new ResourceSet();
+			this.filteredClassesSet = new ResourceSet();
 
-			for (Resource resource : availableClassesSet) {
+			for (Resource resource : this.availableClassesSet) {
 				Class classEntity = (Class) resource;
 
 				// Be sure that the comboBoxValues is actually equal to what is
 				// written!
 				if (comboBoxValue.equals("Class No.")) {
 					if (classEntity.getClassNo().contains(by)) {
-						filteredClassesSet.add(classEntity);
+						this.filteredClassesSet.add(classEntity);
 					}
 				} else if (comboBoxValue.equals("Class name")) {
 					if (classEntity.getClassName().contains(by)) {
-						filteredClassesSet.add(classEntity);
+						this.filteredClassesSet.add(classEntity);
 					}
 				} else if (comboBoxValue.equals("Year")) {
 					String year = classEntity.getYear() + "";
 					if (year.contains(by)) {
-						filteredClassesSet.add(classEntity);
+						this.filteredClassesSet.add(classEntity);
 					}
 				}
 				refreshAvailableClasses();
@@ -254,10 +254,10 @@ public class ManageCoursePresenter {
 	 *            The class number of the select class.
 	 */
 	public void setCurrentlySelectedClassFromAssociationTable(String classNo) {
-		for (Resource resource : associatedClassesSet) {
+		for (Resource resource : this.associatedClassesSet) {
 			Class classEntity = (Class) resource;
 			if (classEntity.getClassNo().equals(classNo)) {
-				currentlySelectedClassFromAssociatedTable = classEntity;
+				this.currentlySelectedClassFromAssociatedTable = classEntity;
 			}
 		}
 	}
@@ -270,10 +270,10 @@ public class ManageCoursePresenter {
 	 *            The class number of the select class.
 	 */
 	public void setCurrectlySelectedClassFromAvailableTable(String classNo) {
-		for (Resource resource : availableClassesSet) {
+		for (Resource resource : this.availableClassesSet) {
 			Class classEntity = (Class) resource;
 			if (classEntity.getClassNo().equals(classNo)) {
-				currentlySelectedClassFromAvailableTable = classEntity;
+				this.currentlySelectedClassFromAvailableTable = classEntity;
 			}
 		}
 	}
@@ -282,9 +282,9 @@ public class ManageCoursePresenter {
 	 * Deletes everything in the ResourceSets.
 	 */
 	public void discard() {
-		associatedClassesSet = null;
-		availableClassesSet = null;
-		filteredClassesSet = null;
+		this.associatedClassesSet = null;
+		this.availableClassesSet = null;
+		this.filteredClassesSet = null;
 	}
 
 	/**
@@ -293,14 +293,14 @@ public class ManageCoursePresenter {
 	public void add() {
 		// Adds the select row from the available HashSet to the associated
 		// HashSet
-		if (associatedClassesSet == null) {
-			associatedClassesSet = new ResourceSet();
+		if (this.associatedClassesSet == null) {
+			this.associatedClassesSet = new ResourceSet();
 		}
 
-		if (currentlySelectedClassFromAvailableTable != null) {
-			associatedClassesSet.add(currentlySelectedClassFromAvailableTable);
+		if (this.currentlySelectedClassFromAvailableTable != null) {
+			this.associatedClassesSet.add(this.currentlySelectedClassFromAvailableTable);
 			refreshTableModels();
-			currentlySelectedClassFromAvailableTable = null;
+			this.currentlySelectedClassFromAvailableTable = null;
 		} else {
 			JOptionPane.showMessageDialog(null,
 					"You have to choose a class to add to the course!");
@@ -313,11 +313,11 @@ public class ManageCoursePresenter {
 	public void remove() {
 		// Removes the row from the associated HashSet
 
-		if (currentlySelectedClassFromAssociatedTable != null) {
-			associatedClassesSet
-					.remove(currentlySelectedClassFromAssociatedTable);
+		if (this.currentlySelectedClassFromAssociatedTable != null) {
+			this.associatedClassesSet
+					.remove(this.currentlySelectedClassFromAssociatedTable);
 			refreshTableModels();
-			currentlySelectedClassFromAssociatedTable = null;
+			this.currentlySelectedClassFromAssociatedTable = null;
 		} else {
 			JOptionPane.showMessageDialog(null,
 					"You have to choose a class to remove from the course!");
@@ -328,14 +328,14 @@ public class ManageCoursePresenter {
 	 * @return the associated table model.
 	 */
 	public DisplayTableModel getDTMAssociatedClasses() {
-		return manageAssociatedClasses;
+		return this.manageAssociatedClasses;
 	}
 
 	/**
 	 * @return the available table model.
 	 */
 	public DisplayTableModel getDTMAvailableClasses() {
-		return manageAvailableClasses;
+		return this.manageAvailableClasses;
 	}
 
 	/**
@@ -344,8 +344,8 @@ public class ManageCoursePresenter {
 	 * @return the edited course name.
 	 */
 	public String getEditCourseName() {
-		if (editCourse != null) {
-			return editCourse.getCourseName();
+		if (this.editCourse != null) {
+			return this.editCourse.getCourseName();
 		}
 		return "";
 	}
@@ -355,14 +355,14 @@ public class ManageCoursePresenter {
 		private static final long serialVersionUID = -5132427387930797460L;
 
 		public ManageCourseModel(ResourceSet classesSet) {
-			super(tableHead, classesSet);
+			super(ManageCoursePresenter.this.tableHead, classesSet);
 		}
 
 		@Override
 		public String getValueAt(int row, int column) {
 			// tableData is the table that performs the method call getValueAt
 			// in the UI class
-			Class classEntity = (Class) tableData.get(row);
+			Class classEntity = (Class) this.tableData.get(row);
 
 			switch (getColumnName(column)) {
 			case "Class No.":

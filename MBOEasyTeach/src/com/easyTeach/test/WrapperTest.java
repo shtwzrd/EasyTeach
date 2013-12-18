@@ -111,7 +111,7 @@ public class WrapperTest {
 		UserWrapper.updateUserRow(user1);
 		
 		// Testing the D in CRUD - The Delete Statements.
-		UserWrapper.deleteuserRow("1");
+		//UserWrapper.deleteuserRow("1");
 		
 	}
 	
@@ -204,8 +204,8 @@ public class WrapperTest {
 		ExerciseParameter exParam1 = new ExerciseParameter();
 		exParam1.setIsTest(true);
 		exParam1.setIsLocked(true);
-		exParam1.setAccessBegin(getBeginDate());
-		exParam1.setAccessEnd(getEndDate());
+		//exParam1.setAccessBegin(getBeginDate());
+		//exParam1.setAccessEnd(getEndDate());
 		exParam1.setTimeLimit(20);
 		
 		ExerciseParameter exParam2 = new ExerciseParameter();

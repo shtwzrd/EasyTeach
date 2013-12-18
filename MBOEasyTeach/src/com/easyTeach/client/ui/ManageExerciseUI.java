@@ -47,8 +47,8 @@ public class ManageExerciseUI {
     private final String[] QUESTION_TYPES = { "Multiple Choice", "True/False",
             "Missing Word" };
     private JTextArea questionArea;
-    JComboBox questionTypeBox;
-    JComboBox comboBox;
+    JComboBox<String> questionTypeBox;
+    JComboBox<String> comboBox;
     JTextField txtNewTag;
     JTextField txtExistingTag;
     JButton btnSave;

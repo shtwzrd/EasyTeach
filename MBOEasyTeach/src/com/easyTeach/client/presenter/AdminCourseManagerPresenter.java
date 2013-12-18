@@ -12,6 +12,14 @@ import com.easyTeach.common.network.Response.ResponseStatus;
 import com.easyTeach.common.network.Session;
 
 /**
+ * Handles the logic necessary for communicating with the EasyTeachClient/Server
+ * on behalf of the AdminCourseManagerUI.
+ * 
+ * <p>
+ * The Listeners in the UI class call the relevant methods in the Presenter in
+ * order to update and retrieve information from the domain logic. This is an
+ * implementation of the Model View Presenter pattern.
+ * </p>
  * 
  * @author Brandon Lucas
  * @version 1.0
@@ -43,19 +51,23 @@ public class AdminCourseManagerPresenter {
 	}
 
 	public void setSelectedCourse(int row) {
-		this.currentlySelectedCourse =
-				(Course) this.coursesModel.getResourceAtRow(row);
+		this.currentlySelectedCourse = (Course) this.coursesModel
+				.getResourceAtRow(row);
 	}
 
 	public Course getSelectedCourse() {
 		return this.currentlySelectedCourse;
 	}
 
+	/**
+	 * Gets the currently selected course and removes it from the database, then
+	 * fires an event to the table model to inform it of the change in data
+	 */
 	public void removeCurrrentlySelected() {
 		if (this.currentlySelectedCourse != null) {
 			this.coursesSet.remove(this.currentlySelectedCourse);
 			Action rm = new Action(ActionType.DELETE);
-			Request remove = new Request(Session.getInstance(), rm, 
+			Request remove = new Request(Session.getInstance(), rm,
 					this.currentlySelectedCourse);
 			this.client = new EasyTeachClient(remove);
 			this.client.run();

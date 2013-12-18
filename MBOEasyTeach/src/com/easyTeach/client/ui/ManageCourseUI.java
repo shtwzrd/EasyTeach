@@ -69,7 +69,7 @@ public class ManageCourseUI {
 	}
 
 	public ManageCourseUI(Course selectedCourse) {
-		presenter = new ManageCoursePresenter(selectedCourse);
+		this.presenter = new ManageCoursePresenter(selectedCourse);
 		
 		buildPanel();
 		addActionListeners();
@@ -258,8 +258,8 @@ public class ManageCourseUI {
 	}
 
 	synchronized void syncTables() {
-		if (txtCourseName.getText().equals("")) {
-			txtCourseName.setText(presenter.getEditCourseName());
+		if (this.txtCourseName.getText().equals("")) {
+			this.txtCourseName.setText(this.presenter.getEditCourseName());
 		}
 		
 		this.allClassesTable.setModel(this.presenter.getDTMAvailableClasses());
