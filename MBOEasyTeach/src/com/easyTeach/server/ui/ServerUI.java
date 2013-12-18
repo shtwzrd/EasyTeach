@@ -45,7 +45,7 @@ public class ServerUI {
      */
     public void buildUI() {
         this.frame = new JFrame("EasyTeach - Server");
-        this.frame.setSize(600, 300);
+        this.frame.setSize(300, 300);
         JPanel contentPane = new JPanel();
         contentPane.setLayout(new BorderLayout());
         this.frame.setContentPane(contentPane);
