@@ -86,6 +86,7 @@ public final class ClassUserRelationRules {
     private static void sync(HashSet<ClassUserRelation> databaseSet,
             ResourceSet relations) {
         // Insert new relations to the DB
+    	System.out.println("In DB: " + databaseSet.toString());
         for (Resource resource : relations) {
             if (!databaseSet.contains(resource)) {
                 ClassUserRelation cur = (ClassUserRelation) resource;
@@ -93,6 +94,7 @@ public final class ClassUserRelationRules {
             }
         }
 
+        System.out.println("In set: " + relations.toString());
         // Remove deleted relations from the DB
         for (ClassUserRelation cur : databaseSet) {
             if (!relations.contains(cur)) {

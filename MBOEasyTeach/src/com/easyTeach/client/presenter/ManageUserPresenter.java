@@ -48,7 +48,6 @@ public class ManageUserPresenter {
 	private Class curClass;
 	private Class currentlySelectedClassInSelection;
 	private Class currentlySelectedClassInEnrolled;
-	private boolean isFiltered;
 
 	private String[] tableColumnHeaders = { "Class", "Year" };
 
@@ -146,8 +145,8 @@ public class ManageUserPresenter {
 			this.client.getResponse();
 
 			if (this.client.getResponse().getStatus() != ResponseStatus.FAILURE) {
-				this.classesEnrolledSet = (ResourceSet) this.client.getResponse()
-						.getResponse();
+				this.classesEnrolledSet = (ResourceSet) this.client
+						.getResponse().getResponse();
 			}
 			this.enrolledClasses.refreshData(this.classesEnrolledSet);
 			this.enrolledClasses.fireTableDataChanged();
@@ -177,9 +176,16 @@ public class ManageUserPresenter {
 			String userLastName, String email) {
 		// pEncrypt creates a random generated password which is encrypted
 		StrongPasswordEncryptor pEncrypt = new StrongPasswordEncryptor();
-		if (!userFirstName.equals("") && !userLastName.equals("") && email.contains("@")) {
+		if (!userFirstName.equals("") && !userLastName.equals("")
+				&& email.contains("@")) {
+
 			// Make the user...
-			String userNo = UUID.randomUUID().toString();
+			String userNo;
+			if (this.editUser == null) {
+				userNo = UUID.randomUUID().toString();
+			} else {
+				userNo = this.editUser.getUserNo();
+			}
 			String password = pEncrypt.encryptPassword(UUID.randomUUID()
 					.toString().substring(0, 6));
 			this.user = new User(userNo, email, userType, userFirstName,
@@ -187,13 +193,13 @@ public class ManageUserPresenter {
 
 			// Send it to the Server
 			Action toDo;
-			
+
 			if (this.editUser != null) {
 				toDo = new Action(ActionType.UPDATE);
 			} else {
 				toDo = new Action(ActionType.CREATE);
 			}
-			
+
 			Request out = new Request(Session.getInstance(), toDo, this.user);
 			this.client = new EasyTeachClient(out);
 			this.client.run();
@@ -221,7 +227,8 @@ public class ManageUserPresenter {
 				MainFrame.updateFrame(new AdminManagerUI().getAdminManagerUI(),
 						"Admin Manager");
 			} else {
-				JOptionPane.showMessageDialog(null, "Something went wrong. Try again!");
+				JOptionPane.showMessageDialog(null,
+						"Something went wrong. Try again!");
 			}
 		} else {
 			if (userFirstName.equals("")) {
@@ -232,7 +239,7 @@ public class ManageUserPresenter {
 				JOptionPane.showMessageDialog(null, "Invalid email!");
 			}
 		}
-		
+
 	}
 
 	/**
@@ -242,7 +249,7 @@ public class ManageUserPresenter {
 	 * 
 	 * @return the the date in which the user was created.
 	 */
-	private java.sql.Date getCurrentDate() {
+	private static java.sql.Date getCurrentDate() {
 		java.util.Date today = new java.util.Date();
 		return new java.sql.Date(today.getTime());
 	}
@@ -262,7 +269,7 @@ public class ManageUserPresenter {
 		if (this.currentlySelectedClassInSelection != null) {
 			this.classesEnrolledSet.add(this.currentlySelectedClassInSelection);
 			this.enrolledClasses.refreshData(this.classesEnrolledSet);
-			this.enrolledClasses.fireTableDataChanged();			
+			this.enrolledClasses.fireTableDataChanged();
 		} else {
 			JOptionPane.showMessageDialog(null, "Select a class to add!");
 		}
@@ -273,9 +280,10 @@ public class ManageUserPresenter {
 	 */
 	public void remove() {
 		if (this.currentlySelectedClassInEnrolled != null) {
-			this.classesEnrolledSet.remove(this.currentlySelectedClassInEnrolled);
+			this.classesEnrolledSet
+					.remove(this.currentlySelectedClassInEnrolled);
 			this.enrolledClasses.refreshData(this.classesEnrolledSet);
-			this.enrolledClasses.fireTableDataChanged();			
+			this.enrolledClasses.fireTableDataChanged();
 		} else {
 			JOptionPane.showMessageDialog(null, "Select a class to remove!");
 		}
@@ -294,14 +302,14 @@ public class ManageUserPresenter {
 		}
 		return "";
 	}
-	
-	
+
 	public String getEditUserEmail() {
 		if (this.editUser != null) {
 			return this.editUser.getEmail();
 		}
 		return "";
 	}
+
 	/**
 	 * 
 	 * @author Tonni Hyldgaard
@@ -340,6 +348,5 @@ public class ManageUserPresenter {
 			}
 		}
 	}
-
 
 }

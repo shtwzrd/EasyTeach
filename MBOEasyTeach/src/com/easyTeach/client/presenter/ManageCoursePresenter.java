@@ -50,8 +50,10 @@ public class ManageCoursePresenter {
 	 * Constructor for ManageCoursePresenter. Used to adding new courses.
 	 */
 	public ManageCoursePresenter() {
-		this.manageAssociatedClasses = new ManageCourseModel(this.associatedClassesSet);
-		this.manageAvailableClasses = new ManageCourseModel(this.availableClassesSet);
+		this.manageAssociatedClasses = new ManageCourseModel(
+				this.associatedClassesSet);
+		this.manageAvailableClasses = new ManageCourseModel(
+				this.availableClassesSet);
 
 		refreshAvailableClasses();
 	}
@@ -65,8 +67,10 @@ public class ManageCoursePresenter {
 	public ManageCoursePresenter(Course editCourse) {
 		this.editCourse = editCourse;
 
-		this.manageAssociatedClasses = new ManageCourseModel(this.associatedClassesSet);
-		this.manageAvailableClasses = new ManageCourseModel(this.availableClassesSet);
+		this.manageAssociatedClasses = new ManageCourseModel(
+				this.associatedClassesSet);
+		this.manageAvailableClasses = new ManageCourseModel(
+				this.availableClassesSet);
 
 		refreshAvailableClasses();
 	}
@@ -96,9 +100,11 @@ public class ManageCoursePresenter {
 			// Otherwise the available will be put in association with the table
 			// model.
 			if (this.isFiltered) {
-				this.manageAvailableClasses.refreshData(this.filteredClassesSet);
+				this.manageAvailableClasses
+						.refreshData(this.filteredClassesSet);
 			} else {
-				this.manageAvailableClasses.refreshData(this.availableClassesSet);
+				this.manageAvailableClasses
+						.refreshData(this.availableClassesSet);
 			}
 
 			if (this.editCourse != null) {
@@ -114,7 +120,8 @@ public class ManageCoursePresenter {
 					this.associatedClassesSet = (ResourceSet) serverCom
 							.getResponse().getResponse();
 				}
-				this.manageAssociatedClasses.refreshData(this.associatedClassesSet);
+				this.manageAssociatedClasses
+						.refreshData(this.associatedClassesSet);
 				this.manageAssociatedClasses.fireTableDataChanged();
 			}
 
@@ -148,7 +155,14 @@ public class ManageCoursePresenter {
 	 */
 	public void saveCourse(String courseName) {
 		if (!courseName.equals("")) {
-			String courseNo = UUID.randomUUID().toString();
+
+			String courseNo;
+			if (this.editCourse == null) {
+				courseNo = UUID.randomUUID().toString();
+			} else {
+				courseNo = this.editCourse.getCourseNo();
+
+			}
 			Course newCourse = new Course(courseNo, courseName);
 
 			// Sending the new course to the server
@@ -298,7 +312,8 @@ public class ManageCoursePresenter {
 		}
 
 		if (this.currentlySelectedClassFromAvailableTable != null) {
-			this.associatedClassesSet.add(this.currentlySelectedClassFromAvailableTable);
+			this.associatedClassesSet
+					.add(this.currentlySelectedClassFromAvailableTable);
 			refreshTableModels();
 			this.currentlySelectedClassFromAvailableTable = null;
 		} else {

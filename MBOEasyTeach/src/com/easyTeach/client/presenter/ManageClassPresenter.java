@@ -145,8 +145,8 @@ public class ManageClassPresenter {
 
 		if (this.classToEdit != null) {
 			Action readRelations = new Action(ActionType.READ, "students");
-			Request getRelations = new Request(Session.getInstance(), readRelations,
-					this.classToEdit);
+			Request getRelations = new Request(Session.getInstance(),
+					readRelations, this.classToEdit);
 			this.client = new EasyTeachClient(getRelations);
 			this.client.run();
 			this.client.getResponse();
@@ -179,13 +179,19 @@ public class ManageClassPresenter {
 	 */
 	public void save(String className, int classYear) {
 		if (className != null && classYear != 0) {
+
 			// Make the class...
-			String classId = UUID.randomUUID().toString();
+			String classId;
+			if (this.classToEdit != null) {
+				classId = this.classToEdit.getClassNo();
+			} else {
+				classId = UUID.randomUUID().toString();
+			}
 			this.currentClass = new Class(classId, classYear, className);
 
 			// Send it to the Server
 			Action toDo;
-			if(this.classToEdit != null) {
+			if (this.classToEdit != null) {
 				toDo = new Action(ActionType.UPDATE);
 			} else {
 				toDo = new Action(ActionType.CREATE);
@@ -199,7 +205,9 @@ public class ManageClassPresenter {
 			System.out.println(in.getStatus() + ": " + in.getResponseMessage());
 
 			// Make all the relations...
-			this.relations = new ResourceSet();
+			if (this.relations == null) {
+				this.relations = new ResourceSet();
+			}
 			for (Resource r : this.studentsEnrolledSet) {
 				User u = (User) r;
 				this.relations

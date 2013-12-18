@@ -140,13 +140,6 @@ public class ManageExerciseInfoPresenter {
 		return out;
 	}
 
-	private static String getCurrentAuthor() {
-		// Problem - no way to get authorNo when authorized as Teacher.
-		// authorNo is a foreign key and cannot be null.
-		// Hardcoding admi5678@kea.dk's UserNo for now, for testing purposes.
-		return "f9a20868-5361-491b-8192-e221d83f9163";
-	}
-
 	public boolean getIsTest() {
 		if (this.parameters != null) {
 			return this.parameters.getIsTest();
@@ -290,7 +283,7 @@ public class ManageExerciseInfoPresenter {
 		Exercise exOut = new Exercise();
 		exOut.setExerciseNo(exerciseId);
 		exOut.setExerciseParameterNo(paramId);
-		exOut.setAuthor(getCurrentAuthor());
+		exOut.setAuthor(null);
 		exOut.setPassword(pwd);
 		exOut.setCourseNo(this.currentlySelectedCourse);
 		exOut.setExerciseName(name);
